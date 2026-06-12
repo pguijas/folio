@@ -1,0 +1,138 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "folio-docs"
+version = "0.2.1"
+description = "A modern Python documentation generator. Sphinx alternative using Nextra + shadcn."
+readme = "README.md"
+license = "AGPL-3.0-only"
+requires-python = ">=3.10"
+authors = [
+    { name = "pguijas" },
+]
+keywords = [
+    "documentation",
+    "docs",
+    "nextra",
+    "python",
+    "static-site-generator",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation",
+    "Topic :: Software Development :: Documentation",
+    "Typing :: Typed",
+]
+dependencies = [
+    "typer>=0.15.0",
+    "docstring-parser>=0.16",
+    "pluggy>=1.5.0",
+    "pyyaml>=6.0",
+    "readchar>=4.0.0",
+    "rich>=13.0",
+    "tomli>=2.0; python_version < '3.11'",
+    "watchfiles>=1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/pguijas/folio"
+Documentation = "https://pguijas.github.io/folio/"
+Issues = "https://github.com/pguijas/folio/issues"
+Source = "https://github.com/pguijas/folio"
+
+[project.scripts]
+folio = "folio.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.8.0",
+    "tomli>=2.0; python_version < '3.11'",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["folio"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "/.github",
+    "/assets",
+    "/docs",
+    "/folio",
+    "/scripts",
+    "/tests",
+    "/template/.prettierignore",
+    "/template/.prettierrc",
+    "/template/app",
+    "/template/components",
+    "/template/components.json",
+    "/template/content",
+    "/template/eslint.config.mjs",
+    "/template/hooks",
+    "/template/lib",
+    "/template/mdx-components.tsx",
+    "/template/next-env.d.ts",
+    "/template/next.config.mjs",
+    "/template/package.json",
+    "/template/pnpm-lock.yaml",
+    "/template/postcss.config.mjs",
+    "/template/public",
+    "/template/template-globals.d.ts",
+    "/template/theme",
+    "/template/tsconfig.json",
+    "/AGENTS.md",
+    "/CODE_OF_CONDUCT.md",
+    "/CONTRIBUTING.md",
+    "/LICENSE",
+    "/README.md",
+    "/SECURITY.md",
+    "/THIRD-PARTY-NOTICES.md",
+    "/docs.yaml",
+    "/install.sh",
+    "/pyproject.toml",
+    "/uv.lock",
+]
+exclude = [
+    "/.build",
+    "/.next",
+    "/_site",
+    "/dist",
+    "/node_modules",
+    "/template/.next",
+    "/template/node_modules",
+]
+
+[tool.hatch.build.targets.wheel.force-include]
+"template/.prettierignore" = "folio/template/.prettierignore"
+"template/.prettierrc" = "folio/template/.prettierrc"
+"template/app" = "folio/template/app"
+"template/components" = "folio/template/components"
+"template/components.json" = "folio/template/components.json"
+"template/content" = "folio/template/content"
+"template/eslint.config.mjs" = "folio/template/eslint.config.mjs"
+"template/hooks" = "folio/template/hooks"
+"template/lib" = "folio/template/lib"
+"template/mdx-components.tsx" = "folio/template/mdx-components.tsx"
+"template/next-env.d.ts" = "folio/template/next-env.d.ts"
+"template/next.config.mjs" = "folio/template/next.config.mjs"
+"template/package.json" = "folio/template/package.json"
+"template/pnpm-lock.yaml" = "folio/template/pnpm-lock.yaml"
+"template/postcss.config.mjs" = "folio/template/postcss.config.mjs"
+"template/public" = "folio/template/public"
+"template/template-globals.d.ts" = "folio/template/template-globals.d.ts"
+"template/theme" = "folio/template/theme"
+"template/tsconfig.json" = "folio/template/tsconfig.json"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

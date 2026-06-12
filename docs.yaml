@@ -1,0 +1,144 @@
+project:
+  name: "Folio"
+  version: "0.2.1"
+  repo: "https://github.com/pguijas/folio"
+  url: "https://pguijas.github.io/folio"
+
+source:
+  python:
+    paths:
+      - "folio/"
+    exclude:
+      - "folio/__pycache__/"
+  docs:
+    - "docs/guide/"
+
+output: "_site"
+
+theme:
+  dark_mode: true
+
+nav:
+  - "Guide"
+  - "API Reference"
+
+# NOTE: The `landing`, `plugins`, `roadmap`, and `versions` sections below
+# configure features that are disabled in this release. The current CLI
+# ignores them; they are kept here so Folio's own docs pick them up the
+# moment those features ship. The active configuration surface is documented
+# at https://pguijas.github.io/folio/docs/configuration
+landing:
+  cta:
+    primary:
+      text: "Start with the guide"
+      link: "/docs/quickstart"
+    secondary:
+      text: "View source"
+      link: "https://github.com/pguijas/folio"
+  hero:
+    variant: "source-pipeline"
+    tagline: "Python docs from source"
+    headline: "Python API documentation from source"
+    description: "Folio turns Python modules and Markdown guides into a searchable static docs site with API reference pages, Pagefind search, and LLM-ready output."
+  comparison: true
+  install:
+    - "uv tool install folio-docs"
+    - "folio init"
+    - "folio serve"
+
+plugins:
+  - "./docs/plugins/overview_video.py"
+  - "folio.plugins.roadmap"
+
+roadmap:
+  routes:
+    docs: true
+    public: true
+  phases:
+    - id: "foundation"
+      version: "0.1"
+      title: "Foundation"
+      status: "shipped"
+      layer: "Source analysis"
+      summary: "Parse Python source, docstrings, types, classes, functions, and module structure."
+      command: "folio build"
+      features:
+        - "Parser"
+        - "API pages"
+        - "Components"
+        - "Search"
+    - id: "distribution"
+      version: "0.1"
+      title: "Distribution"
+      status: "shipped"
+      layer: "Release workflow"
+      summary: "Make generated docs usable in release pipelines and contributor loops."
+      command: "folio build-versions"
+      features:
+        - "CI/CD"
+        - "Plugins"
+        - "Versioning"
+        - "i18n"
+    - id: "static-output"
+      version: "0.2"
+      title: "Static Output"
+      status: "active"
+      layer: "Active release"
+      summary: "Produce deployable static artifacts with no long-running server requirement."
+      command: "folio build --clean"
+      features:
+        - "Static export"
+        - "Pagefind"
+        - "File preview"
+        - "Assets"
+    - id: "extension"
+      version: "0.3"
+      title: "Extension Surface"
+      status: "next"
+      layer: "Migration depth"
+      summary: "Close Sphinx migration gaps while keeping customization predictable."
+      features:
+        - "Sphinx parity"
+        - "Hot reload"
+        - "Theme hooks"
+    - id: "api-portal"
+      version: "0.4"
+      title: "API Portal"
+      status: "next"
+      layer: "API workflow"
+      summary: "Bring the API-portal features buyers expect into Folio without losing source-first builds."
+      features:
+        - "OpenAPI import"
+        - "API playground"
+        - "SDK snippets"
+        - "API changelog"
+    - id: "team-authoring"
+      version: "1.0"
+      title: "Team Authoring"
+      status: "later"
+      layer: "Collaboration"
+      summary: "Add hosted authoring and agent-friendly surfaces for teams that need more than local builds."
+      features:
+        - "Visual editor"
+        - "Git sync"
+        - "Docs MCP"
+        - "Access control"
+        - "AI assistant"
+
+llm:
+  generate_llms_txt: true
+  generate_llms_full_txt: true
+
+versions:
+  - label: "v0.2.1 (latest)"
+    path: "latest"
+  - label: "v0.2.0"
+    path: "v0.2"
+    ref: "v0.2.0"
+  - label: "v0.1.0"
+    path: "v0.1"
+    ref: "v0.1.0"
+  - label: "v0.0.1"
+    path: "v0.0"
+    ref: "v0.0.1"
+    default_path: "docs/"
