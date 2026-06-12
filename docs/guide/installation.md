@@ -42,7 +42,7 @@ sh install-folio.sh
 Install a specific Folio version:
 
 ```bash
-FOLIO_VERSION=0.2.1 sh install-folio.sh
+FOLIO_VERSION=0.1.0 sh install-folio.sh
 ```
 
 Skip automatic pnpm setup when you only want the Python CLI:

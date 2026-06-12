@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "folio-docs"
-version = "0.2.1"
+version = "0.1.0"
 description = "A modern Python documentation generator. Sphinx alternative using Nextra + shadcn."
 readme = "README.md"
 license = "AGPL-3.0-only"

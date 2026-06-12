@@ -1,6 +1,6 @@
 project:
   name: "Folio"
-  version: "0.2.1"
+  version: "0.1.0"
   repo: "https://github.com/pguijas/folio"
   url: "https://pguijas.github.io/folio"
 
@@ -130,15 +130,5 @@ llm:
   generate_llms_full_txt: true
 
 versions:
-  - label: "v0.2.1 (latest)"
+  - label: "v0.1.0 (latest)"
     path: "latest"
-  - label: "v0.2.0"
-    path: "v0.2"
-    ref: "v0.2.0"
-  - label: "v0.1.0"
-    path: "v0.1"
-    ref: "v0.1.0"
-  - label: "v0.0.1"
-    path: "v0.0"
-    ref: "v0.0.1"
-    default_path: "docs/"

@@ -33,7 +33,7 @@ Running `folio` with no arguments displays the help text.
 folio --version
 ```
 
-It prints the installed version, for example `folio 0.2.1`.
+It prints the installed version, for example `folio 0.1.0`.
 
 ## Commands
 
@@ -64,7 +64,7 @@ $ folio init
  █████╗   ██║   ██║██║     ██║██║   ██║
  ██╔══╝   ██║   ██║██║     ██║██║   ██║
  ██║      ╚██████╔╝███████╗██║╚██████╔╝
- ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝  v0.2.1
+ ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝  v0.1.0
 
    ⚡Incremental builds skip pages whose sources are unchanged⚡
 

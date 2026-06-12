@@ -27,7 +27,7 @@ The header copy button copies only the `command` value, not the prompt, output, 
   title="Check version"
   command="folio --version"
   status="success"
-  output="folio 0.2.1"
+  output="folio 0.1.0"
 />
 ```
 
@@ -35,7 +35,7 @@ The header copy button copies only the `command` value, not the prompt, output, 
   title="Check version"
   command="folio --version"
   status="success"
-  output="folio 0.2.1"
+  output="folio 0.1.0"
 />
 
 </PreviewCode>

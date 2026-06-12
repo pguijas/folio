@@ -26,9 +26,9 @@ def test_release_version_is_consistent() -> None:
     pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text())
     config = load_config(ROOT / "docs.yaml")
 
-    assert pyproject["project"]["version"] == "0.2.1"
-    assert folio.__version__ == "0.2.1"
-    assert config.project_version == "0.2.1"
+    assert pyproject["project"]["version"] == "0.1.0"
+    assert folio.__version__ == "0.1.0"
+    assert config.project_version == "0.1.0"
 
 
 def test_release_version_check_accepts_manual_dispatch_from_main(monkeypatch) -> None:
@@ -56,23 +56,7 @@ def test_project_docs_are_configured_for_multi_version_builds() -> None:
     config = yaml.safe_load((ROOT / "docs.yaml").read_text())
 
     assert config["versions"] == [
-        {"label": "v0.2.1 (latest)", "path": "latest"},
-        {
-            "label": "v0.2.0",
-            "path": "v0.2",
-            "ref": "v0.2.0",
-        },
-        {
-            "label": "v0.1.0",
-            "path": "v0.1",
-            "ref": "v0.1.0",
-        },
-        {
-            "label": "v0.0.1",
-            "path": "v0.0",
-            "ref": "v0.0.1",
-            "default_path": "docs/",
-        },
+        {"label": "v0.1.0 (latest)", "path": "latest"},
     ]
 
 
