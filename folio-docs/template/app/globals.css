@@ -1,0 +1,2431 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: var(--font-sans);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-warning: var(--warning);
+    --color-scrim: var(--scrim);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+    /* The site measure, as `max-w-site`. Every full-width surface — the
+       navbar, the landing's bands, the public views — reads from this one
+       value, because 25 hand-written `max-w-7xl` were 25 places to forget.
+       1760px, wide enough that a four-column board is not squeezed into a
+       reading column on a large screen. Prose inside these containers keeps
+       its own narrower measure; this is the frame, not the line length. */
+    --container-site: 110rem;
+}
+
+:root {
+    --background: oklch(0.966 0.008 82);
+    --foreground: oklch(0.155 0.007 82);
+    --card: oklch(0.976 0.007 82);
+    --card-foreground: oklch(0.155 0.007 82);
+    --popover: oklch(0.986 0.006 82);
+    --popover-foreground: oklch(0.155 0.007 82);
+    --primary: oklch(0.155 0.007 82);
+    --primary-foreground: oklch(0.966 0.008 82);
+    --secondary: oklch(0.920 0.007 82);
+    --secondary-foreground: oklch(0.155 0.007 82);
+    --muted: oklch(0.920 0.007 82);
+    --muted-foreground: oklch(0.420 0.007 82);
+    --accent: oklch(0.875 0.026 110);
+    --accent-foreground: oklch(0.155 0.007 82);
+    --destructive: oklch(0.55 0.20 28);
+    /* Warning state: the sibling of --destructive, at hue 78 — the hue
+       --folio-comparison-partial already uses, so the theme carries one
+       warm hue rather than two. Unlike --destructive it cannot be one
+       value for both modes: the lightest single value that clears 4.5:1
+       on a dark card measures 3.10:1 on a light one, so caution splits
+       where danger did not. Each value is dark/light enough that 12px
+       text on a 10%-alpha fill of itself clears 4.5:1 on every surface
+       the presets produce (measured worst case 5.58 light, 7.59 dark). */
+    --warning: oklch(0.470 0.110 78);
+    /* What a modal dims the page with. It cannot be --foreground: that is
+       light in dark mode, so a foreground scrim *raises* the page's
+       luminance instead of lowering it — measured 0.017 to 0.133 on the
+       board, eight times brighter behind an open dialog. A scrim is the
+       one colour that has to be dark in both modes, so it is its own
+       token rather than a tint of an existing one. */
+    --scrim: oklch(0.115 0.006 260);
+    --border: oklch(0.740 0.007 82);
+    --input: oklch(0.740 0.007 82);
+    --ring: oklch(0.155 0.007 82);
+    --chart-1: oklch(0.155 0.007 82);
+    --chart-2: oklch(0.500 0.007 82);
+    --chart-3: oklch(0.620 0.080 130);
+    --chart-4: oklch(0.560 0.120 36);
+    --chart-5: oklch(0.360 0.052 250);
+    --radius: 0;
+    --sidebar: oklch(0.940 0.007 82);
+    --sidebar-foreground: oklch(0.155 0.007 82);
+    --sidebar-primary: oklch(0.155 0.007 82);
+    --sidebar-primary-foreground: oklch(0.966 0.008 82);
+    --sidebar-accent: oklch(0.890 0.008 82);
+    --sidebar-accent-foreground: oklch(0.155 0.007 82);
+    --sidebar-border: oklch(0.740 0.007 82);
+    --sidebar-ring: oklch(0.155 0.007 82);
+
+    /* Typography */
+    --folio-heading-font-family: Georgia, "Times New Roman", ui-serif, serif;
+    --folio-body-font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --folio-code-font-family: var(--font-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --folio-heading-letter-spacing: 0;
+    --folio-heading-weight: 900;
+    --folio-body-line-height: 1.72;
+    --folio-font-size-base: 1rem;
+
+    /* Cards & surfaces */
+    --folio-card-shadow: none;
+    --folio-card-border-width: 1px;
+    --folio-card-padding: 1.25rem;
+    --folio-card-hover-shadow: 0 0 0 1px var(--foreground);
+
+    /* Code blocks */
+    --folio-code-border-radius: 0.65rem;
+    --folio-code-border: 1px solid color-mix(in oklch, var(--border) 72%, var(--background));
+    --folio-code-bg: color-mix(in oklch, var(--muted) 86%, var(--background));
+    --folio-code-foreground: var(--foreground);
+    --folio-code-shadow: 0 18px 48px -42px color-mix(in oklch, var(--foreground) 42%, transparent);
+
+    /* Headings */
+    --folio-h2-border: 1px solid var(--border);
+    --folio-h2-transform: uppercase;
+    --folio-h2-letter-spacing: 0;
+    --folio-h2-weight: 900;
+    --folio-h2-padding-left: 0;
+    --folio-h2-border-left: none;
+
+    /* Links */
+    --folio-link-decoration: underline;
+
+    /* Cards — glass effect */
+    --folio-card-backdrop: none;
+    --folio-card-opacity: 1;
+
+    /* Spacing */
+    --folio-section-gap: 3rem;
+    --folio-content-max-width: 50rem;
+    --folio-workspace-shell-padding: 0px;
+    --folio-workspace-shell-border: 0 solid transparent;
+    --folio-workspace-shell-shadow: none;
+    --folio-workspace-shell-background: var(--background);
+    --folio-workspace-shell-surface: transparent;
+    --folio-workspace-shell-topbar: var(--background);
+    --folio-workspace-shell-topbar-blur: none;
+    --folio-workspace-shell-topbar-border: 1px solid var(--border);
+    --folio-nextra-bg: var(--background);
+
+    /* DEPRECATED v1.x compat — remove in v2.0 */
+    /* Aliases the pre-namespace Folio CSS custom property names to their new
+       --folio-* equivalents so any missed/external consumer still resolves. */
+    --heading-font-family: var(--folio-heading-font-family);
+    --body-font-family: var(--folio-body-font-family);
+    --code-font-family: var(--folio-code-font-family);
+    --heading-letter-spacing: var(--folio-heading-letter-spacing);
+    --heading-weight: var(--folio-heading-weight);
+    --body-line-height: var(--folio-body-line-height);
+    --font-size-base: var(--folio-font-size-base);
+    --card-shadow: var(--folio-card-shadow);
+    --card-border-width: var(--folio-card-border-width);
+    --card-padding: var(--folio-card-padding);
+    --card-hover-shadow: var(--folio-card-hover-shadow);
+    --card-backdrop: var(--folio-card-backdrop);
+    --card-opacity: var(--folio-card-opacity);
+    --code-border-radius: var(--folio-code-border-radius);
+    --code-border: var(--folio-code-border);
+    --code-bg: var(--folio-code-bg);
+    --code-foreground: var(--folio-code-foreground);
+    --code-shadow: var(--folio-code-shadow);
+    --h2-border: var(--folio-h2-border);
+    --h2-transform: var(--folio-h2-transform);
+    --h2-letter-spacing: var(--folio-h2-letter-spacing);
+    --h2-weight: var(--folio-h2-weight);
+    --h2-padding-left: var(--folio-h2-padding-left);
+    --h2-border-left: var(--folio-h2-border-left);
+    --link-decoration: var(--folio-link-decoration);
+    --section-gap: var(--folio-section-gap);
+    --content-max-width: var(--folio-content-max-width);
+    --workspace-shell-padding: var(--folio-workspace-shell-padding);
+    --workspace-shell-border: var(--folio-workspace-shell-border);
+    --workspace-shell-shadow: var(--folio-workspace-shell-shadow);
+    --workspace-shell-background: var(--folio-workspace-shell-background);
+    --workspace-shell-surface: var(--folio-workspace-shell-surface);
+    --workspace-shell-topbar: var(--folio-workspace-shell-topbar);
+    --workspace-shell-topbar-blur: var(--folio-workspace-shell-topbar-blur);
+    --workspace-shell-topbar-border: var(--folio-workspace-shell-topbar-border);
+    --component-group-accent: var(--folio-component-group-accent);
+    --api-reference-index-accent: var(--folio-api-reference-index-accent);
+    --landing-ease: var(--folio-landing-ease);
+    --comparison-win: var(--folio-comparison-win);
+    --comparison-win-foreground: var(--folio-comparison-win-foreground);
+    --comparison-win-soft: var(--folio-comparison-win-soft);
+    --comparison-partial: var(--folio-comparison-partial);
+    --comparison-partial-foreground: var(--folio-comparison-partial-foreground);
+    --comparison-partial-soft: var(--folio-comparison-partial-soft);
+    --comparison-roadmap: var(--folio-comparison-roadmap);
+    --comparison-roadmap-soft: var(--folio-comparison-roadmap-soft);
+    --comparison-empty: var(--folio-comparison-empty);
+    --comparison-empty-soft: var(--folio-comparison-empty-soft);
+    --x-color-nextra-bg: var(--folio-nextra-bg);
+    --doc-preview-height: var(--folio-doc-preview-height);
+    /* END DEPRECATED v1.x compat */
+}
+
+.dark {
+    --background: oklch(0.130 0.007 82);
+    --foreground: oklch(0.920 0.007 82);
+    --card: oklch(0.155 0.007 82);
+    --card-foreground: oklch(0.920 0.007 82);
+    --popover: oklch(0.170 0.007 82);
+    --popover-foreground: oklch(0.920 0.007 82);
+    --primary: oklch(0.920 0.007 82);
+    --primary-foreground: oklch(0.130 0.007 82);
+    --secondary: oklch(0.210 0.007 82);
+    --secondary-foreground: oklch(0.920 0.007 82);
+    --muted: oklch(0.210 0.007 82);
+    --muted-foreground: oklch(0.620 0.007 82);
+    --accent: oklch(0.240 0.024 110);
+    --accent-foreground: oklch(0.920 0.007 82);
+    --destructive: oklch(0.55 0.20 28);
+    --warning: oklch(0.780 0.110 78);
+    /* Below the dark --background (0.130), so the scrim still darkens. */
+    --scrim: oklch(0.020 0.004 260);
+    --border: oklch(0.330 0.007 82);
+    --input: oklch(0.330 0.007 82);
+    --ring: oklch(0.920 0.007 82);
+    --chart-1: oklch(0.920 0.007 82);
+    --chart-2: oklch(0.680 0.007 82);
+    --chart-3: oklch(0.720 0.090 130);
+    --chart-4: oklch(0.690 0.120 36);
+    --chart-5: oklch(0.620 0.080 250);
+    --sidebar: oklch(0.105 0.007 82);
+    --sidebar-foreground: oklch(0.920 0.007 82);
+    --sidebar-primary: oklch(0.920 0.007 82);
+    --sidebar-primary-foreground: oklch(0.130 0.007 82);
+    --sidebar-accent: oklch(0.200 0.007 82);
+    --sidebar-accent-foreground: oklch(0.920 0.007 82);
+    --sidebar-border: oklch(0.330 0.007 82);
+    --sidebar-ring: oklch(0.920 0.007 82);
+    --folio-nextra-bg: var(--background);
+}
+
+html {
+  background: var(--folio-workspace-shell-topbar);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    min-height: 100vh;
+    padding: var(--folio-workspace-shell-padding);
+    background: var(--folio-workspace-shell-background);
+    font-family: var(--folio-body-font-family);
+  }
+  code, kbd, pre {
+    font-family: var(--folio-code-font-family);
+  }
+
+  /* The roadmap's release panels.
+
+     Every release's detail is in the markup and all but one carry `hidden`,
+     so a crawler, a Markdown mirror and a reader with no JavaScript get the
+     whole roadmap. `hidden` alone would take them out of flow, which lets the
+     panel column resize on every selection and pushes the card below it
+     around; stacking them in one grid cell instead sizes the column to the
+     tallest release once and holds it there.
+
+     Overriding `display` needs the `!important` and needs to live in this
+     layer: Tailwind's preflight ships `[hidden] { display: none !important }`
+     in the same layer, and for important declarations the cascade reverses
+     layer order — an unlayered rule would lose whatever its specificity.
+     `visibility` is what actually hides them, so the inactive panels stay out
+     of the accessibility tree and out of find-in-page.
+
+     The entrance starts at half opacity rather than zero: holding ArrowDown
+     repeats near 30ms, and a pane scrubbed from zero reads as flicker where
+     one scrubbed from half reads as dimmed and settling. */
+  .folio-roadmap-panel {
+    grid-area: 1 / 1;
+    opacity: 0.5;
+    visibility: hidden;
+    translate: 0 3px;
+  }
+  .folio-roadmap-panel[hidden] {
+    display: block !important;
+  }
+  .folio-roadmap-panel:not([hidden]) {
+    opacity: 1;
+    visibility: visible;
+    translate: none;
+    transition:
+      opacity 120ms cubic-bezier(0.16, 1, 0.3, 1),
+      translate 120ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Reduced motion keeps the state change and drops only the travel. */
+  @media (prefers-reduced-motion: reduce) {
+    .folio-roadmap-panel {
+      translate: none;
+    }
+    .folio-roadmap-panel:not([hidden]) {
+      transition: opacity 100ms linear;
+    }
+  }
+}
+
+body > .nextra-navbar {
+  top: var(--folio-workspace-shell-padding) !important;
+  background: var(--folio-workspace-shell-topbar) !important;
+}
+
+body > .nextra-navbar .nextra-navbar-blur {
+  border: var(--folio-workspace-shell-border);
+  border-bottom: var(--folio-workspace-shell-topbar-border);
+  background: var(--folio-workspace-shell-topbar) !important;
+  -webkit-backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+  backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+}
+
+.landing-shell {
+  min-height: calc(100vh - (var(--folio-workspace-shell-padding) * 2));
+  overflow: hidden;
+  border: var(--folio-workspace-shell-border);
+  background: var(--folio-workspace-shell-surface);
+  box-shadow: var(--folio-workspace-shell-shadow);
+}
+
+.landing-navbar {
+  top: var(--folio-workspace-shell-padding) !important;
+  right: var(--folio-workspace-shell-padding);
+  left: var(--folio-workspace-shell-padding);
+  width: calc(100% - (var(--folio-workspace-shell-padding) * 2)) !important;
+  border: var(--folio-workspace-shell-border);
+  border-bottom: var(--folio-workspace-shell-topbar-border);
+  background: var(--folio-workspace-shell-topbar) !important;
+  -webkit-backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+  backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+}
+
+body > div:has(> .nextra-sidebar) {
+  overflow: clip;
+  border-right: var(--folio-workspace-shell-border);
+  border-bottom: var(--folio-workspace-shell-border);
+  border-left: var(--folio-workspace-shell-border);
+  background: var(--folio-workspace-shell-surface);
+  box-shadow: var(--folio-workspace-shell-shadow);
+}
+
+.nextra-mobile-nav {
+  background: var(--background) !important;
+  color: var(--foreground);
+}
+
+/* Search command palette */
+[data-folio-search] .nextra-search {
+  width: min(22rem, 100%);
+  color: var(--foreground) !important;
+}
+
+[data-folio-search] .nextra-search::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 0.75rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 1.6px solid var(--muted-foreground);
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translateY(-58%);
+}
+
+[data-folio-search] .nextra-search::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: calc(50% + 0.28rem);
+  left: 1.28rem;
+  width: 0.42rem;
+  height: 1.6px;
+  border-radius: 999px;
+  background: var(--muted-foreground);
+  pointer-events: none;
+  transform: rotate(45deg);
+  transform-origin: left center;
+}
+
+[data-folio-search] .nextra-search input[type="search"] {
+  height: 2.35rem;
+  width: 100% !important;
+  padding-inline: 2.25rem 4.65rem !important;
+  border: 1px solid color-mix(in oklch, var(--border) 76%, var(--background));
+  border-radius: 0.5rem !important;
+  background: color-mix(in oklch, var(--card) 90%, var(--background)) !important;
+  color: var(--foreground) !important;
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, var(--background) 72%, transparent),
+    0 10px 30px -28px color-mix(in oklch, var(--foreground) 55%, transparent);
+}
+
+[data-folio-search] .nextra-search input[type="search"]::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+[data-folio-search] .nextra-search:focus-within input[type="search"] {
+  border-color: color-mix(in oklch, var(--ring) 55%, var(--border));
+  background: var(--popover) !important;
+  box-shadow:
+    0 0 0 3px color-mix(in oklch, var(--ring) 12%, transparent),
+    0 18px 42px -34px color-mix(in oklch, var(--foreground) 60%, transparent);
+}
+
+[data-folio-search] .nextra-search kbd {
+  right: 0.45rem !important;
+  height: 1.45rem !important;
+  min-width: 2.35rem;
+  justify-content: center;
+  border: 1px solid color-mix(in oklch, var(--border) 82%, var(--background)) !important;
+  border-radius: 0.375rem !important;
+  background: color-mix(in oklch, var(--background) 82%, var(--card)) !important;
+  color: var(--muted-foreground) !important;
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--background) 78%, transparent);
+}
+
+.nextra-search-results {
+  overflow: hidden;
+  padding: 0.5rem !important;
+  border: 1px solid color-mix(in oklch, var(--border) 84%, var(--foreground)) !important;
+  border-radius: 0.5rem !important;
+  background: color-mix(in oklch, var(--popover) 94%, var(--background)) !important;
+  color: var(--foreground) !important;
+  box-shadow:
+    0 28px 76px -54px color-mix(in oklch, var(--foreground) 68%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--background) 72%, transparent);
+}
+
+.nextra-search-results > div[class*="select-none"] {
+  margin-inline: 0.375rem !important;
+  margin-top: 0.65rem !important;
+  padding: 0 0 0.45rem !important;
+  border-color: color-mix(in oklch, var(--border) 72%, transparent) !important;
+  color: var(--muted-foreground) !important;
+  font-family: var(--folio-code-font-family);
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.nextra-search-results > div[class*="select-none"]:first-child {
+  margin-top: 0.25rem !important;
+}
+
+.nextra-search-results a[role="option"] {
+  margin: 0.125rem 0 !important;
+  padding: 0.65rem 0.7rem !important;
+  border: 1px solid transparent;
+  border-radius: 0.45rem !important;
+  color: var(--foreground) !important;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+}
+
+.nextra-search-results a[role="option"]:hover,
+.nextra-search-results a[role="option"][data-focus],
+.nextra-search-results a[role="option"][data-headlessui-state~="focus"] {
+  border-color: color-mix(in oklch, var(--border) 78%, var(--foreground));
+  background: color-mix(in oklch, var(--muted) 72%, transparent) !important;
+  color: var(--foreground) !important;
+}
+
+.nextra-search-results a[role="option"] > div:first-child {
+  font-size: 0.94rem !important;
+  font-weight: 650 !important;
+  line-height: 1.25rem !important;
+}
+
+.nextra-search-results a[role="option"] > div:last-child {
+  margin-top: 0.25rem !important;
+  color: var(--muted-foreground) !important;
+  font-size: 0.82rem !important;
+  line-height: 1.35rem !important;
+}
+
+.nextra-search-results mark {
+  padding-inline: 0.125rem;
+  border-radius: 0.2rem;
+  background: color-mix(in oklch, var(--primary) 16%, transparent) !important;
+  color: var(--foreground) !important;
+}
+
+@media (min-width: 768px) {
+  [data-folio-search] .nextra-search {
+    width: clamp(16rem, 24vw, 22rem);
+  }
+}
+
+.nextra-sidebar {
+  top: calc(var(--nextra-navbar-height) + var(--folio-workspace-shell-padding)) !important;
+  height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
+  z-index: 60 !important;
+}
+
+.nextra-toc > div {
+  top: calc(var(--nextra-navbar-height) + var(--folio-workspace-shell-padding)) !important;
+  max-height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
+}
+
+details[data-theme-configurator] {
+  isolation: isolate;
+}
+
+@media (max-width: 767px) {
+  body > .nextra-navbar {
+    top: 0 !important;
+    margin-right: calc(var(--folio-workspace-shell-padding) * -1);
+    margin-left: calc(var(--folio-workspace-shell-padding) * -1);
+    width: calc(100% + (var(--folio-workspace-shell-padding) * 2)) !important;
+  }
+
+  .landing-navbar {
+    top: 0 !important;
+    right: 0;
+    left: 0;
+    width: 100% !important;
+  }
+
+  .nextra-sidebar,
+  .nextra-toc > div {
+    top: var(--nextra-navbar-height) !important;
+  }
+
+  .nextra-sidebar {
+    height: calc(100dvh - var(--nextra-navbar-height) - var(--folio-workspace-shell-padding)) !important;
+  }
+
+  .nextra-toc > div {
+    max-height: calc(100dvh - var(--nextra-navbar-height) - var(--folio-workspace-shell-padding)) !important;
+  }
+}
+
+/* ─── Sophisticated typography overrides ─── */
+
+/* `:not(.not-prose *)` on every one of these, the way the table rules below
+   already do it. They are unlayered element selectors, and unlayered CSS
+   beats every Tailwind utility whatever its specificity — so a component
+   embedded in a Markdown page had its own type overruled by the article's,
+   `.not-prose` or not. A board on a docs page rendered its column labels as
+   24px article headings with a 72px margin above them, and no amount of
+   `text-[11px]` on the component could win. Prose styling belongs to prose. */
+
+article h1:not(.not-prose *) {
+  font-family: var(--folio-heading-font-family);
+  font-size: 2.25rem;
+  font-weight: var(--folio-heading-weight);
+  letter-spacing: var(--folio-heading-letter-spacing);
+  line-height: 1.2;
+}
+
+article h2:not(.not-prose *) {
+  font-family: var(--folio-heading-font-family);
+  font-size: 1.5rem;
+  font-weight: var(--folio-h2-weight);
+  letter-spacing: var(--folio-h2-letter-spacing);
+  margin-top: var(--folio-section-gap);
+  padding-bottom: 0.5rem;
+  border-bottom: var(--folio-h2-border);
+  text-transform: var(--folio-h2-transform);
+  padding-left: var(--folio-h2-padding-left);
+  border-left: var(--folio-h2-border-left);
+}
+
+article hr + h2:not(.not-prose *) {
+  margin-top: min(1.5rem, var(--folio-section-gap));
+}
+
+article h3:not(.not-prose *) {
+  font-family: var(--folio-heading-font-family);
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: 2rem;
+}
+
+article p:not(.not-prose *) {
+  line-height: var(--folio-body-line-height);
+}
+
+article li:not(.not-prose *) {
+  line-height: var(--folio-body-line-height);
+}
+
+/* ─── Images in documentation pages ─── */
+
+/* Folio copies a page's local images into the content tree so MDX can
+   resolve them; this is what makes one look like it belongs to the page
+   rather than dropped on top of it. A hairline and the site's own radius,
+   centred, and held under the full measure — a screenshot that runs the
+   whole column dwarfs the prose around it.
+
+   The selector is `article img`, not `p > img`: Nextra wraps a Markdown
+   image in two spans around next/image, so the image is a grandchild of the
+   paragraph and a child combinator never matches it. Centring is done on the
+   image rather than the wrapper for the same reason — the wrapper is
+   Nextra's, and the max-width is what makes `auto` margins visible at all. */
+article img:not(.not-prose *) {
+  display: block;
+  margin-inline: auto;
+  margin-block: 1.75rem;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+/* A live embed and a screenshot of one sit at the same width, or a page
+   carrying both reads as two different documents. Both take the full
+   measure: a board embed that is narrower than the column has to drop a
+   track, and a cropped board is worse than a wide one. Scoped by data-slot
+   rather than `article figure` so the wide figures — comparison matrices,
+   tables that scroll — keep the measure they need. */
+article [data-slot="browser-frame"] {
+  max-width: 100%;
+  margin-inline: auto;
+  margin-block: 1.75rem;
+}
+
+/* ─── Code block styling ─── */
+
+article pre {
+  background: var(--folio-code-bg) !important;
+  border-radius: var(--folio-code-border-radius);
+  border: var(--folio-code-border);
+  box-shadow: var(--folio-code-shadow);
+  color: var(--folio-code-foreground);
+}
+
+article pre code {
+  color: var(--folio-code-foreground);
+}
+
+article pre code.nextra-code span {
+  background: transparent !important;
+}
+
+article pre code.nextra-code > span[data-highlighted-line] {
+  background: color-mix(in oklch, var(--primary) 10%, transparent) !important;
+}
+
+article :not(pre) > code {
+  background: var(--muted);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+/* Unavailable feature gate */
+
+.unavailable-feature {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  margin-block: clamp(2rem, 8vw, 5rem);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid color-mix(in oklch, var(--border) 86%, var(--foreground));
+  border-radius: calc(var(--radius) + 0.125rem);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--muted) 54%, transparent),
+      color-mix(in oklch, var(--card) 88%, transparent)
+    ),
+    var(--card);
+}
+
+.unavailable-feature-mark {
+  display: grid;
+  place-items: center;
+  width: 2.375rem;
+  height: 2.375rem;
+  border: 1px solid color-mix(in oklch, var(--border) 82%, var(--foreground));
+  border-radius: 999px;
+  color: var(--muted-foreground);
+  background: color-mix(in oklch, var(--background) 78%, var(--card));
+}
+
+.unavailable-feature-copy {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 44rem;
+}
+
+.unavailable-feature-kicker,
+.unavailable-feature h1,
+.unavailable-feature p {
+  margin: 0;
+}
+
+.unavailable-feature-kicker {
+  color: var(--muted-foreground);
+  font-family: var(--folio-code-font-family);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.unavailable-feature h1 {
+  font-family: var(--folio-heading-font-family);
+  font-size: clamp(1.65rem, 5vw, 2.5rem);
+  line-height: 1.08;
+}
+
+.unavailable-feature p {
+  max-width: 38rem;
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 520px) {
+  .unavailable-feature {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mermaid diagrams */
+
+.folio-mermaid {
+  color: var(--foreground);
+  display: grid;
+  justify-items: center;
+  margin-block: 1.5rem;
+  overflow-x: auto;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--muted) 38%, transparent),
+      transparent 7rem
+    ),
+    var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.folio-mermaid svg {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  min-width: min(34rem, 100%);
+}
+
+.folio-mermaid text,
+.folio-mermaid span,
+.folio-mermaid p {
+  font-family: var(--folio-body-font-family) !important;
+}
+
+.folio-mermaid p {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.folio-mermaid .node rect,
+.folio-mermaid .node polygon,
+.folio-mermaid .node circle,
+.folio-mermaid .node ellipse {
+  fill: var(--card) !important;
+  stroke: var(--border) !important;
+  stroke-width: 1px !important;
+  rx: var(--radius);
+  ry: var(--radius);
+}
+
+.folio-mermaid .nodeLabel,
+.folio-mermaid .nodeLabel p,
+.folio-mermaid .label,
+.folio-mermaid .label p {
+  color: var(--foreground) !important;
+}
+
+.folio-mermaid .flowchart-link,
+.folio-mermaid .messageLine0,
+.folio-mermaid .messageLine1 {
+  stroke: var(--muted-foreground) !important;
+  stroke-width: 1.25px !important;
+}
+
+.folio-mermaid marker path,
+.folio-mermaid .arrowheadPath {
+  fill: var(--muted-foreground) !important;
+  stroke: var(--muted-foreground) !important;
+}
+
+.folio-mermaid .cluster rect {
+  fill: color-mix(in oklch, var(--muted) 42%, transparent) !important;
+  stroke: var(--border) !important;
+}
+
+.folio-mermaid .edgeLabel {
+  color: var(--foreground);
+}
+
+.folio-mermaid .edgeLabel p,
+.folio-mermaid .labelBkg {
+  background: var(--background);
+  fill: var(--background) !important;
+  border: 1px solid var(--border);
+  padding: 0.125rem 0.375rem;
+}
+
+/* Catalog index pages */
+
+.component-index,
+.api-reference-index {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 1.25rem 3rem;
+}
+
+.component-index h2,
+.component-index h3,
+.component-index p,
+.api-reference-index h2,
+.api-reference-index h3,
+.api-reference-index p {
+  margin: 0;
+}
+
+.component-index-hero,
+.api-reference-index-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid color-mix(in oklch, var(--border) 82%, var(--foreground));
+  border-radius: 0.5rem;
+}
+
+.component-index-hero::before,
+.api-reference-index-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      color-mix(in oklch, var(--foreground) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--foreground) 7%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 2.25rem 2.25rem;
+  mask-image: linear-gradient(135deg, oklch(0.2 0.005 82), transparent 72%);
+  opacity: 0.38;
+}
+
+.component-index-hero > *,
+.api-reference-index-hero > * {
+  position: relative;
+}
+
+.component-index-hero-copy,
+.api-reference-index-hero-copy {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 58rem;
+}
+
+.component-index-kicker,
+.api-reference-index-kicker {
+  color: var(--muted-foreground);
+  font-family: var(--folio-code-font-family);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.component-index-hero h2,
+.api-reference-index-hero h2 {
+  max-width: 19ch;
+  color: var(--foreground);
+  font-family: var(--folio-heading-font-family);
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  border: 0;
+  padding: 0;
+}
+
+.component-index-hero p:not(.component-index-kicker),
+.api-reference-index-hero p:not(.api-reference-index-kicker) {
+  max-width: 68ch;
+  color: color-mix(in oklch, var(--foreground) 78%, var(--muted-foreground));
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.component-index-panel,
+.api-reference-index-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  max-width: 58rem;
+}
+
+.component-index-panel span,
+.api-reference-index-panel span {
+  border: 1px solid color-mix(in oklch, var(--border) 82%, var(--background));
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--background) 74%, transparent);
+  color: var(--foreground);
+  font-family: var(--folio-code-font-family);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.55rem 0.7rem;
+}
+
+@media (min-width: 56rem) {
+  .component-index-hero,
+  .api-reference-index-hero {
+    align-items: start;
+  }
+
+  .component-index-hero h2,
+  .api-reference-index-hero h2 {
+    font-size: 3.5rem;
+    max-width: 20ch;
+  }
+}
+
+/* Component catalog */
+
+.component-index-hero {
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in oklch, var(--accent) 36%, var(--card)),
+      var(--card) 64%
+    );
+}
+
+.component-index-fast-paths {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-block: 1px solid color-mix(in oklch, var(--border) 78%, transparent);
+}
+
+.component-index-fast-paths h3,
+.component-index-group-heading h3 {
+  color: var(--foreground);
+  font-family: var(--folio-body-font-family);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.component-index-path-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.component-index-path {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in oklch, var(--border) 82%, transparent);
+  border-radius: 0.5rem;
+  background: color-mix(in oklch, var(--muted) 34%, transparent);
+}
+
+.component-index-path span {
+  color: var(--foreground);
+  font-weight: 750;
+}
+
+.component-index-path p {
+  color: var(--muted-foreground);
+  font-family: var(--folio-code-font-family);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.component-index-groups {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.component-index-group {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in oklch, var(--border) 88%, transparent);
+}
+
+.component-index-group-heading {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.component-index-swatch {
+  width: 2rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--folio-component-group-accent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent);
+}
+
+.component-index-group-heading p {
+  max-width: 30rem;
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.component-index-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 0.75rem;
+}
+
+.component-index-link {
+  min-height: 11.75rem;
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in oklch, var(--border) 84%, transparent);
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--folio-component-group-accent) 11%, transparent),
+      transparent 5rem
+    ),
+    color-mix(in oklch, var(--card) 86%, var(--background));
+  color: var(--foreground);
+  text-decoration: none;
+  transition:
+    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.component-index-link:hover {
+  border-color: color-mix(in oklch, var(--folio-component-group-accent) 64%, var(--border));
+  box-shadow: 0 16px 38px -30px color-mix(in oklch, var(--foreground) 55%, transparent);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.component-index-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+.component-index-link-meta {
+  width: fit-content;
+  border: 1px solid color-mix(in oklch, var(--folio-component-group-accent) 42%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--folio-component-group-accent) 14%, var(--background));
+  color: color-mix(in oklch, var(--foreground) 74%, var(--folio-component-group-accent));
+  font-family: var(--folio-code-font-family);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.36rem 0.5rem;
+}
+
+.component-index-link strong {
+  color: var(--foreground);
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.component-index-link span:not(.component-index-link-meta) {
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.component-index-link em {
+  align-self: end;
+  color: color-mix(in oklch, var(--foreground) 70%, var(--folio-component-group-accent));
+  font-family: var(--folio-code-font-family);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+@media (min-width: 56rem) {
+  .component-index-fast-paths {
+    grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1.45fr);
+    align-items: start;
+  }
+
+  .component-index-path-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .component-index-group {
+    grid-template-columns: minmax(11rem, 0.44fr) minmax(0, 1.56fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .component-index-link {
+    transition: none;
+  }
+
+  .component-index-link:hover {
+    transform: none;
+  }
+}
+
+/* API reference catalog */
+
+.api-reference-index-hero {
+  background:
+    radial-gradient(
+      circle at 88% 18%,
+      color-mix(in oklch, var(--primary) 18%, transparent),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      color-mix(in oklch, var(--accent) 30%, var(--card)),
+      var(--card) 62%
+    );
+}
+
+.api-reference-index-fast-paths {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-block: 1px solid color-mix(in oklch, var(--border) 78%, transparent);
+}
+
+.api-reference-index-fast-paths h3,
+.api-reference-index-group-heading h3 {
+  color: var(--foreground);
+  font-family: var(--folio-body-font-family);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.api-reference-index-path-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.api-reference-index-path {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid color-mix(in oklch, var(--border) 82%, transparent);
+  border-radius: 0.5rem;
+  background: color-mix(in oklch, var(--muted) 34%, transparent);
+  color: var(--foreground);
+  text-decoration: none;
+  transition:
+    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.api-reference-index-path:hover {
+  border-color: color-mix(in oklch, var(--primary) 42%, var(--border));
+  background: color-mix(in oklch, var(--accent) 42%, transparent);
+  text-decoration: none;
+}
+
+.api-reference-index-path:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+.api-reference-index-path span {
+  color: var(--foreground);
+  font-weight: 750;
+}
+
+.api-reference-index-path p {
+  color: var(--muted-foreground);
+  font-family: var(--folio-code-font-family);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.api-reference-index-groups {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.api-reference-index-group {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in oklch, var(--border) 88%, transparent);
+}
+
+.api-reference-index-group-heading {
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.api-reference-index-swatch {
+  width: 2rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--folio-api-reference-index-accent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent);
+}
+
+.api-reference-index-group-heading p {
+  max-width: 30rem;
+  color: var(--muted-foreground);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.api-reference-index-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 0.75rem;
+}
+
+.api-reference-index-link {
+  min-height: 11rem;
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in oklch, var(--border) 84%, transparent);
+  border-radius: 0.5rem;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--folio-api-reference-index-accent) 11%, transparent),
+      transparent 5rem
+    ),
+    color-mix(in oklch, var(--card) 86%, var(--background));
+  color: var(--foreground);
+  text-decoration: none;
+  transition:
+    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.api-reference-index-link:hover {
+  border-color: color-mix(in oklch, var(--folio-api-reference-index-accent) 64%, var(--border));
+  box-shadow: 0 16px 38px -30px color-mix(in oklch, var(--foreground) 55%, transparent);
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.api-reference-index-link:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+.api-reference-index-link-meta {
+  width: fit-content;
+  border: 1px solid color-mix(in oklch, var(--folio-api-reference-index-accent) 42%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--folio-api-reference-index-accent) 14%, var(--background));
+  color: color-mix(in oklch, var(--foreground) 74%, var(--folio-api-reference-index-accent));
+  font-family: var(--folio-code-font-family);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.36rem 0.5rem;
+}
+
+.api-reference-index-link strong {
+  color: var(--foreground);
+  font-family: var(--folio-code-font-family);
+  font-size: 0.96rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.api-reference-index-link span:not(.api-reference-index-link-meta) {
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.api-reference-index-link em {
+  align-self: end;
+  color: color-mix(in oklch, var(--foreground) 70%, var(--folio-api-reference-index-accent));
+  font-family: var(--folio-code-font-family);
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+@media (min-width: 56rem) {
+  .api-reference-index-fast-paths {
+    grid-template-columns: minmax(10rem, 0.55fr) minmax(0, 1.45fr);
+    align-items: start;
+  }
+
+  .api-reference-index-path-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .api-reference-index-group {
+    grid-template-columns: minmax(11rem, 0.44fr) minmax(0, 1.56fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .api-reference-index-path,
+  .api-reference-index-link {
+    transition: none;
+  }
+
+  .api-reference-index-link:hover {
+    transform: none;
+  }
+}
+
+/* ─── Table styling ─── */
+
+/* Markdown (GFM) tables only: tables rendered by components manage their
+   own layout and opt out via the .not-prose wrapper. */
+article table:not(.not-prose *) {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  border-spacing: 0;
+}
+
+article th:not(.not-prose *) {
+  background: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+article th:not(.not-prose *),
+article td:not(.not-prose *) {
+  padding: 0.7rem 0.95rem;
+  line-height: 1.45;
+  vertical-align: middle;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+article td:not(.not-prose *) {
+  font-size: 0.875rem;
+}
+
+article th:first-child:not(.not-prose *),
+article td:first-child:not(.not-prose *) {
+  min-width: 13rem;
+  font-weight: 600;
+}
+
+article th:not(:first-child):not(.not-prose *),
+article td:not(:first-child):not(.not-prose *) {
+  min-width: 11rem;
+}
+
+article th:nth-child(4):not(.not-prose *),
+article td:nth-child(4):not(.not-prose *) {
+  min-width: 13.5rem;
+}
+
+/* ─── Link styling ─── */
+
+article a:not(.not-prose *) {
+  color: var(--primary);
+  text-decoration: var(--folio-link-decoration);
+  font-weight: 500;
+}
+
+article a:not(.not-prose *):hover {
+  text-decoration: underline;
+}
+
+/* ─── Blockquote styling ─── */
+
+article blockquote:not(.not-prose *) {
+  background: var(--muted);
+  padding: 0.875rem 1.25rem;
+  border-radius: var(--radius);
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+
+/* ─── Subtitle under H1 ─── */
+
+article h1 + p > em:only-child:not(.not-prose *) {
+  display: block;
+  font-size: 1.125rem;
+  color: var(--muted-foreground);
+  font-style: italic;
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* ─── Sidebar refinements ─── */
+
+nav[class*="sidebar"] {
+  font-size: 0.875rem;
+}
+
+/* Hide the "Index" and "Docs" wrapper from sidebar — Nextra auto-generates these */
+aside li > a[href="/"] {
+  display: none;
+}
+
+/* ─── Landing page animations ─── */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+:root {
+  --folio-landing-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes landing-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-artifact-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(-120%);
+  }
+  18%, 70% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(270%);
+  }
+}
+
+@keyframes landing-line {
+  from {
+    opacity: 0.3;
+    transform: scaleX(0.16);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes landing-pulse {
+  0%, 100% {
+    opacity: 0.62;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
+/* "funnel" section: the build node's spine — one continuous flow, dashes
+   marching left → right (reduced motion rests on a static dashed line) */
+.landing-funnel-flow {
+  stroke-dasharray: 6 8;
+  animation: landing-funnel-flow 1.6s linear infinite;
+}
+
+@keyframes landing-funnel-flow {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+.landing-surface {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--primary) 10%, transparent), transparent 32%),
+    linear-gradient(to bottom, color-mix(in oklch, var(--muted) 58%, transparent), transparent 44%),
+    repeating-linear-gradient(
+      90deg,
+      color-mix(in oklch, var(--border) 44%, transparent) 0,
+      color-mix(in oklch, var(--border) 44%, transparent) 1px,
+      transparent 1px,
+      transparent 96px
+    );
+}
+
+.landing-surface::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(to right, transparent, color-mix(in oklch, var(--background) 76%, transparent) 18% 82%, transparent),
+    linear-gradient(to bottom, transparent, var(--background));
+}
+
+.landing-kicker,
+.landing-hero-copy h1,
+.landing-hero-copy > p,
+.landing-command,
+.landing-section {
+  animation: landing-enter 700ms var(--folio-landing-ease) both;
+}
+
+.landing-kicker {
+  animation-delay: 40ms;
+}
+
+.landing-hero-copy h1 {
+  animation-delay: 90ms;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.landing-hero-copy > p {
+  animation-delay: 150ms;
+}
+
+.landing-action {
+  display: flex;
+  min-height: 5rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.45rem;
+  background: var(--card);
+  padding: 0.9rem 1rem;
+  color: var(--foreground);
+  text-decoration: none;
+  animation: landing-enter 680ms var(--folio-landing-ease) both;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.landing-action:hover {
+  background: var(--muted);
+}
+
+.landing-action-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.landing-action-primary:hover {
+  background: color-mix(in oklch, var(--primary) 88%, var(--foreground));
+}
+
+.landing-command {
+  animation-delay: 430ms;
+}
+
+/* the command strip stays scrollable for long one-liners, but never shows a
+   scrollbar — the copy button is the primary affordance */
+.landing-command-scroll {
+  scrollbar-width: none;
+}
+.landing-command-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.landing-artifact {
+  overflow: hidden;
+  animation: landing-artifact-in 820ms var(--folio-landing-ease) 210ms both;
+}
+
+.landing-artifact-top [aria-hidden="true"] {
+  animation: landing-pulse 2.4s var(--folio-landing-ease) infinite;
+}
+
+.landing-code-line {
+  height: 0.5rem;
+  transform-origin: left center;
+  background: var(--foreground);
+  animation: landing-line 760ms var(--folio-landing-ease) both;
+}
+
+.landing-code-line:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.landing-code-line:nth-child(3) {
+  animation-delay: 220ms;
+}
+
+.landing-code-line:nth-child(4) {
+  animation-delay: 320ms;
+}
+
+.landing-code-line:nth-child(5) {
+  animation-delay: 420ms;
+}
+
+.landing-code-line-muted {
+  background: var(--muted-foreground);
+}
+
+.landing-scan {
+  position: absolute;
+  inset: 0;
+  height: 42%;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklch, var(--primary) 38%, transparent),
+    transparent
+  );
+  animation: landing-scan 3.2s var(--folio-landing-ease) 1s infinite;
+}
+
+.landing-sequence li {
+  opacity: 0;
+  animation: landing-enter 650ms var(--folio-landing-ease) both;
+}
+
+.landing-section {
+  animation-delay: 120ms;
+}
+
+/* -------------------------------------------------------------------------
+   "heartbeat" landing hero — one window, terminal → docs, on an 11s master
+   cycle. Every narrative element animates with the same var(--folio-hb-cycle)
+   duration, infinite iteration, keyframes in cycle percentages; each visible
+   element's 0% state equals its 100% state so the loop never jumps. Base
+   (non-animated) styles ARE the rest state — the rendered page with the
+   address bar — so reduced motion simply shows the finished composition.
+   Beats: type 2.5-8% · banner stamps 9-11.5% · the real CLI transcript
+   cascades 10.5-17% (Sources → ... → Done → Starting dev server...) ·
+   HOLD on the finished transcript 17-30% (the terminal gets read time) ·
+   shutter lifts 30-38% · rest 38-91% (one search-pill glint mid-rest) ·
+   shutter returns 91-100% to the empty prompt.
+   ------------------------------------------------------------------------- */
+.landing-heartbeat {
+  --folio-hb-cycle: 11s;
+  --folio-hb-snap: cubic-bezier(0.7, 0, 0.18, 1);
+}
+
+/* terminal identity of the chrome bar — on during the build, gone at rest */
+.landing-hb-titlebar {
+  opacity: 0;
+  animation: folio-hb-title var(--folio-hb-cycle) var(--folio-landing-ease)
+    infinite;
+}
+@keyframes folio-hb-title {
+  0%,
+  32% {
+    opacity: 1;
+  }
+  38% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 0;
+  }
+  99%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* browser identity of the bar — takes over as the shutter passes */
+.landing-hb-url {
+  animation: folio-hb-url var(--folio-hb-cycle) var(--folio-landing-ease)
+    infinite;
+}
+@keyframes folio-hb-url {
+  0%,
+  33% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  40% {
+    opacity: 1;
+    transform: none;
+  }
+  91% {
+    opacity: 1;
+    transform: none;
+  }
+  98%,
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+/* the terminal surface: paper, never black; covers the page at the seam,
+   lifts up and out at the reveal */
+.landing-hb-shutter {
+  background: color-mix(in oklch, var(--muted) 32%, var(--background));
+  transform: translateY(-102%); /* rest: gone, up and out */
+  animation: folio-hb-shutter var(--folio-hb-cycle) var(--folio-hb-snap)
+    infinite;
+  will-change: transform;
+}
+.landing-hb-shutter::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: color-mix(in oklch, var(--primary) 65%, transparent);
+}
+@keyframes folio-hb-shutter {
+  0%,
+  30% {
+    transform: translateY(0);
+  }
+  38% {
+    transform: translateY(-102%);
+  }
+  91% {
+    transform: translateY(-102%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* "$ folio serve" types itself in chunky keystrokes */
+.landing-hb-cmd {
+  display: inline-block;
+  overflow: hidden;
+  white-space: pre;
+  vertical-align: bottom;
+  width: 11ch; /* "folio serve" */
+  animation: folio-hb-type var(--folio-hb-cycle) var(--folio-landing-ease)
+    infinite;
+}
+@keyframes folio-hb-type {
+  0% {
+    width: 0ch;
+  }
+  2.5% {
+    width: 0ch;
+    animation-timing-function: steps(11, end);
+  }
+  8% {
+    width: 11ch;
+  }
+  88.5% {
+    width: 11ch;
+  }
+  89% {
+    width: 0ch;
+  }
+  100% {
+    width: 0ch;
+  }
+}
+
+.landing-hb-caret {
+  display: inline-block;
+  width: 0.62em;
+  height: 1.05em;
+  vertical-align: text-bottom;
+  background: var(--primary);
+  animation: folio-hb-blink 1.1s steps(1) infinite;
+}
+@keyframes folio-hb-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* the banner lands as one stamp: blur-settle, no bounce. Its glyphs (block
+   elements + box drawing) are NOT in the subsetted webfont, so pin it to
+   system monospace fonts that ship full box-drawing coverage — and let the
+   rows touch, or the block art reads as striped outlines. */
+.landing-hb-stamp {
+  opacity: 0; /* transient: hidden in base */
+  transform: scale(1.14);
+  transform-origin: center top;
+  font-family: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  line-height: 1.05;
+  letter-spacing: 0;
+  animation: folio-hb-stamp var(--folio-hb-cycle) var(--folio-landing-ease)
+    infinite;
+}
+@keyframes folio-hb-stamp {
+  0%,
+  9% {
+    opacity: 0;
+    transform: scale(1.14);
+    filter: blur(3px);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: blur(0.4px);
+  }
+  11.5% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  88% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  89% {
+    opacity: 0;
+    transform: scale(1.14);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.14);
+    filter: blur(3px);
+  }
+}
+
+/* the real transcript lines rat-tat-tat in, exactly as the CLI prints them */
+.landing-hb-line {
+  opacity: 0; /* transient: hidden in base */
+  animation-duration: var(--folio-hb-cycle);
+  animation-timing-function: var(--folio-landing-ease);
+  animation-iteration-count: infinite;
+}
+.landing-hb-s1 {
+  animation-name: folio-hb-s1;
+}
+.landing-hb-s2 {
+  animation-name: folio-hb-s2;
+}
+.landing-hb-s3 {
+  animation-name: folio-hb-s3;
+}
+.landing-hb-s4 {
+  animation-name: folio-hb-s4;
+}
+.landing-hb-s5 {
+  animation-name: folio-hb-s5;
+}
+.landing-hb-s6 {
+  animation-name: folio-hb-s6;
+}
+.landing-hb-s7 {
+  animation-name: folio-hb-s7;
+}
+.landing-hb-s8 {
+  animation-name: folio-hb-s8;
+}
+@keyframes folio-hb-s1 {
+  0%,
+  11.5% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  12.1%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes folio-hb-s2 {
+  0%,
+  12.2% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  12.8%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes folio-hb-s3 {
+  0%,
+  12.9% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  13.5%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes folio-hb-s4 {
+  0%,
+  13.6% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  14.2%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes folio-hb-s5 {
+  0%,
+  14.3% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  14.9%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes folio-hb-s6 {
+  0%,
+  15% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  15.6%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes folio-hb-s7 {
+  0%,
+  16% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  16.6%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes folio-hb-s8 {
+  0%,
+  17% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  17.6%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+
+/* one quiet glint across the search pill mid-rest */
+.landing-hb-glint {
+  position: relative;
+  overflow: hidden;
+}
+.landing-hb-glint::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 38%;
+  pointer-events: none;
+  transform: translateX(-180%) skewX(-18deg); /* rest: parked off-pill */
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--foreground) 9%, transparent) 50%,
+    transparent
+  );
+  animation: folio-hb-glint var(--folio-hb-cycle) var(--folio-landing-ease)
+    infinite;
+}
+@keyframes folio-hb-glint {
+  0%,
+  60% {
+    transform: translateX(-180%) skewX(-18deg);
+  }
+  67% {
+    transform: translateX(440%) skewX(-18deg);
+    animation-timing-function: steps(1, end);
+  }
+  100% {
+    transform: translateX(-180%) skewX(-18deg);
+  }
+}
+
+/* reduced motion: no cycle at all — the base styles are the finished page.
+   animation:none only; the generic landing block's opacity/transform resets
+   must NOT apply here (they would pull the shutter back over the page). */
+@media (prefers-reduced-motion: reduce) {
+  .landing-hb-titlebar,
+  .landing-hb-url,
+  .landing-hb-shutter,
+  .landing-hb-cmd,
+  .landing-hb-caret,
+  .landing-hb-stamp,
+  .landing-hb-line,
+  .landing-hb-glint::after {
+    animation: none !important;
+  }
+}
+
+.comparison-evidence {
+  --folio-comparison-win: oklch(0.405 0.105 154);
+  --folio-comparison-win-foreground: oklch(0.975 0.010 154);
+  --folio-comparison-win-soft: oklch(0.910 0.052 154);
+  --folio-comparison-partial: oklch(0.545 0.116 78);
+  --folio-comparison-partial-foreground: oklch(0.180 0.018 78);
+  --folio-comparison-partial-soft: oklch(0.918 0.050 78);
+  --folio-comparison-roadmap: oklch(0.390 0.060 250);
+  --folio-comparison-roadmap-soft: oklch(0.905 0.030 250);
+  --folio-comparison-empty: oklch(0.520 0.145 28);
+  --folio-comparison-empty-soft: oklch(0.930 0.045 28);
+}
+
+.comparison-evidence-surface {
+  background: color-mix(in oklch, var(--muted) 18%, var(--background));
+}
+
+.dark .comparison-evidence {
+  --folio-comparison-win: oklch(0.700 0.125 154);
+  --folio-comparison-win-foreground: oklch(0.120 0.018 154);
+  --folio-comparison-win-soft: oklch(0.235 0.048 154);
+  --folio-comparison-partial: oklch(0.760 0.112 78);
+  --folio-comparison-partial-foreground: oklch(0.155 0.018 78);
+  --folio-comparison-partial-soft: oklch(0.275 0.046 78);
+  --folio-comparison-roadmap: oklch(0.720 0.086 250);
+  --folio-comparison-roadmap-soft: oklch(0.225 0.036 250);
+  --folio-comparison-empty: oklch(0.720 0.125 28);
+  --folio-comparison-empty-soft: oklch(0.245 0.050 28);
+}
+
+.comparison-table-shell {
+  background: var(--card);
+  box-shadow: none;
+}
+
+.comparison-tool-heading {
+  background: color-mix(in oklch, var(--muted) 74%, var(--card));
+}
+
+.comparison-tool-cell {
+  background: var(--card);
+}
+
+.comparison-table-row[data-comparison-framework="folio"] > th,
+.comparison-score-cell[data-comparison-framework="folio"] {
+  background: color-mix(in oklch, var(--folio-comparison-win-soft) 24%, var(--card));
+}
+
+.comparison-table-row[data-comparison-framework="folio"] {
+  border-top: 1px solid var(--foreground);
+  border-bottom: 1px solid var(--foreground);
+}
+
+.comparison-score-cell[data-comparison-cell-status="yes"] {
+  background: color-mix(in oklch, var(--folio-comparison-win-soft) 36%, var(--card));
+  color: var(--folio-comparison-win);
+}
+
+.comparison-score-cell[data-comparison-cell-status="partial"] {
+  background: color-mix(in oklch, var(--folio-comparison-partial-soft) 34%, var(--card));
+  color: var(--folio-comparison-partial);
+}
+
+.comparison-score-cell[data-comparison-cell-status="roadmap"] {
+  background: color-mix(in oklch, var(--folio-comparison-roadmap-soft) 30%, var(--card));
+  color: var(--folio-comparison-roadmap);
+}
+
+.comparison-score-cell[data-comparison-cell-status="no"] {
+  background: color-mix(in oklch, var(--folio-comparison-empty-soft) 48%, var(--card));
+  color: var(--folio-comparison-empty);
+}
+
+.comparison-matrix-cell {
+  font-family: var(--folio-code-font-family);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.comparison-matrix-value {
+  text-transform: none;
+}
+
+.theme-drawer-control {
+  order: -1;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.theme-drawer-fallback {
+  background: var(--sidebar);
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: max(1rem, env(safe-area-inset-left));
+  position: fixed;
+  width: min(16rem, calc(100vw - 2rem));
+  z-index: 80;
+}
+
+.theme-drawer-fallback .theme-drawer-trigger {
+  background: var(--sidebar);
+}
+
+.theme-drawer-trigger {
+  align-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  color: var(--sidebar-foreground);
+  cursor: pointer;
+  display: flex;
+  gap: 0.625rem;
+  list-style: none;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.625rem;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease;
+  width: 100%;
+}
+
+.theme-drawer-trigger::-webkit-details-marker {
+  display: none;
+}
+
+.theme-drawer-trigger:hover {
+  background: var(--sidebar-accent);
+}
+
+.theme-drawer-trigger:focus-visible {
+  outline: 2px solid var(--sidebar-ring);
+  outline-offset: 2px;
+}
+
+.theme-drawer-control[open] > .theme-drawer-trigger {
+  background: color-mix(in oklch, var(--sidebar-accent) 76%, transparent);
+  border-color: color-mix(in oklch, var(--sidebar-border) 58%, transparent);
+}
+
+.theme-drawer-trigger-label {
+  color: var(--sidebar-foreground);
+  font-size: 0.875rem;
+  flex: 1 1 auto;
+  font-weight: 400;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme-drawer-trigger-chevron {
+  color: color-mix(in oklch, var(--sidebar-foreground) 50%, transparent);
+  flex: 0 0 auto;
+  opacity: 0.72;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.theme-drawer-control[open] > .theme-drawer-trigger .theme-drawer-trigger-chevron {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+.theme-drawer-control:not([open]) > .theme-drawer-panel {
+  display: none;
+}
+
+.theme-drawer-panel {
+  width: min(23.5rem, calc(100vw - 2rem));
+  max-height: min(42rem, calc(100vh - 7rem));
+  overflow-y: auto;
+}
+
+.theme-panel-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+
+.theme-section-label {
+  color: var(--muted-foreground);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1rem;
+  text-transform: uppercase;
+}
+
+.theme-back-button {
+  color: var(--muted-foreground);
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1rem;
+  margin-bottom: 0.65rem;
+  transition: color 150ms ease, transform 150ms ease;
+}
+
+.theme-back-button::before {
+  content: "<";
+  margin-right: 0.35rem;
+}
+
+.theme-back-button:hover {
+  color: var(--foreground);
+  transform: translateX(-1px);
+}
+
+.preview-code [data-preview-code-panel] {
+  display: none;
+}
+
+.preview-code:has(.preview-code-radio--preview:checked) [data-preview-code-panel="preview"],
+.preview-code:has(.preview-code-radio--code:checked) [data-preview-code-panel="code"] {
+  display: block;
+}
+
+.preview-code-tab {
+  color: var(--muted-foreground);
+}
+
+.preview-code-tab:hover {
+  background: color-mix(in oklch, var(--background) 70%, transparent);
+  color: var(--foreground);
+}
+
+.preview-code:has(.preview-code-radio--preview:checked) [data-preview-code-tab="preview"],
+.preview-code:has(.preview-code-radio--code:checked) [data-preview-code-tab="code"] {
+  background: var(--background);
+  box-shadow: 0 1px 2px color-mix(in oklch, var(--foreground) 14%, transparent);
+  color: var(--foreground);
+}
+
+.preview-code:has(.preview-code-radio--preview:focus-visible) [data-preview-code-tab="preview"],
+.preview-code:has(.preview-code-radio--code:focus-visible) [data-preview-code-tab="code"] {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+@media (min-width: 640px) {
+  .landing-action {
+    min-height: 5.75rem;
+    padding: 1rem;
+  }
+}
+
+.reveal-hidden {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.js-ready .reveal-hidden {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── KaTeX math — hide MathML annotations (normally hidden by KaTeX CSS) ─── */
+
+.katex-mathml {
+  display: none;
+}
+
+/* ─── Terminal glow ─── */
+
+.terminal-glow {
+  box-shadow: 0 0 80px -20px var(--primary);
+}
+
+.dark .terminal-glow {
+  box-shadow: 0 0 120px -30px var(--primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-kicker,
+  .landing-hero-copy h1,
+  .landing-hero-copy > p,
+  .landing-action,
+  .landing-command,
+  .landing-artifact,
+  .landing-code-line,
+  .landing-sequence li,
+  .landing-section {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .landing-scan,
+  .landing-artifact-top [aria-hidden="true"],
+  .landing-funnel-flow {
+    animation: none !important;
+  }
+}
+
+/* The board takes the site's background, like every other page. It used to
+   override light mode to pure white on the theory that a tool surface wants
+   no paper tint — but the landing, the docs and the roadmap all sit on
+   `oklch(0.997)`, so the one page that did not read as a different site
+   pasted into this one. A theme is a theme everywhere or it is decoration. */

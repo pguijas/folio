@@ -1,0 +1,295 @@
+.root {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-height: 21rem;
+  overflow: hidden;
+  margin: 0;
+  background: color-mix(in oklch, var(--muted) 22%, var(--background));
+}
+
+.stage {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 1.5rem 1.4rem;
+}
+
+/* Fixed-rem scene: the tray, the rail and the row of agents are all pinned to
+ * the same three column centres, so nothing here may reflow.
+ *
+ * Width budget. 3 slots of 4.4rem + 2 gaps of 0.55rem = 14.3rem, and .stage
+ * adds 1.4rem of padding a side, so the panel needs 17.1rem to clear. The
+ * narrowest pane it lands in is the cover's two-column grid just above the
+ * 640px breakpoint, which hands the panel 17.875rem. 14.3rem clears that with
+ * 0.775rem to spare; the hero column's 20rem floor leaves 2.9rem. */
+.scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 14.3rem;
+}
+
+/* The work: one task card. A hollow square that the tick fills at the end,
+ * and one bar for the body of the task. Deliberately not one of the three
+ * artifact patterns: this is the thing being done, not a thing produced.
+ *
+ * It sits at the foot of the scene, below the agents, and nothing is drawn
+ * from it to them. Above them, with a rail fanning out to each slot, it read
+ * as a dispatcher handing out orders, which is the one thing this product
+ * does not do. */
+.work {
+  position: relative;
+  margin-top: 1.5rem;
+  display: flex;
+  box-sizing: border-box;
+  width: 8rem;
+  height: 2.8rem;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  padding-inline: 0.6rem;
+  background: var(--background);
+}
+
+.box {
+  position: relative;
+  width: 0.62rem;
+  height: 0.62rem;
+  flex: none;
+  border: 1px solid color-mix(in oklch, var(--muted-foreground) 45%, transparent);
+  border-radius: 0.12rem;
+}
+
+/* Rest state is the finished scene, so the tick is filled and grey. */
+.tick {
+  position: absolute;
+  inset: 0.12rem;
+  border-radius: 0.06rem;
+  background: color-mix(in oklch, var(--muted-foreground) 70%, transparent);
+}
+
+.tickLit {
+  position: absolute;
+  inset: 0.12rem;
+  opacity: 0;
+  border-radius: 0.06rem;
+  background: var(--primary);
+}
+
+.workBar {
+  height: 2px;
+  width: 4.9rem;
+  background: color-mix(in oklch, var(--muted-foreground) 42%, transparent);
+}
+
+.tray {
+  position: relative;
+  display: flex;
+  gap: 0.55rem;
+}
+
+/* The shared read. One line crosses all three frames at once, which is the
+ * only way the panel can say that what any one agent published is there for
+ * the others: nothing is handed to anybody, they all read the same tray.
+ * Transient, so the settled scene carries no accent. */
+.read {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  opacity: 0;
+  background: color-mix(in oklch, var(--primary) 85%, transparent);
+}
+
+/* Every artifact wears the same hairline frame at the same size. Only the
+ * interior pattern says what kind it is. */
+.slot {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  width: 4.4rem;
+  height: 4.6rem;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--background);
+}
+
+/* Accent outline laid exactly over a frame's own border, used for the work
+ * card and for a slot the moment it is filled. Both are transient, so the
+ * settled scene carries no accent at all. */
+.lit {
+  position: absolute;
+  box-sizing: border-box;
+  inset: -1px;
+  opacity: 0;
+  border: 1px solid var(--primary);
+  background: color-mix(in oklch, var(--primary) 7%, transparent);
+}
+
+/* All three interiors are exactly 3.1rem wide, which centres them in the
+ * 4.275rem slot interior with 0.5875rem a side. Same box every time, so the
+ * pattern inside it is the only thing telling one kind from another. */
+
+/* Kind one, prose: three uneven hairlines of text. */
+.prose {
+  display: flex;
+  width: 3.1rem;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.line {
+  height: 2px;
+  background: color-mix(in oklch, var(--muted-foreground) 42%, transparent);
+  transform-origin: left center;
+}
+
+.lineA {
+  width: 3.1rem;
+}
+
+.lineB {
+  width: 2.3rem;
+}
+
+.lineC {
+  width: 2.7rem;
+}
+
+/* Kind two, a page: a full-width band with two unequal blocks under it. The
+ * blocks are heavier and paler than a line of prose, so the silhouette reads
+ * as laid-out regions rather than as running text. */
+.page {
+  display: flex;
+  width: 3.1rem;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.band {
+  height: 0.3rem;
+  width: 3.1rem;
+  background: color-mix(in oklch, var(--muted-foreground) 42%, transparent);
+  transform-origin: left center;
+}
+
+.blocks {
+  display: flex;
+  gap: 0.24rem;
+}
+
+.block {
+  height: 1.35rem;
+  background: color-mix(in oklch, var(--muted-foreground) 22%, transparent);
+}
+
+.blockA {
+  width: 0.9rem;
+}
+
+.blockB {
+  width: 1.96rem;
+}
+
+/* Kind three, data: a 4 by 3 grid of squares. The cells are nearly twice the
+ * gap between them (0.55rem against 0.3rem) so the shape reads as a filled
+ * table, not as a scatter of dots that could be mistaken for punctuation.
+ * 4 * 0.55 + 3 * 0.3 = 3.1rem, the same interior width as the other two. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 0.55rem);
+  gap: 0.3rem;
+}
+
+.cell {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 0.06rem;
+  background: color-mix(in oklch, var(--muted-foreground) 42%, transparent);
+}
+
+/* One agent under each slot, on the same column pitch as the tray. */
+.crew {
+  display: flex;
+  margin-top: 1.5rem;
+  gap: 0.55rem;
+}
+
+.seat {
+  display: flex;
+  width: 4.4rem;
+  flex: none;
+  justify-content: center;
+}
+
+.bot {
+  display: flex;
+  width: 1rem;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.antenna {
+  width: 1px;
+  height: 0.24rem;
+  background: color-mix(in oklch, var(--muted-foreground) 55%, transparent);
+  transform-origin: bottom center;
+}
+
+.head {
+  position: relative;
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in oklch, var(--muted-foreground) 55%, transparent);
+  border-radius: 0.28rem;
+}
+
+.eyes {
+  display: flex;
+  gap: 0.2rem;
+  transform-origin: center;
+}
+
+.eye {
+  position: relative;
+  width: 0.16rem;
+  height: 0.16rem;
+  flex: none;
+  border-radius: 50%;
+  background: color-mix(in oklch, var(--muted-foreground) 75%, transparent);
+}
+
+/* Accent twin of each eye. At rest every agent is grey; the accent only ever
+ * marks the one agent that is acting. */
+.eyeLit {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+@media (max-width: 639px) {
+  .root {
+    min-height: 17rem;
+  }
+
+  .stage {
+    padding: 1rem 0.95rem;
+  }
+
+  .crew,
+  .work {
+    margin-top: 1.1rem;
+  }
+}
