@@ -1,0 +1,342 @@
+project:
+  name: "Folio"
+  version: "0.3.0"
+  repo: "https://github.com/pguijas/folio"
+  url: "https://pguijas.github.io/folio"
+
+source:
+  python:
+    paths:
+      - "folio/"
+    exclude:
+      - "folio/__pycache__/"
+      - "folio/_github_pages.py"
+  docs:
+    - "docs/guide/"
+
+output: "_site"
+
+theme:
+  dark_mode: true
+
+nav:
+  - "Guide"
+  - "API Reference"
+
+# NOTE: The `versions` section below configures a feature that is disabled in
+# this release; the CLI ignores it until versioning ships. The active
+# configuration surface is documented at
+# https://pguijas.github.io/folio/docs/configuration
+
+# The landing plugin ships with Folio and is always loaded; this `landing:`
+# section is what activates the landing page at the site root.
+landing:
+  cta:
+    primary:
+      text: "Get started"
+      link: "/docs/quickstart"
+    secondary:
+      text: "View source"
+      link: "https://github.com/pguijas/folio"
+  hero:
+    variant: "heartbeat"
+    tagline: "Open-source documentation for the agent era"
+    headline: "Every docs page ships twice: HTML for people, Markdown for agents."
+    description: "One docs.yaml builds the site from the Python source, guides, and board files already in your repo."
+  install:
+    - "curl -LsSf https://pguijas.github.io/folio/install.sh | sh"
+  sections:
+    - type: "funnel"
+      eyebrow: "From source"
+      title: "One build. Every output generated from it."
+      description: ""
+      # The guarantee strip below the plate owns "Read, never run."; the node
+      # would only echo it, so it carries the flow line alone.
+      command_notes: []
+      inputs:
+        - label: "docs.yaml"
+          icon: "config"
+        - label: "folio/**/*.py"
+          icon: "python"
+        - label: "guides/*.md"
+          icon: "markdown"
+        - label: "more languages"
+          icon: "language"
+          ghost: true
+          chip: "roadmap"
+      outputs:
+        - label: "_site/"
+          icon: "folder"
+        - label: "Pagefind index"
+          icon: "search"
+        - label: "llms.txt + .md mirrors"
+          icon: "agents"
+        - label: "roadmap + kanban"
+          icon: "board"
+      guarantees:
+        - title: "Read, never run."
+          detail: "Google- and NumPy-style docstrings, type annotations, decorators."
+        - title: "One structure."
+          detail: "Signatures are read from the current source on every build."
+        - title: "Full pages, not stubs."
+          detail: "Signatures, parameter tables, and docstring prose."
+        - title: "No server."
+          detail: "Plain files, no accounts, no vendor in the path."
+    - type: "harness"
+      eyebrow: "One core, two products"
+      title: "Docs for people. A harness over harnesses for agents."
+      description: "Folio Docs generates the site. Folio for Agents gives the team's coding harnesses the same project context without replacing them."
+      thesis: "One repository contract."
+      docs_label: "Folio Docs"
+      docs_detail: "The docs generator turns Python source and guides into HTML, Markdown, and search."
+      agents_label: "Folio for Agents"
+      agents_detail: "The meta-harness keeps portable project state readable by the coding tools already in use."
+      harnesses:
+        - label: "Codex"
+          detail: "work in the checkout"
+        - label: "Claude Code"
+          detail: "follows repository rules"
+        - label: "Other harnesses"
+          detail: "read the same project state"
+      unifies:
+        - label: "Context"
+          detail: "source + Markdown"
+        - label: "Rules"
+          detail: "contracts in the repo"
+        - label: "Board"
+          detail: "git-backed work state"
+        - label: "Artifacts"
+          detail: "durable session output"
+    - type: "features"
+      variant: "bento"
+      eyebrow: "Capabilities"
+      title: "Everything a docs site needs."
+      title_muted: "Everything else arrives as a plugin."
+      actions:
+        - title: "Explore the docs"
+          href: "/docs"
+      features:
+        - title: "40+ MDX components"
+          visual: "components"
+          wide: true
+          description: "Callouts, tabs, steps, timelines, file trees, Mermaid, KaTeX, API tables."
+        - title: "Built for agents"
+          visual: "llms"
+          description: "When enabled, the build emits llms.txt, a Markdown mirror per docs page, and a typed authoring contract."
+        - title: "Search without a service"
+          visual: "receipt"
+          description: "Pagefind indexes the landing and docs pages at build time; the index ships with the export."
+        - title: "GitHub Pages, zero config"
+          visual: "deploy"
+          wide: true
+          description: "Base path inferred, branch previews included, and the same export runs on Vercel, Netlify, or Docker."
+        - title: "Plugins share one extension contract"
+          visual: "plugins"
+          description: "Roadmap, kanban, and this landing use the same registry available to project plugins."
+        - title: "Theming without forking"
+          visual: "theming"
+          wide: true
+          description: "Presets, tokens, variants, and a live configurator in the shipped UI; overlay individual template files when that isn't enough."
+    - type: "cells"
+      eyebrow: "Use cases"
+      title: "Who picks Folio"
+      items:
+        - label: "Maintainers"
+          title: "API reference straight from source"
+          description: "The source you already maintain becomes the pages your users read."
+          href: "/docs/api-reference"
+          link_text: "See this site's reference"
+        - label: "Project OS"
+          title: "The plan lives in the repo"
+          description: "Humans and agents move a card the same way: edit, commit, review."
+          href: "https://github.com/pguijas/folio/tree/main/board"
+          link_text: "See the board's files in the repo"
+        - label: "Agents"
+          title: "Your agent reads what you ship"
+          description: "A coding agent edits docs in the same PR that changes the code."
+          href: "/llms.txt"
+          link_text: "Read this site's llms.txt"
+        - label: "Migrating"
+          title: "Your Markdown stays put"
+          description: "Point Folio at the folder you already have; Google and NumPy docstrings need no conversion."
+          href: "/docs/migration"
+          link_text: "See the migration guide"
+    - type: "boards"
+      eyebrow: "We run on it"
+      title: "Folio's real roadmap, from the same build as this page."
+      description: "Not a screenshot: the roadmap plugin rendering YAML from this repository."
+      narrow: true
+      roadmap_url: "/roadmap"
+      kanban_url: "/kanban"
+      kanban_embed: false
+      kanban_link_text: "Release board"
+
+plugins:
+  - "./docs/plugins/install_script.py"
+  - "./docs/plugins/agent_guide.py"
+
+# The roadmap plugin ships with Folio and is always loaded; this `roadmap:`
+# section is what activates it.
+# The kanban plugin ships with Folio too; this board runs on it with the
+# real state of Folio's feature pipeline. Live demo: /docs/kanban.
+kanban:
+  routes:
+    docs: false          # the live demo lives at /docs/kanban
+    public: true
+  source: board          # cardfile board: board/board.yaml + board/cards/*.md
+  description: "Where the roadmap gets done: phases break into cards, and cards move by commit. What you see is the repository's state at the last build."
+
+roadmap:
+  routes:
+    docs: false          # the live demo lives at /docs/plugins/roadmap
+    public: true
+  description: "Folio Docs and Folio for Agents move on independent release tracks from the same repository truth."
+  phases:
+    - id: "docs-foundation"
+      version: "0.1"
+      milestone: "docs-0.1"
+      track: "docs"
+      title: "Foundation"
+      status: "shipped"
+      layer: "Source analysis"
+      summary: "The proof of concept is Python: source in, documented site out."
+      features:
+        - "One command sets the project up"
+        - "Reads your source, never runs it"
+        - "API reference and your guides in one site"
+        - "Types and symbols link to their pages"
+        - "Edit a docstring, see the page"
+        - "A component library and full-text search"
+    - id: "docs-theming"
+      version: "0.2"
+      milestone: "docs-0.2"
+      track: "docs"
+      title: "Theming"
+      status: "shipped"
+      layer: "Visual ownership"
+      summary: "Own the look at any depth, then ship it anywhere static files go."
+      features:
+        - "Presets, shareable packages, or your own template"
+        - "Readers retheme the site from the site"
+        - "A preview site per pull request"
+        - "Social preview images"
+    - id: "docs-platform"
+      version: "0.3"
+      milestone: "docs-0.3"
+      track: "docs"
+      title: "Docs Platform"
+      status: "active"
+      layer: "Publishing"
+      summary: "Built-in and project extensions share one publishing contract, and this site runs on it."
+      features:
+        - "Plugins ship pages, components, and commands"
+        - "Your own React components in any page"
+        - "Roadmap, kanban, landing, and OpenAPI, all first-party"
+        - "Starter templates and live plugin demos"
+    - id: "docs-more-languages"
+      version: "0.4"
+      milestone: "docs-0.4"
+      track: "docs"
+      title: "More Languages"
+      status: "next"
+      layer: "Reach"
+      summary: "New languages arrive as parsers, not new toolchains, so adding one never means starting over."
+      features:
+        - "Python, TypeScript, Rust, Go, C#, and Java in one site"
+        - "One search across every language"
+        - "References that cross languages"
+        - "Type information inline in examples"
+        - "A public contract for adding a language"
+        - "Docs for every version of your library"
+        - "Sites in your readers' languages"
+        - "A native fast path in Rust for big repos"
+    - id: "docs-migrations"
+      version: "0.5"
+      milestone: "docs-0.5"
+      track: "docs"
+      title: "Migrations"
+      status: "next"
+      layer: "Adoption"
+      summary: "Bring your existing docs over in one command, with an honest report of what didn't convert."
+      features:
+        - "One-command import from MkDocs, Mintlify, and Read the Docs"
+        - "Sphinx cross-links carry over"
+        - "A theme preset that feels familiar"
+        - "Redirects for every moved page"
+        - "One site across products and repos"
+    - id: "docs-api-portal"
+      version: "0.6"
+      milestone: "docs-0.6"
+      track: "docs"
+      title: "API Portal"
+      status: "later"
+      layer: "API workflow"
+      summary: "The API portal teams expect: changelogs from real changes, and examples that cannot lie."
+      features:
+        - "Field-level API components"
+        - "A page per endpoint"
+        - "Builds fail on breaking changes"
+        - "Try requests on the page"
+        - "SDK examples verified against the code"
+        - "Event APIs too"
+    - id: "agents-context"
+      version: "0.1"
+      milestone: "agents-0.1"
+      track: "agents"
+      title: "Agent Context"
+      status: "active"
+      layer: "Machine-readable project"
+      summary: "Every Folio project publishes enough structure for an agent to understand the work without running the source."
+      features:
+        - "Every page gets a portable Markdown mirror"
+        - "llms.txt and a complete agent briefing"
+        - "Every project ships its authoring contract"
+        - "A work board of files, moved by commit"
+        - "Artifacts stay attached to the card that produced them"
+    - id: "agents-project-os"
+      version: "0.2"
+      milestone: "agents-0.2"
+      track: "agents"
+      title: "Project OS"
+      status: "next"
+      layer: "Agents and git"
+      summary: "Your agent reads ground truth and runs the project through ordinary commits."
+      features:
+        - "Sessions become pages, attached to the card they moved"
+        - "You choose what gets published"
+        - "Every card becomes a page, and the roadmap reads from the board"
+        - "A drag-and-drop board, synced to its branch"
+        - "Boards in step with issues and CI"
+        - "Quality gates that fail the build, not the reader"
+        - "Decision records and reusable snippets"
+        - "folio mcp — ask the docs from your editor"
+        - "ir.json, the typed structure exported"
+    - id: "agents-quality"
+      version: "0.3"
+      milestone: "agents-0.3"
+      track: "agents"
+      title: "Agent Quality"
+      status: "later"
+      layer: "Evaluation"
+      summary: "Teams can measure whether their documentation gives agents enough grounded context to work safely."
+      features:
+        - "folio score — how agent-ready any docs site is"
+        - "Quality gates fail the build when agent context regresses"
+        - "Evaluations trace back to the source pages that need work"
+llm:
+  generate_llms_txt: true
+  generate_llms_full_txt: true
+
+versions:
+  - label: "v0.3.0 (latest)"
+    path: "latest"
+  - label: "v0.2.1"
+    path: "v0.2"
+    ref: "v0.2.1"
+  - label: "v0.1.0"
+    path: "v0.1"
+    ref: "v0.1.0"
+  - label: "v0.0.1"
+    path: "v0.0"
+    ref: "v0.0.1"
+    default_path: "docs/"

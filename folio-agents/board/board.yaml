@@ -1,0 +1,14 @@
+title: "Folio for Agents"
+columns:
+  - id: ideas
+    title: "Ideas"
+  - id: backlog
+    title: "Backlog"
+  - id: in-progress
+    title: "In progress"
+    limit: 3
+  - id: in-review
+    title: "In review"
+    limit: 3
+  - id: released
+    title: "Released"

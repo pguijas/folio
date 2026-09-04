@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tree rail and detail — Folio kanban prototype</title>
+<link rel="stylesheet" href="tree-rail-detail.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="kicker">FOLIO · KANBAN PROTOTYPE · TREE RAIL AND DETAIL</span>
+    <h1 id="board-title">Development board</h1>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <label class="visually-hidden" for="query">Filter cards by title or id</label>
+      <input id="query" type="search" placeholder="Filter title or id" autocomplete="off" spellcheck="false">
+      <span id="query-note" class="search-note" aria-live="polite"></span>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" id="expand-all" class="btn">Expand all</button>
+      <button type="button" id="collapse-all" class="btn">Collapse all</button>
+    </div>
+
+    <button type="button" id="moves-toggle" class="btn btn-moves" aria-expanded="false" aria-controls="moves-panel">
+      Staged moves <span id="moves-count" class="pill">0</span>
+    </button>
+
+    <button type="button" id="theme-toggle" class="btn" aria-pressed="false">Dark</button>
+  </div>
+</header>
+
+<section id="moves-panel" class="moves-panel" hidden aria-label="Staged moves">
+  <div class="moves-head">
+    <span class="label">FOLIO KANBAN MOVE</span>
+    <div class="moves-actions">
+      <button type="button" id="moves-copy" class="btn">Copy commands</button>
+      <button type="button" id="moves-clear" class="btn btn-quiet">Discard all</button>
+    </div>
+  </div>
+  <p class="moves-blurb">The site is static and never writes. Staged moves become shell commands you run against the cardfiles.</p>
+  <textarea id="moves-out" class="moves-out" rows="4" readonly spellcheck="false"></textarea>
+  <ul id="moves-list" class="moves-list"></ul>
+</section>
+
+<main class="shell">
+  <nav class="rail" aria-label="Card hierarchy">
+    <div class="rail-head">
+      <span class="label">OUTLINE</span>
+      <span id="rail-count" class="rail-count"></span>
+    </div>
+    <div id="tree" class="tree" role="tree" aria-label="Board hierarchy"></div>
+    <p id="rail-empty" class="rail-empty" hidden>Nothing matches that filter.</p>
+    <div class="rail-legend" id="rail-legend"></div>
+  </nav>
+
+  <section class="detail" id="detail" tabindex="-1" aria-label="Selected node"></section>
+</main>
+
+<footer class="notes">
+  <details open>
+    <summary><span class="label">WHAT THIS VARIANT ARGUES</span></summary>
+
+    <div class="notes-grid">
+      <section class="note">
+        <h2>Thesis</h2>
+        <p>
+          Decomposition deserves a dedicated surface, so the hierarchy lives in a
+          persistent outline rail (title and a status dot, nothing else) and the
+          right pane renders whatever you select: a parent as a heading over a real
+          table of its direct children, a leaf as the card itself. Navigation is
+          the product. You drill into a subtree without losing your place in the
+          whole, which is the only shape here that still works at ten times this
+          board's size.
+        </p>
+      </section>
+
+      <section class="note">
+        <h2>The cross-column child</h2>
+        <p>
+          <code>theme-contract-for-plugin-surfaces</code> sits in Backlog under a
+          parent in In review. This view answers it by demoting status: in the rail
+          the column is a coloured dot, an attribute of a node, never the thing that
+          groups nodes. The tree is the only spine. So the cross-column child is not
+          an anomaly to reconcile, it just carries a different dot.
+        </p>
+        <p>
+          It is still worth flagging, so a child whose column differs from its
+          parent's gets a divergence mark: a warning ring around its dot in the
+          rail, and an explicit <code>≠ IN REVIEW</code> badge in the status cell of the children
+          table, counted in the heading. Divergence is annotated, not hidden and not
+          smoothed away.
+        </p>
+      </section>
+
+      <section class="note">
+        <h2>Tree filtering</h2>
+        <p>
+          <strong>Parents stay as context.</strong> A match keeps its whole ancestor
+          path, and those ancestors render dimmed with a <code>path</code> mark so
+          you can tell a hit from the road to a hit. Paths to matches auto-expand;
+          the subtree under a match stays available.
+        </p>
+        <p>
+          Promoting matches to the root was the alternative and it is wrong here. In
+          a navigation surface the path <em>is</em> the information; a rail that
+          reshuffles its own hierarchy per keystroke destroys the one thing it is
+          for. The count under the search box keeps it honest: matches, and how many
+          extra rows the context rule is costing you.
+        </p>
+      </section>
+
+      <section class="note note-weak">
+        <h2>What this is bad at</h2>
+        <p>
+          It shows less at once than any other variant here, by construction. One
+          parent's children at a time; comparing two cards under different parents
+          is two selections and a memory. The board shape is gone, so you cannot see
+          the columns fill up, you cannot see a WIP limit under pressure, and
+          "what is in review right now" is a question this layout answers worse than
+          the plain board does.
+        </p>
+        <p>
+          The rail also spends a permanent 320px on ~35 rows of title text, which is
+          a lot of chrome for a board this small. It earns that only if the
+          hierarchy gets deep and wide. And the 10 childless top-level cards pay the
+          full cost of the two-pane model while getting nothing from it: for them
+          this is a list with an expensive left margin.
+        </p>
+      </section>
+    </div>
+  </details>
+</footer>
+
+<script src="board-data.js"></script>
+<script src="tree-rail-detail.js" defer></script>
+</body>
+</html>

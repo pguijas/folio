@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Board reader page — Folio kanban prototype</title>
+    <link rel="stylesheet" href="board-reader-page.css" />
+  </head>
+  <body>
+    <a class="skip" href="#board">Skip to the board</a>
+
+    <!-- ============================================== view: the board == -->
+    <div id="view-board">
+      <header class="page-head">
+        <div class="head-left">
+          <p class="eyebrow">Prototype · board reader page</p>
+          <h1 id="page-title">Board reader page</h1>
+          <p class="lede">
+            Opening an artifact navigates to a full page the board owns —
+            <code>/kanban/&lt;card&gt;/&lt;artifact&gt;</code> — with board
+            chrome, a reading column, and the card's other artifacts in a
+            rail. Browser Back returns to the board exactly as it was.
+          </p>
+        </div>
+        <div class="head-right">
+          <div class="theme" role="group" aria-label="Colour scheme">
+            <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+            <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+            <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+          </div>
+        </div>
+      </header>
+
+      <details class="notes" open>
+        <summary><span class="notes-title">What this variant argues</span></summary>
+        <div class="notes-body">
+          <section>
+            <h2>Thesis</h2>
+            <p>
+              An artifact's URL is a board page: opening one is a real
+              navigation to <code>/kanban/&lt;card&gt;/&lt;artifact&gt;</code>,
+              a page in board chrome that Back unwinds perfectly — so card
+              output stops pretending to live in the docs tree.
+            </p>
+          </section>
+          <section>
+            <h2>Back is the board</h2>
+            <p>
+              The dialog and the reader are both history entries. Back from
+              the reader lands on the open dialog; Back again is the canvas,
+              filter and scroll intact. <kbd>Esc</kbd> walks the same stairs
+              one step at a time, and switching artifacts in the rail swaps
+              the address in place, so Back never replays your reading.
+            </p>
+          </section>
+          <section>
+            <h2>The compiled <code>/docs</code> page</h2>
+            <p>
+              Retired. This page <em>is</em> what a deep link deserves: the
+              route the build should compile per artifact, owned by
+              <code>/kanban</code>, with no docs sidebar and no seat in the
+              docs tree. <code>/docs/kanban/…</code> becomes a redirect here
+              and nothing else.
+            </p>
+          </section>
+          <section>
+            <h2>What it is bad at</h2>
+            <p>
+              Reading leaves the canvas entirely — no glancing at columns
+              beside the document, which the overlay and rail variants keep.
+              A full navigation is heavy for a ten-second peek at a small
+              file. And for live HTML prototypes the page adds little over
+              "open in a new tab": an iframe inside chrome is still a frame.
+            </p>
+          </section>
+        </div>
+      </details>
+
+      <div class="toolbar">
+        <div class="field" role="search">
+          <label class="sr-only" for="q">Filter by title, id or tag</label>
+          <input
+            id="q"
+            type="search"
+            placeholder="Filter title, id or tag…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <kbd class="slash">/</kbd>
+        </div>
+        <p class="matchcount" id="matchcount" aria-live="polite"></p>
+        <div class="spacer"></div>
+        <p class="tb-hint">
+          <kbd>&uarr;</kbd><kbd>&darr;</kbd><kbd>&larr;</kbd><kbd>&rarr;</kbd>
+          move · <kbd>Enter</kbd> opens the card
+        </p>
+      </div>
+
+      <main id="board">
+        <ol class="columns" id="columns"></ol>
+      </main>
+
+      <footer class="page-foot">
+        <p>
+          Keyboard: <kbd>/</kbd> filter, arrows move between cards,
+          <kbd>Enter</kbd> opens a card, <kbd>Esc</kbd> unwinds one level —
+          reader to card, card to board.
+        </p>
+        <p class="foot-meta">
+          Throwaway prototype. Static page, no network, no build step. Data is
+          <code>board-data.js</code> + <code>reader-data.js</code>; the route
+          lives in the hash because <code>file://</code> has no server.
+        </p>
+      </footer>
+    </div>
+
+    <!-- ====================================== view: the artifact page == -->
+    <div id="view-page" hidden>
+      <header class="mast">
+        <div class="mast-top">
+          <a class="crumb" id="crumb-board" href="#/kanban">
+            <span class="crumb-arrow" aria-hidden="true">&larr;</span>
+            <span id="crumb-title">Board</span>
+          </a>
+          <p class="route" id="route" title="The route this page simulates"></p>
+          <div class="theme" role="group" aria-label="Colour scheme">
+            <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+            <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+            <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+          </div>
+        </div>
+        <div class="mast-card">
+          <h1 class="pg-title" id="pg-title" tabindex="-1"></h1>
+          <p class="pg-meta" id="pg-meta"></p>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <section class="read-col" aria-labelledby="band-label">
+          <div class="band-bar">
+            <button type="button" id="band-prev">
+              <span aria-hidden="true">&larr;</span> Prev
+            </button>
+            <button type="button" id="band-next">
+              Next <span aria-hidden="true">&rarr;</span>
+            </button>
+            <p class="band-pos" id="band-label"></p>
+            <div class="spacer"></div>
+            <a id="open-full" href="#" target="_blank" rel="noopener" hidden>
+              Open full in its own tab <span aria-hidden="true">&nearr;</span>
+            </a>
+          </div>
+          <article class="prose" id="prose" hidden></article>
+          <div class="embed" id="embed" hidden></div>
+        </section>
+
+        <aside class="art-rail" aria-labelledby="rail-h">
+          <h2 class="rail-h" id="rail-h"></h2>
+          <ol class="rail-list" id="rail-list"></ol>
+          <p class="rail-note" id="rail-note" hidden>
+            Greyed entries are attached but unpublished — nothing to open.
+          </p>
+        </aside>
+      </div>
+
+      <footer class="page-foot page-foot--reader">
+        <p>
+          Keyboard: <kbd>[</kbd> and <kbd>]</kbd> walk this card's artifacts,
+          <kbd>Esc</kbd> returns to the card, Back returns the way you came.
+        </p>
+        <p class="foot-meta" id="pg-foot-meta"></p>
+      </footer>
+    </div>
+
+    <!-- ============================================== the card dialog == -->
+    <dialog id="card-dialog" aria-labelledby="dlg-title">
+      <div class="dlg-inner" id="dlg-inner"></div>
+    </dialog>
+
+    <div class="sr-only" id="live" role="status" aria-live="polite"></div>
+
+    <script src="board-data.js"></script>
+    <script src="reader-data.js"></script>
+    <script src="board-reader-page.js" defer></script>
+  </body>
+</html>

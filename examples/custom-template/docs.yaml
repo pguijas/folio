@@ -1,0 +1,22 @@
+# Minimal custom-template example.
+#
+# This project runs on the opt-in `template.overlay_path` feature: instead of
+# vendoring a whole Next/Nextra template, it layers a single overridden file on
+# top of the bundled template. Everything the overlay does not provide falls
+# back to the bundled template, so this is the smallest possible valid custom
+# template — and it satisfies the Folio marker/MDX contract entirely through the
+# bundled fallbacks.
+project:
+  name: "Custom Template Example"
+  description: "Smallest valid custom template: a one-file overlay."
+
+source:
+  docs:
+    - "docs/"
+
+template:
+  # Layer overlay/ over the bundled template. Only components/callout.tsx is
+  # overridden here; every other file is inherited from the bundled template.
+  overlay_path: "overlay"
+
+output: "_site"

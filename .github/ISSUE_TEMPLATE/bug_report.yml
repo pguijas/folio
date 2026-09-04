@@ -1,0 +1,42 @@
+name: Bug report
+description: Report something that is broken or behaving unexpectedly.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include commands, config, and a minimal project shape when possible.
+      placeholder: |
+        1. Run ...
+        2. Open ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include Folio, Python, Node.js, pnpm, and OS versions.
+      placeholder: |
+        Folio:
+        Python:
+        Node.js:
+        pnpm:
+        OS:
+    validations:
+      required: true

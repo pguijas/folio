@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Epic swimlanes — Folio kanban prototype</title>
+<link rel="stylesheet" href="epic-swimlanes.css" />
+</head>
+<body>
+
+<header class="top">
+  <div class="top-line">
+    <div class="top-id">
+      <span class="eyebrow">Prototype · variant</span>
+      <h1>Epic swimlanes</h1>
+    </div>
+    <div class="top-actions">
+      <button type="button" id="theme-toggle" class="btn" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+  <p class="lede">
+    The columns still mean status. The rows now mean decomposition: one lane per
+    epic, its children sitting in the column their own status says they belong in.
+  </p>
+</header>
+
+<details class="notes" id="notes" open>
+  <summary><span class="eyebrow">What this variant argues</span></summary>
+  <div class="notes-body">
+    <section>
+      <h2>Thesis</h2>
+      <p>
+        Decomposition and status are not two views, they are two axes of one grid.
+        Keep the kanban columns, give the rows a meaning, and a parent becomes a
+        horizontal lane spanning every column with its children placed by their own
+        status. Nothing has to be opened to be seen.
+      </p>
+    </section>
+    <section>
+      <h2>The cross-column child</h2>
+      <p>
+        It resolves natively, and that is this layout's strongest argument.
+        <code>theme-contract-for-plugin-surfaces</code> sits in the Backlog cell of the
+        <em>Plugin system unification</em> lane while its parent is In review: one
+        row, two columns, nothing to reconcile. The epic keeps no card in the grid,
+        because it is the rail, so the cell it would have occupied carries an accent
+        rule and the word <span class="ctx-demo">EPIC</span> instead. The distance
+        between a parent and its children becomes a thing you read across rather
+        than something the layout has to apologise for.
+      </p>
+    </section>
+    <section>
+      <h2>Tree filtering</h2>
+      <p>
+        The lane stays as context; the cards filter. A lane survives if the epic or
+        any descendant matches, and inside a surviving lane only matching cards are
+        drawn; non-matching siblings are removed, not dimmed, so the cells hold
+        hits only. When the epic itself did not match, its rail is marked
+        <span class="ctx-demo">CONTEXT</span> and greyed, so you always know whether
+        the row title is a result or a place. Children never rise to the root: a
+        card with no lane is a card with no story.
+      </p>
+    </section>
+    <section>
+      <h2>Progress</h2>
+      <p>
+        Each lane rail carries a four-segment bar in column order, one segment
+        per status, sized by how many descendants sit there, plus a
+        <code>0/10</code> count of descendants that have reached the last column.
+        Staging a move feeds it live, so pushing work rightwards fills the lane
+        while you watch.
+      </p>
+    </section>
+    <section>
+      <h2>What this is bad at</h2>
+      <p>
+        <strong>Depth.</strong> The lane axis encodes exactly one level of
+        decomposition. A grandchild such as
+        <code>the-dialog-renders-markdown</code>, under
+        <code>the-card-dialog-reads-like-a-mail</code>, under
+        <code>kanban-single-board-with-filters</code>, cannot get its own lane
+        without shredding the board, so it falls back to indentation inside a
+        cell — one step per level, with a mono breadcrumb when it lands in a
+        different column than its parent. Level two reads well. By level four
+        the indent is doing all the work inside a 208px column and the lane
+        title has stopped describing what is under it.
+      </p>
+      <p>
+        <strong>Air.</strong> Six lanes by four columns is twenty-four cells and this
+        board fills seven of them; In progress and Released are empty top to
+        bottom, so most of the grid is whitespace and the page runs about
+        4,400px tall at 1440. A flat column of cards is far denser. Collapse all
+        is the answer, and it should probably be the default.
+      </p>
+      <p>
+        <strong>WIP limits get blurry.</strong> The limit is a property of the column,
+        but the eye now counts per cell. The header keeps the real column total
+        (<code>13/3</code> in red) because that is the number the limit is about,
+        and no cell count is ever compared to it.
+      </p>
+    </section>
+  </div>
+</details>
+
+<div class="toolbar" role="group" aria-label="Board controls">
+  <div class="tool tool-search">
+    <label class="eyebrow" for="q">Filter</label>
+    <input type="search" id="q" placeholder="title or id" autocomplete="off" spellcheck="false" />
+  </div>
+  <div class="tool">
+    <span class="eyebrow">Lanes</span>
+    <div class="btn-row">
+      <button type="button" class="btn" id="expand-all">Expand all</button>
+      <button type="button" class="btn" id="collapse-all">Collapse all</button>
+    </div>
+  </div>
+  <div class="tool tool-staged">
+    <span class="eyebrow">Staged moves</span>
+    <div class="btn-row">
+      <output id="staged-count" class="count">0</output>
+      <button type="button" class="btn" id="show-commands" disabled>Show commands</button>
+      <button type="button" class="btn" id="clear-staged" disabled>Discard</button>
+    </div>
+  </div>
+  <p class="tool-hint" id="result-line" aria-live="polite"></p>
+</div>
+
+<main class="board-wrap" aria-label="Epic swimlanes">
+  <div class="board" id="board"></div>
+  <p class="empty-all" id="empty-all" hidden>No card matches that filter.</p>
+</main>
+
+<footer class="foot">
+  <p>
+    <span class="eyebrow">Keyboard</span>
+    <kbd>Tab</kbd> and <kbd>&uarr;</kbd><kbd>&darr;</kbd> walk rails and cards ·
+    <kbd>&larr;</kbd><kbd>&rarr;</kbd> cross columns inside a lane, or collapse and
+    expand on a rail · <kbd>Enter</kbd> toggles a lane ·
+    <kbd>Alt</kbd>+<kbd>&larr;</kbd><kbd>&rarr;</kbd> or <kbd>1</kbd>&hellip;<kbd>4</kbd>
+    stages a move on the focused card, <kbd>Delete</kbd> takes it back ·
+    <kbd>/</kbd> jumps to the filter.
+  </p>
+</footer>
+
+<div class="cmd-scrim" id="cmd-scrim" hidden></div>
+<section class="cmd-panel" id="cmd-panel" role="dialog" aria-modal="true" aria-labelledby="cmd-title" hidden>
+  <div class="cmd-head">
+    <h2 id="cmd-title">Apply staged moves</h2>
+    <button type="button" class="btn" id="cmd-close">Close</button>
+  </div>
+  <p class="cmd-note">The site never writes. Run these where the cardfiles live.</p>
+  <textarea id="cmd-text" readonly rows="8" spellcheck="false"></textarea>
+  <div class="btn-row">
+    <button type="button" class="btn btn-primary" id="cmd-copy">Copy</button>
+    <span class="cmd-status" id="cmd-status" aria-live="polite"></span>
+  </div>
+</section>
+
+<script src="board-data.js"></script>
+<script src="epic-swimlanes.js" defer></script>
+</body>
+</html>

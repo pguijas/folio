@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dialog reader — Folio kanban prototype</title>
+    <link rel="stylesheet" href="dialog-reader.css" />
+  </head>
+  <body>
+    <a class="skip" href="#board">Skip to the board</a>
+
+    <header class="page-head">
+      <div class="head-left">
+        <p class="eyebrow">Prototype · artifacts read from the canvas</p>
+        <h1 id="page-title">Dialog reader</h1>
+        <p class="lede">
+          The card is a mail and its attachments open inside it. Pick one and
+          the dialog widens into letter and reading surface; close it and the
+          letter is back. Nothing leaves the canvas.
+        </p>
+      </div>
+      <div class="head-right">
+        <div class="theme" role="group" aria-label="Colour scheme">
+          <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+          <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+          <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <details class="notes" open>
+      <summary><span class="notes-title">What this variant argues</span></summary>
+      <div class="notes-body">
+        <section>
+          <h2>Thesis</h2>
+          <p>
+            Everything about a card, including what it produced, reads in one
+            surface. The dialog is already where a card is read entire —
+            header, letter, trail, band — so the attachment opens inside it:
+            the dialog widens, the letter compresses to a summary plus the
+            band, and the reading pane sits beside it. There is no second
+            place to learn.
+          </p>
+        </section>
+        <section>
+          <h2>The band</h2>
+          <p>
+            Previous and next walk the card's attachments without going back
+            to the letter, and the band stays on the left with the open one
+            marked, so position in the band is always visible. Closed doors —
+            targets nothing publishes — sit in the same band as kind, label
+            and path, unclickable: the band is the card's full record, not
+            just its readable part.
+          </p>
+        </section>
+        <section>
+          <h2>The docs page</h2>
+          <p>
+            If this wins, <code>/docs/kanban/&lt;id&gt;/&lt;stem&gt;/</code>
+            stops being the reading surface. The reading position here is a
+            URL (<code>#card=…&amp;a=…</code>), so deep links point at the
+            board itself. What must keep existing is the published file under
+            <code>/_folio/kanban/…</code> — the iframe and "open full" read
+            it, and an agent can fetch it. The compiled docs page, with its
+            sidebar and breadcrumbs, can go; at most it survives as a
+            redirect for links already in the wild.
+          </p>
+        </section>
+        <section>
+          <h2>What it is bad at</h2>
+          <p>
+            A dialog is a cramped room for 8,000 words: the reading pane gets
+            at most two thirds of the screen, and the embedded prototypes —
+            pages built for full width — render at a width nobody uses them
+            at. It blocks the canvas it claims to preserve: while you read,
+            the board behind is inert, and you cannot compare an attachment
+            with a card or with another attachment. And the letter reshapes
+            itself the moment you open one — the surface stays one, but it
+            does not stay still.
+          </p>
+        </section>
+      </div>
+    </details>
+
+    <main id="board" aria-label="Development board">
+      <div class="columns" id="columns"></div>
+    </main>
+
+    <footer class="page-foot">
+      <p id="kbd-help">
+        Keyboard: <kbd>Tab</kbd> reaches every card, <kbd>Enter</kbd> opens
+        it, <kbd>Enter</kbd> on an attachment opens the reader,
+        <kbd>←</kbd><kbd>→</kbd> walk the band while reading, <kbd>Esc</kbd>
+        unwinds one level and puts focus back where it was.
+      </p>
+      <p class="foot-meta">
+        Throwaway prototype. Static page, no network, no build step. Data is
+        <code>board-data.js</code> + <code>reader-data.js</code>.
+      </p>
+    </footer>
+
+    <dialog id="card-dialog" aria-labelledby="dlg-title">
+      <div class="dlg" id="dlg">
+        <section class="letter" id="letter" tabindex="-1" aria-label="Card">
+          <header class="letter-head">
+            <div class="letter-head-text">
+              <p class="letter-eyebrow" id="letter-eyebrow"></p>
+              <h2 id="dlg-title"></h2>
+            </div>
+            <button type="button" class="chip-btn" id="dlg-close">Close</button>
+          </header>
+          <dl class="mailmeta" id="mailmeta"></dl>
+          <p class="letter-summary" id="letter-summary"></p>
+          <div class="letter-body" id="letter-body"></div>
+          <section class="band" aria-labelledby="band-h">
+            <h3 class="sect-h" id="band-h"></h3>
+            <ul class="band-list" id="band-list"></ul>
+          </section>
+        </section>
+
+        <section class="reader" id="reader" tabindex="-1" aria-labelledby="reader-title" hidden>
+          <header class="reader-head">
+            <button type="button" class="chip-btn reader-back" id="reader-back">← Letter</button>
+            <div class="reader-id">
+              <p class="reader-pos" id="reader-pos"></p>
+              <h3 id="reader-title"></h3>
+              <p class="reader-path" id="reader-path"></p>
+            </div>
+            <div class="reader-actions">
+              <button type="button" class="chip-btn" id="art-prev" aria-label="Previous attachment">← Prev</button>
+              <button type="button" class="chip-btn" id="art-next" aria-label="Next attachment">Next →</button>
+              <a class="chip-btn" id="open-full" target="_blank" rel="noopener" hidden>Open full ↗</a>
+              <button type="button" class="chip-btn" id="reader-close">Close reader</button>
+            </div>
+          </header>
+          <div class="reader-body" id="reader-body"></div>
+        </section>
+      </div>
+    </dialog>
+
+    <div class="sr-only" id="live" role="status" aria-live="polite"></div>
+
+    <script src="board-data.js"></script>
+    <script src="reader-data.js"></script>
+    <script src="dialog-reader.js" defer></script>
+  </body>
+</html>

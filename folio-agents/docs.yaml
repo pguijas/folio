@@ -1,0 +1,22 @@
+project:
+  name: "Folio for Agents board"
+  version: "0.1"
+  repo: "https://github.com/pguijas/folio"
+
+output: "_canvas"
+
+plugins:
+  - folio_agents.integrations.kanban
+
+kanban:
+  source: board
+  routes:
+    docs: false
+    public: "/"
+
+search:
+  enabled: false
+
+llm:
+  generate_llms_txt: false
+  generate_llms_full_txt: false

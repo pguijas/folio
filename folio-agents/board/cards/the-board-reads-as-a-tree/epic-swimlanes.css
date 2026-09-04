@@ -1,0 +1,859 @@
+/* Epic swimlanes — Folio kanban prototype.
+   Square corners, thin rules, flat surfaces. No shadow as decoration. */
+
+:root {
+  --radius: 0;
+  --background: oklch(0.966 0.008 82);
+  --foreground: oklch(0.155 0.007 82);
+  --card: oklch(0.976 0.007 82);
+  --muted: oklch(0.920 0.007 82);
+  --muted-foreground: oklch(0.420 0.007 82);
+  --accent: oklch(0.875 0.026 110);
+  --border: oklch(0.740 0.007 82);
+  --primary: oklch(0.155 0.007 82);
+  --destructive: oklch(0.55 0.20 28);
+  --warning: oklch(0.470 0.110 78);
+
+  --hairline: oklch(0.740 0.007 82 / 0.45);
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --rail-w: 264px;
+  --col-min: 208px;
+}
+
+html[data-theme="dark"] {
+  --background: oklch(0.130 0.007 82);
+  --foreground: oklch(0.920 0.007 82);
+  --card: oklch(0.155 0.007 82);
+  --muted: oklch(0.210 0.007 82);
+  --muted-foreground: oklch(0.680 0.007 82);
+  --accent: oklch(0.470 0.045 110);
+  --border: oklch(0.330 0.007 82);
+  --primary: oklch(0.920 0.007 82);
+  --destructive: oklch(0.66 0.17 28);
+  --warning: oklch(0.760 0.100 78);
+  --hairline: oklch(0.330 0.007 82 / 0.7);
+}
+
+* { box-sizing: border-box; }
+
+[hidden] { display: none !important; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, ul { margin: 0; }
+button, input, textarea { font: inherit; color: inherit; border-radius: 0; }
+
+::selection { background: var(--accent); color: var(--foreground); }
+
+/* Filter hits are marked in the rail title and rail id as well as on cards,
+   and the UA default for <mark> is a flat yellow that belongs to no palette. */
+mark {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+code, kbd {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+kbd {
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 0 4px;
+  margin: 0 1px;
+}
+
+/* ---------- top ---------- */
+
+.top {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.top-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.top-id h1 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2px;
+}
+
+.lede {
+  max-width: 78ch;
+  margin-top: 10px;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 120ms linear, border-color 120ms linear;
+}
+
+.btn:hover:not(:disabled) { background: var(--muted); }
+.btn:disabled { opacity: 0.45; cursor: default; }
+
+.btn-primary {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+.btn-primary:hover:not(:disabled) { background: var(--foreground); opacity: 0.86; }
+
+.btn-row { display: flex; align-items: center; gap: 6px; }
+
+/* ---------- notes ---------- */
+
+.notes {
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+.notes > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notes > summary::-webkit-details-marker { display: none; }
+
+.notes > summary::before {
+  content: "+";
+  font-family: var(--mono);
+  font-size: 13px;
+  width: 14px;
+  color: var(--muted-foreground);
+}
+
+.notes[open] > summary::before { content: "\2212"; }
+.notes > summary:hover .eyebrow { color: var(--foreground); }
+
+.notes-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px 32px;
+  padding: 4px 32px 24px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 20px;
+}
+
+.notes-body h2 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.notes-body p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted-foreground);
+  max-width: 62ch;
+}
+
+.notes-body p + p { margin-top: 8px; }
+
+/* the weakness is the section the owner is comparing on — give it the room
+   the last row has going spare */
+@media (min-width: 1240px) {
+  .notes-body > section:last-child { grid-column: span 2; }
+}
+.notes-body strong { color: var(--foreground); font-weight: 600; }
+.notes-body code { color: var(--foreground); font-size: 11.5px; }
+.notes-body em { font-style: normal; color: var(--foreground); }
+
+.ctx-demo {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  border: 1px solid var(--border);
+  padding: 0 4px;
+  color: var(--muted-foreground);
+}
+
+/* ---------- toolbar ---------- */
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 28px;
+  padding: 12px 32px;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.tool { display: flex; flex-direction: column; gap: 4px; }
+.tool .eyebrow { line-height: 14px; }
+
+.tool-search input {
+  width: 260px;
+  height: 28px;
+  padding: 0 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+.tool-search input::placeholder { color: var(--muted-foreground); }
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.count[data-live="1"] {
+  background: var(--accent);
+  border-color: var(--foreground);
+  color: var(--foreground);
+}
+
+.tool-hint {
+  margin-left: auto;
+  align-self: flex-end;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- the grid ---------- */
+
+/* No overflow container here on purpose: the sticky column header has to
+   stick to the viewport under the toolbar, and an overflow-x scroller would
+   become its scrollport and pin it to the top of the board instead. */
+.board-wrap { padding: 0 0 56px; }
+
+.board {
+  min-width: calc(var(--rail-w) + var(--ncols, 4) * var(--col-min));
+}
+
+.lane,
+.head {
+  display: grid;
+  grid-template-columns: var(--rail-w) repeat(var(--ncols, 4), minmax(var(--col-min), 1fr));
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+}
+
+.head {
+  position: sticky;
+  top: var(--stick, 62px);
+  z-index: 20;
+  background: var(--background);
+  border-bottom: 1px solid var(--foreground);
+}
+
+.head-cell {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 14px 8px;
+  border-left: 1px solid var(--hairline);
+  background: var(--background);
+}
+
+.head-cell.rail-head {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  border-left: 0;
+  background: var(--background);
+}
+
+.head-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.head-count {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+.head-count.over { color: var(--destructive); }
+
+/* ---------- lane rail ---------- */
+
+.rail {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: var(--background);
+  border-right: 1px solid var(--border);
+  padding: 14px 16px 16px 10px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.rail:hover { background: var(--card); }
+
+.lane.is-context .rail-title { color: var(--muted-foreground); }
+
+/* every button in here is drawn by us — never let the UA button face,
+   its outset border or its padding through */
+.twisty, .undo, .pos-seg {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.twisty {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 18px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.lane.collapsed .twisty::before { content: "+"; }
+.twisty::before { content: "\2212"; }
+.rail:hover .twisty { color: var(--foreground); }
+
+.rail-body { min-width: 0; flex: 1 1 auto; }
+
+.rail-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 3px;
+}
+
+.rail-eyebrow .tag-ctx {
+  border: 1px solid var(--border);
+  padding: 0 4px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.rail-title {
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.rail-id {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rail-id.note { white-space: normal; overflow: visible; }
+
+/* ---------- rollup ---------- */
+
+.rollup { margin-top: 10px; }
+
+.rollup-bar {
+  display: flex;
+  height: 7px;
+  background: var(--muted);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+}
+
+/* The ramp has to start high enough that "everything is still in the first
+   column" — the state four of five lanes are in — reads as a filled bar and
+   not as a rule. A 2px sliver at 18% was indistinguishable from empty. */
+.rollup-seg {
+  height: 100%;
+  min-width: 3px;
+  background: var(--foreground);
+}
+.rollup-seg[data-i="0"] { opacity: 0.30; }
+.rollup-seg[data-i="1"] { opacity: 0.52; }
+.rollup-seg[data-i="2"] { opacity: 0.74; }
+.rollup-seg[data-i="3"] { opacity: 1; }
+.rollup-seg + .rollup-seg { box-shadow: inset 1px 0 0 var(--background); }
+
+.rollup-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+.rollup-num { color: var(--foreground); }
+.rollup-line .drift {
+  margin-left: auto;
+  color: var(--muted-foreground);
+  border-bottom: 1px solid var(--accent);
+}
+
+/* ---------- cells ---------- */
+
+.cell {
+  position: relative;
+  border-left: 1px solid var(--hairline);
+  padding: 12px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  background: var(--background);
+}
+
+.cell.epic-here::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.cell.epic-here > .cell-mark {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.cell.epic-here { padding-top: 22px; }
+
+.cell-collapsed {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+  padding: 2px 0;
+}
+
+.lane.collapsed .cell { padding-top: 10px; padding-bottom: 10px; }
+.lane.collapsed .cell.epic-here { padding-top: 20px; }
+.lane.collapsed .rail { padding-bottom: 12px; padding-top: 12px; }
+
+/* ---------- card ---------- */
+
+.card {
+  position: relative;
+  display: block;
+  text-align: left;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 9px 11px 9px;
+  transition: border-color 120ms linear, background-color 120ms linear;
+}
+
+.card:hover { border-color: var(--muted-foreground); }
+
+.card-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: block;
+}
+
+.card-title {
+  font-size: 13.5px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-top: 2px;
+}
+
+.card-id {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+
+.pri {
+  width: 6px;
+  height: 6px;
+  background: var(--destructive);
+  display: inline-block;
+}
+
+.size {
+  border: 1px solid var(--border);
+  padding: 0 4px;
+  color: var(--foreground);
+}
+
+/* nesting inside a cell — depth beyond the lane axis */
+
+/* --d is the card's depth below the lane's epic, so level three indents
+   twice and level four three times. Without it every level past the first
+   sat at the same 14px and the cell really was a flat list with a stripe. */
+.card.nested { margin-left: calc(var(--d, 1) * 14px); }
+
+.card.nested::before {
+  content: "";
+  position: absolute;
+  left: -15px;
+  top: -9px;
+  bottom: 50%;
+  width: 1px;
+  background: var(--border);
+}
+
+.card.nested::after {
+  content: "";
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  width: 10px;
+  height: 1px;
+  background: var(--border);
+}
+
+.card.nested.detached::before { top: -1px; bottom: auto; height: 0; }
+.card.nested.detached::after { display: none; }
+.card.nested.detached { border-left-width: 1px; }
+
+.crumb {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 4px;
+}
+
+.crumb b { font-weight: 500; color: var(--foreground); }
+
+/* ---------- the position control: four columns, four squares ---------- */
+
+.pos {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 9px;
+  padding-top: 8px;
+  border-top: 1px solid var(--hairline);
+}
+
+.pos-seg {
+  width: 15px;
+  height: 9px;
+  padding: 0;
+  border: 1px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+}
+
+/* on a card the control rides the meta line; in the rail it gets its own */
+.card-meta .pos {
+  margin: 0 0 0 auto;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.pos-seg:hover { border-color: var(--foreground); background: var(--muted); }
+.pos-seg[aria-pressed="true"] { background: var(--foreground); border-color: var(--foreground); }
+.pos-seg.target { background: var(--accent); border-color: var(--foreground); }
+.pos-seg.origin { background: repeating-linear-gradient(135deg, var(--border) 0 1px, transparent 1px 3px); }
+
+.pos-label {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ---------- staged ---------- */
+
+.card.staged {
+  border-style: dashed;
+  border-color: var(--foreground);
+  background: var(--card);
+}
+
+.staged-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -2px 0 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+
+.staged-tag .dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border: 1px solid var(--foreground);
+  display: inline-block;
+}
+
+.undo {
+  margin-left: auto;
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 0 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.undo:hover { color: var(--foreground); border-color: var(--foreground); }
+
+.ghost {
+  border: 1px dashed var(--border);
+  padding: 7px 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.ghost b { font-weight: 500; color: var(--foreground); }
+.ghost.nested { margin-left: calc(var(--d, 1) * 14px); }
+
+/* a ghost for the epic itself sits in the lane's own column, not a cell row */
+.ghost.ghost-epic { border-color: var(--accent); }
+
+/* ---------- empties ---------- */
+
+/* A lane whose rail matched but whose children did not would otherwise draw
+   four blank cells and read as an epic with no work under it. */
+.cell-empty {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+  border-top: 1px dashed var(--border);
+  padding-top: 6px;
+}
+
+.lane.flat .rail-title { color: var(--muted-foreground); font-weight: 500; }
+
+.empty-all {
+  padding: 40px 32px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+
+/* ---------- command panel ---------- */
+
+.cmd-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: oklch(0.155 0.007 82 / 0.35);
+}
+
+.cmd-panel {
+  position: fixed;
+  z-index: 50;
+  right: 32px;
+  bottom: 32px;
+  width: min(560px, calc(100vw - 64px));
+  background: var(--card);
+  border: 1px solid var(--foreground);
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cmd-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cmd-head h2 { font-size: 15px; font-weight: 600; }
+
+.cmd-note { font-size: 12px; color: var(--muted-foreground); }
+
+#cmd-text {
+  width: 100%;
+  resize: vertical;
+  background: var(--background);
+  border: 1px solid var(--border);
+  padding: 10px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--foreground);
+}
+
+.cmd-status {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ---------- footer ---------- */
+
+.foot {
+  border-top: 1px solid var(--border);
+  padding: 16px 32px 40px;
+}
+
+.foot p {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  max-width: 92ch;
+}
+
+.foot .eyebrow { margin-right: 8px; }
+
+/* ---------- focus, narrow ---------- */
+
+.card:focus-visible,
+.rail:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: -1px;
+}
+
+html[data-theme="dark"] .cmd-scrim { background: oklch(0.08 0.007 82 / 0.6); }
+
+@media (max-width: 1100px) {
+  :root { --rail-w: 200px; --col-min: 172px; }
+  .top, .toolbar, .notes > summary, .notes-body, .foot { padding-left: 20px; padding-right: 20px; }
+  .tool-search input { width: 200px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

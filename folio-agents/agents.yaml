@@ -1,0 +1,3 @@
+# Folio for Agents has its own work cycle and board.
+board:
+  source: board

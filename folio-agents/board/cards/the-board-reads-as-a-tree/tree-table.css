@@ -1,0 +1,1132 @@
+/* Tree table — Folio kanban prototype.
+   Square corners, thin rules, flat surfaces. No shadows as decoration. */
+
+:root {
+  --background: oklch(0.966 0.008 82);
+  --foreground: oklch(0.155 0.007 82);
+  --card: oklch(0.976 0.007 82);
+  --muted: oklch(0.92 0.007 82);
+  --muted-foreground: oklch(0.42 0.007 82);
+  --accent: oklch(0.875 0.026 110);
+  --border: oklch(0.74 0.007 82);
+  --primary: oklch(0.155 0.007 82);
+  --destructive: oklch(0.55 0.2 28);
+  --warning: oklch(0.47 0.11 78);
+
+  /* prototype-local derivations, all from the tokens above */
+  --hairline: oklch(0.74 0.007 82 / 0.42);
+  --guide: oklch(0.74 0.007 82 / 0.55);
+  --row-hover: oklch(0.875 0.026 110 / 0.28);
+  --row-active: oklch(0.875 0.026 110 / 0.5);
+  --meter-track: oklch(0.74 0.007 82 / 0.3);
+
+  --radius: 0;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --row-h: 34px;
+  --indent: 19px;
+  --pad: 28px;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    --background: oklch(0.13 0.007 82);
+    --foreground: oklch(0.92 0.007 82);
+    --card: oklch(0.155 0.007 82);
+    --muted: oklch(0.21 0.007 82);
+    --muted-foreground: oklch(0.68 0.007 82);
+    --border: oklch(0.33 0.007 82);
+    --primary: oklch(0.92 0.007 82);
+    --accent: oklch(0.35 0.03 110);
+    --hairline: oklch(0.33 0.007 82 / 0.75);
+    --guide: oklch(0.33 0.007 82 / 0.95);
+    --row-hover: oklch(0.92 0.007 82 / 0.05);
+    --row-active: oklch(0.35 0.03 110 / 0.55);
+    --meter-track: oklch(0.33 0.007 82 / 0.8);
+    --destructive: oklch(0.68 0.17 28);
+    --warning: oklch(0.75 0.11 78);
+  }
+}
+
+html[data-theme="dark"] {
+  --background: oklch(0.13 0.007 82);
+  --foreground: oklch(0.92 0.007 82);
+  --card: oklch(0.155 0.007 82);
+  --muted: oklch(0.21 0.007 82);
+  --muted-foreground: oklch(0.68 0.007 82);
+  --border: oklch(0.33 0.007 82);
+  --primary: oklch(0.92 0.007 82);
+  --accent: oklch(0.35 0.03 110);
+  --hairline: oklch(0.33 0.007 82 / 0.75);
+  --guide: oklch(0.33 0.007 82 / 0.95);
+  --row-hover: oklch(0.92 0.007 82 / 0.05);
+  --row-active: oklch(0.35 0.03 110 / 0.55);
+  --meter-track: oklch(0.33 0.007 82 / 0.8);
+  --destructive: oklch(0.68 0.17 28);
+  --warning: oklch(0.75 0.11 78);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: var(--radius);
+}
+
+html {
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    color-scheme: dark;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0 var(--pad) 72px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+p,
+ul,
+pre {
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 1px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  z-index: 10;
+}
+.skip:focus {
+  left: var(--pad);
+  top: 8px;
+}
+
+/* ---------------------------------------------------------------- head -- */
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.page-head h1 {
+  margin: 6px 0 0;
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.lede {
+  margin-top: 6px;
+  max-width: 62ch;
+  color: var(--muted-foreground);
+  font-size: 13.5px;
+}
+
+.theme {
+  display: flex;
+  border: 1px solid var(--border);
+}
+
+.theme button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--border);
+  padding: 5px 11px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.theme button:first-child {
+  border-left: 0;
+}
+.theme button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+/* --------------------------------------------------------------- notes -- */
+
+.notes {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+
+.notes > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.notes > summary::-webkit-details-marker {
+  display: none;
+}
+.notes > summary::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid var(--muted-foreground);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 120ms ease;
+}
+.notes[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.notes-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.notes-body {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  padding-bottom: 18px;
+}
+
+.notes-body section {
+  padding: 0 20px;
+  border-left: 1px solid var(--hairline);
+}
+.notes-body section:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.notes-body section:last-child {
+  padding-right: 0;
+}
+
+.notes-body h2 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 6px;
+}
+
+.notes-body p {
+  font-size: 13px;
+  line-height: 19px;
+  color: var(--foreground);
+  text-wrap: pretty;
+}
+
+.notes-body code,
+.foot-meta code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  background: var(--muted);
+  padding: 0 3px;
+  overflow-wrap: anywhere;
+}
+
+.inline-diverge {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--warning);
+  border: 1px solid var(--warning);
+  padding: 0 3px;
+}
+
+@media (max-width: 1080px) {
+  .notes-body {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 0;
+  }
+  .notes-body section:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* ------------------------------------------------------------- toolbar -- */
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.tb-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tb-row-main {
+  padding: 12px 0 10px;
+}
+
+.tb-row-legend {
+  padding: 0 0 10px;
+  gap: 14px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 300px;
+}
+
+.field input {
+  width: 100%;
+  height: 30px;
+  padding: 0 30px 0 9px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.field input::placeholder {
+  font-family: var(--sans);
+  color: var(--muted-foreground);
+}
+.field input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.slash {
+  position: absolute;
+  right: 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 15px;
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  padding: 0 4px;
+  pointer-events: none;
+}
+.field input:focus + .slash {
+  opacity: 0;
+}
+
+.matchcount {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+.matchcount b {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.btns {
+  display: flex;
+  gap: 6px;
+}
+
+.toolbar button,
+.sp-actions button {
+  appearance: none;
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid var(--border);
+  height: 30px;
+  padding: 0 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.toolbar button:hover,
+.sp-actions button:hover {
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
+.toolbar button[aria-pressed="true"],
+.toolbar button[aria-expanded="true"] {
+  background: var(--accent);
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
+.toolbar button[disabled],
+.sp-actions button[disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+.toolbar button[disabled]:hover,
+.sp-actions button[disabled]:hover {
+  color: var(--muted-foreground);
+  border-color: var(--border);
+}
+
+.chip-n {
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--border);
+  padding: 0 4px;
+  line-height: 15px;
+  color: var(--foreground);
+}
+#staged-toggle[data-any="1"] .chip-n {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+
+/* the WIP legend keeps the kanban's one real constraint alive in a table */
+
+.legend-label,
+.sp-note {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.legend {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.legend li {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 0 14px;
+  border-left: 1px solid var(--hairline);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+.legend li:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.legend .n {
+  font-variant-numeric: tabular-nums;
+  color: var(--foreground);
+}
+.legend .over .n {
+  color: var(--destructive);
+}
+.legend .delta {
+  color: var(--warning);
+}
+
+/* -------------------------------------------------------- staged panel -- */
+
+.staged-panel {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0 18px;
+  background: var(--card);
+}
+
+.sp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sp-head h2 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.sp-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.sp-note {
+  margin-top: 4px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 11.5px;
+}
+
+#cmds {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 20px;
+  white-space: pre;
+  overflow-x: auto;
+  color: var(--foreground);
+}
+#cmds:empty::before {
+  content: "# nothing staged — change a status in the table";
+  color: var(--muted-foreground);
+}
+
+.sp-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sp-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  padding: 2px 2px 2px 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.sp-list b {
+  color: var(--foreground);
+  font-weight: 500;
+}
+.sp-list button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--border);
+  cursor: pointer;
+  padding: 1px 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--muted-foreground);
+}
+.sp-list button:hover {
+  color: var(--destructive);
+}
+
+/* --------------------------------------------------------------- table -- */
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+col.c-status {
+  width: 196px;
+}
+col.c-milestone {
+  width: 96px;
+}
+col.c-type {
+  width: 88px;
+}
+col.c-size {
+  width: 62px;
+}
+col.c-assignee {
+  width: 120px;
+}
+
+thead th {
+  position: sticky;
+  top: var(--tb-h, 82px);
+  z-index: 3;
+  background: var(--background);
+  padding: 0;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  box-shadow: inset 1px 0 0 var(--hairline);
+}
+thead th:first-child {
+  box-shadow: none;
+}
+
+thead th button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 32px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+thead th:first-child button {
+  padding-left: 0;
+}
+thead th button:hover {
+  color: var(--foreground);
+}
+thead th[aria-sort="ascending"] button,
+thead th[aria-sort="descending"] button {
+  color: var(--foreground);
+}
+.arrow::after {
+  content: "";
+  color: var(--muted-foreground);
+}
+th[aria-sort="ascending"] .arrow::after {
+  content: "\2191";
+}
+th[aria-sort="descending"] .arrow::after {
+  content: "\2193";
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--hairline);
+  outline-offset: -2px;
+}
+tbody tr:hover {
+  background: var(--row-hover);
+}
+/* the active row is the keyboard's anchor, so it is only painted while the
+   table actually holds focus — an untouched page must not open with a row
+   that looks selected */
+#tree:focus-within tbody tr[data-active="1"] {
+  background: var(--row-active);
+}
+/* the rule under the last row of a root's subtree is the darker one, so the
+   outline keeps a rhythm even when every root is expanded */
+tbody tr[data-ends-group="1"] {
+  border-bottom-color: var(--border);
+}
+
+tbody td {
+  padding: 0;
+  vertical-align: middle;
+  box-shadow: inset 1px 0 0 var(--hairline);
+}
+tbody td:first-child {
+  box-shadow: none;
+}
+
+/* the first column: rail, disclosure, title, id */
+
+.tw {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-height: var(--row-h);
+}
+
+tr[data-priority="high"] .tw::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  background: var(--destructive);
+}
+
+.rail {
+  display: flex;
+  flex: none;
+  align-self: stretch;
+}
+
+.rail i {
+  position: relative;
+  display: block;
+  width: var(--indent);
+}
+/* an ancestor whose subtree continues below this row keeps its line */
+.rail i.line::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--guide);
+}
+/* the elbow that lands on this row */
+.rail i.elbow::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--guide);
+}
+.rail i.elbow.end::before {
+  bottom: auto;
+  height: 17px;
+}
+.rail i.elbow::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 17px;
+  width: 13px;
+  height: 1px;
+  background: var(--guide);
+}
+
+.tri {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  flex: none;
+  width: 20px;
+  align-self: stretch;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+}
+.tri:hover {
+  color: var(--foreground);
+}
+.tri::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 110ms ease;
+}
+tr[data-open="1"] .tri::before {
+  transform: rotate(90deg);
+}
+.tri-none {
+  flex: none;
+  width: 20px;
+}
+
+.label {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 2px;
+}
+
+.title {
+  font-size: 13.5px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+tr[data-kids="1"] .title {
+  font-weight: 600;
+}
+tr[data-depth="0"][data-kids="1"] .title {
+  letter-spacing: -0.005em;
+}
+
+.cid {
+  margin-left: auto;
+  flex: none;
+  max-width: 44%;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
+  opacity: 0.72;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+tr:hover .cid,
+tr[data-active="1"] .cid {
+  opacity: 1;
+}
+
+mark {
+  background: var(--accent);
+  color: var(--foreground);
+  padding: 0 1px;
+}
+
+.ctx-tag {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  border: 1px solid var(--hairline);
+  padding: 0 3px;
+}
+
+tr[data-context="1"] .title {
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+tr[data-context="1"] .st,
+tr[data-context="1"] .meta {
+  opacity: 0.5;
+}
+
+/* a parent's progress: its whole subtree, distributed across the columns */
+
+.prog {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.meter {
+  display: flex;
+  width: 56px;
+  height: 7px;
+  border: 1px solid var(--meter-track);
+  background: transparent;
+}
+.meter i {
+  display: block;
+  background: var(--foreground);
+}
+.meter i[data-i="0"] {
+  opacity: 0.14;
+}
+.meter i[data-i="1"] {
+  opacity: 0.42;
+}
+.meter i[data-i="2"] {
+  opacity: 0.68;
+}
+.meter i[data-i="3"] {
+  opacity: 1;
+}
+
+.frac {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 14px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+}
+.frac b {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.hidden-n {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 15px;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  color: var(--foreground);
+  background: var(--muted);
+  border: 1px solid var(--hairline);
+  padding: 0 4px;
+}
+
+/* -------------------------------------------------------- status cell -- */
+
+.stwrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  min-height: var(--row-h);
+}
+
+.dv {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 14px;
+  color: var(--warning);
+  cursor: help;
+}
+
+.from {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
+  text-decoration: line-through;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 64px;
+}
+
+.stbox {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+}
+.stbox::after {
+  content: "";
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  margin-top: -1px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid var(--muted-foreground);
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  pointer-events: none;
+}
+
+.st {
+  appearance: none;
+  width: 100%;
+  height: 24px;
+  padding: 0 20px 0 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: var(--foreground);
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+.st:hover,
+#tree:focus-within tr[data-active="1"] .st {
+  border-color: var(--border);
+  background: var(--background);
+}
+tr[data-diverged="1"] .st {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+tr[data-staged="1"] .st {
+  border-color: var(--foreground);
+  background: var(--accent);
+  font-weight: 600;
+}
+tr[data-staged="1"] {
+  box-shadow: inset 3px 0 0 var(--foreground);
+}
+
+/* ---------------------------------------------------------- meta cells -- */
+
+.meta {
+  display: block;
+  min-height: var(--row-h);
+  padding: 4px 10px;
+  line-height: 26px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.meta.num {
+  font-variant-numeric: tabular-nums;
+}
+.meta.dim {
+  color: var(--muted-foreground);
+}
+/* a rolled-up value, summarising the children this collapsed row hides.
+   Dotted means derived: it is never the plain register an own value gets. */
+.meta .roll {
+  color: var(--muted-foreground);
+  border-bottom: 1px dotted var(--border);
+  cursor: help;
+}
+.meta .roll.mixed {
+  font-style: normal;
+  letter-spacing: 0.1em;
+  font-size: 10.5px;
+  text-transform: uppercase;
+}
+
+.empty {
+  padding: 32px 0;
+  color: var(--muted-foreground);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+/* --------------------------------------------------------------- foot -- */
+
+.page-foot {
+  max-width: 1400px;
+  margin: 28px auto 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.page-foot kbd {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 15px;
+  border: 1px solid var(--border);
+  padding: 0 4px;
+  margin: 0 1px;
+  color: var(--foreground);
+}
+
+/* --------------------------------------------------------- responsive -- */
+
+@media (max-width: 1180px) {
+  :root {
+    --pad: 20px;
+  }
+  .cid {
+    display: none;
+  }
+  col.c-assignee {
+    width: 96px;
+  }
+  col.c-status {
+    width: 172px;
+  }
+  .from {
+    max-width: 46px;
+  }
+}
+
+@media (max-width: 1180px) {
+  thead th button {
+    padding: 0 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+  }
+  thead th:first-child button {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 940px) {
+  .page-head {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .tb-row-main {
+    flex-wrap: wrap;
+  }
+  .field {
+    width: 220px;
+  }
+  col.c-milestone {
+    width: 86px;
+  }
+  col.c-type {
+    width: 72px;
+  }
+  col.c-size {
+    width: 56px;
+  }
+}

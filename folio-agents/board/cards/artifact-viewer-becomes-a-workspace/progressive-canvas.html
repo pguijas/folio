@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Progressive artifact canvas</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #fff;
+      --canvas: #f7f7f4;
+      --soft: #f1f1ed;
+      --ink: #171714;
+      --muted: #707069;
+      --line: #deded8;
+      --strong: #aaa9a1;
+      --accent: #2056d8;
+      --accent-soft: #eaf0ff;
+      --green: #187149;
+      --amber: #966113;
+      --filters: 270px;
+      --card: 365px;
+      --top-row: minmax(400px, 56%);
+      --artifact-row: minmax(320px, 44%);
+      --artifact-track: minmax(430px, .95fr);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #171715;
+      --canvas: #10100e;
+      --soft: #22221f;
+      --ink: #f2f2ed;
+      --muted: #a5a59e;
+      --line: #34342f;
+      --strong: #5a5a52;
+      --accent: #85a8ff;
+      --accent-soft: #1c2d56;
+      --green: #6dc99c;
+      --amber: #e3b45e;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body { overflow: hidden; background: var(--bg); color: var(--ink); font: 14px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button, input { color: inherit; font: inherit; }
+    button { cursor: pointer; }
+    .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    .app { display: grid; height: 100%; grid-template-rows: 54px 1fr; }
+    .topbar { display: flex; min-width: 0; align-items: center; gap: 12px; border-bottom: 1px solid var(--line); background: var(--bg); padding: 0 16px; }
+    .brand { display: flex; align-items: center; gap: 8px; font-weight: 730; letter-spacing: -.02em; }
+    .mark { display: grid; width: 24px; height: 24px; place-items: center; background: var(--ink); color: var(--bg); font-weight: 850; }
+    .candidate { border-left: 1px solid var(--line); padding-left: 12px; color: var(--muted); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; }
+    .route { min-width: 0; flex: 1; overflow: hidden; color: var(--muted); font-size: 10px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+    .controls { display: flex; gap: 5px; }
+    .control, .icon, .card-tile, .artifact-tile, .filter-row { border: 1px solid var(--line); background: var(--bg); }
+    .control { padding: 5px 8px; color: var(--muted); font-size: 10px; }
+    .control[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+    .control:hover, .icon:hover { border-color: var(--strong); color: var(--ink); }
+
+    .workspace {
+      display: grid;
+      min-width: 0;
+      min-height: 0;
+      grid-template-areas:
+        "filters filter-rule canvas card-rule card"
+        "filters filter-rule lower-rule lower-rule lower-rule"
+        "filters filter-rule artifact artifact artifact";
+      grid-template-columns: var(--filters) 1px minmax(500px, 1fr) 1px var(--card);
+      grid-template-rows: var(--top-row) 1px var(--artifact-row);
+      overflow: auto;
+    }
+    .surface { display: flex; min-width: 0; min-height: 0; flex-direction: column; overflow: hidden; background: var(--bg); }
+    #filters { grid-area: filters; }
+    #canvas { grid-area: canvas; background: var(--canvas); }
+    #card { grid-area: card; }
+    #artifact { grid-area: artifact; }
+    #filter-rule { grid-area: filter-rule; }
+    #card-rule { grid-area: card-rule; }
+    #artifact-rule { grid-area: lower-rule; }
+    .surface[hidden], .rule[hidden] { display: none; }
+    .rule { position: relative; z-index: 4; background: var(--line); touch-action: none; }
+    #filter-rule, #card-rule { width: 1px; cursor: col-resize; }
+    #artifact-rule { height: 1px; cursor: row-resize; }
+    .rule::after { position: absolute; content: ""; }
+    #filter-rule::after, #card-rule::after { inset: 0 -5px; }
+    #artifact-rule::after { inset: -5px 0; }
+    .rule::before { position: absolute; z-index: 2; border-radius: 8px; background: var(--strong); content: ""; opacity: 0; transition: opacity .15s; }
+    #filter-rule::before, #card-rule::before { top: calc(50% - 23px); left: -2px; width: 5px; height: 46px; }
+    #artifact-rule::before { top: -2px; left: calc(50% - 23px); width: 46px; height: 5px; }
+    .rule:hover::before, .rule:focus-visible::before, .rule.dragging::before { opacity: 1; }
+    .rule:focus-visible { outline: 0; }
+
+    .surface-head { display: flex; min-height: 48px; align-items: center; gap: 9px; border-bottom: 1px solid var(--line); padding: 0 12px 0 15px; }
+    .surface-copy { min-width: 0; flex: 1; }
+    .kicker { color: var(--muted); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+    .surface-title { overflow: hidden; font-size: 12px; font-weight: 690; text-overflow: ellipsis; white-space: nowrap; }
+    .layout-hint { color: var(--accent); font-size: 9px; white-space: nowrap; }
+    .icon { display: grid; width: 27px; height: 27px; place-items: center; padding: 0; color: var(--muted); }
+    .scroll { min-height: 0; flex: 1; overflow: auto; }
+
+    .filter-search { border-bottom: 1px solid var(--line); padding: 11px 13px; }
+    .filter-search input { width: 100%; border: 1px solid var(--line); background: var(--soft); padding: 7px 9px; outline: 0; }
+    .filter-search input:focus { border-color: var(--accent); }
+    .filter-section { padding: 14px 13px; border-bottom: 1px solid var(--line); }
+    .filter-section h2, .card-section h2 { margin: 0 0 9px; color: var(--muted); font-size: 9px; letter-spacing: .13em; text-transform: uppercase; }
+    .filter-row { display: flex; width: 100%; align-items: center; gap: 8px; margin-bottom: 3px; border-color: transparent; padding: 5px 4px; text-align: left; }
+    .filter-row:hover { background: var(--soft); }
+    .box { display: grid; width: 14px; height: 14px; place-items: center; border: 1px solid var(--strong); font-size: 9px; }
+    .filter-row.active .box { border-color: var(--accent); background: var(--accent); color: var(--bg); }
+    .filter-name { min-width: 0; flex: 1; overflow: hidden; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .count { color: var(--muted); font-size: 9px; }
+    .field { display: flex; justify-content: space-between; border-bottom: 1px solid var(--line); padding: 8px 3px; font-size: 10px; }
+    .field span:first-child { color: var(--muted); }
+
+    .canvas-body { min-height: 0; flex: 1; overflow: auto; padding: 14px; }
+    .columns { display: grid; min-width: 760px; min-height: 100%; grid-template-columns: repeat(3, minmax(235px, 1fr)); gap: 10px; }
+    .column { border-left: 1px solid var(--line); padding-left: 10px; }
+    .column:first-child { border-left: 0; padding-left: 0; }
+    .column-head { display: flex; justify-content: space-between; margin-bottom: 9px; padding: 0 3px; color: var(--muted); font-size: 9px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+    .card-tile { display: block; width: 100%; margin-bottom: 7px; padding: 10px; text-align: left; }
+    .card-tile:hover { border-color: var(--strong); }
+    .card-tile.selected { border-color: var(--accent); box-shadow: inset 2px 0 var(--accent); }
+    .card-tile strong { display: block; font-size: 11px; line-height: 1.4; }
+    .tile-meta { display: flex; gap: 7px; margin-top: 8px; color: var(--muted); font-size: 9px; }
+    .priority { color: var(--amber); }
+
+    .card-main { padding: 21px 20px 17px; border-bottom: 1px solid var(--line); }
+    .status { color: var(--green); font-size: 9px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+    .card-main h1 { margin: 10px 0 0; font-size: 24px; line-height: 1.07; letter-spacing: -.04em; }
+    .card-main p { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .card-section { padding: 15px 20px; border-bottom: 1px solid var(--line); }
+    .artifact-list { display: grid; gap: 6px; }
+    .artifact-tile { display: grid; width: 100%; grid-template-columns: 29px 1fr auto; align-items: center; gap: 8px; padding: 7px; text-align: left; }
+    .artifact-tile:hover, .artifact-tile.active { border-color: var(--accent); background: var(--accent-soft); }
+    .kind { display: grid; width: 29px; height: 29px; place-items: center; background: var(--soft); color: var(--accent); font-size: 8px; font-weight: 800; }
+    .artifact-name { min-width: 0; overflow: hidden; font-size: 10px; font-weight: 650; text-overflow: ellipsis; white-space: nowrap; }
+    .criteria { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .criteria li { display: flex; gap: 8px; font-size: 11px; }
+    .criterion { width: 14px; height: 14px; flex: 0 0 auto; border: 1px solid var(--strong); }
+
+    .artifact-actions { display: flex; align-items: center; gap: 6px; }
+    .artifact-body { min-height: 0; flex: 1; overflow: auto; }
+    .document { width: min(100% - 42px, 800px); margin: 0 auto; padding: 38px 0 76px; }
+    .document .eyebrow { margin: 0 0 10px; color: var(--accent); font-size: 9px; letter-spacing: .15em; text-transform: uppercase; }
+    .document h1 { margin: 0; font-size: clamp(29px, 3.4vw, 52px); line-height: 1.02; letter-spacing: -.055em; }
+    .document .lead { margin: 18px 0 30px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+    .sequence { display: grid; grid-template-columns: repeat(4, 1fr); margin: 25px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .step { min-width: 0; border-left: 1px solid var(--line); padding: 12px; }
+    .step:first-child { border-left: 0; }
+    .step b { display: block; color: var(--accent); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+    .step span { display: block; margin-top: 3px; font-size: 11px; }
+    .document h2 { margin: 27px 0 8px; font-size: 17px; }
+    .document p { color: var(--muted); line-height: 1.75; }
+    .prototype { display: none; height: 100%; min-height: 340px; grid-template-rows: 36px 1fr; background: var(--soft); }
+    .browser-bar { display: flex; align-items: center; gap: 6px; border-bottom: 1px solid var(--line); background: var(--bg); padding: 0 11px; }
+    .browser-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--strong); }
+    .browser-url { margin-left: 8px; background: var(--soft); padding: 3px 8px; color: var(--muted); font-size: 9px; }
+    .proto-body { display: grid; grid-template-columns: 1fr 1.2fr; }
+    .proto-copy { display: grid; align-content: center; padding: 5vw; background: var(--bg); }
+    .proto-copy strong { font-size: clamp(28px, 4vw, 58px); line-height: .98; letter-spacing: -.055em; }
+    .proto-copy p { color: var(--muted); line-height: 1.7; }
+    .proto-art { display: grid; place-items: center; background: linear-gradient(145deg, #2455d6, #8badff); }
+    .proto-shape { width: 55%; aspect-ratio: 1; border: 1px solid rgba(255,255,255,.75); border-radius: 43% 57% 66% 34%; background: rgba(255,255,255,.18); transform: rotate(12deg); }
+
+    .filters-closed { --filters: 0px; }
+    .card-closed { --card: 0px; }
+    .artifact-closed { --artifact-row: 0px; --artifact-track: 0px; }
+    .focus-mode .topbar, .focus-mode #filters, .focus-mode #filter-rule, .focus-mode #canvas, .focus-mode #card-rule, .focus-mode #card, .focus-mode #artifact-rule { display: none; }
+    .focus-mode .app { display: block; }
+    .focus-mode .workspace { display: block; height: 100%; overflow: hidden; }
+    .focus-mode #artifact { display: flex; width: 100%; height: 100%; }
+    .focus-mode .artifact-body { flex: 1; }
+
+    @media (min-width: 1700px) {
+      .workspace {
+        grid-template-areas: "filters filter-rule canvas card-rule card artifact-rule artifact";
+        grid-template-columns: var(--filters) 1px minmax(500px, 1.2fr) 1px var(--card) 1px var(--artifact-track);
+        grid-template-rows: 1fr;
+      }
+      #artifact-rule { width: 1px; height: auto; cursor: col-resize; }
+      #artifact-rule::after { inset: 0 -5px; }
+      #artifact-rule::before { top: calc(50% - 23px); left: -2px; width: 5px; height: 46px; }
+      #artifact { min-width: 0; }
+    }
+    @media (max-width: 1099px) and (min-width: 760px) {
+      .workspace {
+        grid-template-areas:
+          "filters filter-rule canvas"
+          "filters filter-rule card-rule"
+          "filters filter-rule card"
+          "filters filter-rule lower-rule"
+          "filters filter-rule artifact";
+        grid-template-columns: var(--filters) 1px minmax(540px, 1fr);
+        grid-template-rows: minmax(420px, 1fr) 1px minmax(320px, auto) 1px minmax(340px, auto);
+      }
+      #card-rule, #artifact-rule { width: auto; height: 1px; cursor: row-resize; }
+      #card-rule::after, #artifact-rule::after { inset: -5px 0; }
+      #card-rule::before, #artifact-rule::before { top: -2px; left: calc(50% - 23px); width: 46px; height: 5px; }
+    }
+    @media (max-width: 759px) {
+      body { overflow: auto; }
+      .app { display: block; height: auto; }
+      .topbar { position: sticky; top: 0; z-index: 10; }
+      .candidate, .route { display: none; }
+      .workspace { display: flex; min-height: 0; flex-direction: column; overflow: visible; }
+      .surface { width: 100% !important; min-height: 420px; border-bottom: 1px solid var(--line); }
+      .rule { display: none !important; }
+      #filters[hidden], #card[hidden], #artifact[hidden] { display: none; }
+      .sequence { grid-template-columns: 1fr 1fr; }
+      .step:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
+      .step:nth-child(4) { border-top: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><span class="mark">F</span><span>Development board</span></div>
+      <span class="candidate">Progressive canvas</span>
+      <div class="route mono" id="route">/kanban/?q=artifact&amp;card=artifact-viewer-becomes-a-workspace&amp;artifact=progressive-canvas.html</div>
+      <div class="controls">
+        <button class="control" data-toggle="filters" aria-pressed="true">Filters</button>
+        <button class="control" data-toggle="card" aria-pressed="true">Card</button>
+        <button class="control" data-toggle="artifact" aria-pressed="true">Artifact</button>
+        <button class="control" id="theme">◐</button>
+      </div>
+    </header>
+
+    <main class="workspace" id="workspace">
+      <aside class="surface" id="filters">
+        <header class="surface-head"><div class="surface-copy"><div class="kicker">Filters</div><div class="surface-title">18 matching cards</div></div><button class="icon" data-close="filters" aria-label="Close filters">×</button></header>
+        <div class="filter-search"><input value="artifact" aria-label="Filter expression"></div>
+        <div class="scroll"><section class="filter-section"><h2>Status</h2><button class="filter-row"><span class="box"></span><span class="filter-name">Ideas</span><span class="count">4</span></button><button class="filter-row active"><span class="box">✓</span><span class="filter-name">In progress</span><span class="count">1</span></button><button class="filter-row"><span class="box"></span><span class="filter-name">Released</span><span class="count">11</span></button></section><section class="filter-section"><h2>Fields</h2><div class="field"><span>Priority</span><span>High ↓</span></div><div class="field"><span>Type</span><span>Any ↓</span></div><div class="field"><span>Milestone</span><span>Any ↓</span></div><div class="field"><span>Assignee</span><span>Any ↓</span></div><div class="field"><span>Source</span><span>Any ↓</span></div></section></div>
+      </aside>
+      <div class="rule" id="filter-rule" data-resize="filters" role="separator" aria-label="Resize filters" tabindex="0"></div>
+
+      <section class="surface" id="canvas">
+        <header class="surface-head"><div class="surface-copy"><div class="kicker">Canvas</div><div class="surface-title">3 columns · 18 matching cards</div></div><span class="layout-hint">1 · start</span></header>
+        <div class="canvas-body"><div class="columns"><section class="column"><header class="column-head"><span>Ideas</span><span>4</span></header><button class="card-tile"><strong>Artifact annotations become comments</strong><span class="tile-meta"><span class="priority">High</span><span>feature · M</span></span></button><button class="card-tile"><strong>Artifact diffs keep their context</strong><span class="tile-meta"><span>idea · L</span></span></button></section><section class="column"><header class="column-head"><span>In progress</span><span>1 / 3</span></header><button class="card-tile selected" data-open-card><strong>Artifact viewer becomes a workspace</strong><span class="tile-meta"><span class="priority">High</span><span>feature · L</span></span></button></section><section class="column"><header class="column-head"><span>Released</span><span>11</span></header><button class="card-tile"><strong>Artifacts read from the canvas</strong><span class="tile-meta"><span>0.3 · L</span></span></button><button class="card-tile"><strong>Artifacts live beside their card</strong><span class="tile-meta"><span>0.3 · L</span></span></button></section></div></div>
+      </section>
+      <div class="rule" id="card-rule" data-resize="card" role="separator" aria-label="Resize card" tabindex="0"></div>
+
+      <aside class="surface" id="card">
+        <header class="surface-head"><div class="surface-copy"><div class="kicker">Card</div><div class="surface-title mono">artifact-viewer-becomes-a-workspace</div></div><span class="layout-hint">2 · next</span><button class="icon" data-close="card" aria-label="Close card">×</button></header>
+        <div class="scroll"><section class="card-main"><span class="status">● In progress</span><h1>Artifact viewer becomes a workspace</h1><p>Each selection adds the next surface without covering or replacing the context that led to it.</p></section><section class="card-section"><h2>Artifacts · 2</h2><div class="artifact-list"><button class="artifact-tile active" data-artifact="doc"><span class="kind">DOC</span><span class="artifact-name">Progressive canvas direction</span><span>→</span></button><button class="artifact-tile" data-artifact="prototype"><span class="kind">HTML</span><span class="artifact-name">Wide interactive prototype</span><span>→</span></button></div></section><section class="card-section"><h2>Acceptance criteria</h2><ul class="criteria"><li><span class="criterion"></span><span>Card follows the canvas.</span></li><li><span class="criterion"></span><span>Artifact follows the card.</span></li><li><span class="criterion"></span><span>New context goes right or below.</span></li><li><span class="criterion"></span><span>Artifact can enter fullscreen.</span></li></ul></section></div>
+      </aside>
+      <div class="rule" id="artifact-rule" data-resize="artifact" role="separator" aria-label="Resize artifact" tabindex="0"></div>
+
+      <section class="surface" id="artifact">
+        <header class="surface-head"><div class="surface-copy"><div class="kicker">Artifact</div><div class="surface-title" id="artifact-title">Progressive canvas direction</div></div><span class="layout-hint" id="placement">3 · below</span><div class="artifact-actions"><button class="control" id="fullscreen">Full screen</button><button class="icon" data-close="artifact" aria-label="Close artifact">×</button></div></header>
+        <div class="artifact-body"><article class="document" id="document"><p class="eyebrow mono">DOC · progressive-canvas.md</p><h1>Every step opens forward.</h1><p class="lead">Filters lead to the board canvas, the selected card follows it, and the selected artifact follows the card. Nothing overlays or replaces an earlier surface.</p><div class="sequence"><div class="step"><b>0 · refine</b><span>Filters</span></div><div class="step"><b>1 · choose</b><span>Canvas</span></div><div class="step"><b>2 · inspect</b><span>Card</span></div><div class="step"><b>3 · read</b><span>Artifact</span></div></div><h2>Responsive placement</h2><p>On a very wide viewport, all four surfaces form one horizontal sequence. On an ordinary laptop, the artifact continues below the canvas and card. On a narrower viewport, card and artifact both continue downward. DOM order never changes, so keyboard and reading order remain progressive.</p><h2>Unwinding</h2><p>Closing the artifact returns to the card. Closing the card also closes its artifact because the child cannot outlive its context. Filters are independent. Full screen temporarily focuses the final surface and restores the complete chain on exit.</p></article><div class="prototype" id="prototype"><div class="browser-bar"><i class="browser-dot"></i><i class="browser-dot"></i><i class="browser-dot"></i><span class="browser-url mono">/_folio/kanban/artifact-viewer/prototype.html</span></div><div class="proto-body"><div class="proto-copy"><strong>Forward, then focus.</strong><p>A wide raw artifact keeps its sandbox and can take the full screen without changing the progressive page model.</p></div><div class="proto-art"><div class="proto-shape"></div></div></div></div></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const root = document.documentElement
+    const workspace = document.getElementById("workspace")
+    const get = (id) => document.getElementById(id)
+    const state = { filters: true, card: true, artifact: true }
+    const placement = () => window.innerWidth >= 1700 ? "3 · right" : "3 · below"
+    const sync = () => {
+      root.classList.toggle("filters-closed", !state.filters)
+      root.classList.toggle("card-closed", !state.card)
+      root.classList.toggle("artifact-closed", !state.artifact)
+      get("filters").hidden = !state.filters
+      get("filter-rule").hidden = !state.filters
+      get("card").hidden = !state.card
+      get("card-rule").hidden = !state.card
+      get("artifact").hidden = !state.artifact
+      get("artifact-rule").hidden = !state.artifact
+      document.querySelectorAll("[data-toggle]").forEach((button) => button.setAttribute("aria-pressed", String(state[button.dataset.toggle])))
+      get("placement").textContent = placement()
+      const url = new URL(location.href)
+      if (state.card) url.searchParams.set("card", "artifact-viewer-becomes-a-workspace"); else url.searchParams.delete("card")
+      if (state.artifact) url.searchParams.set("artifact", document.querySelector(".artifact-tile.active")?.dataset.artifact === "prototype" ? "prototype.html" : "progressive-canvas.md"); else url.searchParams.delete("artifact")
+      url.searchParams.set("panes", [state.filters ? "filters" : "", state.card ? "card" : "", state.artifact ? "artifact" : ""].filter(Boolean).join(","))
+      history.replaceState(null, "", url)
+      get("route").textContent = `/kanban/${url.search}`
+    }
+    const setSurface = (id, open) => {
+      state[id] = open
+      if (id === "card" && !open) state.artifact = false
+      if (id === "artifact" && open) state.card = true
+      sync()
+    }
+    document.querySelectorAll("[data-close]").forEach((button) => button.addEventListener("click", () => setSurface(button.dataset.close, false)))
+    document.querySelectorAll("[data-toggle]").forEach((button) => button.addEventListener("click", () => setSurface(button.dataset.toggle, !state[button.dataset.toggle])))
+    document.querySelector("[data-open-card]").addEventListener("click", () => setSurface("card", true))
+    document.querySelectorAll("[data-artifact]").forEach((button) => button.addEventListener("click", () => {
+      document.querySelectorAll("[data-artifact]").forEach((item) => item.classList.toggle("active", item === button))
+      const prototype = button.dataset.artifact === "prototype"
+      get("document").style.display = prototype ? "none" : "block"
+      get("prototype").style.display = prototype ? "grid" : "none"
+      get("artifact-title").textContent = prototype ? "Wide interactive prototype" : "Progressive canvas direction"
+      setSurface("artifact", true)
+    }))
+    const resize = (kind, deltaX, deltaY) => {
+      if (kind === "filters") {
+        root.style.setProperty("--filters", `${Math.min(440, Math.max(210, get("filters").getBoundingClientRect().width + deltaX))}px`)
+      } else if (kind === "card") {
+        const delta = window.innerWidth < 1100 ? deltaY : -deltaX
+        const current = window.innerWidth < 1100 ? get("card").getBoundingClientRect().height : get("card").getBoundingClientRect().width
+        if (window.innerWidth < 1100) get("card").style.minHeight = `${Math.min(620, Math.max(270, current + delta))}px`
+        else root.style.setProperty("--card", `${Math.min(560, Math.max(300, current + delta))}px`)
+      } else if (window.innerWidth >= 1700) {
+        const current = get("artifact").getBoundingClientRect().width
+        root.style.setProperty("--artifact-track", `${Math.min(760, Math.max(360, current - deltaX))}px`)
+      } else {
+        const current = get("artifact").getBoundingClientRect().height
+        root.style.setProperty("--artifact-row", `${Math.min(720, Math.max(260, current - deltaY))}px`)
+      }
+    }
+    document.querySelectorAll(".rule").forEach((handle) => {
+      handle.addEventListener("pointerdown", (event) => {
+        event.preventDefault(); handle.setPointerCapture(event.pointerId); handle.classList.add("dragging")
+        let x = event.clientX, y = event.clientY
+        const move = (next) => { resize(handle.dataset.resize, next.clientX - x, next.clientY - y); x = next.clientX; y = next.clientY }
+        const done = () => { handle.classList.remove("dragging"); handle.removeEventListener("pointermove", move) }
+        handle.addEventListener("pointermove", move); handle.addEventListener("pointerup", done, { once: true })
+      })
+      handle.addEventListener("keydown", (event) => {
+        const delta = event.key === "ArrowLeft" || event.key === "ArrowUp" ? -24 : event.key === "ArrowRight" || event.key === "ArrowDown" ? 24 : 0
+        if (delta) { event.preventDefault(); resize(handle.dataset.resize, delta, delta) }
+      })
+    })
+    document.querySelectorAll(".filter-row").forEach((row) => row.addEventListener("click", () => { row.classList.toggle("active"); row.querySelector(".box").textContent = row.classList.contains("active") ? "✓" : "" }))
+    get("fullscreen").addEventListener("click", async () => {
+      root.classList.add("focus-mode")
+      try { await root.requestFullscreen?.() } catch { /* CSS focus mode remains available. */ }
+    })
+    document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) root.classList.remove("focus-mode") })
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && root.classList.contains("focus-mode") && !document.fullscreenElement) root.classList.remove("focus-mode") })
+    get("theme").addEventListener("click", () => root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark")
+    window.addEventListener("resize", () => { get("placement").textContent = placement() })
+    sync()
+  </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+{
+  "Accordion": {
+    "name": "Accordion",
+    "props": {
+      "children": "React.ReactNode"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "AccordionItem": {
+    "name": "AccordionItem",
+    "props": {
+      "children": "React.ReactNode",
+      "title": "string"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "ApiReferenceIndex": {
+    "name": "ApiReferenceIndex",
+    "props": {
+      "modules": "Array<{ name: string; classes: number; functions: number; path: string }>"
+    },
+    "required": true,
+    "source": "api-reference"
+  },
+  "BrowserFrame": {
+    "name": "BrowserFrame",
+    "props": {
+      "children": "React.ReactNode",
+      "label": "string | undefined",
+      "url": "string"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "Callout": {
+    "name": "Callout",
+    "props": {
+      "children": "React.ReactNode",
+      "title": "string",
+      "type": "\"note\" | \"warning\" | \"info\" | \"tip\" | \"check\" | \"danger\""
+    },
+    "required": true,
+    "source": "markdown-rst"
+  },
+  "CardGrid": {
+    "name": "CardGrid",
+    "props": {
+      "children": "React.ReactNode",
+      "columns": "number"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "ClassOverview": {
+    "name": "ClassOverview",
+    "props": {
+      "bases": "string[] | Array<{ name: string; href?: string }>",
+      "decorators": "string[]",
+      "description": "string",
+      "name": "string"
+    },
+    "required": true,
+    "source": "api-reference"
+  },
+  "CompareMatrix": {
+    "name": "CompareMatrix",
+    "props": {
+      "caption": "string | undefined",
+      "highlight": "number | undefined",
+      "rows": "{ feature: string; values: (boolean | string)[]; note?: string }[]",
+      "tools": "string[]"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "FeatureCard": {
+    "name": "FeatureCard",
+    "props": {
+      "description": "string",
+      "href": "string",
+      "title": "string"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "FileTree": {
+    "name": "FileTree",
+    "props": {
+      "tree": "string"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "Mermaid": {
+    "name": "Mermaid",
+    "props": {
+      "chart": "string"
+    },
+    "required": true,
+    "source": "markdown-mdx"
+  },
+  "MethodAccordion": {
+    "name": "MethodAccordion",
+    "props": {
+      "methods": "Array<{ name: string; signature: string; description?: string }>"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "ParamTable": {
+    "name": "ParamTable",
+    "props": {
+      "args": "Array<{ name: string; type: string; default?: string; description?: string | null; href?: string }>"
+    },
+    "required": true,
+    "source": "api-reference"
+  },
+  "PullQuote": {
+    "name": "PullQuote",
+    "props": {
+      "attribution": "string | undefined",
+      "children": "ReactNode",
+      "kicker": "string | undefined"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "SourceLink": {
+    "name": "SourceLink",
+    "props": {
+      "href": "string"
+    },
+    "required": true,
+    "source": "api-reference"
+  },
+  "StatStrip": {
+    "name": "StatStrip",
+    "props": {
+      "stats": "{ value: string; label: string; detail?: string }[]"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "Swot": {
+    "name": "Swot",
+    "props": {
+      "opportunities": "string[]",
+      "strengths": "string[]",
+      "threats": "string[]",
+      "title": "string | undefined",
+      "weaknesses": "string[]"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "TabItem": {
+    "name": "TabItem",
+    "props": {
+      "children": "React.ReactNode",
+      "label": "string",
+      "value": "string"
+    },
+    "required": true,
+    "source": "markdown-mdx"
+  },
+  "Tabs": {
+    "name": "Tabs",
+    "props": {
+      "children": "React.ReactNode",
+      "defaultValue": "string"
+    },
+    "required": true,
+    "source": "markdown-mdx"
+  },
+  "Timeline": {
+    "name": "Timeline",
+    "props": {
+      "children": "React.ReactNode"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "TimelineItem": {
+    "name": "TimelineItem",
+    "props": {
+      "badge": "string",
+      "date": "string",
+      "description": "string",
+      "title": "string"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "TypeBadge": {
+    "name": "TypeBadge",
+    "props": {
+      "href": "string",
+      "type": "string"
+    },
+    "required": false,
+    "source": "component-catalog"
+  }
+}

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tree table — Folio kanban prototype</title>
+    <link rel="stylesheet" href="tree-table.css" />
+  </head>
+  <body>
+    <a class="skip" href="#board">Skip to the table</a>
+
+    <header class="page-head">
+      <div class="head-left">
+        <p class="eyebrow">Prototype · variant 1 of n</p>
+        <h1 id="board-title">Tree table</h1>
+        <p class="lede">
+          One table for the whole board. Every card is a row, the first column
+          is the tree, and status is a column you read straight down.
+        </p>
+      </div>
+      <div class="head-right">
+        <div class="theme" role="group" aria-label="Colour scheme">
+          <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+          <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+          <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <details class="notes" open>
+      <summary><span class="notes-title">What this variant argues</span></summary>
+      <div class="notes-body">
+        <section>
+          <h2>Thesis</h2>
+          <p>
+            The board is a table with a tree in its first column: one row per
+            card, no exceptions, so status, milestone, type, size and assignee
+            each read down as a single scannable column while the hierarchy
+            lives entirely in the indentation.
+          </p>
+        </section>
+        <section>
+          <h2>The cross-column child</h2>
+          <p>
+            It simply is not a conflict here.
+            <code>theme-contract-for-plugin-surfaces</code> sits under its
+            parent and carries its own <em>Backlog</em> in the status column,
+            which is marked <span class="inline-diverge">diverged</span> because
+            it disagrees with the parent. The parent's rollup shows the split,
+            and the toolbar counts how many such rows exist so the disagreement
+            is a number, not a surprise.
+          </p>
+        </section>
+        <section>
+          <h2>Tree filtering</h2>
+          <p>
+            The parent stays as context — dimmed, not counted as a match, and
+            never re&#8209;rooted. A row that silently changes indentation while
+            you type is a row you cannot trust, so depth is invariant: search
+            only ever hides rows, it never moves them.
+          </p>
+        </section>
+        <section>
+          <h2>What it is bad at</h2>
+          <p>
+            It is not a kanban. Columns as places disappear — you cannot see the
+            shape of a queue, drag anything, or feel a WIP limit filling up; the
+            limit survives only as the counter in the toolbar. Deep, wide trees
+            also push the title column thin, and 35&nbsp;rows of near-uniform
+            grey asks the eye to work: nothing here pops the way a card face
+            does.
+          </p>
+        </section>
+      </div>
+    </details>
+
+    <div class="toolbar">
+      <div class="tb-row tb-row-main">
+        <div class="field" role="search">
+          <label class="sr-only" for="q">Filter by title or id</label>
+          <input
+            id="q"
+            type="search"
+            placeholder="Filter title or id…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <kbd class="slash">/</kbd>
+        </div>
+        <p class="matchcount" id="matchcount" aria-live="polite"></p>
+        <div class="spacer"></div>
+        <div class="btns">
+          <button type="button" id="expand-all">Expand all</button>
+          <button type="button" id="collapse-all">Collapse all</button>
+          <button type="button" id="diverged" aria-pressed="false">
+            Diverged <span class="chip-n" id="diverged-n">0</span>
+          </button>
+        </div>
+        <button type="button" id="staged-toggle" class="staged-toggle" aria-expanded="false" aria-controls="staged-panel">
+          Staged moves <span class="chip-n" id="staged-n">0</span>
+        </button>
+      </div>
+
+      <div class="tb-row tb-row-legend">
+        <p class="legend-label">Columns</p>
+        <ul class="legend" id="legend"></ul>
+      </div>
+    </div>
+
+    <section class="staged-panel" id="staged-panel" hidden aria-labelledby="staged-h">
+      <div class="sp-head">
+        <h2 id="staged-h">Apply these moves</h2>
+        <div class="sp-actions">
+          <button type="button" id="copy-cmds">Copy</button>
+          <button type="button" id="clear-staged">Discard all</button>
+        </div>
+      </div>
+      <p class="sp-note">
+        The site never writes. Staging is local; these are the commands that
+        make it real.
+      </p>
+      <pre id="cmds" tabindex="0"></pre>
+      <ul class="sp-list" id="staged-list"></ul>
+    </section>
+
+    <main id="board">
+      <table id="tree" role="treegrid" aria-labelledby="board-title" aria-describedby="tree-help">
+        <colgroup>
+          <col class="c-card" />
+          <col class="c-status" />
+          <col class="c-milestone" />
+          <col class="c-type" />
+          <col class="c-size" />
+          <col class="c-assignee" />
+        </colgroup>
+        <thead>
+          <tr role="row">
+            <th role="columnheader" scope="col" data-sort="title" aria-sort="none">
+              <button type="button">Card <span class="arrow" aria-hidden="true"></span></button>
+            </th>
+            <th role="columnheader" scope="col" data-sort="status" aria-sort="none">
+              <button type="button">Status <span class="arrow" aria-hidden="true"></span></button>
+            </th>
+            <th role="columnheader" scope="col" data-sort="milestone" aria-sort="none">
+              <button type="button">Milestone <span class="arrow" aria-hidden="true"></span></button>
+            </th>
+            <th role="columnheader" scope="col" data-sort="type" aria-sort="none">
+              <button type="button">Type <span class="arrow" aria-hidden="true"></span></button>
+            </th>
+            <th role="columnheader" scope="col" data-sort="size" aria-sort="none">
+              <button type="button">Size <span class="arrow" aria-hidden="true"></span></button>
+            </th>
+            <th role="columnheader" scope="col" data-sort="assignee" aria-sort="none">
+              <button type="button">Assignee <span class="arrow" aria-hidden="true"></span></button>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="empty" id="empty" hidden>No card matches that filter.</p>
+    </main>
+
+    <footer class="page-foot">
+      <p id="tree-help">
+        Keyboard: <kbd>↑</kbd><kbd>↓</kbd> move row, <kbd>→</kbd> expand then
+        step into the status control, <kbd>←</kbd> collapse then step out to the
+        parent, <kbd>Enter</kbd> toggles, <kbd>*</kbd> expands everything,
+        <kbd>/</kbd> jumps to the filter.
+      </p>
+      <p class="foot-meta">
+        Throwaway prototype. Static page, no network, no build step. Data is
+        <code>board-data.js</code>.
+      </p>
+    </footer>
+
+    <div class="sr-only" id="live" role="status" aria-live="polite"></div>
+
+    <script src="board-data.js"></script>
+    <script src="tree-table.js" defer></script>
+  </body>
+</html>

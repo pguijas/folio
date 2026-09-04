@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How many board formats earn their place</title>
+<style>
+  :root {
+    --paper: #faf9f7; --ink: #1c1b19; --muted: #6b6660; --rule: #e4e0da;
+    --accent: #8a5a2b; --card: #fff; --stay: #2f6b46; --go: #a4451f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, monospace;
+    background: #f1ede7; border-radius: 3px; padding: 1px 4px; white-space: nowrap;
+  }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+  header { padding: 48px 0 0; }
+  .overline {
+    font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif; font-weight: 500;
+    font-size: clamp(26px, 4vw, 38px); line-height: 1.15; margin: 0 0 10px;
+  }
+  .standfirst { color: var(--muted); max-width: 72ch; margin: 0 0 22px; }
+
+  .verdict {
+    background: var(--ink); color: #f3f0eb; border-radius: 10px;
+    padding: 20px 26px; display: flex; flex-wrap: wrap; gap: 6px 28px;
+    align-items: baseline; margin-bottom: 30px;
+  }
+  .verdict .who { font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: #d9a05b; width: 100%; }
+  .verdict .call { font-family: Georgia, serif; font-size: 21px; }
+  .verdict .call code { background: #37342f; color: #f3f0eb; }
+  .verdict .why { color: #cfc9c0; font-size: 14px; max-width: 62ch; }
+  .verdict ol { list-style: none; display: flex; gap: 8px; padding: 0; margin: 6px 0 0; width: 100%; counter-reset: r; flex-wrap: wrap; }
+  .verdict li { counter-increment: r; border: 1px solid #4a463f; border-radius: 999px; padding: 3px 13px; font-size: 12.5px; }
+  .verdict li::before { content: counter(r) ". "; color: #d9a05b; }
+
+  h2 {
+    font-size: 12px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--accent); margin: 34px 0 12px; font-weight: 600;
+  }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; font-size: 13.5px; }
+  th { font-size: 12.5px; }
+  thead th { background: #f3efe9; font-family: Georgia, serif; font-size: 15px; font-weight: 600; }
+  tbody th { color: var(--muted); font-weight: 600; white-space: nowrap; width: 130px; }
+  tr:last-child td, tr:last-child th { border-bottom: 0; }
+  td.stay { color: var(--stay); font-weight: 600; }
+  td.go { color: var(--go); font-weight: 600; }
+  td.na { color: var(--muted); }
+
+  .seats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 820px) { .seats { grid-template-columns: 1fr; } }
+  .seat { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 18px 20px 14px; }
+  .seat .kicker { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .seat h3 { font-family: Georgia, serif; font-weight: 500; font-size: 17px; margin: 0 0 10px; line-height: 1.35; }
+  .seat ul { margin: 0 0 10px; padding-left: 17px; }
+  .seat li { font-size: 13.5px; margin-bottom: 6px; }
+  .concede { border-top: 1px dashed var(--rule); padding-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .concede b { color: var(--accent); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+
+  .costs { display: grid; gap: 10px; }
+  .cost { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 16px; font-size: 13.5px; display: flex; gap: 16px; }
+  .cost b { min-width: 150px; font-family: Georgia, serif; font-weight: 600; font-size: 14.5px; }
+
+  footer { padding: 26px 0 54px; font-size: 12.5px; color: var(--muted); }
+  footer p { max-width: 78ch; margin: 0 0 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="overline">Exhibit &middot; board/cards/how-many-board-formats-earn-their-place</div>
+  <h1>How many board formats earn their place</h1>
+  <p class="standfirst">Three ways to declare a board, one of them operable. Four adversarial
+  seats argued the count from repository evidence; the judge's call, the matrix, and each
+  seat's best three punches are below. The decision lands on the card, not here.</p>
+</header>
+
+<section class="verdict">
+  <div class="who">The judge</div>
+  <div class="call">Retire <code>source: board.yaml</code>; keep inline and cardfile.</div>
+  <div class="why">Its only documented growth path leads out of itself, every board that
+  verifiably exists is a cardfile, and the replacement is a four-line fail-loud error that
+  links the migration recipe which already exists as an error target.</div>
+  <ol><li>Retire the board file</li><li>Cardfile only</li><li>Keep all three</li></ol>
+</section>
+
+<h2>The matrix</h2>
+<table>
+  <thead><tr><th></th><th>Inline columns</th><th>Board file</th><th>Cardfile</th></tr></thead>
+  <tbody>
+    <tr><th>Declared as</th><td><code>columns:</code> in docs.yaml</td><td><code>source: board.yaml</code></td><td><code>source: &lt;directory&gt;</code></td></tr>
+    <tr><th>Built for</th><td>A small static board on a docs page</td><td>"A larger board, still one file"</td><td>Boards agents and humans operate through git</td></tr>
+    <tr><th>Write CLI</th><td class="na">Refuses, exit 1</td><td class="na">Refuses, exit 1</td><td>The only format it accepts</td></tr>
+    <tr><th>Export button</th><td class="na">Export YAML</td><td class="na">Export YAML</td><td>Export moves</td></tr>
+    <tr><th>Boards observed</th><td class="na">Docs examples only</td><td class="na">None</td><td>All known: folio's own, pguijas/kanban, the live demo</td></tr>
+    <tr><th>Code it owns</th><td>~15 loader lines, shared pipeline</td><td>~25 loader lines, shared pipeline</td><td>Its own module, the CLI, the protocol</td></tr>
+    <tr><th>Test weight</th><td colspan="2">~34 of 154 kanban tests exist for the legacy formats and their coexistence</td><td>The rest</td></tr>
+    <tr><th>Judge</th><td class="stay">Stays &mdash; a job nobody else covers</td><td class="go">Retires &mdash; its promise refutes itself</td><td class="stay">Stays &mdash; it is the product</td></tr>
+  </tbody>
+</table>
+
+<h2>The four seats, three punches each</h2>
+<div class="seats">
+  <article class="seat">
+    <div class="kicker">Seat 01</div>
+    <h3>Keep all three: stopping points on one ramp, not three products.</h3>
+    <ul>
+      <li>The comparison table gives each format an honest, distinct job (formats.md:12-16).</li>
+      <li>Total extra code is ~40 lines on a shared pipeline, and every failure is loud and names the resolved path.</li>
+      <li>Deleting shipped surface turns working configurations into build failures, for tidiness.</li>
+    </ul>
+    <div class="concede"><b>Concedes</b> &mdash; every observed board is cardfile; the ramp has no demonstrated traveler.</div>
+  </article>
+  <article class="seat">
+    <div class="kicker">Seat 02</div>
+    <h3>Retire the board file: the middle format's promise refutes itself.</h3>
+    <ul>
+      <li>"A larger board, still one file" describes exactly the board that wants cards, and the CLI refuses it with exit 1 (cli.md:27).</li>
+      <li>Not zero-friction (already an extra file) and not operable: no user segment left to serve.</li>
+      <li>Its documentation already contains the instructions for leaving it, linked from a live error (formats.md:68-78).</li>
+    </ul>
+    <div class="concede"><b>Concedes</b> &mdash; a deliberate breaking change to delete ~20 lines and ~30 tests, with zero known users affected either way.</div>
+  </article>
+  <article class="seat">
+    <div class="kicker">Seat 03</div>
+    <h3>Cardfile only: one idea, one format, every card a file with real history.</h3>
+    <ul>
+      <li>The read-only formats dilute the pitch and split the export button into two meanings.</li>
+      <li>Every docs page pays the which-format caveat; every reader carries the matrix in their head.</li>
+      <li>The demo job could be served by a tiny scaffolded cardfile instead of a second format.</li>
+    </ul>
+    <div class="concede"><b>Concedes</b> &mdash; it kills the ten-line taste, the cheapest zero-command first render an evaluator gets.</div>
+  </article>
+  <article class="seat">
+    <div class="kicker">Seat 04 &middot; no side taken</div>
+    <h3>The segments map: count users before counting formats.</h3>
+    <ul>
+      <li>Docs-page owner wanting a static status board: inline. Team or agents operating work: cardfile.</li>
+      <li>No verifiable segment picks the board file; every observed board is cardfile.</li>
+      <li>~34 of 154 kanban tests serve the legacy formats and their coexistence &mdash; standing cost the other seats hand-wave.</li>
+    </ul>
+    <div class="concede"><b>Concedes</b> &mdash; the inline segment is itself unobserved: docs examples only, no board in the wild.</div>
+  </article>
+</div>
+
+<h2>What each decision costs</h2>
+<div class="costs">
+  <div class="cost"><b>Retire the board file</b><span>One loud breaking change: the loader branch becomes a four-line error, five tests go, formats.md, cli.md, index.md and the drifted FAQ (why-folio.md:127) get edited together. Known blast radius: zero.</span></div>
+  <div class="cost"><b>Keep all three</b><span>No breakage now; the matrix is paid forever &mdash; the three-row table, the two-meaning export button, the per-page caveats, the ~34 coexistence tests, and a FAQ already drifted wrong.</span></div>
+  <div class="cost"><b>Cardfile only</b><span>Everything above plus breaking inline's documented job and forcing the init apparatus (directory, template, SKILL.md, branch) on boards that only display.</span></div>
+</div>
+
+<footer>
+  <p><b>Next step:</b> record the decision on this card. If it is retirement, one change moves
+  the loader branch, the five tests, the table row and the FAQ together.</p>
+  <p>Adversarial panel &middot; four seats and a judge, 2026-08-25 &middot; full arguments in the
+  panel transcript; this page is the decision surface.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+# dependencies
+/node_modules
+/.pnpm-store/
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+template/.next/
+template/node_modules/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env files
+.env
+.env.*
+.env*.local
+.pypirc
+.npmrc
+*.key
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+!template/next-env.d.ts
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.venv/
+.pytest_cache/
+.mypy_cache/
+
+# Build output
+_site/
+.build/
+.build-template/
+output/
+tmp/
+
+# Ignored release planning and multi-agent coordination notes.
+# Keep implementation plans, prompts, and status boards out of git history.
+/tmp/release-audit/
+
+# Local agent scratch
+.claude/
+.dev/
+.superpowers/
+.tmp/
+
+# Remotion video workspace
+/folio-video/
+
+# Local worktrees
+.worktrees/
+
+# Snapshots and console logs the Playwright MCP writes beside the repo.
+.playwright-mcp/
