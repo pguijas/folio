@@ -1,0 +1,159 @@
+/* Geometry and tones mirror the static docsPreview skeleton in
+ * folio-prelanding.module.css; defaults compose the finished page so the
+ * reduced-motion render is the complete composition with zero motion. */
+
+.root {
+  display: grid;
+  width: 100%;
+  min-height: 21rem;
+  grid-template-columns: 5rem minmax(0, 1fr);
+  overflow: hidden;
+  margin: 0;
+  background: var(--background);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  border-right: 1px solid var(--border);
+  padding: 1rem 0.75rem;
+  background: color-mix(in oklch, var(--muted) 35%, var(--background));
+}
+
+.navLine {
+  display: block;
+  height: 2px;
+  background: var(--border);
+  transform-origin: left center;
+}
+
+.navLine:first-child {
+  width: 72%;
+  background: var(--primary);
+}
+
+.navLine:nth-child(2) {
+  width: 92%;
+}
+
+.navLine:nth-child(3) {
+  width: 61%;
+}
+
+.navLine:nth-child(4) {
+  width: 82%;
+}
+
+.body {
+  min-width: 0;
+  padding: 1.1rem;
+}
+
+/* Each drawable bar is a stack: the muted bar underneath never leaves once
+ * settled; an accent overlay draws with it, then fades, so no cycle ever
+ * tears the page down. */
+.eyebrowStack,
+.titleStack,
+.copyStack,
+.rowStack {
+  display: grid;
+}
+
+.eyebrowStack {
+  width: 4.5rem;
+  height: 2px;
+}
+
+.titleStack {
+  width: 58%;
+  height: 1rem;
+  margin-top: 1rem;
+}
+
+.copyLines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.copyStack {
+  height: 2px;
+}
+
+.copyA {
+  width: 92%;
+}
+
+.copyB {
+  width: 68%;
+}
+
+.copyC {
+  width: 79%;
+}
+
+.eyebrow,
+.title,
+.copyLine,
+.rowBar,
+.glow {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+}
+
+.eyebrow,
+.copyLine,
+.rowBar {
+  background: var(--border);
+}
+
+.title {
+  background: color-mix(in oklch, var(--foreground) 22%, var(--background));
+}
+
+.glow {
+  opacity: 0;
+  background: var(--primary);
+}
+
+.titleGlow {
+  background: color-mix(in oklch, var(--primary) 45%, transparent);
+}
+
+.panel {
+  display: flex;
+  min-height: 4.4rem;
+  flex-direction: column;
+  gap: 0.55rem;
+  justify-content: center;
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.8rem 0;
+}
+
+.rowStack {
+  height: 2px;
+}
+
+.rowA {
+  width: 74%;
+}
+
+.rowB {
+  width: 91%;
+}
+
+.rowC {
+  width: 52%;
+}
+
+@media (max-width: 639px) {
+  .root {
+    min-height: 17rem;
+  }
+}

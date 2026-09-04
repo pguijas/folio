@@ -1,0 +1,131 @@
+.cover {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  padding: 5.5rem 1.5rem 2.5rem;
+  background: var(--background);
+}
+
+.content {
+  display: flex;
+  width: min(52rem, 100%);
+  flex-direction: column;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.folio {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.page {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 21rem;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  padding: 1.4rem;
+  background: var(--background);
+}
+
+.docsPage {
+  place-items: stretch;
+  padding: 0;
+  transform-origin: right center;
+}
+
+.agentsPage {
+  place-items: stretch;
+  padding: 0;
+  background: color-mix(in oklch, var(--muted) 28%, var(--background));
+  transform-origin: left center;
+}
+
+.choices {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+  align-items: center;
+  gap: 0;
+  text-align: center;
+}
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding-inline: 1.5rem;
+}
+
+.docsChoice {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.docsChoice:hover .choiceName {
+  color: var(--primary);
+}
+
+.choiceName {
+  font-family: var(--folio-body-font-family);
+  font-size: 1.125rem;
+  font-weight: 650;
+  color: var(--foreground);
+  transition: color 160ms ease;
+}
+
+.choiceState {
+  font-family: var(--folio-code-font-family);
+  font-size: 0.625rem;
+  letter-spacing: 0.11em;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+}
+
+.docsChoice .choiceState {
+  color: var(--primary);
+}
+
+.choiceRule {
+  width: 1px;
+  height: 2rem;
+  background: var(--border);
+}
+
+@media (max-width: 639px) {
+  .cover {
+    min-height: auto;
+    padding: 5.5rem 1rem 2rem;
+  }
+
+  .content {
+    gap: 1.75rem;
+  }
+
+  .folio {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page {
+    min-height: 17rem;
+  }
+
+  .choices {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .choiceRule {
+    width: 2rem;
+    height: 1px;
+    justify-self: center;
+  }
+}

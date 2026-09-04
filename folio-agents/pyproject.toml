@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "folio-agents"
+version = "0.1.0"
+description = "Repository-native context and work surfaces for coding agents."
+readme = "README.md"
+license = "AGPL-3.0-only"
+requires-python = ">=3.10"
+authors = [{ name = "pguijas" }]
+keywords = ["agents", "kanban", "git", "project-management"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pyyaml>=6.0",
+    "rich>=13.0",
+    "typer>=0.15.0",
+]
+
+[project.optional-dependencies]
+docs = ["folio-docs>=0.3,<0.4"]
+
+[project.entry-points."folio.cli"]
+agents = "folio_agents.cli_commands:register"
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.8.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["folio_agents"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

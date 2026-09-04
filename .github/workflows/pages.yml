@@ -10,23 +10,28 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, nas]
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
+      pull-requests: read
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -51,8 +56,30 @@ jobs:
 
       - name: Build docs
         env:
-          FOLIO_DEPLOY_PROVIDER: github-pages
+          FOLIO_BASE_PATH: "${{ steps.pages.outputs.base_path || '/' }}"
         run: uv run --locked folio build --clean
+
+      - name: Preserve branch previews
+        shell: bash
+        run: uv run --locked folio github-pages preserve-previews --site-dir _site --git-repo . --state-dir _pages-state --state-branch folio-pages-state
+
+      - name: Prune stale previews
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          open_prs="$(gh pr list --state open --json number,headRefName)"
+          uv run --locked folio github-pages prune-previews \
+            --previews-dir _site/previews \
+            --open-prs-json "$open_prs"
+
+      - name: Write previews data
+        shell: bash
+        run: uv run --locked folio github-pages write-previews-data --previews-dir _site/previews
+
+      - name: Save Pages state
+        shell: bash
+        run: uv run --locked folio github-pages save-state --artifact-dir _site --git-repo . --state-dir _pages-state --state-branch folio-pages-state --commit-message "Update Pages state"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -62,3 +89,17 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify and print deployment URL
+        shell: bash
+        run: |
+          url="${{ steps.deployment.outputs.page_url }}"
+          index_url="${url%/}/previews/"
+          uv run --locked folio github-pages verify-url \
+            --url "$url" \
+            --index-url "$index_url" \
+            --summary-heading "Production docs" \
+            --primary-label "Production URL" \
+            --index-label "Previews index" \
+            --success-message "Verified deployment and previews index with HTTP 200." \
+            --error-message "Deployment URL or previews index did not return HTTP 200"

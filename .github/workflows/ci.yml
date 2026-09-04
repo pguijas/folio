@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [develop, main]
   pull_request:
 
 permissions:
@@ -10,10 +10,7 @@ permissions:
 
 jobs:
   checks:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.12"]
+    runs-on: [self-hosted, nas]
 
     steps:
       - name: Check out repository
@@ -22,7 +19,69 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: folio-docs/template/pnpm-lock.yaml
+
+      - name: Install project dependencies
+        run: uv sync --all-groups --locked
+
+      - name: Lint Python
+        run: uv run --locked ruff check folio-docs folio-agents
+
+      - name: Run Python tests
+        run: uv run --locked pytest
+
+      - name: Build Python wheel
+        run: |
+          uv build --project folio-docs --out-dir dist/docs
+          uv build --project folio-agents --out-dir dist/agents
+
+      - name: Install template dependencies
+        working-directory: folio-docs/template
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint template
+        working-directory: folio-docs/template
+        run: pnpm lint
+
+      - name: Typecheck template
+        working-directory: folio-docs/template
+        run: pnpm typecheck
+
+      - name: Build generated docs site
+        run: uv run --locked folio build --clean
+
+  custom-template-example:
+    # Real end-to-end build of examples/custom-template/, the shipped regression
+    # guard for the opt-in template.overlay_path feature. It layers a single
+    # overridden file on top of the bundled template; every other file — and the
+    # whole marker/MDX contract — is inherited via the bundled fallbacks. Building
+    # it with the real toolchain here catches a broken custom-template contract
+    # that the mocked pytest guard (tests/test_examples.py) cannot.
+    runs-on: [self-hosted, nas]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -37,31 +96,11 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          cache-dependency-path: template/pnpm-lock.yaml
+          cache-dependency-path: folio-docs/template/pnpm-lock.yaml
 
       - name: Install project dependencies
         run: uv sync --all-groups --locked
 
-      - name: Lint Python
-        run: uv run --locked ruff check .
-
-      - name: Run Python tests
-        run: uv run --locked pytest
-
-      - name: Build Python wheel
-        run: uv build
-
-      - name: Install template dependencies
-        working-directory: template
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint template
-        working-directory: template
-        run: pnpm lint
-
-      - name: Typecheck template
-        working-directory: template
-        run: pnpm typecheck
-
-      - name: Build generated docs site
+      - name: Build custom-template example
+        working-directory: folio-docs/examples/custom-template
         run: uv run --locked folio build --clean

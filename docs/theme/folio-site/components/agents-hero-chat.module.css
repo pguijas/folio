@@ -1,0 +1,673 @@
+/* "Ask, and it is published."
+ *
+ * The Docs landing's heartbeat, with the command line swapped for a
+ * conversation. Same construction, deliberately: one window, a payoff lying at
+ * rest underneath it, a shutter over the payoff that runs the whole story and
+ * then lifts up and out, and a title strip that trades identities as it
+ * passes. Pure keyframes on one shared cycle with percentage beats — no
+ * JavaScript, so nothing can desynchronise and nothing runs before hydration.
+ *
+ * Every visible element's 0% state equals its 100% state, so the loop never
+ * jumps. The base (unanimated) styles ARE the rest state — the served board
+ * with the comment already in the card's thread — which is exactly what a
+ * reader who asked for no motion should get.
+ *
+ * Beats, on a 12.5s cycle:
+ *   1.4-3.8%  the owner's message arrives
+ *   7.2-9.2%  the assistant's mark stamps in and it takes its turn
+ *   8-14%     `folio board comment ...` types itself
+ *   14.8-17.4% the two continuation lines land
+ *   19.6-23.2% the two echoes the CLI really prints
+ *   26-29.6%  `folio board check` and its one line back
+ *   29.6-42.4% HOLD on the finished exchange (read time)
+ *   42.4-48.8% the shutter lifts and the served board is under it
+ *   49-72%    the comment it wrote is lit in the thread, then settles
+ *   66-73%    one glint across the filter field, mid-rest
+ *   88-90%    the conversation is cleared while it is off-panel
+ *   94-100%   the shutter comes back down, empty
+ */
+
+/* The panel answers to its own width, not the viewport's: it is 685px in the
+   hero at 1440, about 380 in the same hero at 1024, and about 380 again on a
+   phone, so a viewport breakpoint would get two of those three wrong. */
+.root {
+  container-type: inline-size;
+  container-name: assistc;
+  --cycle: 12.5s;
+  --ease: cubic-bezier(0.32, 0.72, 0.24, 1);
+  --snap: cubic-bezier(0.7, 0, 0.18, 1);
+
+  display: flex;
+  width: 100%;
+  /* 420px is the floor the composition was drawn against; the hero's plate is
+     taller than that whenever the copy column is, so the panel grows into it
+     rather than leaving a band of empty ground under the window, which is the
+     bug the animation before this one had. */
+  min-height: 420px;
+  height: 100%;
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 12px;
+}
+
+.window {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1 1 auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+}
+
+/* ---- the title strip: two identities, one slot ------------------------- */
+
+.strip {
+  display: flex;
+  height: 34px;
+  flex: none;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-inline: 14px;
+}
+
+.stripSlot {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+}
+
+.stripSlot > * {
+  grid-area: 1 / 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.session {
+  opacity: 0;
+  animation: assistc-session var(--cycle) var(--ease) infinite;
+}
+
+@keyframes assistc-session {
+  0%,
+  44% {
+    opacity: 1;
+  }
+  49%,
+  93% {
+    opacity: 0;
+  }
+  99%,
+  100% {
+    opacity: 1;
+  }
+}
+
+.url {
+  animation: assistc-url var(--cycle) var(--ease) infinite;
+}
+
+@keyframes assistc-url {
+  0%,
+  45% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  51%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  98%,
+  100% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+
+/* ---- the stage --------------------------------------------------------- */
+
+.stage {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ---- the shutter: the conversation ------------------------------------- */
+
+.shutter {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  /* Bottom-aligned, the way a conversation actually sits: the exchange grows
+     up from the foot of the window and the empty room is above it, waiting.
+     Top-aligning left a band of dead ground under the last echo that got
+     worse as the hero's plate grew. */
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 20px 22px 22px;
+  background: color-mix(in oklch, var(--muted) 32%, var(--background));
+  transform: translateY(-102%);
+  animation: assistc-shutter var(--cycle) var(--snap) infinite;
+  will-change: transform;
+}
+
+/* the seam the shutter runs on, so the lift reads as a physical edge */
+.shutter::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: color-mix(in oklch, var(--primary) 65%, transparent);
+}
+
+@keyframes assistc-shutter {
+  0%,
+  42.4% {
+    transform: translateY(0);
+  }
+  48.8% {
+    transform: translateY(-102%);
+  }
+  94% {
+    transform: translateY(-102%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* the owner's turn */
+.human {
+  display: flex;
+  flex: none;
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 82%;
+  border: 1px solid var(--border);
+  border-radius: 12px 12px 4px 12px;
+  background: var(--card);
+  padding: 11px 14px;
+  opacity: 0;
+  animation: assistc-bubble var(--cycle) var(--ease) infinite;
+}
+
+@keyframes assistc-bubble {
+  0%,
+  1.4% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  3.8%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* the assistant's turn */
+.agent {
+  display: flex;
+  min-height: 0;
+  flex: none;
+  gap: 13px;
+}
+
+.mark {
+  flex: none;
+  opacity: 0;
+  transform-origin: center center;
+  animation: assistc-mark var(--cycle) var(--ease) infinite;
+}
+
+@keyframes assistc-mark {
+  0%,
+  7.2% {
+    opacity: 0;
+    transform: scale(1.4);
+    filter: blur(3px);
+  }
+  8.4% {
+    opacity: 1;
+    transform: scale(1.06);
+    filter: blur(0.5px);
+  }
+  9.2%,
+  88% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+    filter: blur(3px);
+  }
+}
+
+/* the transcript. 12.5px is the largest measure that keeps the longest of
+   these real lines on one line inside the panel. */
+.run {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  font-size: 12.5px;
+  line-height: 1.85;
+}
+
+/* one printed line, in the transcript's own rhythm */
+.line {
+  white-space: pre;
+  opacity: 0;
+  animation-duration: var(--cycle);
+  animation-timing-function: var(--ease);
+  animation-iteration-count: infinite;
+}
+
+.gap {
+  margin-top: 15px;
+}
+
+.typed {
+  display: inline-block;
+  width: 57ch; /* "folio board comment artifact-viewer-becomes-a-workspace \" */
+  overflow: hidden;
+  vertical-align: bottom;
+  white-space: pre;
+  animation: assistc-type var(--cycle) var(--ease) infinite;
+}
+
+@keyframes assistc-type {
+  0%,
+  8% {
+    width: 0ch;
+    animation-timing-function: steps(57, end);
+  }
+  14%,
+  86.5% {
+    width: 57ch;
+  }
+  87%,
+  100% {
+    width: 0ch;
+  }
+}
+
+.caretSlot {
+  display: inline-block;
+  opacity: 0;
+  animation: assistc-caret var(--cycle) steps(1, end) infinite;
+}
+
+@keyframes assistc-caret {
+  0%,
+  7.9% {
+    opacity: 0;
+  }
+  8%,
+  14.6% {
+    opacity: 1;
+  }
+  15%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.02em;
+  vertical-align: text-bottom;
+  background: var(--primary);
+  animation: assistc-blink 1.1s steps(1) infinite;
+}
+
+@keyframes assistc-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* the prompt the command types itself into, and the six lines after it, in
+   the order they are printed */
+.l0 {
+  animation-name: assistc-l0;
+}
+@keyframes assistc-l0 {
+  0%,
+  7.2% {
+    opacity: 0;
+  }
+  7.9%,
+  88% {
+    opacity: 1;
+  }
+  90%,
+  100% {
+    opacity: 0;
+  }
+}
+.l1 {
+  animation-name: assistc-l1;
+}
+.l2 {
+  animation-name: assistc-l2;
+}
+.l3 {
+  animation-name: assistc-l3;
+}
+.l4 {
+  animation-name: assistc-l4;
+}
+.l5 {
+  animation-name: assistc-l5;
+}
+.l6 {
+  animation-name: assistc-l6;
+}
+
+@keyframes assistc-l1 {
+  0%,
+  14.8% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  15.8%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes assistc-l2 {
+  0%,
+  16.4% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  17.4%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes assistc-l3 {
+  0%,
+  19.6% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  20.8%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes assistc-l4 {
+  0%,
+  22% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  23.2%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes assistc-l5 {
+  0%,
+  26% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  27.2%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+@keyframes assistc-l6 {
+  0%,
+  28.4% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  29.6%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+}
+
+/* ---- the payoff: the served board -------------------------------------- */
+
+/* Three surfaces at full width, and they give way in the order the page can
+   spare them: the filter rail first, then the columns, leaving the card
+   itself, which is the thing the conversation changed. */
+.board {
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.rail,
+.cols {
+  display: none;
+}
+
+/* with nothing to its left, the card is the page and the hairline is noise */
+.drawer {
+  border-left-color: transparent;
+}
+
+@container assistc (min-width: 470px) {
+  .drawer {
+    border-left-color: var(--border);
+  }
+  .board {
+    grid-template-columns: minmax(0, 1fr) 248px;
+  }
+  .cols {
+    display: flex;
+  }
+}
+
+/* A column is only as tall as the panel. Below the hero's own 685 the cards
+   wrap to more lines and the fifth one would be cut in half by the stage's
+   clip, so the fifth is simply not there. */
+.spare {
+  display: none;
+}
+
+@container assistc (min-width: 660px) {
+  .spare {
+    display: block;
+  }
+}
+
+@container assistc (min-width: 600px) {
+  .board {
+    grid-template-columns: 112px minmax(0, 1fr) 248px;
+  }
+  .rail {
+    display: flex;
+  }
+}
+
+/* Narrow: the transcript wraps the way a narrow terminal wraps, and the
+   command stops typing itself, because a caret walking across three wrapped
+   lines reads as a glitch rather than as someone working. */
+@container assistc (max-width: 560px) {
+  .shutter {
+    gap: 16px;
+    padding: 14px 15px;
+  }
+  .bubble {
+    max-width: 100%;
+    padding: 9px 11px;
+    font-size: 11.5px;
+  }
+  .agent {
+    gap: 9px;
+  }
+  .run {
+    font-size: 10px;
+  }
+  .line {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .typed {
+    display: inline;
+    width: auto;
+    overflow: visible;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    animation: none;
+  }
+  .caretSlot {
+    display: none;
+  }
+  .gap {
+    margin-top: 10px;
+  }
+}
+
+.page {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+/* the comment the conversation left, lit for a moment once the shutter is
+   off it, then settling into the thread like any other line */
+.fresh {
+  opacity: 0;
+  animation: assistc-fresh var(--cycle) var(--ease) infinite;
+}
+
+@keyframes assistc-fresh {
+  0%,
+  49% {
+    opacity: 0;
+  }
+  53%,
+  62% {
+    opacity: 1;
+  }
+  72%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* one quiet glint across the filter field, mid-rest */
+.glint {
+  position: relative;
+  overflow: hidden;
+}
+
+.glint::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 34%;
+  pointer-events: none;
+  transform: translateX(-180%) skewX(-18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--foreground) 9%, transparent) 50%,
+    transparent
+  );
+  animation: assistc-glint var(--cycle) var(--ease) infinite;
+}
+
+@keyframes assistc-glint {
+  0%,
+  66% {
+    transform: translateX(-180%) skewX(-18deg);
+  }
+  73% {
+    transform: translateX(400%) skewX(-18deg);
+    animation-timing-function: steps(1, end);
+  }
+  100% {
+    transform: translateX(-180%) skewX(-18deg);
+  }
+}
+
+/* Reduced motion: no cycle at all. The base styles are the served board with
+   the comment in its thread, which is the end of the story rather than a
+   degraded version of it. */
+@media (prefers-reduced-motion: reduce) {
+  .session,
+  .url,
+  .shutter,
+  .bubble,
+  .mark,
+  .line,
+  .typed,
+  .caretSlot,
+  .caret,
+  .fresh,
+  .glint::after {
+    animation: none !important;
+  }
+}
