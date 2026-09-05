@@ -48,6 +48,10 @@ export function RoadmapCards({
     /* A key the roadmap does not have names no card, and collapsing every
        card over a typo would leave the page blank. */
     if (!groups.some((group) => group.key === wanted)) return
+    /* Synchronous by design: this is the one-time handover from the URL (an
+       external system the server cannot read) to client state, and it must
+       land before the pre-paint stylesheet is dropped below. */
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen([wanted])
   }, [groups])
 
