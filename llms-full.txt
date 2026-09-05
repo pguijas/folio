@@ -5158,7 +5158,9 @@ landing:
     tagline: ""                  # explicit empty string removes the kicker
     headline: "Your project"
     notice:                       # optional announcement chip above the kicker
-      text: "New — v1.2 released"
+      text: "New — v1.2 released" # or a list of up to three messages the
+                                  # chip cycles through (reduced motion pins
+                                  # the first)
       link: "/docs/changelog"     # optional; same href policy as other links
     description: "Generated API reference and guides, straight from your source."
   cta:
@@ -11854,7 +11856,7 @@ Source: folio-docs/folio_docs/config.py
 Source: folio-docs/folio_docs/config.py:61
 
 ### __post_init__
-Source: folio-docs/folio_docs/config.py:134
+Source: folio-docs/folio_docs/config.py:135
 
 ```python
 def __post_init__() -> None
@@ -11863,7 +11865,7 @@ def __post_init__() -> None
 **Returns:** `None`
 
 ### resolve_paths
-Source: folio-docs/folio_docs/config.py:137
+Source: folio-docs/folio_docs/config.py:138
 
 ```python
 def resolve_paths(base: Path) -> Config
@@ -11889,7 +11891,7 @@ def _normalize_project_repo_ref(value: Any) -> str
 **Returns:** `str`
 
 ## resolve_output_dir
-Source: folio-docs/folio_docs/config.py:216
+Source: folio-docs/folio_docs/config.py:219
 
 ```python
 def resolve_output_dir(base: Path, output_dir: str, *, source_paths: Sequence[str] = ()) -> Path
@@ -11912,7 +11914,7 @@ that know the configured sources should pass them as ``source_paths``.
 **Returns:** `Path`
 
 ## resolve_theme_package_path
-Source: folio-docs/folio_docs/config.py:265
+Source: folio-docs/folio_docs/config.py:268
 
 ```python
 def resolve_theme_package_path(base: Path, theme_package_path: str, output_dir: str) -> str
@@ -11935,7 +11937,7 @@ is not required here because ``folio_docs.build`` validates it later.
 **Returns:** `str`
 
 ## _load_config_plugins
-Source: folio-docs/folio_docs/config.py:289
+Source: folio-docs/folio_docs/config.py:292
 
 ```python
 def _load_config_plugins(plugin_names: Any, base_dir: Path) -> PluginManager
@@ -11957,7 +11959,7 @@ value raises ``ValueError`` so the misconfiguration fails loudly.
 **Returns:** `PluginManager`
 
 ## plugin_config_keys
-Source: folio-docs/folio_docs/config.py:306
+Source: folio-docs/folio_docs/config.py:309
 
 ```python
 def plugin_config_keys(pm: PluginManager) -> set[str]
@@ -11975,7 +11977,7 @@ an invalid ``config_keys()`` result the same way: warn and skip.
 **Returns:** `set[str]`
 
 ## _split_components
-Source: folio-docs/folio_docs/config.py:321
+Source: folio-docs/folio_docs/config.py:324
 
 ```python
 def _split_components(raw_components: Any) -> tuple[list[str], list[dict[str, Any]]]
@@ -11988,7 +11990,7 @@ def _split_components(raw_components: Any) -> tuple[list[str], list[dict[str, An
 **Returns:** `tuple[list[str], list[dict[str, Any]]]`
 
 ## _normalize_component_spec
-Source: folio-docs/folio_docs/config.py:343
+Source: folio-docs/folio_docs/config.py:346
 
 ```python
 def _normalize_component_spec(entry: dict[str, Any]) -> dict[str, Any]
@@ -12001,7 +12003,7 @@ def _normalize_component_spec(entry: dict[str, Any]) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _resolve_component_specs
-Source: folio-docs/folio_docs/config.py:357
+Source: folio-docs/folio_docs/config.py:360
 
 ```python
 def _resolve_component_specs(specs: list[dict[str, Any]], base: Path) -> list[dict[str, Any]]
@@ -12015,7 +12017,7 @@ def _resolve_component_specs(specs: list[dict[str, Any]], base: Path) -> list[di
 **Returns:** `list[dict[str, Any]]`
 
 ## _disabled_known_config_keys
-Source: folio-docs/folio_docs/config.py:372
+Source: folio-docs/folio_docs/config.py:375
 
 ```python
 def _disabled_known_config_keys(raw: dict[str, Any]) -> set[str]
@@ -12028,7 +12030,7 @@ def _disabled_known_config_keys(raw: dict[str, Any]) -> set[str]
 **Returns:** `set[str]`
 
 ## _theme_string
-Source: folio-docs/folio_docs/config.py:380
+Source: folio-docs/folio_docs/config.py:383
 
 ```python
 def _theme_string(raw_value: Any) -> str
@@ -12041,7 +12043,7 @@ def _theme_string(raw_value: Any) -> str
 **Returns:** `str`
 
 ## _theme_preview
-Source: folio-docs/folio_docs/config.py:384
+Source: folio-docs/folio_docs/config.py:387
 
 ```python
 def _theme_preview(raw_preview: Any) -> dict[str, str]
@@ -12054,7 +12056,7 @@ def _theme_preview(raw_preview: Any) -> dict[str, str]
 **Returns:** `dict[str, str]`
 
 ## _theme_swatch
-Source: folio-docs/folio_docs/config.py:397
+Source: folio-docs/folio_docs/config.py:400
 
 ```python
 def _theme_swatch(raw_value: Any, path: str) -> str
@@ -12068,7 +12070,7 @@ def _theme_swatch(raw_value: Any, path: str) -> str
 **Returns:** `str`
 
 ## _theme_text
-Source: folio-docs/folio_docs/config.py:403
+Source: folio-docs/folio_docs/config.py:406
 
 ```python
 def _theme_text(raw_value: Any, path: str) -> str
@@ -12082,7 +12084,7 @@ def _theme_text(raw_value: Any, path: str) -> str
 **Returns:** `str`
 
 ## _theme_href
-Source: folio-docs/folio_docs/config.py:414
+Source: folio-docs/folio_docs/config.py:417
 
 ```python
 def _theme_href(raw_value: Any, path: str) -> str
@@ -12102,7 +12104,7 @@ other scheme (``javascript:``, ``data:``, ``vbscript:``, ...) is rejected.
 **Returns:** `str`
 
 ## _repo_url
-Source: folio-docs/folio_docs/config.py:429
+Source: folio-docs/folio_docs/config.py:432
 
 ```python
 def _repo_url(raw_value: Any, path: str) -> str
@@ -12124,7 +12126,7 @@ files (``javascript:``, ``data:``, ``vbscript:``, ``file:``) are rejected.
 **Returns:** `str`
 
 ## _theme_radius
-Source: folio-docs/folio_docs/config.py:460
+Source: folio-docs/folio_docs/config.py:463
 
 ```python
 def _theme_radius(raw_value: Any) -> str
@@ -12145,7 +12147,7 @@ values so configs written against older docs keep building.
 **Returns:** `str`
 
 ## _theme_bool
-Source: folio-docs/folio_docs/config.py:485
+Source: folio-docs/folio_docs/config.py:488
 
 ```python
 def _theme_bool(raw_value: Any, path: str) -> bool | None
@@ -12159,7 +12161,7 @@ def _theme_bool(raw_value: Any, path: str) -> bool | None
 **Returns:** `bool | None`
 
 ## _validate_theme_css_value
-Source: folio-docs/folio_docs/config.py:499
+Source: folio-docs/folio_docs/config.py:502
 
 ```python
 def _validate_theme_css_value(value: Any, path: str) -> str
@@ -12173,7 +12175,7 @@ def _validate_theme_css_value(value: Any, path: str) -> str
 **Returns:** `str`
 
 ## _theme_css_vars
-Source: folio-docs/folio_docs/config.py:508
+Source: folio-docs/folio_docs/config.py:511
 
 ```python
 def _theme_css_vars(raw_vars: Any, path: str) -> dict[str, str]
@@ -12187,7 +12189,7 @@ def _theme_css_vars(raw_vars: Any, path: str) -> dict[str, str]
 **Returns:** `dict[str, str]`
 
 ## _theme_tokens
-Source: folio-docs/folio_docs/config.py:522
+Source: folio-docs/folio_docs/config.py:525
 
 ```python
 def _theme_tokens(raw_tokens: Any) -> dict[str, dict[str, str]]
@@ -12200,7 +12202,7 @@ def _theme_tokens(raw_tokens: Any) -> dict[str, dict[str, str]]
 **Returns:** `dict[str, dict[str, str]]`
 
 ## _theme_header
-Source: folio-docs/folio_docs/config.py:536
+Source: folio-docs/folio_docs/config.py:539
 
 ```python
 def _theme_header(raw_header: Any) -> dict[str, Any]
@@ -12213,7 +12215,7 @@ def _theme_header(raw_header: Any) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _theme_variant_id
-Source: folio-docs/folio_docs/config.py:563
+Source: folio-docs/folio_docs/config.py:566
 
 ```python
 def _theme_variant_id(raw_id: Any, path: str) -> str
@@ -12227,7 +12229,7 @@ def _theme_variant_id(raw_id: Any, path: str) -> str
 **Returns:** `str`
 
 ## _theme_variant_option
-Source: folio-docs/folio_docs/config.py:572
+Source: folio-docs/folio_docs/config.py:575
 
 ```python
 def _theme_variant_option(raw_option: Any, path: str) -> dict[str, Any]
@@ -12241,7 +12243,7 @@ def _theme_variant_option(raw_option: Any, path: str) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _theme_variants
-Source: folio-docs/folio_docs/config.py:588
+Source: folio-docs/folio_docs/config.py:591
 
 ```python
 def _theme_variants(raw_variants: Any) -> dict[str, dict[str, Any]]
@@ -12254,7 +12256,7 @@ def _theme_variants(raw_variants: Any) -> dict[str, dict[str, Any]]
 **Returns:** `dict[str, dict[str, Any]]`
 
 ## _theme_tune
-Source: folio-docs/folio_docs/config.py:654
+Source: folio-docs/folio_docs/config.py:657
 
 ```python
 def _theme_tune(raw_tune: Any) -> dict[str, str]
@@ -12267,7 +12269,7 @@ def _theme_tune(raw_tune: Any) -> dict[str, str]
 **Returns:** `dict[str, str]`
 
 ## _theme_package_path
-Source: folio-docs/folio_docs/config.py:676
+Source: folio-docs/folio_docs/config.py:679
 
 ```python
 def _theme_package_path(raw_theme: Any) -> str
@@ -12280,7 +12282,7 @@ def _theme_package_path(raw_theme: Any) -> str
 **Returns:** `str`
 
 ## _template_path
-Source: folio-docs/folio_docs/config.py:683
+Source: folio-docs/folio_docs/config.py:686
 
 ```python
 def _template_path(raw_template: Any) -> str
@@ -12293,7 +12295,7 @@ def _template_path(raw_template: Any) -> str
 **Returns:** `str`
 
 ## _template_overlay_path
-Source: folio-docs/folio_docs/config.py:690
+Source: folio-docs/folio_docs/config.py:693
 
 ```python
 def _template_overlay_path(raw_template: Any) -> str
@@ -12314,7 +12316,7 @@ replacement wins. See ``docs/guide/theming/custom-templates.md``.
 **Returns:** `str`
 
 ## _template_params
-Source: folio-docs/folio_docs/config.py:713
+Source: folio-docs/folio_docs/config.py:716
 
 ```python
 def _template_params(raw_template: Any) -> dict[str, Any]
@@ -12342,7 +12344,7 @@ See ``docs/guide/theming/custom-templates.md`` for the full contract.
 **Returns:** `dict[str, Any]`
 
 ## _template_docs_route_base
-Source: folio-docs/folio_docs/config.py:744
+Source: folio-docs/folio_docs/config.py:747
 
 ```python
 def _template_docs_route_base(raw_template: Any) -> str
@@ -12355,7 +12357,7 @@ def _template_docs_route_base(raw_template: Any) -> str
 **Returns:** `str`
 
 ## normalize_docs_route_base
-Source: folio-docs/folio_docs/config.py:750
+Source: folio-docs/folio_docs/config.py:753
 
 ```python
 def normalize_docs_route_base(value: Any) -> str
@@ -12368,7 +12370,7 @@ def normalize_docs_route_base(value: Any) -> str
 **Returns:** `str`
 
 ## normalize_base_path
-Source: folio-docs/folio_docs/config.py:768
+Source: folio-docs/folio_docs/config.py:771
 
 ```python
 def normalize_base_path(value: Any) -> str
@@ -12381,7 +12383,7 @@ def normalize_base_path(value: Any) -> str
 **Returns:** `str`
 
 ## load_config
-Source: folio-docs/folio_docs/config.py:778
+Source: folio-docs/folio_docs/config.py:781
 
 ```python
 def load_config(path: Path) -> Config
@@ -12394,7 +12396,7 @@ def load_config(path: Path) -> Config
 **Returns:** `Config`
 
 ## _config_mapping
-Source: folio-docs/folio_docs/config.py:783
+Source: folio-docs/folio_docs/config.py:786
 
 ```python
 def _config_mapping(raw: dict[str, Any], key: str) -> dict[str, Any]
@@ -12408,7 +12410,7 @@ def _config_mapping(raw: dict[str, Any], key: str) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _config_string_list
-Source: folio-docs/folio_docs/config.py:790
+Source: folio-docs/folio_docs/config.py:793
 
 ```python
 def _config_string_list(value: Any, key: str) -> list[str]
@@ -12422,7 +12424,7 @@ def _config_string_list(value: Any, key: str) -> list[str]
 **Returns:** `list[str]`
 
 ## load_config_with_plugins
-Source: folio-docs/folio_docs/config.py:798
+Source: folio-docs/folio_docs/config.py:801
 
 ```python
 def load_config_with_plugins(path: Path, plugin_base_dir: Path | None = None) -> tuple[Config, PluginManager]
@@ -13168,23 +13170,25 @@ anything else drops with a warning, like every other malformed row.
 Source: folio-docs/folio_docs/docs/integrations/landing.py:221
 
 ```python
-def _normalize_hero_notice(raw_notice: Any) -> dict[str, str]
+def _normalize_hero_notice(raw_notice: Any) -> dict[str, Any]
 ```
 
-The hero's announcement chip: one plain message plus a link.
+The hero's announcement chip: configured messages plus a link.
 
-Kept deliberately simple — no lists, no rotation, no derived data. A
-notice without usable text degrades to absent; the link passes the same
-href scheme policy as every other configured link.
+`text` is one plain string, or a list of up to three that the chip cycles
+through (pure CSS in the template; reduced motion pins the first). Still
+nothing derived — every message is written in docs.yaml. A notice without
+usable text degrades to absent; the link passes the same href scheme
+policy as every other configured link.
 
 | Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
 | `raw_notice` | `Any` |  |  |
 
-**Returns:** `dict[str, str]`
+**Returns:** `dict[str, Any]`
 
 ## _normalize_boards_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:242
+Source: folio-docs/folio_docs/docs/integrations/landing.py:261
 
 ```python
 def _normalize_boards_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13197,7 +13201,7 @@ def _normalize_boards_section(section: dict[str, Any]) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _normalize_mechanism_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:255
+Source: folio-docs/folio_docs/docs/integrations/landing.py:274
 
 ```python
 def _normalize_mechanism_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13210,7 +13214,7 @@ def _normalize_mechanism_section(section: dict[str, Any]) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _normalize_statement_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:284
+Source: folio-docs/folio_docs/docs/integrations/landing.py:303
 
 ```python
 def _normalize_statement_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13223,7 +13227,7 @@ def _normalize_statement_section(section: dict[str, Any]) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _labeled_entries
-Source: folio-docs/folio_docs/docs/integrations/landing.py:334
+Source: folio-docs/folio_docs/docs/integrations/landing.py:353
 
 ```python
 def _labeled_entries(raw_entries: Any, key: str, *, allow_icon: bool = False) -> list[dict[str, str]]
@@ -13240,7 +13244,7 @@ Clean a list of ``{key, detail}`` mappings; entries without ``key`` drop.
 **Returns:** `list[dict[str, str]]`
 
 ## _normalize_harness_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:355
+Source: folio-docs/folio_docs/docs/integrations/landing.py:374
 
 ```python
 def _normalize_harness_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13259,7 +13263,7 @@ a new vocabulary or implying that Folio controls the harnesses it wraps.
 **Returns:** `dict[str, Any]`
 
 ## _normalize_funnel_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:377
+Source: folio-docs/folio_docs/docs/integrations/landing.py:396
 
 ```python
 def _normalize_funnel_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13272,7 +13276,7 @@ def _normalize_funnel_section(section: dict[str, Any]) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _normalize_features_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:434
+Source: folio-docs/folio_docs/docs/integrations/landing.py:453
 
 ```python
 def _normalize_features_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13285,7 +13289,7 @@ def _normalize_features_section(section: dict[str, Any]) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _normalize_cells_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:483
+Source: folio-docs/folio_docs/docs/integrations/landing.py:502
 
 ```python
 def _normalize_cells_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13298,7 +13302,7 @@ def _normalize_cells_section(section: dict[str, Any]) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## _warn_builtin_comparison
-Source: folio-docs/folio_docs/docs/integrations/landing.py:529
+Source: folio-docs/folio_docs/docs/integrations/landing.py:548
 
 ```python
 def _warn_builtin_comparison(source: str) -> None
@@ -13311,7 +13315,7 @@ def _warn_builtin_comparison(source: str) -> None
 **Returns:** `None`
 
 ## _comparison_value
-Source: folio-docs/folio_docs/docs/integrations/landing.py:538
+Source: folio-docs/folio_docs/docs/integrations/landing.py:557
 
 ```python
 def _comparison_value(raw_value: Any) -> bool | str
@@ -13331,7 +13335,7 @@ lands on partial, which is what the tilde means in the table anyway.
 **Returns:** `bool | str`
 
 ## _comparison_tools
-Source: folio-docs/folio_docs/docs/integrations/landing.py:557
+Source: folio-docs/folio_docs/docs/integrations/landing.py:576
 
 ```python
 def _comparison_tools(raw_tools: Any) -> list[str]
@@ -13346,7 +13350,7 @@ The column names; blanks and non-strings drop.
 **Returns:** `list[str]`
 
 ## _comparison_rows
-Source: folio-docs/folio_docs/docs/integrations/landing.py:566
+Source: folio-docs/folio_docs/docs/integrations/landing.py:585
 
 ```python
 def _comparison_rows(raw_rows: Any, tool_count: int) -> list[dict[str, Any]]
@@ -13366,7 +13370,7 @@ padded into a claim nobody wrote.
 **Returns:** `list[dict[str, Any]]`
 
 ## _comparison_table
-Source: folio-docs/folio_docs/docs/integrations/landing.py:602
+Source: folio-docs/folio_docs/docs/integrations/landing.py:621
 
 ```python
 def _comparison_table(raw_table: Any) -> dict[str, Any]
@@ -13381,7 +13385,7 @@ def _comparison_table(raw_table: Any) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## landing_comparison
-Source: folio-docs/folio_docs/docs/integrations/landing.py:616
+Source: folio-docs/folio_docs/docs/integrations/landing.py:635
 
 ```python
 def landing_comparison(raw_comparison: Any) -> bool | dict[str, Any]
@@ -13400,7 +13404,7 @@ when the key is off, absent, or leaves nothing to render.
 **Returns:** `bool | dict[str, Any]`
 
 ## _normalize_comparison_section
-Source: folio-docs/folio_docs/docs/integrations/landing.py:640
+Source: folio-docs/folio_docs/docs/integrations/landing.py:659
 
 ```python
 def _normalize_comparison_section(section: dict[str, Any]) -> dict[str, Any]
@@ -13420,7 +13424,7 @@ than handed to the template as an empty shell.
 **Returns:** `dict[str, Any]`
 
 ## _mapping
-Source: folio-docs/folio_docs/docs/integrations/landing.py:671
+Source: folio-docs/folio_docs/docs/integrations/landing.py:690
 
 ```python
 def _mapping(value: Any) -> dict[str, Any]
@@ -13433,7 +13437,7 @@ def _mapping(value: Any) -> dict[str, Any]
 **Returns:** `dict[str, Any]`
 
 ## normalize_landing
-Source: folio-docs/folio_docs/docs/integrations/landing.py:675
+Source: folio-docs/folio_docs/docs/integrations/landing.py:694
 
 ```python
 def normalize_landing(raw_landing: Any) -> dict[str, Any]

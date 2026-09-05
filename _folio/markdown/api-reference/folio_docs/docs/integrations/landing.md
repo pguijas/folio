@@ -132,16 +132,18 @@ anything else drops with a warning, like every other malformed row.
 ### `_normalize_hero_notice` 
 
 ```python
-def _normalize_hero_notice(raw_notice: Any) -> dict[str, str]
+def _normalize_hero_notice(raw_notice: Any) -> dict[str, Any]
 ```
 
-The hero's announcement chip: one plain message plus a link.
+The hero's announcement chip: configured messages plus a link.
 
-Kept deliberately simple — no lists, no rotation, no derived data. A
-notice without usable text degrades to absent; the link passes the same
-href scheme policy as every other configured link.
+`text` is one plain string, or a list of up to three that the chip cycles
+through (pure CSS in the template; reduced motion pins the first). Still
+nothing derived — every message is written in docs.yaml. A notice without
+usable text degrades to absent; the link passes the same href scheme
+policy as every other configured link.
 
-**Returns:** `dict[str, str]` - 
+**Returns:** `dict[str, Any]` - 
 
 ### `_normalize_boards_section` 
 

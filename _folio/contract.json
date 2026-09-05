@@ -1,7 +1,7 @@
 {
   "folioVersion": "0.3.0",
   "mdxContractVersion": "1.1",
-  "generatedAt": "2026-09-05T07:40:17Z",
+  "generatedAt": "2026-09-05T09:55:07Z",
   "instructions": "Ignore fields you do not recognise; later Folio releases add them. mdxContractVersion versions the components list only.",
   "components": [
     {
