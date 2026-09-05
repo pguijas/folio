@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: [self-hosted, nas]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
@@ -72,7 +72,7 @@ jobs:
 
   publish:
     needs: build
-    runs-on: [self-hosted, nas]
+    runs-on: ubuntu-latest
     environment: pypi
     permissions:
       contents: read
