@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: [self-hosted, nas]
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -45,7 +45,7 @@ jobs:
 
   publish:
     needs: build
-    runs-on: [self-hosted, nas]
+    runs-on: ubuntu-latest
     environment: pypi-agents
     permissions:
       contents: read
