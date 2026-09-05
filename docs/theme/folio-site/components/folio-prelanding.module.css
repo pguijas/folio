@@ -8,19 +8,22 @@
 }
 
 .content {
-  display: flex;
+  display: grid;
   width: min(52rem, 100%);
-  flex-direction: column;
-  align-items: center;
-  gap: 2.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2.5vw, 1.75rem);
 }
 
-.folio {
-  position: relative;
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 2.5vw, 1.75rem);
+/* Both drawings are rem-fixed content inside the same min-height, so side
+   by side the frames render at one height and the two names sit level. No
+   `flex: 1` on the frame: stretching it would push a cell's own leftover
+   space into the drawing, so the frame *opposite* a wrapped name would grow
+   and the pair would visibly misalign at large browser font settings. */
+.product {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2.25rem;
 }
 
 .page {
@@ -48,29 +51,20 @@
   transform-origin: left center;
 }
 
-.choices {
-  display: grid;
-  width: 100%;
-  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
-  align-items: center;
-  gap: 0;
-  text-align: center;
-}
-
 .choice {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.65rem;
   padding-inline: 1.5rem;
-}
-
-.docsChoice {
   color: var(--foreground);
+  /* Centers the *lines* of a name that wraps at large font settings;
+     align-items above only centers the unwrapped boxes. */
+  text-align: center;
   text-decoration: none;
 }
 
-.docsChoice:hover .choiceName {
+.choice:hover .choiceName {
   color: var(--primary);
 }
 
@@ -86,18 +80,8 @@
   font-family: var(--folio-code-font-family);
   font-size: 0.625rem;
   letter-spacing: 0.11em;
-  color: var(--muted-foreground);
-  text-transform: uppercase;
-}
-
-.docsChoice .choiceState {
   color: var(--primary);
-}
-
-.choiceRule {
-  width: 1px;
-  height: 2rem;
-  background: var(--border);
+  text-transform: uppercase;
 }
 
 @media (max-width: 639px) {
@@ -106,26 +90,18 @@
     padding: 5.5rem 1rem 2rem;
   }
 
+  /* Stacked, proximity does the grouping: a name hangs close under its own
+     drawing, and the next product starts a clear stretch further down. */
   .content {
-    gap: 1.75rem;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 3rem;
   }
 
-  .folio {
-    grid-template-columns: minmax(0, 1fr);
+  .product {
+    gap: 1.25rem;
   }
 
   .page {
     min-height: 17rem;
-  }
-
-  .choices {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
-  }
-
-  .choiceRule {
-    width: 2rem;
-    height: 1px;
-    justify-self: center;
   }
 }
