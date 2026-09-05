@@ -218,22 +218,41 @@ def _normalize_actions(section: dict[str, Any]) -> None:
     section["actions"] = actions
 
 
-def _normalize_hero_notice(raw_notice: Any) -> dict[str, str]:
-    """The hero's announcement chip: one plain message plus a link.
+def _normalize_hero_notice(raw_notice: Any) -> dict[str, Any]:
+    """The hero's announcement chip: configured messages plus a link.
 
-    Kept deliberately simple — no lists, no rotation, no derived data. A
-    notice without usable text degrades to absent; the link passes the same
-    href scheme policy as every other configured link.
+    `text` is one plain string, or a list of up to three that the chip cycles
+    through (pure CSS in the template; reduced motion pins the first). Still
+    nothing derived — every message is written in docs.yaml. A notice without
+    usable text degrades to absent; the link passes the same href scheme
+    policy as every other configured link.
     """
     empty = {"text": "", "link": ""}
     if not isinstance(raw_notice, dict):
         return empty
-    text = _string(raw_notice.get("text"))
+    raw_text = raw_notice.get("text")
+    text: str | list[str]
+    if isinstance(raw_text, list):
+        messages = [_string(item) for item in raw_text]
+        messages = [message for message in messages if message]
+        if len(messages) > 3:
+            warnings.warn(
+                "landing: hero notice text lists cap at three messages — "
+                f"dropped {len(messages) - 3}",
+                UserWarning,
+                stacklevel=2,
+            )
+            messages = messages[:3]
+        # One survivor is not a rotation; hand the template the plain form.
+        text = messages[0] if len(messages) == 1 else messages
+    else:
+        text = _string(raw_text)
     if not text:
         return empty
+    label = text if isinstance(text, str) else text[0]
     link = _safe_section_href(
         raw_notice.get("link"),
-        f"landing: hero notice '{text}' link",
+        f"landing: hero notice '{label}' link",
         "",
     )
     return {"text": text, "link": link}

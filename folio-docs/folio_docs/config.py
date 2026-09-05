@@ -114,7 +114,8 @@ class Config:
     landing_hero_tagline: str | None = None
     landing_hero_headline: str = ""
     landing_hero_description: str = ""
-    landing_notice_text: str = ""
+    # One message, or a list of up to three the hero chip cycles through.
+    landing_notice_text: str | list[str] = ""
     landing_notice_link: str = ""
     landing_cta_primary_text: str = "Get Started"
     landing_cta_primary_link: str = "/docs"
@@ -194,7 +195,9 @@ class Config:
             landing_hero_tagline=self.landing_hero_tagline,
             landing_hero_headline=self.landing_hero_headline,
             landing_hero_description=self.landing_hero_description,
-            landing_notice_text=self.landing_notice_text,
+            landing_notice_text=list(self.landing_notice_text)
+            if isinstance(self.landing_notice_text, list)
+            else self.landing_notice_text,
             landing_notice_link=self.landing_notice_link,
             landing_cta_primary_text=self.landing_cta_primary_text,
             landing_cta_primary_link=self.landing_cta_primary_link,

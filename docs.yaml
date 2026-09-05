@@ -47,6 +47,15 @@ landing:
       link: "https://github.com/pguijas/folio"
   hero:
     variant: "heartbeat"
+    # Three true statements about the release, cycled by the chip. The
+    # rotation is the feature folio-2 shipped last (241687976) and the 0.3.0
+    # import dropped; restored here as configured messages, nothing derived.
+    notice:
+      text:
+        - "Folio 0.3.0 — one package becomes two products"
+        - "Folio Docs 0.3.0 — shipped"
+        - "Folio for Agents 0.1.0 — shipped"
+      link: "/roadmap"
     tagline: "Open-source documentation for the agent era"
     headline: "Every docs page ships twice: HTML for people, Markdown for agents."
     description: "One docs.yaml builds the site from the Python source and guides already in your repo."

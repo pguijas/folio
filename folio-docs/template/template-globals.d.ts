@@ -17,7 +17,7 @@ declare const __PROJECT_NAME_JSON__: string
 declare const __PROJECT_MONOGRAM_JSON__: string
 declare const __PROJECT_VERSION_JSON__: string
 declare const __LANDING_TAGLINE_JSON__: string
-declare const __LANDING_NOTICE_TEXT_JSON__: string
+declare const __LANDING_NOTICE_TEXT_JSON__: string | string[]
 declare const __LANDING_NOTICE_LINK_JSON__: string
 declare const __LANDING_HEADLINE_JSON__: string
 declare const __LANDING_DESCRIPTION_JSON__: string

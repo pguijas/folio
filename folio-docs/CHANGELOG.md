@@ -14,6 +14,8 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
 - Landing, roadmap, and OpenAPI plugins; OpenAPI remains opt-in.
 - Custom templates, theme overlays, project themes, search, branch previews,
   and richer MDX components.
+- The landing hero's notice chip accepts a list of up to three messages and
+  cycles through them (pure CSS; reduced motion pins the first message).
 
 ### Changed
 
