@@ -27,8 +27,9 @@ type LandingHeroProps = {
   projectMonogram?: string
   projectVersion?: string
   /* Optional announcement chip above the kicker: one plain configured
-     message ("landing.hero.notice" in docs.yaml), nothing derived. */
-  noticeText?: string
+     message, or a list of up to three the chip cycles through
+     ("landing.hero.notice" in docs.yaml) — still nothing derived. */
+  noticeText?: string | string[]
   noticeLink?: string
   /* Reuse the heartbeat window inside a product section without rendering a
      second hero, headline, or CTA block. */
@@ -357,6 +358,31 @@ export function HeartbeatLandingHero({
   pathToRoot,
 }: LandingHeroProps) {
   const hasTagline = tagline.trim() !== ""
+  /* The chip renders one message statically; two or three stack in a single
+     grid cell and cycle via the landing-notice-* rules in globals.css, so
+     the chip sizes to the widest message and never reflows. */
+  const noticeMessages = (Array.isArray(noticeText) ? noticeText : [noticeText])
+    .filter((message): message is string => Boolean(message))
+    .slice(0, 3)
+  const hasNotice = noticeMessages.length > 0
+  const noticeBody =
+    noticeMessages.length > 1 ? (
+      <span
+        className="landing-notice-stack grid"
+        data-notice-count={noticeMessages.length}
+      >
+        {noticeMessages.map((message) => (
+          <span
+            key={message}
+            className="landing-notice-item inline-flex items-center whitespace-nowrap"
+          >
+            {message}
+          </span>
+        ))}
+      </span>
+    ) : (
+      noticeMessages[0]
+    )
   const mockName = projectName || "Docs"
   const mockSlug =
     mockName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") ||
@@ -381,13 +407,13 @@ export function HeartbeatLandingHero({
       >
         {!embedded ? (
           <div className="landing-hero-copy min-w-0 max-w-2xl">
-            {noticeText ? (
+            {hasNotice ? (
               noticeLink ? (
                 <a
                   href={normalizeLandingHref(noticeLink, pathToRoot)}
                   className="group mb-5 inline-flex items-center gap-2 rounded-md border border-border bg-card px-2.5 py-1 font-mono text-[11px] text-muted-foreground transition-colors hover:border-foreground/40 hover:text-foreground"
                 >
-                  {noticeText}
+                  {noticeBody}
                   <span
                     aria-hidden="true"
                     className="transition-transform group-hover:translate-x-0.5"
@@ -397,7 +423,7 @@ export function HeartbeatLandingHero({
                 </a>
               ) : (
                 <span className="mb-5 inline-flex items-center rounded-md border border-border bg-card px-2.5 py-1 font-mono text-[11px] text-muted-foreground">
-                  {noticeText}
+                  {noticeBody}
                 </span>
               )
             ) : null}
@@ -409,7 +435,7 @@ export function HeartbeatLandingHero({
             <h1
               className={cn(
                 "text-4xl leading-[1.02] font-extrabold text-foreground sm:text-5xl xl:text-6xl",
-                hasTagline || noticeText ? "mt-5" : "m-0"
+                hasTagline || hasNotice ? "mt-5" : "m-0"
               )}
             >
               {headline}

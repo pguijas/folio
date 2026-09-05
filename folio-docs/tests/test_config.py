@@ -2609,6 +2609,69 @@ landing:
     assert config.landing_notice_link == "/docs/changelog"
 
 
+def test_load_config_landing_hero_notice_list_rotates(tmp_path: Path):
+    cfg_file = tmp_path / "docs.yaml"
+    cfg_file.write_text(
+        """
+project:
+  name: "NoticeList"
+
+landing:
+  hero:
+    notice:
+      text:
+        - "v0.3 shipped"
+        - ""
+        - "Two products now"
+      link: "/roadmap"
+"""
+    )
+
+    config = load_config(cfg_file)
+
+    assert config.landing_notice_text == ["v0.3 shipped", "Two products now"]
+    assert config.landing_notice_link == "/roadmap"
+
+
+def test_load_config_landing_hero_notice_list_caps_at_three(tmp_path: Path):
+    cfg_file = tmp_path / "docs.yaml"
+    cfg_file.write_text(
+        """
+project:
+  name: "NoticeCap"
+
+landing:
+  hero:
+    notice:
+      text: ["one", "two", "three", "four"]
+"""
+    )
+
+    with pytest.warns(UserWarning, match="cap at three"):
+        config = load_config(cfg_file)
+
+    assert config.landing_notice_text == ["one", "two", "three"]
+
+
+def test_load_config_landing_hero_notice_single_item_list_is_plain(tmp_path: Path):
+    cfg_file = tmp_path / "docs.yaml"
+    cfg_file.write_text(
+        """
+project:
+  name: "NoticeSingle"
+
+landing:
+  hero:
+    notice:
+      text: ["only message"]
+"""
+    )
+
+    config = load_config(cfg_file)
+
+    assert config.landing_notice_text == "only message"
+
+
 def test_load_config_landing_hero_notice_degrades(tmp_path: Path):
     cfg_file = tmp_path / "docs.yaml"
     cfg_file.write_text(
