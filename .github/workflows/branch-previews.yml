@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: [self-hosted, nas]
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       pull-requests: read
@@ -76,7 +76,7 @@ jobs:
   build-preview:
     needs: validate
     if: needs.validate.outputs.enabled == 'true'
-    runs-on: [self-hosted, nas]
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -150,7 +150,7 @@ jobs:
   deploy:
     needs: ["validate", "build-preview"]
     if: needs.validate.outputs.enabled == 'true'
-    runs-on: [self-hosted, nas]
+    runs-on: ubuntu-latest
     concurrency:
       group: "pages"
       cancel-in-progress: false
