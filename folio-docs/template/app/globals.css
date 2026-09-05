@@ -2429,3 +2429,60 @@ aside li > a[href="/"] {
    no paper tint — but the landing, the docs and the roadmap all sit on
    `oklch(0.997)`, so the one page that did not read as a different site
    pasted into this one. A theme is a theme everywhere or it is decoration. */
+
+/* Hero notice chip, list form: the messages stack in one grid cell and
+   cycle, five seconds each, pure CSS. The stack sizes to the widest message
+   so the chip never reflows. Ported from the predecessor repo's
+   roadmap-derived chip (folio-2 241687976), reworked to configured
+   messages — the count is capped at three where the notice is normalized,
+   which is why only counts two and three exist here. */
+.landing-notice-stack > .landing-notice-item {
+  grid-area: 1 / 1;
+  opacity: 0;
+  animation: landing-notice-cycle-3 15s linear infinite;
+}
+.landing-notice-stack > .landing-notice-item:nth-child(2) {
+  animation-delay: 5s;
+}
+.landing-notice-stack > .landing-notice-item:nth-child(3) {
+  animation-delay: 10s;
+}
+.landing-notice-stack[data-notice-count="2"] > .landing-notice-item {
+  animation-name: landing-notice-cycle-2;
+  animation-duration: 10s;
+}
+@keyframes landing-notice-cycle-3 {
+  0%,
+  28% {
+    opacity: 1;
+  }
+  33.33%,
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes landing-notice-cycle-2 {
+  0%,
+  44% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-notice-stack > .landing-notice-item {
+    animation: none;
+    opacity: 1;
+  }
+  .landing-notice-stack > .landing-notice-item:not(:first-child) {
+    display: none;
+  }
+}
