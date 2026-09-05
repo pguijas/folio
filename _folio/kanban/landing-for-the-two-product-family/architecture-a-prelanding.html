@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" data-motion="pending">
+  <head><script defer src="../../../_folio-search.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Architecture A: a Folio family pre-landing with Folio Docs available and Folio for Agents contained as coming soon."
+    />
+    <title>Folio — Architecture A: pre-landing</title>
+    <link rel="stylesheet" href="assets/architecture.css" />
+    <script type="module" src="assets/architecture.js"></script>
+  </head>
+  <body data-architecture="gateway">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <a class="wordmark" href="#main" aria-label="Folio home">
+        <span class="wordmark-mark" aria-hidden="true">F</span>
+        <span>folio</span>
+      </a>
+      <div class="masthead-index">
+        <span>Product index</span>
+        <span>00 / 02</span>
+      </div>
+      <nav class="prototype-nav" aria-label="Prototype versions">
+        <span aria-current="page">A · Pre-landing</span>
+        <a href="architecture-b-shared-landing.html">B · Shared landing</a>
+      </nav>
+    </header>
+
+    <main id="main" class="gateway-main">
+      <section class="gateway-copy" aria-labelledby="gateway-title">
+        <div class="gateway-copy-inner">
+          <h1 id="gateway-title" class="display-title">
+            <span class="line-mask"><span>HTML for people,</span></span>
+            <span class="line-mask"><span>Markdown for agents.</span></span>
+          </h1>
+          <p class="hero-description motion-copy">
+            With one <code>docs.yaml</code>, Folio builds a complete
+            documentation site from the Python source and guides already in your
+            repository.
+          </p>
+
+          <div
+            class="dual-format motion-copy"
+            role="group"
+            aria-label="One page, two readable formats"
+          >
+            <div class="format-column format-html">
+              <span class="format-number">01</span>
+              <span class="format-name">Rendered HTML</span>
+              <span class="format-audience">for people</span>
+            </div>
+            <div class="format-column format-markdown">
+              <span class="format-number">02</span>
+              <span class="format-name">Plain Markdown</span>
+              <span class="format-audience">for agents</span>
+            </div>
+            <span class="format-runner" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <footer class="gateway-folio-note" aria-label="Folio product direction">
+          <span>One direction</span>
+          <span>Two product surfaces</span>
+          <span>Open source</span>
+        </footer>
+      </section>
+
+      <section class="product-gate" aria-labelledby="choose-product">
+        <div class="gate-heading">
+          <p id="choose-product">Choose a product</p>
+          <span>Folio / index</span>
+        </div>
+
+        <a class="product-door docs-door" href="#folio-docs" id="folio-docs">
+          <span class="door-rail" aria-hidden="true"></span>
+          <span class="door-number">01</span>
+          <span class="door-state"
+            ><span class="live-dot"></span>Available</span
+          >
+          <span class="door-title">Folio Docs</span>
+          <span class="door-description"
+            >Documentation generated from source.</span
+          >
+          <span class="door-action"
+            >Enter Folio Docs <span aria-hidden="true">↗</span></span
+          >
+          <svg
+            class="door-glyph docs-glyph"
+            viewBox="0 0 160 110"
+            aria-hidden="true"
+          >
+            <path class="glyph-line" d="M8 16H94" />
+            <path class="glyph-line" d="M8 33H144" />
+            <path class="glyph-line" d="M8 50H115" />
+            <path class="glyph-line" d="M8 78H68" />
+            <path class="glyph-line" d="M84 78H144" />
+            <path class="glyph-line" d="M8 95H118" />
+            <rect class="glyph-block" x="122" y="8" width="30" height="50" />
+          </svg>
+        </a>
+
+        <div class="product-door agents-door" aria-disabled="true">
+          <span class="door-rail" aria-hidden="true"></span>
+          <span class="door-number">02</span>
+          <span class="door-state">Coming soon</span>
+          <span class="door-title">Folio for Agents</span>
+          <span class="door-description"
+            >A shared project layer for coding agents.</span
+          >
+          <span class="door-action">Not available yet</span>
+          <svg
+            class="door-glyph agents-glyph"
+            viewBox="0 0 160 110"
+            aria-hidden="true"
+          >
+            <path class="glyph-line" d="M12 20H148" />
+            <path class="glyph-line" d="M12 54H148" />
+            <path class="glyph-line" d="M12 88H148" />
+            <circle class="glyph-node" cx="38" cy="20" r="7" />
+            <circle class="glyph-node" cx="80" cy="54" r="7" />
+            <circle class="glyph-node" cx="122" cy="88" r="7" />
+            <path class="glyph-link" d="M43 25 75 49M85 59l32 24" />
+          </svg>
+        </div>
+
+        <div class="gate-spine" aria-hidden="true">
+          <span class="spine-label">FOLIO</span>
+          <span class="spine-runner"></span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

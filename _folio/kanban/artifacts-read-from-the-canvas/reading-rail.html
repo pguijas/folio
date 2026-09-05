@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head><script defer src="../../../_folio-search.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reading rail — Folio kanban prototype</title>
+    <link rel="stylesheet" href="reading-rail.css" />
+  </head>
+  <body>
+    <a class="skip" href="#board">Skip to the board</a>
+
+    <header class="page-head">
+      <div class="head-left">
+        <p class="eyebrow">Prototype · reading rail</p>
+        <h1 id="page-title">Reading rail</h1>
+        <p class="lede">
+          Opening an artifact slides a reader in from the right. The columns
+          compress but stay fully live: scroll them, filter them, open another
+          card, and the rail retargets without closing.
+        </p>
+      </div>
+      <div class="head-right">
+        <div class="theme" role="group" aria-label="Colour scheme">
+          <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+          <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+          <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <details class="notes" open>
+      <summary><span class="notes-title">What this variant argues</span></summary>
+      <div class="notes-body">
+        <section>
+          <h2>Thesis</h2>
+          <p>
+            Reading and the board share the screen: an artifact opens as a
+            right rail beside the columns, the canvas never disappears, and
+            the board stays live enough to filter, scroll and open other
+            cards while the document holds still.
+          </p>
+        </section>
+        <section>
+          <h2>The dialog folds into the crumb</h2>
+          <p>
+            When the rail opens, the card dialog closes and collapses into
+            the crumb in the rail header. One reading surface at a time: a
+            dialog left floating beside the rail would be two overlays
+            fighting over half a screen. The crumb reopens the dialog, and
+            <kbd>Esc</kbd> in the rail does the same, landing focus back on
+            the artifact tile that opened the reader.
+          </p>
+        </section>
+        <section>
+          <h2>The compiled <code>/docs</code> page</h2>
+          <p>
+            The board URL becomes the address of a reading position
+            (<code>#art=…</code>), so the <code>/docs/kanban/…</code> page
+            stops being where reading happens and leaves the docs sidebar. A
+            deep link into a long document still wants a full window, and the
+            page survives demoted to exactly that: the target of
+            <em>Open full</em>, chrome kept minimal, indexed nowhere.
+          </p>
+        </section>
+        <section>
+          <h2>What it is bad at</h2>
+          <p>
+            Half a screen is a poor page. An 8k-word document reads in a
+            45%-viewport measure, and prototypes built for 1440px embed at
+            roughly 600px, so the rail under-sells exactly the artifacts this
+            card compares. The compressed board keeps two or three columns in
+            view and grows a horizontal scrollbar, two scroll regions share
+            one wheel, and board × dialog × rail has more state corners than
+            a single modal ever has.
+          </p>
+        </section>
+      </div>
+    </details>
+
+    <div class="toolbar">
+      <div class="field" role="search">
+        <label class="sr-only" for="q">Filter by title or id</label>
+        <input
+          id="q"
+          type="search"
+          placeholder="Filter title or id…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <kbd class="slash">/</kbd>
+      </div>
+      <p class="matchcount" id="matchcount" aria-live="polite"></p>
+      <div class="spacer"></div>
+      <p class="reading-note" id="reading-note" hidden></p>
+    </div>
+
+    <div class="stage" id="stage">
+      <main class="board-pane" id="board" aria-label="Development board">
+        <div class="board" id="columns"></div>
+      </main>
+
+      <aside class="rail" id="rail" aria-label="Artifact reader" aria-hidden="true">
+        <div class="rail-inner">
+          <header class="rail-head">
+            <div class="rail-crumb-row">
+              <button type="button" class="rail-crumb" id="rail-crumb" title="Back to the card">
+                <span class="crumb-id" id="crumb-id"></span>
+                <span class="crumb-title" id="crumb-title"></span>
+              </button>
+              <button type="button" class="rail-close" id="rail-close">Close</button>
+            </div>
+            <div class="rail-art-row">
+              <h2 class="rail-art-title" id="rail-art-title" tabindex="-1">
+                <span class="kind-chip" id="rail-kind"></span>
+                <span id="rail-label"></span>
+              </h2>
+              <span class="rail-pos" id="rail-pos"></span>
+              <div class="rail-nav">
+                <button type="button" id="rail-prev" title="Previous artifact ([)">
+                  <span aria-hidden="true">←</span><span class="sr-only">Previous artifact</span>
+                </button>
+                <button type="button" id="rail-next" title="Next artifact (])">
+                  <span aria-hidden="true">→</span><span class="sr-only">Next artifact</span>
+                </button>
+              </div>
+              <a class="rail-full" id="rail-full" target="_blank" rel="noopener">Open full<span aria-hidden="true"> ↗</span></a>
+            </div>
+            <ul class="rail-band" id="rail-band"></ul>
+          </header>
+          <div class="rail-body" id="rail-body">
+            <article class="md" id="rail-md" tabindex="0" hidden></article>
+            <iframe id="rail-frame" title="Embedded artifact" hidden></iframe>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="dialog-layer" id="dialog-layer" hidden>
+      <div class="scrim" id="scrim"></div>
+      <section
+        class="dialog"
+        id="dialog"
+        role="dialog"
+        aria-labelledby="dlg-title"
+        tabindex="-1"
+      ></section>
+    </div>
+
+    <footer class="page-foot">
+      <p id="board-help">
+        Keyboard: <kbd>/</kbd> filter, <kbd>Enter</kbd> opens a card,
+        <kbd>Esc</kbd> unwinds one level — reader to card, card to board —
+        and <kbd>[</kbd> <kbd>]</kbd> walk the artifacts while reading.
+        <em>Close</em> in the rail drops straight back to the board.
+      </p>
+      <p class="foot-meta">
+        Throwaway prototype. Static page, no network, no build step. Data is
+        <code>board-data.js</code> and <code>reader-data.js</code>; the
+        reading position lives in the URL hash.
+      </p>
+    </footer>
+
+    <div class="sr-only" id="live" role="status" aria-live="polite"></div>
+
+    <script src="board-data.js"></script>
+    <script src="reader-data.js"></script>
+    <script src="reading-rail.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,1182 @@
+/* Dialog reader — Folio kanban prototype.
+   Square corners, thin rules, flat surfaces. The card dialog is a mail;
+   the attachment opens inside the mail. */
+
+:root {
+  --background: oklch(0.966 0.008 82);
+  --foreground: oklch(0.155 0.007 82);
+  --card: oklch(0.976 0.007 82);
+  --muted: oklch(0.92 0.007 82);
+  --muted-foreground: oklch(0.42 0.007 82);
+  --accent: oklch(0.875 0.026 110);
+  --border: oklch(0.74 0.007 82);
+  --primary: oklch(0.155 0.007 82);
+  --destructive: oklch(0.55 0.2 28);
+  --warning: oklch(0.47 0.11 78);
+
+  /* prototype-local derivations, all from the tokens above */
+  --hairline: oklch(0.74 0.007 82 / 0.42);
+  --card-hover: oklch(0.875 0.026 110 / 0.28);
+  --backdrop: oklch(0.155 0.007 82 / 0.45);
+  --active-band: oklch(0.875 0.026 110 / 0.5);
+
+  --radius: 0;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --pad: 28px;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    --background: oklch(0.13 0.007 82);
+    --foreground: oklch(0.92 0.007 82);
+    --card: oklch(0.155 0.007 82);
+    --muted: oklch(0.21 0.007 82);
+    --muted-foreground: oklch(0.68 0.007 82);
+    --border: oklch(0.33 0.007 82);
+    --primary: oklch(0.92 0.007 82);
+    --accent: oklch(0.35 0.03 110);
+    --hairline: oklch(0.33 0.007 82 / 0.75);
+    --card-hover: oklch(0.92 0.007 82 / 0.05);
+    --backdrop: oklch(0.13 0.007 82 / 0.6);
+    --active-band: oklch(0.35 0.03 110 / 0.55);
+    --destructive: oklch(0.68 0.17 28);
+    --warning: oklch(0.75 0.11 78);
+  }
+}
+
+html[data-theme="dark"] {
+  --background: oklch(0.13 0.007 82);
+  --foreground: oklch(0.92 0.007 82);
+  --card: oklch(0.155 0.007 82);
+  --muted: oklch(0.21 0.007 82);
+  --muted-foreground: oklch(0.68 0.007 82);
+  --border: oklch(0.33 0.007 82);
+  --primary: oklch(0.92 0.007 82);
+  --accent: oklch(0.35 0.03 110);
+  --hairline: oklch(0.33 0.007 82 / 0.75);
+  --card-hover: oklch(0.92 0.007 82 / 0.05);
+  --backdrop: oklch(0.13 0.007 82 / 0.6);
+  --active-band: oklch(0.35 0.03 110 / 0.55);
+  --destructive: oklch(0.68 0.17 28);
+  --warning: oklch(0.75 0.11 78);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: var(--radius);
+}
+
+html {
+  color-scheme: light;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    color-scheme: dark;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0 var(--pad) 72px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+pre {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 1px;
+}
+/* the letter and reader containers take programmatic focus on open so the
+   reading order starts at their top; they are not interactive, no ring */
+.letter:focus,
+.reader:focus {
+  outline: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  z-index: 10;
+}
+.skip:focus {
+  left: var(--pad);
+  top: 8px;
+}
+
+/* ---------------------------------------------------------------- head -- */
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 0 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.page-head h1 {
+  margin: 6px 0 0;
+  font-size: 26px;
+  line-height: 32px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.lede {
+  margin-top: 6px;
+  max-width: 62ch;
+  color: var(--muted-foreground);
+  font-size: 13.5px;
+}
+
+.theme {
+  display: flex;
+  border: 1px solid var(--border);
+}
+
+.theme button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--border);
+  padding: 5px 11px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+.theme button:first-child {
+  border-left: 0;
+}
+.theme button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--foreground);
+}
+
+/* --------------------------------------------------------------- notes -- */
+
+.notes {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+
+.notes > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.notes > summary::-webkit-details-marker {
+  display: none;
+}
+.notes > summary::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid var(--muted-foreground);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 120ms ease;
+}
+.notes[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.notes-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.notes-body {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-bottom: 18px;
+}
+
+.notes-body section {
+  padding: 0 20px;
+  border-left: 1px solid var(--hairline);
+}
+.notes-body section:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.notes-body section:last-child {
+  padding-right: 0;
+}
+
+.notes-body h2 {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  margin-bottom: 6px;
+}
+
+.notes-body p {
+  font-size: 13px;
+  line-height: 19px;
+  text-wrap: pretty;
+}
+
+.notes-body code,
+.foot-meta code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  background: var(--muted);
+  padding: 0 3px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1080px) {
+  .notes-body {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 0;
+  }
+  .notes-body section:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+/* --------------------------------------------------------------- board -- */
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.col-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0 2px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.col-title {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+
+.col-n {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted-foreground);
+}
+
+.col-cards {
+  list-style: none;
+  padding: 8px 0 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.col-empty {
+  padding: 14px 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+
+.card-btn {
+  appearance: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 9px 11px 8px;
+  position: relative;
+}
+.card-btn:hover {
+  background: var(--card-hover);
+  border-color: var(--foreground);
+}
+.card-btn[data-priority="high"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--destructive);
+}
+
+.card-title {
+  display: block;
+  font-size: 13px;
+  line-height: 17px;
+  font-weight: 550;
+  text-wrap: pretty;
+}
+
+.card-foot {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 7px;
+  min-height: 15px;
+}
+
+.card-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-att {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  border: 1px solid var(--hairline);
+  background: var(--muted);
+  padding: 0 4px;
+  line-height: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------- foot -- */
+
+.page-foot {
+  max-width: 1400px;
+  margin: 28px auto 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.page-foot kbd {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 15px;
+  border: 1px solid var(--border);
+  padding: 0 4px;
+  margin: 0 1px;
+  color: var(--foreground);
+}
+
+@media (max-width: 1080px) {
+  :root {
+    --pad: 20px;
+  }
+  .columns {
+    gap: 10px;
+  }
+}
+@media (max-width: 940px) {
+  .page-head {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+}
+
+/* -------------------------------------------------------------- dialog -- */
+
+dialog {
+  padding: 0;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  width: min(720px, calc(100vw - 40px));
+  max-height: calc(100vh - 64px);
+}
+dialog::backdrop {
+  background: var(--backdrop);
+}
+
+/* while an attachment is open the dialog widens into two panes and takes a
+   fixed height, so each pane scrolls on its own */
+dialog[data-reading="1"] {
+  width: min(1380px, calc(100vw - 40px));
+  height: calc(100vh - 64px);
+}
+
+.dlg {
+  display: flex;
+  max-height: calc(100vh - 66px);
+}
+dialog[data-reading="1"] .dlg {
+  height: 100%;
+  max-height: none;
+}
+
+/* ---- letter (the mail) ---- */
+
+.letter {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+/* the letter scrolls; its sections never squash */
+.letter > * {
+  flex: none;
+}
+dialog[data-reading="1"] .letter {
+  flex: none;
+  width: 340px;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  background: var(--background);
+}
+
+.letter-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px 0;
+}
+.letter-head-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.letter-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+}
+
+.letter-head h2 {
+  margin-top: 5px;
+  font-size: 19px;
+  line-height: 24px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+dialog[data-reading="1"] .letter-head h2 {
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.chip-btn {
+  appearance: none;
+  flex: none;
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid var(--border);
+  height: 26px;
+  padding: 0 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.chip-btn:hover {
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
+.chip-btn[disabled] {
+  opacity: 0.4;
+  cursor: default;
+}
+.chip-btn[disabled]:hover {
+  color: var(--muted-foreground);
+  border-color: var(--border);
+}
+
+/* mail-header key: value rows */
+.mailmeta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 3px 14px;
+  padding: 12px 20px 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+.mailmeta dt {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 17px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.mailmeta dd {
+  font-size: 12.5px;
+  line-height: 17px;
+  overflow-wrap: anywhere;
+}
+.mailmeta dd .mono {
+  font-family: var(--mono);
+  font-size: 11.5px;
+}
+dialog[data-reading="1"] .mailmeta {
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 10px 20px 12px;
+}
+/* compressed letter keeps only the first two header rows (status, priority) */
+dialog[data-reading="1"] .mailmeta dt {
+  display: none;
+}
+dialog[data-reading="1"] .mailmeta dd {
+  display: none;
+  font-size: 11.5px;
+  color: var(--muted-foreground);
+}
+dialog[data-reading="1"] .mailmeta dd:nth-of-type(-n + 2) {
+  display: block;
+}
+
+.letter-summary {
+  display: none; /* only the compressed letter shows the summary */
+  padding: 12px 20px;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: var(--muted-foreground);
+  border-bottom: 1px solid var(--hairline);
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+dialog[data-reading="1"] .letter-summary {
+  display: -webkit-box;
+}
+/* a card with no description compresses to header + band, not an empty strip */
+dialog[data-reading="1"] .letter-summary:empty {
+  display: none;
+}
+
+.letter-body {
+  padding: 0 20px;
+}
+dialog[data-reading="1"] .letter-body {
+  display: none;
+}
+
+.sect-h {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  padding: 14px 0 8px;
+  border-top: 1px solid var(--hairline);
+  margin-top: 14px;
+}
+.letter-body > section:first-child > .sect-h {
+  border-top: 0;
+  margin-top: 0;
+}
+.sect-h b {
+  color: var(--foreground);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.desc {
+  padding-top: 14px;
+  font-size: 13.5px;
+  line-height: 20px;
+}
+.desc p + p,
+.desc p + ul,
+.desc ul + p {
+  margin-top: 10px;
+}
+.desc ul {
+  padding-left: 18px;
+}
+.desc code {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: var(--muted);
+  padding: 0 3px;
+}
+.desc pre,
+.cmt-text pre {
+  margin: 10px 0;
+  padding: 10px 12px;
+  background: var(--background);
+  border: 1px solid var(--hairline);
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 17px;
+}
+.desc pre code,
+.cmt-text pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+
+.crit {
+  list-style: none;
+  padding: 0;
+}
+.crit li {
+  display: flex;
+  gap: 9px;
+  padding: 3px 0;
+  font-size: 13px;
+  line-height: 18px;
+}
+.crit .box {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 3px;
+  border: 1px solid var(--border);
+  background: transparent;
+}
+.crit li[data-done="1"] .box {
+  background: var(--foreground);
+  border-color: var(--foreground);
+}
+.crit li[data-done="1"] {
+  color: var(--muted-foreground);
+}
+
+.cmt {
+  list-style: none;
+  padding: 0;
+}
+.cmt li {
+  padding: 8px 0;
+  border-top: 1px solid var(--hairline);
+}
+.cmt li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.cmt-head {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+  margin-bottom: 3px;
+}
+.cmt-head b {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.cmt-text {
+  font-size: 13px;
+  line-height: 19px;
+}
+.cmt-text p + p {
+  margin-top: 8px;
+}
+.cmt-text code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  background: var(--muted);
+  padding: 0 3px;
+}
+
+.trail {
+  list-style: none;
+  padding: 0 0 4px;
+}
+.trail li {
+  display: flex;
+  gap: 10px;
+  padding: 3px 0;
+  font-size: 12.5px;
+  line-height: 18px;
+}
+.trail .t-date {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 18px;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.trail .t-note {
+  min-width: 0;
+}
+.trail .t-note b {
+  font-weight: 600;
+}
+.trail .t-note code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--muted);
+  padding: 0 3px;
+}
+.trail a {
+  color: inherit;
+}
+
+/* ---- the band ---- */
+
+.band {
+  margin-top: auto; /* mail order: the band sits at the foot of the letter */
+  padding: 0 20px 18px;
+}
+.band > .sect-h {
+  border-top: 1px solid var(--border);
+}
+dialog[data-reading="1"] .band {
+  margin-top: 0;
+  padding-bottom: 14px;
+}
+dialog[data-reading="1"] .band > .sect-h {
+  border-top: 0;
+  margin-top: 0;
+}
+
+.band-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.band-empty {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground);
+}
+
+.art {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 7px 10px;
+  font: inherit;
+  color: inherit;
+  position: relative;
+}
+button.art {
+  appearance: none;
+  cursor: pointer;
+}
+button.art:hover {
+  border-color: var(--foreground);
+  background: var(--card-hover);
+}
+.art-closed {
+  border-color: var(--hairline);
+  border-style: dashed;
+  background: transparent;
+}
+
+.kind {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0 4px;
+  border: 1px solid currentColor;
+}
+.kind-doc {
+  color: var(--foreground);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.kind-file {
+  color: var(--muted-foreground);
+  background: var(--muted);
+  border-color: var(--muted);
+}
+.kind-pr {
+  color: var(--warning);
+}
+.kind-api {
+  color: var(--destructive);
+}
+.kind-url {
+  color: var(--muted-foreground);
+}
+
+.art-main {
+  min-width: 0;
+  flex: 1;
+}
+.art-label {
+  display: block;
+  font-size: 12.5px;
+  line-height: 17px;
+  font-weight: 550;
+}
+.art-closed .art-label {
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+.art-path {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 15px;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+}
+.art-note {
+  flex: none;
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  border: 1px dashed var(--hairline);
+  padding: 1px 4px;
+}
+
+/* the row being read */
+.band-list li[data-active="1"] .art {
+  background: var(--active-band);
+  border-color: var(--foreground);
+  box-shadow: inset 3px 0 0 var(--foreground);
+}
+
+/* ---- reader (the reading surface) ---- */
+
+.reader {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+}
+
+.reader-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+
+.reader-back {
+  display: none; /* the letter is beside the reader; back appears when it is not */
+}
+
+.reader-id {
+  min-width: 0;
+  flex: 1;
+}
+.reader-pos {
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.reader-id h3 {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.reader-path {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 14px;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reader-actions {
+  flex: none;
+  display: flex;
+  gap: 6px;
+}
+
+.reader-body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+.reader-body.is-doc {
+  overflow-y: auto;
+}
+.reader-body iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--background);
+}
+
+/* ---- rendered markdown ---- */
+
+.prose {
+  max-width: 74ch;
+  margin: 0 auto;
+  padding: 30px 36px 56px;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+.prose h1 {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin: 0 0 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  text-wrap: pretty;
+}
+.prose h2 {
+  font-size: 16.5px;
+  line-height: 22px;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  margin: 30px 0 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hairline);
+}
+.prose h3 {
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 650;
+  margin: 22px 0 6px;
+}
+.prose p {
+  margin: 10px 0;
+  text-wrap: pretty;
+}
+.prose ul,
+.prose ol {
+  margin: 10px 0;
+  padding-left: 22px;
+}
+.prose li {
+  margin: 4px 0;
+}
+.prose li::marker {
+  color: var(--muted-foreground);
+}
+.prose a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--muted-foreground);
+  text-underline-offset: 2px;
+}
+.prose a:hover {
+  text-decoration-color: var(--foreground);
+}
+.prose strong {
+  font-weight: 650;
+}
+.prose code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  background: var(--muted);
+  padding: 1px 4px;
+}
+.prose pre {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 19px;
+}
+.prose pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+.prose blockquote {
+  margin: 14px 0;
+  padding: 2px 0 2px 16px;
+  border-left: 2px solid var(--border);
+  color: var(--muted-foreground);
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 22px 0;
+}
+.prose table {
+  border-collapse: collapse;
+  margin: 14px 0;
+  width: 100%;
+  font-size: 13px;
+  line-height: 18px;
+}
+.prose th {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.prose td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+}
+.prose th + th,
+.prose td + td {
+  border-left: 1px solid var(--hairline);
+}
+
+/* --------------------------------------------------------- responsive -- */
+
+/* below ~1000px the reading pane replaces the letter; the back button is
+   the way home and the reader header carries the position in the band */
+@media (max-width: 1000px) {
+  dialog[data-reading="1"] .letter {
+    display: none;
+  }
+  .reader-back {
+    display: inline-flex;
+  }
+  #reader-close {
+    display: none;
+  }
+  .reader-head {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+  .prose {
+    padding: 22px 20px 44px;
+  }
+}
+
+@media (max-width: 940px) {
+  .columns {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  dialog {
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 32px);
+  }
+  dialog[data-reading="1"] {
+    width: calc(100vw - 24px);
+    height: calc(100vh - 32px);
+  }
+  .dlg {
+    max-height: calc(100vh - 34px);
+  }
+}
+
+/* author display rules would beat the UA [hidden] rule; make hidden real */
+.reader[hidden],
+.chip-btn[hidden] {
+  display: none;
+}

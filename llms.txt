@@ -1,0 +1,138 @@
+# Folio
+
+> One docs.yaml builds the site from the Python source and guides already in your repo.
+
+## Docs
+- [Architecture](https://pguijas.github.io/folio/docs/architecture/): Folio Docs has one local build pipeline. The CLI reads configuration and parses project sources once, then emits the human site and its agent-readable mirrors.
+- [CLI Reference](https://pguijas.github.io/folio/docs/cli/): Reference for Folio CLI commands, flags, and workflows including init, build, serve, coverage, and clean.
+- [Accordion](https://pguijas.github.io/folio/docs/components/accordion/): Collapsible content sections for organizing information into expandable panels. Use Accordion for FAQs, grouped content, or any situation where you want to reduce page clutter while keeping information accessible. Unlike [MethodAccordion](/docs/components/method-accordion), which is structured for API methods, Accordion supports any content.
+- [BeforeAfter](https://pguijas.github.io/folio/docs/components/before-after/): Show two related code snippets side by side. It works well for migration notes, config changes, and generated output comparisons.
+- [BrowserFrame](https://pguijas.github.io/folio/docs/components/browser-frame/): Browser window chrome around any content: three dots, a mono URL bar, and an optional right-aligned status label. Use it to frame live embeds — board miniatures, rendered components, page excerpts — as the page they ship on, instead of pasting a screenshot.
+- [BuildArtifact](https://pguijas.github.io/folio/docs/components/build-artifact/): Summarize the files, directories, and generated routes produced by a Folio command.
+- [Callout](https://pguijas.github.io/folio/docs/components/callout/): Highlighted message blocks for notes, warnings, tips, and other important information. Each type has a distinct color and icon to help readers quickly identify the nature of the message.
+- [Checklist](https://pguijas.github.io/folio/docs/components/checklist/): A readiness list with explicit states. Use it for prerequisites, deployment checks, and release gates.
+- [ClassOverview](https://pguijas.github.io/folio/docs/components/class-overview/): A card displaying a Python class with its name, base classes, decorators, and description. This component is typically auto-generated from source code during the build, but you can also use it manually to create hand-crafted class documentation.
+- [Code Blocks](https://pguijas.github.io/folio/docs/components/code-blocks/): Fenced code blocks with syntax highlighting, line highlighting, line numbers, filenames, and word highlighting — powered by [Shiki](https://shiki.style/) and [rehype-pretty-code](https://rehype-pretty.pages.dev/).
+- [CodeGroup](https://pguijas.github.io/folio/docs/components/code-group/): Tabbed code blocks for showing the same concept in multiple languages or multiple variants of a command. Tabs are automatically labeled from the language of each code block, or you can provide explicit labels.
+- [CommandGrid](https://pguijas.github.io/folio/docs/components/command-grid/): A compact command overview for CLI-heavy pages. Use `CommandGrid` with one or more `CommandCard` children.
+- [CompareMatrix](https://pguijas.github.io/folio/docs/components/compare-matrix/): A comparison matrix with check / dash / partial cells and a highlighted "us" column. Use it where the honest answer is a grid, not three paragraphs of prose.
+- [ConfigPanel](https://pguijas.github.io/folio/docs/components/config-panel/): Pair a YAML example with short field notes. Use it when a configuration snippet needs explanation but a full reference table would interrupt the guide.
+- [Page Actions](https://pguijas.github.io/folio/docs/components/copy-page-button/): Folio renders a compact `Ask AI` page-actions button above every documentation page. It is meant for source-heavy docs: copy the current page, or send the current page context to ChatGPT without adding extra setup.
+- [DeprecationNotice](https://pguijas.github.io/folio/docs/components/deprecation-notice/): A styled banner indicating that a class, function, or module is deprecated. Displays a red "Deprecated" badge with version information and guidance on what to use instead. This component is typically auto-generated when a docstring contains a `Deprecated:` section.
+- [DocPreview](https://pguijas.github.io/folio/docs/components/doc-preview/): Use `DocPreview` when a guide needs to show a generated documentation route or a small generated example instead of describing the result with another code block. It renders a responsive iframe with a short caption, a source view with a collapsible file drawer for the focused source file, a line-numbered code preview, and direct links to the page and source file.
+- [ExampleTabs](https://pguijas.github.io/folio/docs/components/example-tabs/): Tabbed panels for showing multiple code examples for the same concept, such as basic vs. advanced usage or different input formats. Each tab displays a syntax-highlighted code block.
+- [FeatureCard and CardGrid](https://pguijas.github.io/folio/docs/components/feature-cards/): Cards for feature overviews, landing pages, and link grids. `FeatureCard` renders a single card with a named icon, title, description, and optional link. `CardGrid` arranges multiple cards in a responsive grid layout.
+- [FileTree](https://pguijas.github.io/folio/docs/components/file-tree/): A visual file and folder tree for showing project structures, directory layouts, and file hierarchies. Parses an indented text string into a tree with folder/file icons, connectors, and proper nesting.
+- [HookMap](https://pguijas.github.io/folio/docs/components/hook-map/): Visualize an extension lifecycle with stage names, hook names, and short descriptions.
+- [Components](https://pguijas.github.io/folio/docs/components/): Reusable MDX components for Folio documentation pages, including callouts, tabs, previews, diagrams, and API reference helpers.
+- [Math (LaTeX)](https://pguijas.github.io/folio/docs/components/math/): Inline and display math rendering via [KaTeX](https://katex.org/). Use `$` for inline expressions and `$$` for centered display equations. Math support is enabled by default — no configuration needed.
+- [Mermaid](https://pguijas.github.io/folio/docs/components/mermaid/): Renders [Mermaid](https://mermaid.js.org/) diagrams as SVG directly in the browser. Supports flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, and all other Mermaid diagram types. Automatically switches between light and dark themes to match the site.
+- [MethodAccordion](https://pguijas.github.io/folio/docs/components/method-accordion/): Expandable accordion panels for documenting class methods. Each method shows its name and signature in the header, with the full description revealed on click. Async methods display an "async" badge. This component is typically auto-generated for classes with public methods.
+- [PageFeedback](https://pguijas.github.io/folio/docs/components/page-feedback/): A "Was this page helpful?" widget with thumbs up/down buttons. After clicking, the widget displays a confirmation message and stores the response in the browser's `localStorage` under the key `page-feedback`, keyed by page path.
+- [ParamTable](https://pguijas.github.io/folio/docs/components/param-table/): A structured table for displaying function or method parameters with name, type, default value, and description columns. This component is typically auto-generated from Python docstrings during the build, but you can also use it manually for hand-crafted documentation.
+- [PreviewCode](https://pguijas.github.io/folio/docs/components/preview-code/): Pair a rendered component example with the exact MDX source that produced it. Use `PreviewCode` for component catalog examples so readers can inspect the result first and switch to the code without scrolling through a duplicated section.
+- [PullQuote](https://pguijas.github.io/folio/docs/components/pull-quote/): A high-emphasis statement block for the one sentence the page exists to deliver — verdicts, theses, the line you want quoted back.
+- [StatStrip](https://pguijas.github.io/folio/docs/components/stat-strip/): A row of big numbers with labels — the fastest way to make scale legible. Values are strings, so units and symbols render exactly as written.
+- [Steps](https://pguijas.github.io/folio/docs/components/steps/): Numbered step-by-step instructions with a vertical timeline. Steps are numbered automatically using CSS counters — you do not provide numbers manually. Use Steps for tutorials, setup guides, and any sequential process.
+- [Swot](https://pguijas.github.io/folio/docs/components/swot/): A four-quadrant SWOT analysis rendered as a color-coded grid: strengths, weaknesses, opportunities, and threats, each with its own accent and marker. Use it for honest product or design assessments that a bulleted list would flatten.
+- [Tabs](https://pguijas.github.io/folio/docs/components/tabs/): Generic tabbed content panels for organizing alternative content views. Unlike [CodeGroup](/docs/components/code-group) (which is code-only), Tabs supports any content including text, tables, images, and nested components.
+- [TerminalSession](https://pguijas.github.io/folio/docs/components/terminal-session/): Render a command with prompt context, optional output, and a compact status marker. Most guide command snippets should use plain fenced `bash` blocks. Reserve `TerminalSession` for cases where prompt context, exact output, or status state matters to the reader.
+- [ThemeConfigurator](https://pguijas.github.io/folio/docs/components/theme-configurator/): A drawer popover widget that replaces the default light/dark control when documentation presets are available. A preset owns color tokens, document rhythm, code block treatment, borders, radius defaults, typography defaults, and its own controls.
+- [Timeline](https://pguijas.github.io/folio/docs/components/timeline/): Vertical timeline for changelogs, version history, or sequential events. Each item shows a date, title, optional badge, and description. Badges like `"new"` and `"breaking"` have special styling.
+- [TypeBadge](https://pguijas.github.io/folio/docs/components/type-badge/): A small inline badge for displaying Python type annotations. Renders as a styled badge with monospace font. When an `href` is provided, the badge becomes a link to the type's documentation page. This component is used throughout the auto-generated API reference.
+- [Configuration](https://pguijas.github.io/folio/docs/configuration/): Configure Folio source inputs, project metadata, theme options, custom templates, search, LLM files, and deployment settings in docs.yaml.
+- [CI/CD](https://pguijas.github.io/folio/docs/deployment/ci-cd/): Automate Folio documentation deployment, pull request checks, branch previews, and coverage gates.
+- [GitHub Pages](https://pguijas.github.io/folio/docs/deployment/github-pages/): Deploy Folio docs to GitHub Pages, including base path inference, production deploys, and branch previews.
+- [Deployment](https://pguijas.github.io/folio/docs/deployment/): Deploy Folio's static _site artifact to static hosts, GitHub Pages, CI/CD workflows, or self-hosted infrastructure.
+- [Static Hosts](https://pguijas.github.io/folio/docs/deployment/static-hosts/): Deploy Folio's _site artifact to Vercel, Netlify, or self-hosted static infrastructure.
+- [Writing Docstrings](https://pguijas.github.io/folio/docs/docstrings/): Write Google-style and NumPy-style Python docstrings that Folio can turn into clear API reference pages.
+- [Folio Docs](https://pguijas.github.io/folio/docs/folio-docs/): The documentation generator in the Folio product family.
+- [Overview](https://pguijas.github.io/folio/docs/): Folio Docs turns Python source and Markdown guides into a searchable static site, API reference, and agent-readable Markdown mirrors. It is installed, configured, and released independently from Folio for Agents.
+- [Installation](https://pguijas.github.io/folio/docs/installation/): Install Folio, verify Python and Node.js requirements, and prepare the CLI for local documentation builds.
+- [Migrating from Sphinx](https://pguijas.github.io/folio/docs/migration/): Move from Sphinx to Folio by converting RST content, simplifying configuration, and generating modern Python API docs.
+- [Plugin Authoring](https://pguijas.github.io/folio/docs/plugins/authoring/): *Extend the build pipeline with custom components, data, views, and hooks.*
+- [Plugin Catalog](https://pguijas.github.io/folio/docs/plugins/catalog/): *Every plugin in the Folio package and on this site, in one place.*
+- [Plugins](https://pguijas.github.io/folio/docs/plugins/): *One extension point for everything Folio builds: components, data, pages, views, and CLI commands.*
+- [Landing Page](https://pguijas.github.io/folio/docs/plugins/landing/): *Configure the optional homepage that appears before the documentation app.*
+- [Roadmap](https://pguijas.github.io/folio/docs/plugins/roadmap/): The official `folio_docs.docs.integrations.roadmap` plugin renders source-defined phases as a release timeline; the view below is powered by the same data as the standalone `/roadmap/` route.
+- [Trust & Safety](https://pguijas.github.io/folio/docs/plugins/trust/): *What a plugin can do on your machine, what Folio guarantees, and where those guarantees stop.*
+- [Quick Start](https://pguijas.github.io/folio/docs/quickstart/): Generate and preview documentation for an existing Python project.
+- [Custom Templates](https://pguijas.github.io/folio/docs/theming/custom-templates/): Give expert users full control over the generated documentation frontend with a project-owned Next/Nextra template.
+- [Theming](https://pguijas.github.io/folio/docs/theming/): Understand Folio's theming model, from bundled theme personalization to theme packages and full custom templates.
+- [Personalization](https://pguijas.github.io/folio/docs/theming/personalization/): Configure Folio's bundled docs theme with presets, project tokens, variants, header branding, logo, favicon, and dark mode.
+- [Theme Packages](https://pguijas.github.io/folio/docs/theming/theme-packages/): Use theme.package to overlay project-owned theme files on top of Folio's bundled template.
+- [Why Folio](https://pguijas.github.io/folio/docs/why-folio/): *The questions that decide whether Folio is for you — answered honestly.*
+- [Operating a board](https://pguijas.github.io/folio/docs/agents/board/agents/): The session protocol and rules an agent follows to work a cardfile board through git.
+- [Kanban CLI](https://pguijas.github.io/folio/docs/agents/board/cli/): Every folio board command, what it writes, and the commit it makes.
+- [Board formats](https://pguijas.github.io/folio/docs/agents/board/formats/): The cardfile format and its complete card schema.
+- [Board](https://pguijas.github.io/folio/docs/agents/board/): A git-backed work surface shared by humans and coding agents.
+- [Start a board](https://pguijas.github.io/folio/docs/agents/board/start/): Initialize and operate a repository-native board with Folio for Agents.
+- [KanbanBoard](https://pguijas.github.io/folio/docs/agents/board-component/): Optional Folio Docs canvas for a Folio for Agents board, with filtering, staged drag-and-drop, and a progressive public workspace.
+- [Folio for Agents](https://pguijas.github.io/folio/docs/agents/): Repository-native context and work for coding agents.
+- [Panel verdict: the write path lives in `folio serve`](https://pguijas.github.io/folio/docs/kanban/cards/how-a-published-board-accepts-a-change/panel-verdict/): Three architectures were designed independently and attacked by four adversarial judges (simplicity, data integrity, security and deployment, product doctrine). Every repository claim the designs made was verified against the code before judging. This document is the durable record of what was considered, what won, and what the winner must do differently.
+- [Prototype brief — nested/decomposition views for the Folio kanban board](https://pguijas.github.io/folio/docs/kanban/cards/the-board-reads-as-a-tree/brief/): **These are throwaway prototypes.** Nothing here ships. They exist so the owner can look at several answers side by side and pick one. Do not modify anything outside `.artifacts/kanban-tree/`.
+- [Decomposition views for the board — five prototypes compared](https://pguijas.github.io/folio/docs/kanban/cards/the-board-reads-as-a-tree/prototypes-compared/): Built 2026-08-20 to answer one question: the cards carry a `parent` field that nothing renders, so what should render it. Five layouts were built in full, against the real 35-card board, and compared side by side rather than argued on paper. Each was then verified adversarially in a headless browser.
+- [Landing direction: two products, one repository truth](https://pguijas.github.io/folio/docs/kanban/cards/landing-for-the-two-product-family/landing-direction/): Make the split between Folio Docs and Folio for Agents legible from the first viewport without discarding the landing's approved hero, editorial tone, or artifact-first proof style.
+- [Prototype brief — reading a card's artifacts from the canvas](https://pguijas.github.io/folio/docs/kanban/cards/artifacts-read-from-the-canvas/brief/): **These are decision prototypes.** Nothing here ships as written. They exist so the owner can look at several answers side by side and pick one. Everything lives in `board/cards/artifacts-read-from-the-canvas/`; do not modify anything outside it.
+- [Reading an artifact from the canvas — four prototypes compared](https://pguijas.github.io/folio/docs/kanban/cards/artifacts-read-from-the-canvas/canvas-reading-compared/): Built 2026-08-24 to answer one question: a card can attach what it produced, but reading it means leaving the board, either for a compiled page under `/docs` wearing documentation chrome or for a raw file in a new tab. Four layouts were built in full against the real 44-card board and verified adversarially in a headless browser. The sibling note `where-card-pages-publish.md` answers the other half of the owner's verdict; this document takes its conclusion as given and says so where a prototype argued against it.
+- [Where card pages publish](https://pguijas.github.io/folio/docs/kanban/cards/artifacts-read-from-the-canvas/where-card-pages-publish/): Written 2026-08-24, beside four prototypes of reading a card's artifacts from the board canvas. The prototypes answer how a human reads a card's output without leaving the board. This note answers the other half of the owner's verdict, that card pages indexing into /docs is weird: where should the compiled pages live, and which surfaces should carry them.
+- [Progressive artifact canvas](https://pguijas.github.io/folio/docs/kanban/cards/artifact-viewer-becomes-a-workspace/progressive-canvas-direction/): Replace the current dialog and artifact overlay with one continuous kanban workspace. Each selection adds its next context without obscuring or replacing the context that produced it.
+- [Kanban reference teardown — SVAR React Kanban and ReUI Kanban](https://pguijas.github.io/folio/docs/kanban/cards/kanban-single-board-with-filters/kanban-references-teardown/): Researched 2026-08-04 for the board redesign. Both libraries were read at the source, not the marketing page. The question was narrow: what should folio's board take, and should it take a dependency.
+- [Panel verdict — the board takes the name and absorbs the roadmap](https://pguijas.github.io/folio/docs/kanban/cards/the-board-takes-the-name-and-absorbs-the-roadmap/panel-verdict/): Five agents, 2026-08-28: one merge assessor, three name generators (plain-literal, market, prior-art lenses), one adversary with kill authority. The owner confirmed the verdict the same day: `folio board`, roadmap included.
+
+## API Reference
+- [folio_docs](https://pguijas.github.io/folio/docs/api-reference/folio_docs/)
+- [folio_docs.__main__](https://pguijas.github.io/folio/docs/api-reference/folio_docs/__main__/)
+- [folio_docs.agent_output](https://pguijas.github.io/folio/docs/api-reference/folio_docs/agent_output/): Agent-readable documentation emitted by Folio Docs.
+- [folio_docs.agent_output.artifacts](https://pguijas.github.io/folio/docs/api-reference/folio_docs/agent_output/artifacts/): Publication boundary for Folio for Agents artifacts.
+- [folio_docs.agent_output.contract](https://pguijas.github.io/folio/docs/api-reference/folio_docs/agent_output/contract/)
+- [folio_docs.agent_output.llm_output](https://pguijas.github.io/folio/docs/api-reference/folio_docs/agent_output/llm_output/)
+- [folio_docs.agent_output.markdown](https://pguijas.github.io/folio/docs/api-reference/folio_docs/agent_output/markdown/): Markdown mirrors for Folio for Agents.
+- [folio_docs.branding](https://pguijas.github.io/folio/docs/api-reference/folio_docs/branding/)
+- [folio_docs.build](https://pguijas.github.io/folio/docs/api-reference/folio_docs/build/)
+- [folio_docs.builtins](https://pguijas.github.io/folio/docs/api-reference/folio_docs/builtins/): Single source of truth for Folio's builtin MDX components.
+- [folio_docs.cli](https://pguijas.github.io/folio/docs/api-reference/folio_docs/cli/)
+- [folio_docs.config](https://pguijas.github.io/folio/docs/api-reference/folio_docs/config/)
+- [folio_docs.coverage](https://pguijas.github.io/folio/docs/api-reference/folio_docs/coverage/): Coverage analysis for Python documentation.
+- [folio_docs.docs](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/): Folio Docs: human-facing documentation generation and site output.
+- [folio_docs.docs.builtin_drift](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/builtin_drift/): Guard the builtin manifest against the bundled MDX components.
+- [folio_docs.docs.extension_emitter](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/extension_emitter/)
+- [folio_docs.docs.integrations](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/integrations/): First-party integrations published through Folio Docs.
+- [folio_docs.docs.integrations.landing](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/integrations/landing/): First-party Folio Docs landing integration.
+- [folio_docs.docs.integrations.openapi](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/integrations/openapi/)
+- [folio_docs.docs.integrations.roadmap](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/integrations/roadmap/)
+- [folio_docs.docs.mdx_writer](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/mdx_writer/)
+- [folio_docs.docs.next_runtime](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/next_runtime/)
+- [folio_docs.docs.sidebar](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/sidebar/)
+- [folio_docs.docs.site_builder](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/site_builder/)
+- [folio_docs.docs.static_rewriter](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/static_rewriter/)
+- [folio_docs.docs.template_workspace](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/template_workspace/)
+- [folio_docs.docs.theme_contract_codegen](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/theme_contract_codegen/): Generate TypeScript type definitions from Python theme contract.
+- [folio_docs.docs.theme_package_validator](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/theme_package_validator/): Validator for theme packages to ensure they don't contain reserved paths.
+- [folio_docs.docs.xref](https://pguijas.github.io/folio/docs/api-reference/folio_docs/docs/xref/)
+- [folio_docs.extensions](https://pguijas.github.io/folio/docs/api-reference/folio_docs/extensions/)
+- [folio_docs.features](https://pguijas.github.io/folio/docs/api-reference/folio_docs/features/)
+- [folio_docs.ir](https://pguijas.github.io/folio/docs/api-reference/folio_docs/ir/)
+- [folio_docs.link_checker](https://pguijas.github.io/folio/docs/api-reference/folio_docs/link_checker/): Build-time link checker for internal documentation links.
+- [folio_docs.parser](https://pguijas.github.io/folio/docs/api-reference/folio_docs/parser/)
+- [folio_docs.parser.markdown_parser](https://pguijas.github.io/folio/docs/api-reference/folio_docs/parser/markdown_parser/)
+- [folio_docs.parser.python_parser](https://pguijas.github.io/folio/docs/api-reference/folio_docs/parser/python_parser/)
+- [folio_docs.paths](https://pguijas.github.io/folio/docs/api-reference/folio_docs/paths/): Shared path-resolution helpers with project containment guards.
+- [folio_docs.plugin](https://pguijas.github.io/folio/docs/api-reference/folio_docs/plugin/)
+- [folio_docs.schemas](https://pguijas.github.io/folio/docs/api-reference/folio_docs/schemas/)
+- [folio_docs.schemas.theme_contract](https://pguijas.github.io/folio/docs/api-reference/folio_docs/schemas/theme_contract/): Canonical theme contract for Folio.
+- [folio_docs.signatures](https://pguijas.github.io/folio/docs/api-reference/folio_docs/signatures/): Shared rendering for source signatures consumed by both products.
+- [folio_docs.slugs](https://pguijas.github.io/folio/docs/api-reference/folio_docs/slugs/): Shared URL and identifier slug normalization.
+- [folio_docs.sources](https://pguijas.github.io/folio/docs/api-reference/folio_docs/sources/)
+- [folio_docs.watcher](https://pguijas.github.io/folio/docs/api-reference/folio_docs/watcher/)
+- [folio_docs.workflows](https://pguijas.github.io/folio/docs/api-reference/folio_docs/workflows/)
+- [folio_agents](https://pguijas.github.io/folio/docs/api-reference/folio_agents/): Git-backed board domain for Folio for Agents.
+- [folio_agents.cli_commands](https://pguijas.github.io/folio/docs/api-reference/folio_agents/cli_commands/): The ``folio board`` command group.
+- [folio_agents.edit](https://pguijas.github.io/folio/docs/api-reference/folio_agents/edit/): Line-surgery editor for cardfile board cards.
+- [folio_agents.integrations](https://pguijas.github.io/folio/docs/api-reference/folio_agents/integrations/): Optional integrations with other products in the Folio family.
+- [folio_agents.integrations.kanban](https://pguijas.github.io/folio/docs/api-reference/folio_agents/integrations/kanban/): Optional Folio Docs adapter for the ``kanban:`` configuration key.
+- [folio_agents.loader](https://pguijas.github.io/folio/docs/api-reference/folio_agents/loader/): Cardfile board loader for ``board.source: <dir>/``.
+- [folio_agents.milestones](https://pguijas.github.io/folio/docs/api-reference/folio_agents/milestones/): Resolve board milestones against each project's own release line.
+- [folio_agents.ops](https://pguijas.github.io/folio/docs/api-reference/folio_agents/ops/): Board operations as importable functions — the write path every surface shares.
+- [folio_agents.text](https://pguijas.github.io/folio/docs/api-reference/folio_agents/text/): Small text and link primitives owned by Folio for Agents.
+- [folio_agents.worktree](https://pguijas.github.io/folio/docs/api-reference/folio_agents/worktree/): Read a board branch through an isolated Git worktree.

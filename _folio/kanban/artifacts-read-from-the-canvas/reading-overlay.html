@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head><script defer src="../../../_folio-search.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reading overlay — Folio kanban prototype</title>
+    <link rel="stylesheet" href="reading-overlay.css" />
+  </head>
+  <body>
+    <a class="skip" href="#board">Skip to the board</a>
+
+    <header class="page-head">
+      <div class="head-left">
+        <p class="eyebrow">Prototype · artifacts read from the canvas</p>
+        <h1 id="page-title">Reading overlay</h1>
+        <p class="lede">
+          Clicking an artifact opens a reading layer over the whole canvas. The
+          board stays mounted behind it, dimmed at the edges; Esc puts it back
+          exactly as you left it, one level at a time.
+        </p>
+      </div>
+      <div class="head-right">
+        <div class="theme" role="group" aria-label="Colour scheme">
+          <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+          <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+          <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <details class="notes" open>
+      <summary><span class="notes-title">What this variant argues</span></summary>
+      <div class="notes-body">
+        <section>
+          <h2>Thesis</h2>
+          <p>
+            Reading is a mode you enter deliberately: the artifact takes the
+            viewport, prose gets a real measure, a prototype gets real room —
+            and one keystroke returns the canvas exactly as you left it,
+            column, dialog, filter and all.
+          </p>
+        </section>
+        <section>
+          <h2>If this wins, the docs page</h2>
+          <p>
+            The board URL becomes the reading address —
+            <code>#card=…&amp;artifact=…</code> reopens board, card and
+            overlay. A deep link no longer needs the compiled
+            <code>/docs/kanban/…</code> page as a destination; it survives
+            only as the raw target behind “source”, and could stop being a
+            docs-tree page at all (the sibling note on where card pages
+            publish decides what replaces it).
+          </p>
+        </section>
+        <section>
+          <h2>What it is bad at</h2>
+          <p>
+            It is modal. You cannot read and scan the canvas at once: the
+            board behind the overlay is a dimmed rim, context but never
+            interaction, and comparing two artifacts means closing one to
+            open the other. Two stacked layers of Esc is state you carry in
+            your head. And once you click into an embedded prototype, keys go
+            to its document — Esc only works from the overlay's own chrome.
+          </p>
+        </section>
+      </div>
+    </details>
+
+    <main id="board">
+      <div class="board" id="columns" aria-label="Development board"></div>
+    </main>
+
+    <footer class="page-foot">
+      <p>
+        Keyboard: <kbd>Tab</kbd> walks cards and artifacts, <kbd>Enter</kbd>
+        opens, <kbd>←</kbd><kbd>→</kbd> walk the artifact band while reading,
+        <kbd>Esc</kbd> unwinds one level — reader to card, card to board.
+      </p>
+      <p class="foot-meta">
+        Throwaway prototype. Static page, no network, no build step. Data is
+        <code>board-data.js</code> + <code>reader-data.js</code>.
+      </p>
+    </footer>
+
+    <!-- card dialog: the mail. Opened with showModal(); the board behind it
+         goes inert and dims through the backdrop. -->
+    <dialog class="card-dialog" id="card-dialog" aria-labelledby="cd-title">
+      <article class="mail">
+        <header class="mail-head">
+          <div class="mail-head-text">
+            <p class="mail-kicker" id="cd-status"></p>
+            <h2 id="cd-title"></h2>
+            <p class="mail-id"><code id="cd-file"></code></p>
+          </div>
+          <button type="button" class="x" id="cd-close" aria-label="Close card">×</button>
+        </header>
+        <dl class="mail-meta" id="cd-meta"></dl>
+        <div class="mail-desc" id="cd-desc"></div>
+        <section class="mail-criteria" id="cd-criteria-wrap" hidden>
+          <h3 class="band-label" id="cd-criteria-label"></h3>
+          <ul id="cd-criteria"></ul>
+        </section>
+        <section class="art-band" id="cd-band-wrap" hidden aria-labelledby="cd-band-label">
+          <h3 class="band-label" id="cd-band-label">Artifacts</h3>
+          <ul class="band" id="cd-band"></ul>
+        </section>
+      </article>
+    </dialog>
+
+    <!-- reader overlay: full viewport minus a dimmed rim of canvas. Stacks
+         above the card dialog in the top layer; Esc closes only this. -->
+    <dialog class="reader" id="reader" aria-labelledby="rd-crumb-art">
+      <header class="reader-head">
+        <nav class="crumb" aria-label="Reading position">
+          <span class="crumb-part" id="rd-crumb-board"></span>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span class="crumb-part" id="rd-crumb-card"></span>
+          <span class="crumb-sep" aria-hidden="true">/</span>
+          <span class="crumb-part crumb-art" id="rd-crumb-art"></span>
+        </nav>
+        <div class="reader-controls">
+          <p class="pos" id="rd-pos" aria-live="polite"></p>
+          <div class="pager" role="group" aria-label="Walk the artifact band">
+            <button type="button" id="rd-prev" aria-label="Previous artifact">‹</button>
+            <button type="button" id="rd-next" aria-label="Next artifact">›</button>
+          </div>
+          <a class="openfull" id="rd-full" target="_blank" rel="noopener">open full ↗</a>
+          <button type="button" class="x" id="rd-close" aria-label="Close reader">
+            <span class="x-kbd" aria-hidden="true">esc</span>×
+          </button>
+        </div>
+      </header>
+      <div class="reader-body" id="rd-body" tabindex="-1">
+        <div class="md" id="rd-md" hidden></div>
+        <div class="frame" id="rd-frame" hidden></div>
+      </div>
+    </dialog>
+
+    <script src="board-data.js"></script>
+    <script src="reader-data.js"></script>
+    <script src="reading-overlay.js" defer></script>
+  </body>
+</html>

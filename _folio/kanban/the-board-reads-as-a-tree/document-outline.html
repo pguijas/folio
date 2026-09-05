@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head><script defer src="../../../_folio-search.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Development board — document outline</title>
+<link rel="stylesheet" href="document-outline.css">
+<script src="board-data.js"></script>
+<script src="document-outline.js" defer></script>
+</head>
+<body>
+
+<div class="sheet">
+
+  <header class="masthead">
+    <p class="eyebrow">Folio · kanban · prototype</p>
+    <h1 id="board-title">Development board</h1>
+    <p class="standfirst" id="standfirst">
+      The board as one document. Every card is a markdown file in the repository,
+      so this view sets them the way they are written: a card that decomposes is a
+      heading, and its subtasks are the plan underneath it. Status, staging and
+      progress are inline marks, not columns.
+    </p>
+    <p class="byline" id="byline"></p>
+  </header>
+
+  <details class="notes" id="notes">
+    <summary>What this variant argues<span class="thesis">Decomposition is prose-shaped, not grid-shaped — so the board is set as one document.</span></summary>
+    <div class="notes-body">
+      <h2>Thesis</h2>
+      <p>
+        Decomposition is prose-shaped, not grid-shaped. A plan that lives as
+        markdown in a repository should read as a specification — numbered
+        sections, hanging indents, real typography — and not as a table of cells.
+        There are no rules, no columns and no cell borders in this view: depth is
+        carried by indentation and type size, and everything else is a quiet
+        inline mark on the line.
+      </p>
+
+      <h2>The cross-column child</h2>
+      <p>
+        <strong>The document never breaks the tree.</strong>
+        <code>theme-contract-for-plugin-surfaces</code> is in Backlog and its
+        parent <code>plugin-system-unification</code> is in In&nbsp;review, and it
+        still renders underneath its parent, because that is where the plan puts
+        it. The disagreement is printed rather than hidden: a card whose column
+        differs from its parent's carries a footnote dagger&nbsp;<span
+        class="fn-mark">†</span> next to its status, and the footnote is set at the
+        foot of the document like any other. If you need the kanban reading
+        instead, switch the view to <strong>Chapters</strong>: the document
+        re-sets itself with one chapter per column, the child appears in its own
+        chapter under a cross-reference back to its parent, and the parent keeps a
+        stub line pointing forward. Same data, two readings, neither one lying.
+      </p>
+
+      <h2>Tree filtering</h2>
+      <p>
+        <strong>The parent stays as context; the child never rises to the root.</strong>
+        Lifting a subsection out of its chapter is exactly the thing a document
+        must not do — <em>Rust fast path for source reading</em> means something
+        different when it is not sitting under <em>TypeScript technical plan</em>.
+        So a query keeps every match in place, opens the sections above it, and
+        sets the unmatched ancestors in the margin voice: dimmed, smaller weight,
+        no metadata. Matched text is marked in the accent. The count in the
+        toolbar tells you how many lines actually matched, as opposed to how many
+        are on screen holding them up.
+      </p>
+
+      <h2>What this is bad at</h2>
+      <p>
+        <strong>It scans worse than a grid.</strong> If the question is
+        &ldquo;show me the size of all 35 cards&rdquo; or &ldquo;which of these is
+        unassigned&rdquo;, a table wins outright, because a column puts one field
+        on one vertical axis and your eye reads down it in a second. Here every
+        field is inline, so comparing one field across 35 rows means a saccade per
+        line, and sparse fields — 28 of 35 cards have no size, 32 have no priority
+        — simply vanish rather than leaving an empty cell you can count. The
+        leader dots pull the eye to the status mark and the section numbers give
+        you an address to say out loud, but those are mitigations, not a fix. This
+        view is for reading and re-planning a decomposition. It is not for
+        auditing a field. It also costs vertical space: at full summaries the
+        35&nbsp;cards run several screens, where a board fits on one.
+      </p>
+      <p class="caveat">
+        Second honest note: the tree is only as good as <code>parent:</code>, and
+        this data is invented. On the real board no card sets a parent, so today
+        this whole view would render as 35 flat sections — handsome, but no more
+        useful than a list.
+      </p>
+    </div>
+  </details>
+
+  <div class="toolbar" role="group" aria-label="Outline controls">
+    <div class="tool tool-search">
+      <label class="lbl" for="q">Find</label>
+      <input id="q" type="search" placeholder="title or id" autocomplete="off" spellcheck="false">
+      <span class="hits" id="hits"></span>
+    </div>
+
+    <div class="tool">
+      <span class="lbl" id="lbl-view">View</span>
+      <div class="seg" role="radiogroup" aria-labelledby="lbl-view" id="seg-view">
+        <button type="button" role="radio" data-v="outline" aria-checked="true">Outline</button>
+        <button type="button" role="radio" data-v="chapters" aria-checked="false">Chapters</button>
+      </div>
+    </div>
+
+    <div class="tool">
+      <span class="lbl" id="lbl-sum">Summaries</span>
+      <div class="seg" role="radiogroup" aria-labelledby="lbl-sum" id="seg-sum">
+        <button type="button" role="radio" data-s="none" aria-checked="false">None</button>
+        <button type="button" role="radio" data-s="head" aria-checked="true">Headings</button>
+        <button type="button" role="radio" data-s="all" aria-checked="false">All</button>
+      </div>
+    </div>
+
+    <div class="tool tool-cols">
+      <span class="lbl" id="lbl-cols">Columns</span>
+      <div class="chips" id="chips" aria-labelledby="lbl-cols"></div>
+    </div>
+
+    <div class="tool tool-right">
+      <button type="button" class="btn" id="expand-all">Expand all</button>
+      <button type="button" class="btn" id="collapse-all">Collapse all</button>
+      <button type="button" class="btn btn-staged" id="open-moves" aria-haspopup="dialog">
+        Staged moves <span class="count" id="staged-count">0</span>
+      </button>
+      <button type="button" class="btn" id="theme" aria-label="Colour scheme">Auto</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="doc" id="doc" role="tree" aria-labelledby="board-title" aria-multiselectable="false">
+      <!-- rendered by document-outline.js -->
+    </div>
+    <p class="empty" id="empty" hidden>No line matches that query.</p>
+  </main>
+
+  <footer class="colophon">
+    <h2 class="fn-head">Notes</h2>
+    <ol class="footnotes" id="footnotes">
+      <li id="fn-diverge"><span class="fn-mark">†</span> This card sits in a different column from its parent. The plan and the board disagree here; both readings are printed.</li>
+      <li id="fn-orphan"><span class="fn-mark">‡</span> This card names a parent that is not on the board, or its parent chain loops back on itself. It is set at the top level so it cannot be lost.</li>
+      <li id="fn-staged"><span class="fn-mark">Δ</span> A staged move, marked the way a proof correction is: the column it is in, struck, followed by the column it is going to. Nothing is written to the repository — <code>Staged moves</code> prints the <code>folio kanban move</code> lines to run.</li>
+    </ol>
+    <p class="imprint">
+      Prototype only. Data from <code>board-data.js</code>; the hierarchy is invented
+      so there is something to nest. No network, no build step, no framework.
+    </p>
+  </footer>
+</div>
+
+<dialog id="moves-dialog">
+  <form method="dialog" class="dlg">
+    <h2>Staged moves</h2>
+    <p class="dlg-note" id="dlg-note"></p>
+    <textarea id="moves-text" readonly rows="8" spellcheck="false" aria-label="folio kanban move commands"></textarea>
+    <div class="dlg-actions">
+      <button type="button" class="btn" id="copy-moves">Copy</button>
+      <button type="button" class="btn" id="clear-moves">Discard all</button>
+      <button type="submit" class="btn btn-primary" value="close">Close</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="movemenu" id="movemenu" hidden role="menu" aria-label="Move to column"></div>
+
+<p class="live" id="live" aria-live="polite"></p>
+
+</body>
+</html>

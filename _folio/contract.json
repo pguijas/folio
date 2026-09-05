@@ -1,0 +1,375 @@
+{
+  "folioVersion": "0.3.0",
+  "mdxContractVersion": "1.1",
+  "generatedAt": "2026-09-05T06:59:53Z",
+  "instructions": "Ignore fields you do not recognise; later Folio releases add them. mdxContractVersion versions the components list only.",
+  "components": [
+    {
+      "name": "ParamTable",
+      "required": true,
+      "source": "api-reference",
+      "props": {
+        "args": "Array<{ name: string; type: string; default?: string; description?: string | null; href?: string }>"
+      }
+    },
+    {
+      "name": "ClassOverview",
+      "required": true,
+      "source": "api-reference",
+      "props": {
+        "name": "string",
+        "bases": "string[] | Array<{ name: string; href?: string }> | undefined",
+        "decorators": "string[] | undefined",
+        "description": "string | undefined"
+      }
+    },
+    {
+      "name": "TypeBadge",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "type": "string",
+        "href": "string | undefined"
+      }
+    },
+    {
+      "name": "MethodAccordion",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "methods": "Array<{ name: string; signature: string; description: string; isAsync?: boolean; children?: React.ReactNode }>"
+      }
+    },
+    {
+      "name": "Callout",
+      "required": true,
+      "source": "markdown-rst",
+      "props": {
+        "type": "\"note\" | \"warning\" | \"info\" | \"tip\" | \"check\" | \"danger\" | undefined",
+        "title": "string | undefined",
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "SourceLink",
+      "required": true,
+      "source": "api-reference",
+      "props": {
+        "href": "string"
+      }
+    },
+    {
+      "name": "Mermaid",
+      "required": true,
+      "source": "markdown-mdx",
+      "props": {
+        "chart": "string"
+      }
+    },
+    {
+      "name": "FileTree",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "tree": "string"
+      }
+    },
+    {
+      "name": "FeatureCard",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "title": "string",
+        "description": "string",
+        "icon": "string | undefined",
+        "href": "string | undefined"
+      }
+    },
+    {
+      "name": "CardGrid",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "columns": "2 | 3 | 4 | undefined",
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "Tabs",
+      "required": true,
+      "source": "markdown-mdx",
+      "props": {
+        "children": "React.ReactNode",
+        "aria-label": "string | undefined"
+      }
+    },
+    {
+      "name": "TabItem",
+      "required": true,
+      "source": "markdown-mdx",
+      "props": {
+        "label": "string",
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "Accordion",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "AccordionItem",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "title": "string",
+        "children": "React.ReactNode",
+        "defaultOpen": "boolean | undefined"
+      }
+    },
+    {
+      "name": "Timeline",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "TimelineItem",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "date": "string",
+        "title": "string",
+        "badge": "string | undefined",
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "Swot",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "strengths": "string[]",
+        "weaknesses": "string[]",
+        "opportunities": "string[]",
+        "threats": "string[]",
+        "title": "string | undefined"
+      }
+    },
+    {
+      "name": "CompareMatrix",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "tools": "string[]",
+        "rows": "{ feature: string; values: (boolean | string)[]; note?: string }[]",
+        "caption": "string | undefined",
+        "highlight": "number | undefined"
+      }
+    },
+    {
+      "name": "PullQuote",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "children": "ReactNode",
+        "kicker": "string | undefined",
+        "attribution": "string | undefined"
+      }
+    },
+    {
+      "name": "StatStrip",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "stats": "{ value: string; label: string; detail?: string }[]"
+      }
+    },
+    {
+      "name": "ApiReferenceIndex",
+      "required": true,
+      "source": "api-reference",
+      "props": {
+        "modules": "Array<{ name: string; description: string; href: string; classCount: number; functionCount: number }>"
+      }
+    },
+    {
+      "name": "BrowserFrame",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "url": "string",
+        "label": "string | undefined",
+        "footer": "React.ReactNode | undefined",
+        "children": "React.ReactNode | undefined"
+      }
+    }
+  ],
+  "configKeys": [
+    "components",
+    "deploy",
+    "i18n",
+    "kanban",
+    "landing",
+    "llm",
+    "nav",
+    "output",
+    "plugins",
+    "project",
+    "roadmap",
+    "search",
+    "sidebar",
+    "source",
+    "template",
+    "theme",
+    "versions"
+  ],
+  "routes": [
+    "/docs/",
+    "/docs/agents/",
+    "/docs/agents/board-component/",
+    "/docs/agents/board/",
+    "/docs/agents/board/agents/",
+    "/docs/agents/board/cli/",
+    "/docs/agents/board/formats/",
+    "/docs/agents/board/start/",
+    "/docs/api-reference/",
+    "/docs/api-reference/folio_agents/",
+    "/docs/api-reference/folio_agents/cli_commands/",
+    "/docs/api-reference/folio_agents/edit/",
+    "/docs/api-reference/folio_agents/integrations/",
+    "/docs/api-reference/folio_agents/integrations/kanban/",
+    "/docs/api-reference/folio_agents/loader/",
+    "/docs/api-reference/folio_agents/milestones/",
+    "/docs/api-reference/folio_agents/ops/",
+    "/docs/api-reference/folio_agents/text/",
+    "/docs/api-reference/folio_agents/worktree/",
+    "/docs/api-reference/folio_docs/",
+    "/docs/api-reference/folio_docs/__main__/",
+    "/docs/api-reference/folio_docs/agent_output/",
+    "/docs/api-reference/folio_docs/agent_output/artifacts/",
+    "/docs/api-reference/folio_docs/agent_output/contract/",
+    "/docs/api-reference/folio_docs/agent_output/llm_output/",
+    "/docs/api-reference/folio_docs/agent_output/markdown/",
+    "/docs/api-reference/folio_docs/branding/",
+    "/docs/api-reference/folio_docs/build/",
+    "/docs/api-reference/folio_docs/builtins/",
+    "/docs/api-reference/folio_docs/cli/",
+    "/docs/api-reference/folio_docs/config/",
+    "/docs/api-reference/folio_docs/coverage/",
+    "/docs/api-reference/folio_docs/docs/",
+    "/docs/api-reference/folio_docs/docs/builtin_drift/",
+    "/docs/api-reference/folio_docs/docs/extension_emitter/",
+    "/docs/api-reference/folio_docs/docs/integrations/",
+    "/docs/api-reference/folio_docs/docs/integrations/landing/",
+    "/docs/api-reference/folio_docs/docs/integrations/openapi/",
+    "/docs/api-reference/folio_docs/docs/integrations/roadmap/",
+    "/docs/api-reference/folio_docs/docs/mdx_writer/",
+    "/docs/api-reference/folio_docs/docs/next_runtime/",
+    "/docs/api-reference/folio_docs/docs/sidebar/",
+    "/docs/api-reference/folio_docs/docs/site_builder/",
+    "/docs/api-reference/folio_docs/docs/static_rewriter/",
+    "/docs/api-reference/folio_docs/docs/template_workspace/",
+    "/docs/api-reference/folio_docs/docs/theme_contract_codegen/",
+    "/docs/api-reference/folio_docs/docs/theme_package_validator/",
+    "/docs/api-reference/folio_docs/docs/xref/",
+    "/docs/api-reference/folio_docs/extensions/",
+    "/docs/api-reference/folio_docs/features/",
+    "/docs/api-reference/folio_docs/ir/",
+    "/docs/api-reference/folio_docs/link_checker/",
+    "/docs/api-reference/folio_docs/parser/",
+    "/docs/api-reference/folio_docs/parser/markdown_parser/",
+    "/docs/api-reference/folio_docs/parser/python_parser/",
+    "/docs/api-reference/folio_docs/paths/",
+    "/docs/api-reference/folio_docs/plugin/",
+    "/docs/api-reference/folio_docs/schemas/",
+    "/docs/api-reference/folio_docs/schemas/theme_contract/",
+    "/docs/api-reference/folio_docs/signatures/",
+    "/docs/api-reference/folio_docs/slugs/",
+    "/docs/api-reference/folio_docs/sources/",
+    "/docs/api-reference/folio_docs/watcher/",
+    "/docs/api-reference/folio_docs/workflows/",
+    "/docs/architecture/",
+    "/docs/cli/",
+    "/docs/components/",
+    "/docs/components/accordion/",
+    "/docs/components/before-after/",
+    "/docs/components/browser-frame/",
+    "/docs/components/build-artifact/",
+    "/docs/components/callout/",
+    "/docs/components/checklist/",
+    "/docs/components/class-overview/",
+    "/docs/components/code-blocks/",
+    "/docs/components/code-group/",
+    "/docs/components/command-grid/",
+    "/docs/components/compare-matrix/",
+    "/docs/components/config-panel/",
+    "/docs/components/copy-page-button/",
+    "/docs/components/deprecation-notice/",
+    "/docs/components/doc-preview/",
+    "/docs/components/example-tabs/",
+    "/docs/components/feature-cards/",
+    "/docs/components/file-tree/",
+    "/docs/components/hook-map/",
+    "/docs/components/math/",
+    "/docs/components/mermaid/",
+    "/docs/components/method-accordion/",
+    "/docs/components/page-feedback/",
+    "/docs/components/param-table/",
+    "/docs/components/preview-code/",
+    "/docs/components/pull-quote/",
+    "/docs/components/stat-strip/",
+    "/docs/components/steps/",
+    "/docs/components/swot/",
+    "/docs/components/tabs/",
+    "/docs/components/terminal-session/",
+    "/docs/components/theme-configurator/",
+    "/docs/components/timeline/",
+    "/docs/components/type-badge/",
+    "/docs/configuration/",
+    "/docs/deployment/",
+    "/docs/deployment/ci-cd/",
+    "/docs/deployment/github-pages/",
+    "/docs/deployment/static-hosts/",
+    "/docs/docstrings/",
+    "/docs/folio-docs/",
+    "/docs/installation/",
+    "/docs/kanban/",
+    "/docs/kanban/cards/",
+    "/docs/kanban/cards/artifact-viewer-becomes-a-workspace/",
+    "/docs/kanban/cards/artifact-viewer-becomes-a-workspace/progressive-canvas-direction/",
+    "/docs/kanban/cards/artifacts-read-from-the-canvas/",
+    "/docs/kanban/cards/artifacts-read-from-the-canvas/brief/",
+    "/docs/kanban/cards/artifacts-read-from-the-canvas/canvas-reading-compared/",
+    "/docs/kanban/cards/artifacts-read-from-the-canvas/where-card-pages-publish/",
+    "/docs/kanban/cards/how-a-published-board-accepts-a-change/",
+    "/docs/kanban/cards/how-a-published-board-accepts-a-change/panel-verdict/",
+    "/docs/kanban/cards/kanban-single-board-with-filters/",
+    "/docs/kanban/cards/kanban-single-board-with-filters/kanban-references-teardown/",
+    "/docs/kanban/cards/landing-for-the-two-product-family/",
+    "/docs/kanban/cards/landing-for-the-two-product-family/landing-direction/",
+    "/docs/kanban/cards/the-board-reads-as-a-tree/",
+    "/docs/kanban/cards/the-board-reads-as-a-tree/brief/",
+    "/docs/kanban/cards/the-board-reads-as-a-tree/prototypes-compared/",
+    "/docs/kanban/cards/the-board-takes-the-name-and-absorbs-the-roadmap/",
+    "/docs/kanban/cards/the-board-takes-the-name-and-absorbs-the-roadmap/panel-verdict/",
+    "/docs/migration/",
+    "/docs/plugins/",
+    "/docs/plugins/authoring/",
+    "/docs/plugins/catalog/",
+    "/docs/plugins/landing/",
+    "/docs/plugins/roadmap/",
+    "/docs/plugins/trust/",
+    "/docs/quickstart/",
+    "/docs/theming/",
+    "/docs/theming/custom-templates/",
+    "/docs/theming/personalization/",
+    "/docs/theming/theme-packages/",
+    "/docs/why-folio/"
+  ]
+}

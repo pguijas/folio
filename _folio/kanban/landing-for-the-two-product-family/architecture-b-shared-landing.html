@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en" data-motion="pending">
+  <head><script defer src="../../../_folio-search.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Architecture B: a shared Folio landing whose product selector bifurcates the sections below the hero."
+    />
+    <title>Folio — Architecture B: shared landing</title>
+    <link rel="stylesheet" href="assets/architecture.css" />
+    <script type="module" src="assets/architecture.js"></script>
+  </head>
+  <body data-architecture="shared">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="masthead shared-masthead">
+      <a class="wordmark" href="#main" aria-label="Folio home">
+        <span class="wordmark-mark" aria-hidden="true">F</span>
+        <span>folio</span>
+      </a>
+      <nav class="site-links" aria-label="Primary navigation">
+        <a href="#products">Products</a>
+        <a href="#docs-proof">How it works</a>
+        <a href="#source">GitHub</a>
+      </nav>
+      <nav class="prototype-nav" aria-label="Prototype versions">
+        <a href="architecture-a-prelanding.html">A · Pre-landing</a>
+        <span aria-current="page">B · Shared landing</span>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="shared-hero" aria-labelledby="shared-title">
+        <div class="shared-copy">
+          <h1 id="shared-title" class="display-title">
+            <span class="line-mask"><span>HTML for people,</span></span>
+            <span class="line-mask"><span>Markdown for agents.</span></span>
+          </h1>
+          <p class="hero-description motion-copy">
+            With one <code>docs.yaml</code>, Folio builds a complete
+            documentation site from the Python source and guides already in your
+            repository.
+          </p>
+          <div class="hero-actions motion-copy">
+            <a class="ink-button" href="#products"
+              >Explore Folio Docs <span aria-hidden="true">↓</span></a
+            >
+            <a class="text-link" href="#source"
+              >View source <span aria-hidden="true">↗</span></a
+            >
+          </div>
+        </div>
+
+        <figure class="output-proof" id="docs-proof">
+          <figcaption class="proof-tabs">
+            <span class="proof-tab is-active"><i></i> rendered.html</span>
+            <span class="proof-tab"><i></i> page.md</span>
+            <span class="proof-counter">ONE SOURCE / TWO READERS</span>
+          </figcaption>
+          <div class="proof-body">
+            <div class="proof-rendered">
+              <div class="proof-browser-rule">
+                <span></span><span></span><span></span>
+                <b>/docs/api/client/</b>
+              </div>
+              <div class="proof-page">
+                <small>API REFERENCE / CLIENT</small>
+                <h2>Client</h2>
+                <p>Read the public surface directly from Python source.</p>
+                <div class="signature"><b>class</b> Client(config: Config)</div>
+                <div class="parameter-row">
+                  <span>config</span><code>Config</code>
+                </div>
+                <div class="parameter-row">
+                  <span>timeout</span><code>float | None</code>
+                </div>
+              </div>
+            </div>
+            <div class="proof-source">
+              <div class="source-file">page.md</div>
+              <pre><code><span class="md-muted"># API Reference</span>
+
+<span class="md-blue">## Client</span>
+
+Read the public surface directly
+from Python source.
+
+<span class="md-orange">```python</span>
+class Client(config: Config)
+<span class="md-orange">```</span>
+
+| Parameter | Type |
+| config | `Config` |</code></pre>
+            </div>
+            <span class="proof-scan" aria-hidden="true"></span>
+          </div>
+          <div class="proof-footer">
+            <span>HTML</span>
+            <span class="proof-join"></span>
+            <span>MARKDOWN</span>
+          </div>
+        </figure>
+      </section>
+
+      <section
+        class="product-section"
+        id="products"
+        aria-labelledby="product-heading"
+      >
+        <div class="branch-intro">
+          <p>Folio / product direction</p>
+          <h2 id="product-heading">One foundation. Two distinct products.</h2>
+          <svg
+            class="branch-lines"
+            viewBox="0 0 760 92"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path d="M380 0V32M380 32H190V92M380 32H570V92" />
+          </svg>
+        </div>
+
+        <div
+          class="product-switch"
+          role="tablist"
+          aria-label="Choose which product section to preview"
+        >
+          <button
+            class="product-tab docs-tab is-selected"
+            id="docs-tab"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="docs-panel"
+            data-product="docs"
+          >
+            <span class="tab-index">01 / AVAILABLE</span>
+            <strong>Folio Docs</strong>
+            <span>Documentation generated from source.</span>
+          </button>
+          <button
+            class="product-tab agents-tab"
+            id="agents-tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="agents-panel"
+            data-product="agents"
+          >
+            <span class="tab-index">02 / COMING SOON</span>
+            <strong>Folio for Agents</strong>
+            <span>A shared project layer for coding agents.</span>
+          </button>
+        </div>
+
+        <div class="product-panels">
+          <article
+            class="product-panel docs-panel is-visible"
+            id="docs-panel"
+            role="tabpanel"
+            aria-labelledby="docs-tab"
+          >
+            <div class="panel-copy">
+              <p class="panel-label">Folio Docs / Available now</p>
+              <h3>Source in. A complete docs site out.</h3>
+              <p>
+                Generate the reference, combine it with your guides, and publish
+                the HTML site and Markdown mirrors in one static build.
+              </p>
+              <ul class="flat-list">
+                <li><span>01</span>Read Python without running it</li>
+                <li><span>02</span>Compose guides and API reference</li>
+                <li><span>03</span>Export search, HTML, and Markdown</li>
+              </ul>
+              <a class="ink-button" href="#docs-route"
+                >Open Folio Docs <span aria-hidden="true">↗</span></a
+              >
+            </div>
+
+            <div
+              class="heartbeat-plate"
+              role="img"
+              aria-label="Folio Docs build animation"
+            >
+              <div class="heartbeat-topline">
+                <span class="beat-live"><i></i> folio serve</span>
+                <span>localhost:4321</span>
+              </div>
+              <div class="heartbeat-stage">
+                <div class="terminal-view">
+                  <pre><span class="term-muted">$</span> folio serve
+
+<span class="term-blue">FOLIO</span>  documentation from source
+
+✓ sources      34 modules
+✓ pages        128 generated
+✓ markdown     128 mirrors
+✓ search       pagefind index
+
+<span class="term-muted">ready at</span> http://localhost:4321</pre>
+                </div>
+                <div class="docs-view">
+                  <div class="mini-nav">
+                    <b>FOLIO</b><span>Search docs…</span>
+                  </div>
+                  <div class="mini-doc-grid">
+                    <div class="mini-sidebar">
+                      <b>Guide</b><span>Quickstart</span
+                      ><span>Configuration</span><b>API Reference</b>
+                    </div>
+                    <div class="mini-page">
+                      <small>API REFERENCE</small>
+                      <h4>Client</h4>
+                      <p>Build and serve your project documentation.</p>
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                  </div>
+                </div>
+                <span class="beat-wipe" aria-hidden="true"></span>
+              </div>
+              <div class="heartbeat-caption">
+                <span>Source</span><i></i><span>Build</span><i></i
+                ><span>Site + .md</span>
+              </div>
+            </div>
+          </article>
+
+          <article
+            class="product-panel agents-panel"
+            id="agents-panel"
+            role="tabpanel"
+            aria-labelledby="agents-tab"
+            hidden
+          >
+            <div class="panel-copy">
+              <p class="panel-label">Folio for Agents / Coming soon</p>
+              <h3>The project layer agents can share.</h3>
+              <p>
+                This surface is intentionally a preview. It introduces the
+                product direction without presenting an unfinished product as
+                available.
+              </p>
+              <ul class="flat-list agents-list">
+                <li><span>01</span>Repository-native context</li>
+                <li><span>02</span>Shared rules and project state</li>
+                <li><span>03</span>Human-reviewable artifacts</li>
+              </ul>
+              <button class="disabled-button" type="button" disabled>
+                Coming soon
+              </button>
+            </div>
+
+            <div
+              class="agent-plate"
+              role="img"
+              aria-label="Preview of the Folio for Agents direction"
+            >
+              <div class="agent-plate-label">PROJECT / SHARED CONTEXT</div>
+              <div class="agent-file file-rules">
+                <span>01</span><b>AGENTS.md</b><em>rules</em>
+              </div>
+              <div class="agent-file file-context">
+                <span>02</span><b>project context</b><em>state</em>
+              </div>
+              <div class="agent-file file-board">
+                <span>03</span><b>board/</b><em>work</em>
+              </div>
+              <div class="agent-file file-artifacts">
+                <span>04</span><b>artifacts/</b><em>proof</em>
+              </div>
+              <svg
+                viewBox="0 0 600 190"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path d="M90 40H300V95H510M90 150H300V95" />
+                <circle cx="300" cy="95" r="10" />
+              </svg>
+              <div class="agent-plate-footer">
+                FOLIO FOR AGENTS / PREVIEW ONLY
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="shared-source" id="source">
+        <span>Folio is open source.</span>
+        <a href="#main">Back to top ↑</a>
+      </section>
+    </main>
+  </body>
+</html>

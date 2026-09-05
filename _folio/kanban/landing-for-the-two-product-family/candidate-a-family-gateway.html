@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script defer src="../../../_folio-search.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Folio landing candidate A: family gateway</title>
+    <link rel="stylesheet" href="assets/candidates.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="prototype-bar">Stage 1 prototype · Candidate A · Family gateway</div>
+
+    <header class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="Folio home">
+          <span class="brand-mark" aria-hidden="true">FO</span>
+          <span>Folio</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a class="nav-priority" href="#docs">Docs</a>
+          <a class="nav-priority" href="#agents">Agents</a>
+          <a href="#proof">Live proof</a>
+          <a href="https://github.com/pguijas/folio" target="_blank" rel="noreferrer">GitHub</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle color theme">◐</button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="kicker">Open-source documentation for the agent era</p>
+            <h1>Every docs page ships twice: HTML for people, Markdown for agents.</h1>
+            <p class="lede">One <code>docs.yaml</code> builds the site from the Python source and guides already in your repo.</p>
+            <nav class="actions" aria-label="Get started">
+              <a class="button primary" href="#docs">Start with Folio Docs <span aria-hidden="true">→</span></a>
+              <a class="button" href="#agents">Meet Folio for Agents <span aria-hidden="true">↓</span></a>
+            </nav>
+            <div class="command"><span class="prompt">$</span> uv tool install folio-docs</div>
+          </div>
+
+          <aside class="artifact" aria-label="Folio product family map">
+            <div class="artifact-chrome">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="url">folio.dev / product family</span>
+            </div>
+            <div class="artifact-body family-map">
+              <div class="truth-rail">
+                <strong>one repository truth</strong>
+                <span>source · guides · project state</span>
+              </div>
+              <span class="map-line" aria-hidden="true"></span>
+              <article class="product-mini">
+                <div class="mini-head">
+                  <div>
+                    <p class="micro">Docs generator</p>
+                    <h3>Folio Docs</h3>
+                  </div>
+                  <span class="version">0.3</span>
+                </div>
+                <div class="mini-flow">
+                  <span>source + guides</span><b aria-hidden="true">→</b><span>HTML + Markdown</span>
+                </div>
+              </article>
+              <article class="product-mini agents">
+                <div class="mini-head">
+                  <div>
+                    <p class="micro">Repository-native meta-harness</p>
+                    <h3>Folio for Agents</h3>
+                  </div>
+                  <span class="version">0.1</span>
+                </div>
+                <div class="mini-flow">
+                  <span>rules + cards</span><b aria-hidden="true">→</b><span>board + artifacts</span>
+                </div>
+              </article>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="products-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">One family, two products</p>
+            <h2 id="products-title">Ship the site. Give every coding agent the same project state.</h2>
+            <p>Each product has one job, one install, and one proof. Use either independently; connect them when the project board belongs in the docs.</p>
+          </div>
+
+          <div class="product-grid">
+            <article class="product-card" id="docs">
+              <div class="product-head">
+                <div>
+                  <p class="label">The docs generator</p>
+                  <h3>Folio Docs</h3>
+                </div>
+                <span class="chip">HTML + Markdown</span>
+              </div>
+              <p class="product-copy">Python source and authored guides become a searchable static site, API reference, and a Markdown mirror for every page.</p>
+              <div class="product-proof" role="group" aria-label="Generated documentation files">
+                <div class="file-row"><span>src/payments/client.py</span><span>read, never run</span></div>
+                <div class="file-row"><span>/docs/api-reference/</span><span>HTML</span></div>
+                <div class="file-row"><span>/_folio/markdown/</span><span>Markdown</span></div>
+                <div class="file-row"><span>/_pagefind/</span><span>static search</span></div>
+              </div>
+              <div class="product-footer">
+                <div class="command"><span class="prompt">$</span> uv tool install folio-docs</div>
+                <a class="text-link" href="https://pguijas.github.io/folio/docs/quickstart/">Open the Docs quickstart →</a>
+              </div>
+            </article>
+
+            <article class="product-card agents" id="agents">
+              <div class="product-head">
+                <div>
+                  <p class="label">The repository-native meta-harness</p>
+                  <h3>Folio for Agents</h3>
+                </div>
+                <span class="chip">Git + Markdown</span>
+              </div>
+              <p class="product-copy">Codex, Claude Code, and the coding tools already in use share one operating protocol, one board, and durable outputs without a new server or account.</p>
+              <div class="product-proof" role="group" aria-label="Example agent work card">
+                <div class="card-row"><span>landing-for-the-two-product-family.md</span><span>in-progress</span></div>
+                <div class="card-row"><span>acceptance criteria</span><span>reviewable</span></div>
+                <div class="card-row"><span>trail</span><span>ordinary commits</span></div>
+                <div class="card-row"><span>artifacts/</span><span>published conclusions</span></div>
+              </div>
+              <div class="product-footer">
+                <div class="command"><span class="prompt">$</span> uv tool install folio-agents</div>
+                <a class="text-link" href="https://github.com/pguijas/folio/tree/board/board">Open Folio's board →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft" aria-labelledby="contract-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">The shared boundary</p>
+            <h2 id="contract-title">Independent tools. Compatible repository files.</h2>
+            <p>Folio Docs owns documentation output. Folio for Agents owns work state. Their optional integration publishes the board without turning either product into the other.</p>
+          </div>
+
+          <div class="pipeline" role="group" aria-label="How the Folio products connect">
+            <div class="pipeline-head"><strong>Repository truth</strong><span>no remote service in the path</span></div>
+            <div class="pipeline-grid">
+              <div class="pipe-lane">
+                <h3>Folio Docs reads</h3>
+                <p>Inputs that explain the software.</p>
+                <div class="pipe-list"><span>docs.yaml</span><span>Python source</span><span>guides/*.md</span></div>
+              </div>
+              <div class="pipe-join">optional docs integration</div>
+              <div class="pipe-lane">
+                <h3>Folio for Agents reads</h3>
+                <p>Inputs that explain and move the work.</p>
+                <div class="pipe-list"><span>AGENTS.md</span><span>board/cards/*.md</span><span>card artifacts</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="proof" aria-labelledby="proof-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">Built with Folio, on Folio</p>
+            <h2 id="proof-title">The outputs are already open.</h2>
+            <p>Every link lands on a generated artifact or the repository state that produced it.</p>
+          </div>
+          <div class="proof-grid">
+            <article class="proof-card">
+              <div class="proof-head"><div><p class="micro">Folio Docs</p><h3>This site</h3></div><span class="chip">live</span></div>
+              <p>Guides, API reference, search, and static deployment generated from the repository.</p>
+              <a class="text-link" href="https://pguijas.github.io/folio/docs/">Open the generated docs →</a>
+            </article>
+            <article class="proof-card">
+              <div class="proof-head"><div><p class="micro">Folio for Agents</p><h3>The project board</h3></div><span class="chip">git-backed</span></div>
+              <p>Cards, acceptance criteria, state changes, and attached artifacts on the dedicated board branch.</p>
+              <a class="text-link" href="https://github.com/pguijas/folio/tree/board/board">Inspect the board source →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">FO</span><span>Folio</span></a>
+        <span>Two open-source products. One repository truth.</span>
+      </div>
+    </footer>
+    <script src="assets/candidates.js"></script>
+  </body>
+</html>

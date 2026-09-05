@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script defer src="../../../_folio-search.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Folio landing candidate B: Docs-led front door</title>
+    <link rel="stylesheet" href="assets/candidates.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="prototype-bar">Stage 1 prototype · Candidate B · Docs-led front door</div>
+
+    <header class="site-nav">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="Folio Docs home">
+          <span class="brand-mark" aria-hidden="true">FD</span>
+          <span>Folio Docs</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a class="nav-priority" href="https://pguijas.github.io/folio/docs/">Documentation</a>
+          <a href="https://pguijas.github.io/folio/docs/components/">Components</a>
+          <a class="nav-priority" href="#agents">For Agents</a>
+          <a href="https://github.com/pguijas/folio" target="_blank" rel="noreferrer">GitHub</a>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle color theme">◐</button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="wrap hero-grid">
+          <div>
+            <p class="kicker">Open-source documentation for the agent era</p>
+            <h1>Every docs page ships twice: HTML for people, Markdown for agents.</h1>
+            <p class="lede">One <code>docs.yaml</code> builds the site from the Python source and guides already in your repo.</p>
+            <nav class="actions" aria-label="Get started with Folio Docs">
+              <a class="button primary" href="https://pguijas.github.io/folio/docs/quickstart/">Get started <span aria-hidden="true">→</span></a>
+              <a class="button" href="https://github.com/pguijas/folio">View source</a>
+            </nav>
+            <div class="command"><span class="prompt">$</span> uv tool install folio-docs</div>
+          </div>
+
+          <aside class="artifact" aria-label="Generated Folio Docs page">
+            <div class="artifact-chrome">
+              <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="url">localhost:4321/docs/</span>
+            </div>
+            <div class="docs-window">
+              <nav class="docs-sidebar" aria-label="Example documentation">
+                <p class="micro">Guides</p>
+                <strong>Introduction</strong>
+                <span>Quickstart</span>
+                <span>Configuration</span>
+                <p class="micro">Reference</p>
+                <span>folio_docs</span>
+              </nav>
+              <div class="docs-content">
+                <p class="micro">Docs / Introduction</p>
+                <h3>Folio Docs <span class="version">v0.3</span></h3>
+                <p>Documentation generated from Python source and guides, with a Markdown mirror for every page.</p>
+                <div class="code-block"><span class="prompt">$</span> uv tool install <b>folio-docs</b></div>
+                <div class="receipt" role="group" aria-label="Build outputs">
+                  <div class="receipt-row"><span>API reference</span><span>from source</span></div>
+                  <div class="receipt-row"><span>Pagefind</span><span>static search</span></div>
+                  <div class="receipt-row"><span>llms.txt</span><span>agent index</span></div>
+                  <div class="receipt-row"><span>*.md mirrors</span><span>one per page</span></div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="output-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">From source</p>
+            <h2 id="output-title">One build. Every documentation surface generated from it.</h2>
+            <p>Folio Docs reads the source; it never imports the project. The output is a static site with its search index and agent-readable files already beside it.</p>
+          </div>
+
+          <div class="pipeline" role="group" aria-label="Folio Docs build outputs">
+            <div class="pipeline-head"><strong>Folio Docs build</strong><span>plain files out</span></div>
+            <div class="pipeline-grid">
+              <div class="pipe-lane">
+                <h3>Source in</h3>
+                <p>The files maintainers already own.</p>
+                <div class="pipe-list"><span>docs.yaml</span><span>folio_docs/**/*.py</span><span>guides/*.md</span></div>
+              </div>
+              <div class="pipe-join">folio-docs build</div>
+              <div class="pipe-lane">
+                <h3>Documentation out</h3>
+                <p>One static export for people and agents.</p>
+                <div class="pipe-list"><span>HTML site + API reference</span><span>Pagefind index</span><span>llms.txt + Markdown mirrors</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section soft" id="agents" aria-labelledby="agents-title">
+        <div class="wrap">
+          <div class="family-callout">
+            <div class="callout-head">
+              <div>
+                <p class="eyebrow">Also in the Folio family</p>
+                <h3 id="agents-title">Folio for Agents gives coding tools shared work state.</h3>
+                <p>Install it independently when Codex, Claude Code, and other harnesses need one repository-native protocol, board, and artifact trail. Add the optional Docs integration only when that board should publish into the site.</p>
+              </div>
+            </div>
+            <div>
+              <div class="command"><span class="prompt">$</span> uv tool install folio-agents</div>
+              <div class="actions">
+                <a class="button" href="https://github.com/pguijas/folio/tree/board/board">See Folio's board <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="ownership-grid">
+            <article class="product-card">
+              <div class="product-head">
+                <div><p class="label">This page stays focused</p><h3>Folio Docs owns docs.</h3></div>
+                <span class="chip">folio-docs</span>
+              </div>
+              <p class="product-copy">The homepage, navigation, proof, and first command all lead to the documentation generator. Agent-readable output remains a shipped Docs capability.</p>
+              <div class="product-proof">
+                <div class="file-row"><span>site + API reference</span><span>people</span></div>
+                <div class="file-row"><span>llms.txt + *.md</span><span>agents</span></div>
+                <div class="file-row"><span>static export</span><span>any host</span></div>
+              </div>
+            </article>
+            <article class="product-card agents">
+              <div class="product-head">
+                <div><p class="label">A separate product</p><h3>Folio for Agents owns work.</h3></div>
+                <span class="chip">folio-agents</span>
+              </div>
+              <p class="product-copy">Cards, rules, session conclusions, and attached artifacts stay in ordinary repository files. The product does not replace or orchestrate the coding tools already in use.</p>
+              <div class="product-proof">
+                <div class="card-row"><span>AGENTS.md</span><span>operating rules</span></div>
+                <div class="card-row"><span>board/cards/*.md</span><span>work state</span></div>
+                <div class="card-row"><span>card artifacts</span><span>durable output</span></div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="proof-title">
+        <div class="wrap">
+          <div class="section-heading">
+            <p class="eyebrow">Built with Folio</p>
+            <h2 id="proof-title">Read the actual output.</h2>
+            <p>The current site, Markdown index, and repository board carry the claims.</p>
+          </div>
+          <div class="proof-grid">
+            <article class="proof-card">
+              <div class="proof-head"><div><p class="micro">For people</p><h3>Generated documentation</h3></div><span class="chip">HTML</span></div>
+              <p>Open the guide and API reference generated by Folio Docs from this repository.</p>
+              <a class="text-link" href="https://pguijas.github.io/folio/docs/">Read the docs →</a>
+            </article>
+            <article class="proof-card">
+              <div class="proof-head"><div><p class="micro">For agents</p><h3>Published Markdown index</h3></div><span class="chip">Markdown</span></div>
+              <p>Read the same documentation through the agent-facing index shipped with the static export.</p>
+              <a class="text-link" href="https://pguijas.github.io/folio/llms.txt">Open llms.txt →</a>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">FD</span><span>Folio Docs</span></a>
+        <span>Folio Docs is one of two independent Folio products.</span>
+      </div>
+    </footer>
+    <script src="assets/candidates.js"></script>
+  </body>
+</html>

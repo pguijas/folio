@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://pguijas.github.io/folio/sitemap.xml
+# llms.txt: https://pguijas.github.io/folio/llms.txt
+# llms-full.txt: https://pguijas.github.io/folio/llms-full.txt

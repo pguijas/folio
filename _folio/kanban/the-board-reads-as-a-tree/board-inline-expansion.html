@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+  <head><script defer src="../../../_folio-search.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Board with inline expansion — Folio kanban prototype</title>
+    <link rel="stylesheet" href="board-inline-expansion.css" />
+  </head>
+  <body>
+    <a class="skip" href="#board">Skip to the board</a>
+
+    <header class="head">
+      <div class="head-line">
+        <p class="eyebrow">Prototype · nested decomposition · variant 1</p>
+        <button
+          type="button"
+          id="theme"
+          class="btn btn-quiet"
+          aria-live="polite"
+        >
+          Dark
+        </button>
+      </div>
+      <h1 id="board-title">Development board</h1>
+      <p class="lede">
+        The board you already use. Cards stay in their columns; a card that
+        decomposes grows one extra line, and opening that line lists what it
+        breaks into.
+      </p>
+    </header>
+
+    <details class="notes" id="notes" open>
+      <summary>What this variant argues</summary>
+      <div class="notes-body">
+        <section>
+          <h2>Thesis</h2>
+          <p>
+            Nothing moves. The column board is the view; decomposition is a
+            disclosure inside a card, so nobody has to learn a second surface
+            to see a tree that was always in the data.
+          </p>
+        </section>
+        <section>
+          <h2>The expansion is an index, not a relocation</h2>
+          <p>
+            A sub-row is a <em>reference</em> to a card, never the card itself.
+            Every card still renders exactly once, in its own column, in the
+            order the board already puts it. Opening a parent lists its
+            children as compact rows that point at where those cards actually
+            live, and each child card carries a matching <em>under</em> line
+            back to its parent.
+          </p>
+        </section>
+        <section>
+          <h2>The cross-column child</h2>
+          <p>
+            <code>theme-contract-for-plugin-surfaces</code> sits in Backlog
+            while its parent <code>plugin-system-unification</code> sits in In
+            review. Because a sub-row is a reference, this is not a
+            contradiction to resolve — it is a fact to state. Every sub-row
+            carries the column its card is in, and shows it exactly when the
+            answer is not the column you are reading: hairline outline, an
+            arrow, and the column name spelled out. Pressing it scrolls the
+            real card into view and flashes it. Same-column rows keep that
+            label for screen readers and spend the pixels on their title
+            instead. Nesting never overrides status; status wins, and nesting
+            annotates.
+          </p>
+        </section>
+        <section>
+          <h2>Tree filtering</h2>
+          <p>
+            The parent stays as context. A card survives the filter if it
+            matches on title or id, <em>or</em> if anything below it matches.
+            Cards kept only for context are drawn in muted ink so the true
+            matches stay black, they auto-expand, and their disclosure line
+            switches to reading <span class="ex">3 of 10 subtasks match</span>.
+            Nothing is promoted to a root it does not belong to, because
+            promoting a child would move a card, and moving cards is the one
+            thing this variant refuses to do. Column counts drop their WIP
+            limit while a filter is on, exactly as the shipped board does,
+            since a filtered count is not a WIP count.
+          </p>
+        </section>
+        <section>
+          <h2>What this is bad at</h2>
+          <p>
+            Depth. Two levels read fine; a five-deep tree turns one card into a
+            tall block that pushes everything under it far down its column
+            while the columns beside it stay short. The board's steadiest
+            quality, four stacks scanning at the same rhythm, is the first
+            thing the expansion spends. Indentation also runs out of room fast
+            in a column roughly 300px wide, so past three levels the sub-rows
+            truncate to a few words and the depth stops being legible. And
+            because a sub-row is a reference, a same-column child is on screen
+            twice: once as a row
+            inside its parent and once as its own card lower down. That is the
+            honest cost of never moving a card. If the owner's real ambition is
+            reading a decomposition top to bottom, this variant makes you
+            assemble that reading yourself, one expansion at a time.
+          </p>
+        </section>
+      </div>
+    </details>
+
+    <div class="toolbar" role="group" aria-label="Board controls">
+      <div class="tool tool-filter">
+        <label class="sr-only" for="q">Filter cards by title or id</label>
+        <span class="tool-mark" aria-hidden="true">
+          <svg viewBox="0 0 16 16" class="glyph">
+            <path d="M2.5 4h11M4.5 8h7M6.5 12h3" />
+          </svg>
+        </span>
+        <input
+          id="q"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="filter title or id"
+        />
+        <span id="q-count" class="tool-count" aria-live="polite"></span>
+      </div>
+      <button type="button" class="btn" id="expand-all">Expand all</button>
+      <button type="button" class="btn" id="collapse-all">Collapse all</button>
+      <div class="tool-spacer"></div>
+      <p class="keys" aria-hidden="true">
+        <span>&#8593;&#8595;</span> rows <span>&#8592;&#8594;</span> open /
+        column <span>m</span> move <span>u</span> parent
+        <span>&#9166;</span> follow
+      </p>
+      <button type="button" class="btn btn-staged" id="staged" disabled>
+        <span id="staged-n">0</span> staged
+      </button>
+    </div>
+
+    <main id="board" class="board" aria-labelledby="board-title"></main>
+
+    <div class="sheet" id="sheet" hidden>
+      <div
+        class="sheet-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sheet-title"
+      >
+        <div class="sheet-head">
+          <h2 id="sheet-title">Staged moves</h2>
+          <button type="button" class="btn btn-quiet" id="sheet-close">
+            Close
+          </button>
+        </div>
+        <p class="sheet-note">
+          The site is static and never writes. Apply the staging by running
+          these:
+        </p>
+        <pre id="sheet-code" class="sheet-code"></pre>
+        <div class="sheet-foot">
+          <button type="button" class="btn" id="sheet-copy">Copy</button>
+          <button type="button" class="btn btn-quiet" id="sheet-clear">
+            Clear staged moves
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="live sr-only" role="status" aria-live="polite" id="live"></div>
+
+    <script src="board-data.js"></script>
+    <script src="board-inline-expansion.js" defer></script>
+  </body>
+</html>
