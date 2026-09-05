@@ -14,7 +14,9 @@ landing:
     tagline: ""                  # explicit empty string removes the kicker
     headline: "Your project"
     notice:                       # optional announcement chip above the kicker
-      text: "New — v1.2 released"
+      text: "New — v1.2 released" # or a list of up to three messages the
+                                  # chip cycles through (reduced motion pins
+                                  # the first)
       link: "/docs/changelog"     # optional; same href policy as other links
     description: "Generated API reference and guides, straight from your source."
   cta:
