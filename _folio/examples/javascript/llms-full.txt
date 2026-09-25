@@ -1,0 +1,79 @@
+# greet
+URL: /docs/api-reference/javascript/greet/
+Source: src/greet.js
+
+Greeting utilities.
+
+## Constants
+
+| Constant | Type | Value | Description |
+| --- | --- | --- | --- |
+| `DEFAULT_GREETING` |  | `"Hello!"` | The default greeting. |
+
+## greet
+Source: src/greet.js:11
+
+```javascript
+export function greet(name, loud = false)
+```
+
+Greet someone by name.
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` |  | The person to greet. |
+| `loud` | `boolean` | `false` | Whether to shout. |
+
+**Returns:** `string` - A greeting message.
+
+**Examples:**
+
+```javascript
+greet("world")
+```
+
+---
+
+# math
+URL: /docs/api-reference/javascript/math/
+Source: src/math.js
+
+Math utilities.
+
+## Calculator
+Source: src/math.js:6
+
+```javascript
+class Calculator
+```
+
+A basic calculator.
+
+### constructor
+Source: src/math.js:11
+
+```javascript
+constructor(precision)
+```
+
+Create a calculator.
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `precision` | `number` |  | Decimal places. |
+
+### add
+Source: src/math.js:21
+
+```javascript
+add(a, b)
+```
+
+Add two numbers.
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `a` | `number` |  | First operand. |
+| `b` | `number` |  | Second operand. |
+
+**Returns:** `number` - The sum.

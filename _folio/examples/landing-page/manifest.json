@@ -1,0 +1,15 @@
+{
+  "digest": "ac79433f8a25358f709dd6912812880730e56ea7c501ac9751fc4a6177fc7311",
+  "files": [
+    {
+      "path": "docs/index.md",
+      "url": "/_folio/examples/landing-page/files/docs/index.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs.yaml",
+      "url": "/_folio/examples/landing-page/files/docs.yaml",
+      "language": "yaml"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+(function(){
+const documents=[{"url":"docs/index.html","title":"Example docs","content":"Example docs. This is a tiny source project used to preview the landing page that Folio generates."}];
+let options={};
+const script=document.currentScript;
+const rootHref=new URL('./',script&&script.src||document.baseURI).href;
+function normalize(value){return String(value||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];});}
+function escapeRegex(value){return String(value).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function splitPath(path){return path.split('/').filter(Boolean);}
+function currentDir(){const current=new URL(location.href);const root=new URL(rootHref);let rel=decodeURIComponent(current.pathname).slice(decodeURIComponent(root.pathname).length);if(!rel||rel.endsWith('/'))return rel;return rel.split('/').slice(0,-1).join('/')+'/';}
+function relativePath(target){if(/^(https?:)?\/\//.test(target))return target;const hashIndex=target.indexOf('#');const hash=hashIndex>=0?target.slice(hashIndex):'';const noHash=hashIndex>=0?target.slice(0,hashIndex):target;const queryIndex=noHash.indexOf('?');const query=queryIndex>=0?noHash.slice(queryIndex):'';const path=queryIndex>=0?noHash.slice(0,queryIndex):noHash;const from=splitPath(currentDir());const to=splitPath(path);while(from.length&&to.length&&from[0]===to[0]){from.shift();to.shift();}let rel=[...from.map(function(){return '..';}),...to].join('/')||'index.html';if(location.protocol==='file:'&&/\.html$/.test(rel))rel+='?folio-search=1';return rel+query+hash;}
+function excerpt(content,terms){const normalized=normalize(content);let index=-1;for(const term of terms){index=normalized.indexOf(term);if(index!==-1)break;}const start=Math.max(0,index-80);const raw=String(content||'').slice(start,start+220).trim();let html=escapeHtml((start>0?'... ':'')+raw+(start+220<String(content||'').length?' ...':''));for(const term of terms){if(!term)continue;html=html.replace(new RegExp('('+escapeRegex(escapeHtml(term))+')','ig'),'<mark>$1</mark>');}return html;}
+function search(term){const terms=normalize(term).split(/\s+/).filter(Boolean);if(!terms.length)return [];return documents.map(function(doc){const title=normalize(doc.title);const content=normalize(doc.content);const haystack=title+' '+content;if(!terms.every(function(token){return haystack.includes(token);})){return null;}const titleHits=terms.filter(function(token){return title.includes(token);}).length;const score=titleHits*10+terms.reduce(function(total,token){return total+(content.includes(token)?1:0);},0);const href=relativePath(doc.url);return {id:doc.url,score:score,words:[],data:async function(){return {url:href,meta:{title:doc.title},sub_results:[{title:doc.title,url:href,excerpt:excerpt(doc.content,terms)}]};}};}).filter(Boolean).sort(function(a,b){return b.score-a.score;});}
+const api={options:async function(nextOptions){options=nextOptions||options;},preload:async function(){return null;},search:async function(term){const results=search(term);return {results:results,unfilteredResultCount:results.length,filters:{},totalFilters:{},timings:{preload:0,search:0,total:0}};},debouncedSearch:async function(term){return api.search(term,options);}};
+window.__folioStaticSearch=api;
+if(location.protocol==='file:'&&!window.pagefind){window.pagefind=api;}
+})();

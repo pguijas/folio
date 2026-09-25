@@ -1,0 +1,35 @@
+{
+  "digest": "2c32cb52fed8b0e24bfebf836e31293e20f05c4a9cefecfe72a024413f5c8406",
+  "files": [
+    {
+      "path": "docs/cli.md",
+      "url": "/_folio/examples/generated-site/files/docs/cli.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs/components.md",
+      "url": "/_folio/examples/generated-site/files/docs/components.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs/index.md",
+      "url": "/_folio/examples/generated-site/files/docs/index.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs.yaml",
+      "url": "/_folio/examples/generated-site/files/docs.yaml",
+      "language": "yaml"
+    },
+    {
+      "path": "src/example_package/__init__.py",
+      "url": "/_folio/examples/generated-site/files/src/example_package/__init__.py",
+      "language": "python"
+    },
+    {
+      "path": "src/example_package/arithmetic.py",
+      "url": "/_folio/examples/generated-site/files/src/example_package/arithmetic.py",
+      "language": "python"
+    }
+  ]
+}

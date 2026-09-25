@@ -1,0 +1,20 @@
+{
+  "digest": "f92e5f6958502f9ce93e90cfcea99cb266a150e4a12bd4d814ca5cc632fc8396",
+  "files": [
+    {
+      "path": "Cargo.toml",
+      "url": "/_folio/examples/rust/files/Cargo.toml",
+      "language": "toml"
+    },
+    {
+      "path": "docs.yaml",
+      "url": "/_folio/examples/rust/files/docs.yaml",
+      "language": "yaml"
+    },
+    {
+      "path": "src/lib.rs",
+      "url": "/_folio/examples/rust/files/src/lib.rs",
+      "language": "rs"
+    }
+  ]
+}

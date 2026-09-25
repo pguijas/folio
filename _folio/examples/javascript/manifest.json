@@ -1,0 +1,20 @@
+{
+  "digest": "5b4113f7241e86731a059964520ffbde65df357d3cff88737a24ed971ae4d0dc",
+  "files": [
+    {
+      "path": "docs.yaml",
+      "url": "/_folio/examples/javascript/files/docs.yaml",
+      "language": "yaml"
+    },
+    {
+      "path": "src/greet.js",
+      "url": "/_folio/examples/javascript/files/src/greet.js",
+      "language": "js"
+    },
+    {
+      "path": "src/math.js",
+      "url": "/_folio/examples/javascript/files/src/math.js",
+      "language": "js"
+    }
+  ]
+}

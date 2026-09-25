@@ -1,0 +1,52 @@
+# example_crate
+URL: /docs/api-reference/rust/example_crate/
+Source: src/lib.rs
+
+Example crate for Folio's Rust documentation support.
+
+## default_greeting
+Source: src/lib.rs:24
+
+```rust
+pub fn default_greeting() -> Greeting
+```
+
+Produce a default greeting.
+
+## Struct Greeting
+Source: src/lib.rs:4
+
+```rust
+pub struct Greeting
+```
+
+A greeting message.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name` | `String` | The name to greet. |
+
+## Impl Greeting
+Source: src/lib.rs:9
+
+```rust
+impl Greeting
+```
+
+### new
+Source: src/lib.rs:11
+
+```rust
+pub fn new(name: &str) -> Self
+```
+
+Create a greeting for the given name.
+
+### render
+Source: src/lib.rs:18
+
+```rust
+pub fn render(&self) -> String
+```
+
+Render the greeting as a string.

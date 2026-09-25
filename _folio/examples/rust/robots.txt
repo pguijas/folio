@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+# llms.txt: /folio/_folio/examples/rust/llms.txt
+# llms-full.txt: /folio/_folio/examples/rust/llms-full.txt

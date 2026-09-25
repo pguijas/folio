@@ -1,0 +1,1 @@
+- **example_crate**: Example crate for Folio's Rust documentation support.

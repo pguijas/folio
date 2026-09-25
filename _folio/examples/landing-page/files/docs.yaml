@@ -1,0 +1,42 @@
+project:
+  name: "Example Package"
+  repo: "https://example.com/example-package"
+
+source:
+  docs:
+    - "docs"
+
+landing:
+  hero:
+    tagline: "Generated landing page"
+    headline: "Example docs"
+    description: "A minimal project preview built from docs.yaml and one guide page."
+  cta:
+    primary:
+      text: "Read the docs"
+      link: "/docs/"
+  install:
+    - "uv add example-package"
+  sections:
+    - type: "features"
+      title: "Small project, complete docs"
+      features:
+        - title: "Guide pages"
+          description: "Markdown content becomes a stable docs route."
+        - title: "Copyable setup"
+          description: "The landing page can show the command readers need first."
+    - type: "stats"
+      eyebrow: "Preview"
+      title: "A compact generated homepage"
+      items:
+        - value: "1"
+          label: "guide page"
+        - value: "1"
+          label: "config file"
+    - type: "routes"
+    - type: "output"
+    - type: "cta"
+
+llm:
+  generate_llms_txt: false
+  generate_llms_full_txt: false
