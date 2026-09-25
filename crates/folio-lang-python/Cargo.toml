@@ -1,0 +1,25 @@
+[package]
+name = "folio-lang-python"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+folio-ir = { path = "../folio-ir" }
+ruff_python_parser.workspace = true
+ruff_python_ast.workspace = true
+ruff_text_size.workspace = true
+num-bigint.workspace = true
+unicode-general-category.workspace = true
+
+[dev-dependencies]
+serde.workspace = true
+serde_json.workspace = true
+tempfile.workspace = true
+criterion.workspace = true
+
+[[bench]]
+name = "parse"
+harness = false

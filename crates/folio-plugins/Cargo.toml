@@ -1,0 +1,24 @@
+[package]
+name = "folio-plugins"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[features]
+# Test doubles for the extension interface, off in a shipped build.
+testing = []
+
+[dependencies]
+folio-config = { path = "../folio-config" }
+folio-mdx = { path = "../folio-mdx" }
+indexmap.workspace = true
+regex.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

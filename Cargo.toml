@@ -1,0 +1,58 @@
+# Folio Docs: the documentation engine, the CLI host and the plugin
+# interfaces extensions are written against. One product, one workspace;
+# folio-cli builds the `folio` binary.
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.3.0-a1"
+edition = "2021"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/pguijas/folio"
+# Folio ships as the `folio` binary from GitHub Releases, never on crates.io.
+publish = false
+
+[workspace.dependencies]
+# Shared dependencies are declared here and pulled in per crate with
+# `<dep>.workspace = true`. One version per dependency for the whole workspace.
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+serde_yaml_ng = "0.10"
+thiserror = "2"
+sha2 = "0.11"
+flate2 = "1"
+regex = "1"
+rayon = "1"
+jiff = "0.2"
+semver = "1"
+clap = { version = "4", features = ["derive", "env", "wrap_help"] }
+anstyle = "1"
+anstream = "1"
+crossterm = "0.29"
+notify = "8"
+tempfile = "3"
+# ruff's parser crates are snapshots of ruff internals, so they are pinned
+# exactly.
+ruff_python_parser = "=0.0.13"
+ruff_python_ast = "=0.0.13"
+ruff_text_size = "=0.0.13"
+num-bigint = "0.4"
+# The Rust reader parses with syn and slices signatures out of the source,
+# so proc-macro2 must record byte offsets.
+syn = { version = "2", features = ["full"] }
+proc-macro2 = { version = "1", features = ["span-locations"] }
+# The JavaScript reader walks tree-sitter's grammar node kinds, so the grammar
+# crate is pinned exactly like ruff's: its node names are its API.
+tree-sitter = "0.25"
+tree-sitter-javascript = "=0.23.1"
+unicode-general-category = "1"
+toml = "0.8"
+unicode-width = "0.2"
+indexmap = { version = "2", features = ["serde"] }
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[profile.release]
+lto = "thin"
+strip = true

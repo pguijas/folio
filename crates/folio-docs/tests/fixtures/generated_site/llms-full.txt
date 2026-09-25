@@ -1,0 +1,75 @@
+# CLI reference
+URL: /docs/cli/
+
+Run the local preview server while editing:
+
+```bash
+folio serve --port 4321
+```
+
+Create a production build when the content is ready:
+
+```bash
+folio build --clean
+```
+
+---
+
+# Components
+URL: /docs/components/
+
+Use small MDX components when prose needs a clearer shape.
+
+**Tip**
+
+  Keep examples short. The preview should support the explanation, not replace the documentation.
+
+```python
+from example_package import add
+
+add(2, 3)
+```
+
+---
+
+# Example docs
+URL: /docs/
+
+This sample project shows the kind of static documentation site Folio generates from a small Python package.
+
+## What gets built
+
+1. Guide pages from Markdown files.
+2. API reference pages from Python docstrings.
+3. Search and source previews for generated pages.
+4. A static export that can be served from any host.
+
+Start with the CLI page, then compare the generated API reference with the Python source.
+
+---
+
+# example_package
+URL: /docs/api-reference/example_package/
+Source: src/example_package/__init__.py
+
+---
+
+# example_package.arithmetic
+URL: /docs/api-reference/example_package/arithmetic/
+Source: src/example_package/arithmetic.py
+
+## add
+Source: src/example_package/arithmetic.py:1
+
+```python
+def add(left: int, right: int) -> int
+```
+
+Add two integers.
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `left` | `int` |  | First number. |
+| `right` | `int` |  | Second number. |
+
+**Returns:** `int` - The sum of both numbers.

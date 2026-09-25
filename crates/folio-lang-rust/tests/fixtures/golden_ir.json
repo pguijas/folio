@@ -1,0 +1,682 @@
+[
+  {
+    "name": "demo_crate",
+    "docstring": {
+      "short_description": "The demo crate for testing Folio's Rust source support.",
+      "long_description": "This crate exercises every documented surface.",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "init",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "A top-level public function.",
+          "long_description": "# Examples\n\n```rust\nassert!(init(\"demo\"));\n```\n\nReturns what `models::Config` reads, see the utils.",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "src/lib.rs",
+        "line_number": 20,
+        "kind": "function",
+        "signature": "pub fn init(name: &str) -> bool",
+        "visibility": "pub"
+      }
+    ],
+    "constants": [
+      {
+        "name": "VERSION",
+        "type": "&str",
+        "value": "\"0.1.0\"",
+        "description": "A constant at the crate root.\n"
+      },
+      {
+        "name": "COUNTER",
+        "type": "std::sync::atomic::AtomicUsize",
+        "value": "std::sync::atomic::AtomicUsize::new(0)",
+        "description": "A static mutable counter.\n"
+      }
+    ],
+    "source_file": "src/lib.rs",
+    "language": "rust",
+    "types": []
+  },
+  {
+    "name": "demo_crate::models",
+    "docstring": {
+      "short_description": "Data models for the demo crate.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "dangerous",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "An unsafe function.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "src/models.rs",
+        "line_number": 115,
+        "kind": "function",
+        "signature": "pub unsafe fn dangerous()",
+        "visibility": "pub"
+      },
+      {
+        "name": "fetch_data",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "An async function.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": true,
+        "source_file": "src/models.rs",
+        "line_number": 118,
+        "kind": "function",
+        "signature": "pub async fn fetch_data(url: &str) -> Result<String>",
+        "visibility": "pub"
+      },
+      {
+        "name": "max_size",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "A const function.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "src/models.rs",
+        "line_number": 123,
+        "kind": "function",
+        "signature": "pub const fn max_size() -> usize",
+        "visibility": "pub"
+      },
+      {
+        "name": "process",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "A function with generics and where clause.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "src/models.rs",
+        "line_number": 128,
+        "kind": "function",
+        "signature": "pub fn process<T, U>(input: T) -> U where T: Clone + fmt::Debug, U: Default,",
+        "visibility": "pub"
+      },
+      {
+        "name": "conditional",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+          "#[cfg(feature = \"extra\")]"
+        ],
+        "docstring": {
+          "short_description": "An attribute-bearing function.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "src/models.rs",
+        "line_number": 138,
+        "kind": "function",
+        "signature": "pub fn conditional()",
+        "visibility": "pub"
+      }
+    ],
+    "constants": [
+      {
+        "name": "pub use std::collections::HashMap;",
+        "type": "re-export",
+        "value": "",
+        "description": ""
+      }
+    ],
+    "source_file": "src/models.rs",
+    "language": "rust",
+    "types": [
+      {
+        "name": "Point",
+        "kind": "struct",
+        "docstring": {
+          "short_description": "A 2D point with named fields.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [
+          {
+            "name": "x",
+            "type": "f64",
+            "value": "",
+            "description": "The x coordinate.\n"
+          },
+          {
+            "name": "y",
+            "type": "f64",
+            "value": "",
+            "description": "The y coordinate.\n"
+          }
+        ],
+        "variants": [],
+        "methods": [],
+        "bases": [
+          "#[derive(Debug, Clone)]"
+        ],
+        "signature": "pub struct Point",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 7
+      },
+      {
+        "name": "Id",
+        "kind": "struct",
+        "docstring": {
+          "short_description": "A tuple struct wrapping an ID.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [
+          {
+            "name": "0",
+            "type": "u64",
+            "value": "",
+            "description": ""
+          }
+        ],
+        "variants": [],
+        "methods": [],
+        "bases": [],
+        "signature": "pub struct Id",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 15
+      },
+      {
+        "name": "Marker",
+        "kind": "struct",
+        "docstring": {
+          "short_description": "A unit struct used as a marker.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [],
+        "variants": [],
+        "methods": [],
+        "bases": [],
+        "signature": "pub struct Marker",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 18
+      },
+      {
+        "name": "Container",
+        "kind": "struct",
+        "docstring": {
+          "short_description": "A generic container.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [
+          {
+            "name": "value",
+            "type": "T",
+            "value": "",
+            "description": "The inner value.\n"
+          }
+        ],
+        "variants": [],
+        "methods": [],
+        "bases": [],
+        "signature": "pub struct Container<T: Clone>",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 21
+      },
+      {
+        "name": "Direction",
+        "kind": "enum",
+        "docstring": {
+          "short_description": "Directions on a compass.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [],
+        "variants": [
+          {
+            "name": "North",
+            "type": "",
+            "value": "",
+            "description": "Points north.\n"
+          },
+          {
+            "name": "South",
+            "type": "",
+            "value": "",
+            "description": "Points south.\n"
+          },
+          {
+            "name": "East",
+            "type": "(f64)",
+            "value": "",
+            "description": "Points east with a bearing.\n"
+          },
+          {
+            "name": "West",
+            "type": "{ lat: f64, lon: f64 }",
+            "value": "",
+            "description": "Points west with coordinates.\n"
+          }
+        ],
+        "methods": [],
+        "bases": [],
+        "signature": "pub enum Direction",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 27
+      },
+      {
+        "name": "ErrorCode",
+        "kind": "enum",
+        "docstring": {
+          "short_description": "Errors that can occur.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [],
+        "variants": [
+          {
+            "name": "NotFound",
+            "type": "",
+            "value": "1",
+            "description": "Not found.\n"
+          },
+          {
+            "name": "Denied",
+            "type": "",
+            "value": "2",
+            "description": "Permission denied.\n"
+          }
+        ],
+        "methods": [],
+        "bases": [
+          "#[repr(u8)]"
+        ],
+        "signature": "pub enum ErrorCode",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 40
+      },
+      {
+        "name": "Summary",
+        "kind": "trait",
+        "docstring": {
+          "short_description": "A trait for objects that can be displayed as a summary.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [
+          {
+            "name": "Output",
+            "type": "type",
+            "value": "",
+            "description": "The associated output type.\n"
+          }
+        ],
+        "variants": [],
+        "methods": [
+          {
+            "name": "summarize",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Required: produce a summary string.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "src/models.rs",
+            "line_number": 53,
+            "kind": "function",
+            "signature": "fn summarize(&self) -> Self::Output",
+            "visibility": ""
+          },
+          {
+            "name": "default_summary",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Provided: produce a default summary.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "src/models.rs",
+            "line_number": 56,
+            "kind": "function",
+            "signature": "fn default_summary(&self) -> String",
+            "visibility": ""
+          }
+        ],
+        "bases": [],
+        "signature": "pub trait Summary",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 48
+      },
+      {
+        "name": "AsyncProcess",
+        "kind": "trait",
+        "docstring": {
+          "short_description": "An async-safe trait.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [
+          {
+            "name": "TIMEOUT",
+            "type": "u64",
+            "value": "",
+            "description": "An associated constant for timeout.\n"
+          }
+        ],
+        "variants": [],
+        "methods": [
+          {
+            "name": "run",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Run the process.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "src/models.rs",
+            "line_number": 67,
+            "kind": "function",
+            "signature": "fn run(&self)",
+            "visibility": ""
+          }
+        ],
+        "bases": [],
+        "signature": "pub trait AsyncProcess",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 62
+      },
+      {
+        "name": "Point",
+        "kind": "impl",
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [],
+        "variants": [],
+        "methods": [
+          {
+            "name": "new",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Create a new point.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "src/models.rs",
+            "line_number": 72,
+            "kind": "function",
+            "signature": "pub fn new(x: f64, y: f64) -> Self",
+            "visibility": "pub"
+          },
+          {
+            "name": "distance",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Distance from the origin.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "src/models.rs",
+            "line_number": 77,
+            "kind": "function",
+            "signature": "pub fn distance(&self) -> f64",
+            "visibility": "pub"
+          }
+        ],
+        "bases": [],
+        "signature": "impl Point",
+        "visibility": "",
+        "source_file": "src/models.rs",
+        "line_number": 70
+      },
+      {
+        "name": "Point",
+        "kind": "impl",
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [],
+        "variants": [],
+        "methods": [
+          {
+            "name": "summarize",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "src/models.rs",
+            "line_number": 90,
+            "kind": "function",
+            "signature": "fn summarize(&self) -> String",
+            "visibility": ""
+          }
+        ],
+        "bases": [
+          "Summary"
+        ],
+        "signature": "impl Summary for Point",
+        "visibility": "",
+        "source_file": "src/models.rs",
+        "line_number": 87
+      },
+      {
+        "name": "Point",
+        "kind": "impl",
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [],
+        "variants": [],
+        "methods": [
+          {
+            "name": "fmt",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "src/models.rs",
+            "line_number": 96,
+            "kind": "function",
+            "signature": "fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result",
+            "visibility": ""
+          }
+        ],
+        "bases": [
+          "fmt::Display"
+        ],
+        "signature": "impl fmt::Display for Point",
+        "visibility": "",
+        "source_file": "src/models.rs",
+        "line_number": 95
+      },
+      {
+        "name": "Result",
+        "kind": "type_alias",
+        "docstring": {
+          "short_description": "A type alias for results.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "fields": [],
+        "variants": [],
+        "methods": [],
+        "bases": [],
+        "signature": "pub type Result<T> = std::result::Result<T, ErrorCode>",
+        "visibility": "pub",
+        "source_file": "src/models.rs",
+        "line_number": 102
+      }
+    ]
+  },
+  {
+    "name": "demo_crate::utils",
+    "docstring": {
+      "short_description": "Utility functions and types.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "format_value",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Format a value as a string.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "src/utils/mod.rs",
+        "line_number": 6,
+        "kind": "function",
+        "signature": "pub fn format_value(v: i32) -> String",
+        "visibility": "pub"
+      }
+    ],
+    "constants": [],
+    "source_file": "src/utils/mod.rs",
+    "language": "rust",
+    "types": []
+  },
+  {
+    "name": "demo_crate::utils::helpers",
+    "docstring": {
+      "short_description": "Helper utilities.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "double",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Double an integer.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "src/utils/helpers.rs",
+        "line_number": 4,
+        "kind": "function",
+        "signature": "pub fn double(n: i32) -> i32",
+        "visibility": "pub"
+      }
+    ],
+    "constants": [],
+    "source_file": "src/utils/helpers.rs",
+    "language": "rust",
+    "types": []
+  }
+]

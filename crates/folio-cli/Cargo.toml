@@ -1,0 +1,38 @@
+[package]
+name = "folio-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+folio-config = { path = "../folio-config" }
+folio-mdx = { path = "../folio-mdx" }
+folio-plugins = { path = "../folio-plugins" }
+folio-site = { path = "../folio-site" }
+folio-watch = { path = "../folio-watch" }
+folio-ir = { path = "../folio-ir" }
+folio-lang-python = { path = "../folio-lang-python" }
+folio-docs = { path = "../folio-docs" }
+clap.workspace = true
+anstyle.workspace = true
+anstream.workspace = true
+crossterm.workspace = true
+unicode-width.workspace = true
+toml.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+regex.workspace = true
+semver.workspace = true
+jiff.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+serde_yaml_ng.workspace = true
+toml.workspace = true

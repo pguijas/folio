@@ -1,0 +1,84 @@
+name: rust
+
+# A `v*` tag runs these checks through release.yml, which calls this workflow.
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_call:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+      - name: fmt
+        run: cargo fmt --all --check
+      - name: clippy
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: pnpm
+        run: corepack enable && corepack prepare pnpm@10 --activate
+      - name: template dependencies
+        working-directory: template
+        run: pnpm install --frozen-lockfile
+      - name: template lint
+        working-directory: template
+        run: pnpm lint
+      - name: template typecheck
+        working-directory: template
+        run: pnpm typecheck
+
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      # 22, not the documented 20.19 floor: the template's TypeScript helpers
+      # are driven directly by Node in folio-site's tests, and older releases
+      # skip them instead of asserting.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: pnpm
+        run: corepack enable && corepack prepare pnpm@10 --activate
+      - name: test
+        run: cargo test --workspace --locked
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: the shipped CLI surface
+        run: cargo test -p folio-cli --test cli_surface --locked
+
+  real-export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: pnpm
+        run: corepack enable && corepack prepare pnpm@10 --activate
+      # The two suites that run real pnpm and next build; ignored by default
+      # because they cost minutes and the network.
+      - name: the example site exports
+        run: cargo test -p folio-site --test e2e_export --locked -- --ignored --nocapture
+      - name: the binary exports the example site
+        run: cargo test -p folio-cli --test build_pipeline --locked -- --ignored --nocapture

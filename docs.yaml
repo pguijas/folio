@@ -1,0 +1,264 @@
+project:
+  name: "Folio"
+  version: "0.3.0-a1"
+  repo: "https://github.com/pguijas/folio"
+  url: "https://pguijas.github.io/folio"
+
+source:
+  docs:
+    - "docs/guide/"
+
+output: "_site"
+
+theme:
+  dark_mode: true
+  package: "theme/folio-site"
+
+nav:
+  - "Guide"
+  - "API Reference"
+
+# Repository files served verbatim from the site root: the installer behind
+# the install one-liner.
+public:
+  - "install.sh"
+
+# The landing plugin ships with Folio and is always loaded; this `landing:`
+# section is what activates the landing page at the site root.
+landing:
+  cta:
+    primary:
+      text: "Get started"
+      link: "/docs/quickstart"
+    secondary:
+      text: "View source"
+      link: "https://github.com/pguijas/folio"
+  hero:
+    variant: "heartbeat"
+    # No tagline. "Open-source documentation for the agent era" sat above a
+    # headline that already says what the product does, and "the agent era" is
+    # a claim about the world rather than about Folio. The one fact in it worth
+    # keeping, that this is open source, moved into the description.
+    headline: "HTML for people, MD for agents."
+    description: "A documentation engine that ships as one native Rust binary. One config file points Folio at the source and guides already in your repo. Open source."
+  install:
+    - "curl -LsSf https://pguijas.github.io/folio/install.sh | sh"
+  sections:
+    - type: "funnel"
+      eyebrow: "From source"
+      title: "One build. Every output generated from it."
+      description: ""
+      # Tiles are an icon and a plain label, never a path. The guarantees
+      # strip that sat under the plate is gone: it added nothing the title
+      # and the Capabilities cards below do not already say.
+      inputs:
+        - label: "Config file"
+          icon: "config"
+        - label: "Python"
+          icon: "python"
+        - label: "Markdown"
+          icon: "markdown"
+        - label: "JavaScript"
+          icon: "javascript"
+        - label: "Rust"
+          icon: "rust"
+      # Products, not build artifacts: no output directory, no index file.
+      # Search is argued by the Capabilities card below, and llms-full.txt
+      # rides under llms.txt.
+      outputs:
+        - label: "Guides"
+          icon: "guides"
+        - label: "API reference"
+          icon: "api"
+        - label: "llms.txt"
+          icon: "agents"
+        - label: "Markdown pages"
+          icon: "pages"
+    - type: "features"
+      variant: "bento"
+      eyebrow: "Capabilities"
+      title: "Everything a docs site needs."
+      title_muted: "Built-in plugins add a roadmap and an OpenAPI index."
+      actions:
+        - title: "Explore the docs"
+          href: "/docs"
+      features:
+        - title: "30 MDX components"
+          visual: "components"
+          wide: true
+          description: "Callouts, tabs, steps, timelines, file trees, Mermaid, KaTeX, API tables."
+        - title: "Built for agents"
+          visual: "llms"
+          description: "When enabled, the build emits llms.txt, a Markdown mirror per docs page, and a typed authoring contract."
+        - title: "Search without a service"
+          visual: "receipt"
+          description: "Pagefind indexes every docs page at build time; the index ships with the export."
+        - title: "GitHub Pages, zero config"
+          visual: "deploy"
+          wide: true
+          description: "Base path inferred, branch previews included, and the same export runs on Vercel, Netlify, or Docker."
+        - title: "Built-in plugins share one registry"
+          visual: "plugins"
+          description: "Roadmap, OpenAPI, and this landing are compiled into the binary and use the same registry. Project plugins: Not available in this release."
+        - title: "Theming without forking"
+          visual: "theming"
+          wide: true
+          description: "Presets, tokens, variants, and a live configurator in the shipped UI; overlay individual template files when that isn't enough."
+    - type: "cells"
+      eyebrow: "Use cases"
+      title: "Who picks Folio"
+      items:
+        - label: "Maintainers"
+          title: "API reference straight from source"
+          visual: "maintainers"
+          description: "The source you already maintain becomes the pages your users read."
+          href: "/docs/api-reference"
+          link_text: "Why this site has no reference yet"
+        - label: "Agents"
+          title: "Your agent reads what you ship"
+          visual: "agents"
+          description: "A coding agent edits docs in the same PR that changes the code."
+          href: "/llms.txt"
+          link_text: "Read this site's llms.txt"
+        - label: "Migrating"
+          title: "Your Markdown stays put"
+          visual: "migrating"
+          description: "Point Folio at the folder you already have; Google and NumPy docstrings need no conversion."
+          href: "/docs/migration"
+          link_text: "See the migration guide"
+
+# Built-in integrations activate through their own sections below (landing,
+# roadmap). Project plugins are not available in this release.
+
+# Project-owned chart the guide pages use.
+components:
+  - name: BenchmarkChart
+    from: "./docs/components/benchmark-chart.tsx"
+    export: BenchmarkChart
+    expose:
+      mdx: true
+
+# The roadmap plugin ships with Folio and is always loaded; this `roadmap:`
+# section is what activates it.
+roadmap:
+  routes:
+    docs: false          # the live demo lives at /docs/plugins/roadmap
+    # No standalone /roadmap. The landing carries the project card instead;
+    # the plugin still offers the route and this site does not use it.
+    public: false
+  description: "The release line: source analysis, theming, one binary, every reader, the open platform, then more languages, migrations and the API portal."
+  # Naming the project here keeps the display name out of the component, so a
+  # site that is not Folio labels its own.
+  projects:
+    docs:
+      label: "Folio Docs"
+      description: "Source analysis, theming, one binary, every reader, the open platform, then more languages, migrations and the API portal. Everything that turns a repository into a published site."
+  phases:
+    - id: "foundation"
+      project: "docs"
+      version: "0.1"
+      title: "Foundation"
+      status: "shipped"
+      layer: "Source analysis"
+      summary: "Python first: source in, documented site out."
+      features:
+        - "One command sets the project up"
+        - "Reads your source, never runs it"
+        - "API reference and your guides in one site"
+        - "Types in signatures link to their pages"
+        - "Edit a docstring, see the page"
+        - "A component library and full-text search"
+        - "llms.txt from day one"
+    - id: "theming"
+      project: "docs"
+      version: "0.2"
+      title: "Theming"
+      status: "shipped"
+      layer: "Visual ownership"
+      summary: "Own the look at any depth, then ship it anywhere static files go."
+      features:
+        - "Presets, shareable packages, or your own template"
+        - "Readers retheme the site from the site"
+        - "A preview site per pull request"
+        - "Social preview images"
+    - id: "extension"
+      project: "docs"
+      version: "0.3"
+      title: "One Binary"
+      status: "shipped"
+      layer: "One platform"
+      summary: "One native binary reads Python, JavaScript and Rust; the built-in plugins share one contract, and this site runs on it."
+      features:
+        - "The core in Rust: one native binary, no Python to install"
+        - "Three readers in the binary: Python, JavaScript, and Rust"
+        - "Built-in plugins ship pages, components, and data"
+        - "Your own React components in any page"
+        - "Every project ships its authoring contract"
+        - "Every page gets a portable Markdown mirror"
+        - "Roadmap, landing, and OpenAPI integrations"
+    - id: "every-reader"
+      project: "docs"
+      version: "0.4"
+      title: "Every Reader"
+      status: "next"
+      layer: "Reach"
+      summary: "One site for every reader: the language the code is in, the version they are on, and the language they read. Everything the alpha marks not available."
+      features:
+        - "TypeScript next to JavaScript"
+        - "Versioning — docs for every version of your library"
+        - "Internationalization — sites in your readers' languages"
+        - "Cross-language references"
+        - "One search, one llms.txt, every language"
+        - "Inline type information in examples"
+        - "Folio's own API reference, read by its Rust reader"
+    - id: "open-platform"
+      project: "docs"
+      version: "0.5"
+      title: "Open Platform"
+      status: "later"
+      layer: "Extensibility"
+      summary: "Others extend it: project plugins return, a language is something you can add, and the beta draws its stability lines."
+      features:
+        - "Project plugins return as sidecars over JSON-RPC"
+        - "Language contract — a public way to add a language"
+        - "A plugin catalog outsiders can publish into"
+        - "Starter templates"
+        - "Live plugin demos with their source"
+        - "folio score — how agent-ready any docs site is"
+        - "Agent discovery by the specs: .well-known and text/markdown negotiation"
+    - id: "more-languages"
+      project: "docs"
+      version: "0.6"
+      title: "More Languages"
+      status: "later"
+      layer: "Reach"
+      summary: "New languages arrive as parsers, not new toolchains."
+      features:
+        - "Go, C#, and Java next to Python, JavaScript, TypeScript, and Rust"
+    - id: "migrations"
+      project: "docs"
+      version: "0.7"
+      title: "Migrations"
+      status: "later"
+      layer: "Adoption"
+      summary: "Bring your existing docs over in one command, with an honest report of what didn't convert."
+      features:
+        - "One-command import from MkDocs, Mintlify, and Read the Docs"
+        - "Sphinx cross-links carry over"
+        - "A theme preset that feels familiar"
+        - "Redirects for every moved page"
+        - "One site across products and repos"
+    - id: "api-portal-diff"
+      project: "docs"
+      version: "0.8"
+      title: "API Portal"
+      status: "later"
+      layer: "API workflow"
+      summary: "The API portal teams expect: changelogs from real changes, and examples that cannot lie."
+      features:
+        - "Field-level API components"
+        - "A page per endpoint"
+        - "Builds fail on breaking changes"
+        - "Try requests on the page"
+        - "SDK examples verified against the code"
+        - "Event APIs too"

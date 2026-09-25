@@ -1,0 +1,150 @@
+name: release
+
+# A release is a tag: `v` + the `version` in the root Cargo.toml. The tag push
+# builds one archive per target, runs install.sh against the two archives the
+# runners execute natively (x86_64 Linux, arm64 macOS), and publishes a GitHub
+# Release with SHA256SUMS and the version's CHANGELOG.md entry as its notes;
+# install.sh downloads from `releases/latest`. Pull requests that touch this
+# file or the installer run the build without publishing, so the matrix is
+# proven before a tag exists.
+
+on:
+  push:
+    tags: ["v*"]
+  pull_request:
+    paths: [".github/workflows/release.yml", "install.sh"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        name: the tag is the workspace version
+        run: |
+          set -eu
+          version=$(sed -n 's/^version = "\(.*\)"$/\1/p' Cargo.toml | head -n1)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          case "$GITHUB_REF" in
+            refs/tags/*)
+              [ "$GITHUB_REF_NAME" = "v$version" ] ||
+                { echo "::error::tag $GITHUB_REF_NAME does not match Cargo.toml version $version"; exit 1; } ;;
+          esac
+
+  checks:
+    uses: ./.github/workflows/rust.yml
+
+  build:
+    needs: [version, checks]
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # ubuntu-22.04 sets the glibc floor (2.35): Ubuntu 22.04, Debian 12 and newer.
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-22.04
+            installer: true
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-22.04
+            linker: aarch64-linux-gnu-gcc
+          # Both macOS archives come from the arm64 runner; Rust cross-builds
+          # x86_64 with the same SDK.
+          - target: x86_64-apple-darwin
+            os: macos-latest
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            installer: true
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: cross toolchain
+        if: matrix.linker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+          {
+            echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=${{ matrix.linker }}"
+            echo "CC_aarch64_unknown_linux_gnu=${{ matrix.linker }}"
+          } >> "$GITHUB_ENV"
+      - name: build
+        run: cargo build --release --locked -p folio-cli --target ${{ matrix.target }}
+      - name: package (tar.gz, binary at the root)
+        if: runner.os != 'Windows'
+        run: |
+          set -eu
+          mkdir -p dist stage
+          cp "target/${{ matrix.target }}/release/folio" LICENSE THIRD-PARTY-NOTICES.md stage/
+          tar -czf "dist/folio-${{ matrix.target }}.tar.gz" -C stage folio LICENSE THIRD-PARTY-NOTICES.md
+      - name: package (zip)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist, stage | Out-Null
+          Copy-Item "target/${{ matrix.target }}/release/folio.exe", LICENSE, THIRD-PARTY-NOTICES.md stage/
+          Compress-Archive -Path stage/* -DestinationPath "dist/folio-${{ matrix.target }}.zip"
+          & stage/folio.exe --version
+      - name: install.sh installs the archive
+        if: matrix.installer
+        run: |
+          set -eu
+          FOLIO_DOWNLOAD_URL="file://$PWD/dist/folio-${{ matrix.target }}.tar.gz" \
+            FOLIO_INSTALL_DIR="$RUNNER_TEMP/bin" sh install.sh
+          "$RUNNER_TEMP/bin/folio" --version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: folio-${{ matrix.target }}
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [version, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: CHANGELOG.md
+          sparse-checkout-cone-mode: false
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: checksums
+        run: cd dist && sha256sum -- * > SHA256SUMS
+      # Published, not a prerelease: install.sh resolves `releases/latest`,
+      # which GitHub never points at a prerelease. The version string carries
+      # the alpha.
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          set -eu
+          awk -v v="$VERSION" '
+            /^## / { if (found) exit; if (index($0, "## " v " ") == 1 || $0 == "## " v) { found = 1; next } }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          [ -s notes.md ] || { echo "::error::CHANGELOG.md has no entry for $VERSION"; exit 1; }
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" \
+              --title "folio $VERSION" --notes-file notes.md --verify-tag
+          fi

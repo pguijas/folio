@@ -1,0 +1,26 @@
+project:
+  name: "TestProject"
+  version: "1.0.0"
+  repo: "https://github.com/test/test"
+
+source:
+  python:
+    paths:
+      - "src/"
+    exclude:
+      - "src/tests/"
+  docs:
+    - "docs/"
+
+output: "_site"
+
+theme:
+  dark_mode: true
+
+nav:
+  - "Introduction"
+  - "API Reference"
+
+llm:
+  generate_llms_txt: true
+  generate_llms_full_txt: true

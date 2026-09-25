@@ -1,0 +1,526 @@
+[
+  {
+    "name": "classes",
+    "docstring": {
+      "short_description": "Classes module for testing.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [
+      {
+        "name": "Calculator",
+        "bases": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "A simple calculator.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "methods": [
+          {
+            "name": "constructor",
+            "args": [
+              {
+                "name": "precision",
+                "type": "number",
+                "default": null,
+                "description": "The precision.",
+                "kind": "regular"
+              }
+            ],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Create a calculator.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "classes.js",
+            "line_number": 14,
+            "kind": "method",
+            "signature": "constructor(precision)",
+            "visibility": ""
+          },
+          {
+            "name": "add",
+            "args": [
+              {
+                "name": "a",
+                "type": "number",
+                "default": null,
+                "description": "First number.",
+                "kind": "regular"
+              },
+              {
+                "name": "b",
+                "type": "number",
+                "default": null,
+                "description": "Second number.",
+                "kind": "regular"
+              }
+            ],
+            "returns": {
+              "type": "number",
+              "description": "The sum."
+            },
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Add two numbers.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "classes.js",
+            "line_number": 24,
+            "kind": "method",
+            "signature": "add(a, b)",
+            "visibility": ""
+          },
+          {
+            "name": "multiply",
+            "args": [
+              {
+                "name": "a",
+                "type": "number",
+                "default": null,
+                "description": "First number.",
+                "kind": "regular"
+              },
+              {
+                "name": "b",
+                "type": "number",
+                "default": null,
+                "description": "Second number.",
+                "kind": "regular"
+              }
+            ],
+            "returns": {
+              "type": "Promise<number>",
+              "description": "The product."
+            },
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Async multiply.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": true,
+            "source_file": "classes.js",
+            "line_number": 34,
+            "kind": "method",
+            "signature": "async multiply(a, b)",
+            "visibility": ""
+          },
+          {
+            "name": "value",
+            "args": [],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Get the current precision.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "classes.js",
+            "line_number": 39,
+            "kind": "method",
+            "signature": "get value()",
+            "visibility": ""
+          },
+          {
+            "name": "create",
+            "args": [],
+            "returns": {
+              "type": "Calculator",
+              "description": "A new calculator."
+            },
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Create a default calculator.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "classes.js",
+            "line_number": 52,
+            "kind": "method",
+            "signature": "static create()",
+            "visibility": "static"
+          }
+        ],
+        "class_vars": [
+          {
+            "name": "static MAX_PRECISION",
+            "type": "",
+            "value": "10",
+            "description": "Maximum precision."
+          }
+        ],
+        "inner_classes": [],
+        "source_file": "classes.js",
+        "line_number": 6
+      },
+      {
+        "name": "EventBus",
+        "bases": [
+          "EventEmitter"
+        ],
+        "decorators": [],
+        "docstring": {
+          "short_description": "An event emitter.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "methods": [
+          {
+            "name": "emit",
+            "args": [
+              {
+                "name": "event",
+                "type": "string",
+                "default": null,
+                "description": "The event name.",
+                "kind": "regular"
+              }
+            ],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Emit an event.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "classes.js",
+            "line_number": 65,
+            "kind": "method",
+            "signature": "emit(event)",
+            "visibility": ""
+          }
+        ],
+        "class_vars": [],
+        "inner_classes": [],
+        "source_file": "classes.js",
+        "line_number": 60
+      }
+    ],
+    "functions": [],
+    "constants": [],
+    "source_file": "classes.js",
+    "language": "javascript",
+    "types": []
+  },
+  {
+    "name": "commonjs",
+    "docstring": {
+      "short_description": "CommonJS module.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "helper",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "commonjs.cjs",
+        "line_number": 6,
+        "kind": "function",
+        "signature": "function helper()",
+        "visibility": "export"
+      }
+    ],
+    "constants": [
+      {
+        "name": "VERSION",
+        "type": "",
+        "value": "\"2.0\"",
+        "description": "The version string."
+      }
+    ],
+    "source_file": "commonjs.cjs",
+    "language": "javascript",
+    "types": []
+  },
+  {
+    "name": "constants",
+    "docstring": {
+      "short_description": "Constants module.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [],
+    "constants": [
+      {
+        "name": "VERSION",
+        "type": "",
+        "value": "\"1.0.0\"",
+        "description": "The application version."
+      },
+      {
+        "name": "MAX_RETRIES",
+        "type": "",
+        "value": "3",
+        "description": "Maximum retry count."
+      },
+      {
+        "name": "DEFAULT_NAME",
+        "type": "",
+        "value": "\"world\"",
+        "description": "Default name."
+      }
+    ],
+    "source_file": "constants.js",
+    "language": "javascript",
+    "types": []
+  },
+  {
+    "name": "exports",
+    "docstring": {
+      "short_description": "Exports module demonstrating various export styles.",
+      "long_description": "Re-exports: helpers (from ./helpers), * (from ./utils)",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "internal",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "exports.js",
+        "line_number": 3,
+        "kind": "function",
+        "signature": "function internal()",
+        "visibility": "export"
+      },
+      {
+        "name": "main",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "exports.js",
+        "line_number": 9,
+        "kind": "function",
+        "signature": "export default function main()",
+        "visibility": "export"
+      }
+    ],
+    "constants": [],
+    "source_file": "exports.js",
+    "language": "javascript",
+    "types": []
+  },
+  {
+    "name": "functions",
+    "docstring": {
+      "short_description": "Functions module for testing.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "greet",
+        "args": [
+          {
+            "name": "name",
+            "type": "string",
+            "default": null,
+            "description": "The name to greet.",
+            "kind": "regular"
+          },
+          {
+            "name": "excited",
+            "type": "boolean",
+            "default": "false",
+            "description": "Whether to be excited.",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "The greeting message."
+        },
+        "raises": [
+          {
+            "exception": "Error",
+            "description": "If name is empty."
+          }
+        ],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Greets a person by name.",
+          "long_description": "**Deprecated:** Use greetV2 instead.",
+          "examples": [
+            "greet(\"world\")"
+          ],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "functions.js",
+        "line_number": 13,
+        "kind": "function",
+        "signature": "export function greet(name, excited = false)",
+        "visibility": "export"
+      },
+      {
+        "name": "fetchData",
+        "args": [
+          {
+            "name": "url",
+            "type": "string",
+            "default": null,
+            "description": "The endpoint.",
+            "kind": "regular"
+          },
+          {
+            "name": "...options",
+            "type": "...any",
+            "default": null,
+            "description": "Fetch options.",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "Promise",
+          "description": "The response."
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Fetches data from a URL.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": true,
+        "source_file": "functions.js",
+        "line_number": 23,
+        "kind": "function",
+        "signature": "export async function fetchData(url, ...options)",
+        "visibility": "export"
+      },
+      {
+        "name": "range",
+        "args": [
+          {
+            "name": "start",
+            "type": "number",
+            "default": null,
+            "description": "Start value.",
+            "kind": "regular"
+          },
+          {
+            "name": "end",
+            "type": "number",
+            "default": null,
+            "description": "End value (exclusive).",
+            "kind": "regular"
+          }
+        ],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Yields integers in a range.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "functions.js",
+        "line_number": 32,
+        "kind": "function",
+        "signature": "export function* range(start, end)",
+        "visibility": "export"
+      }
+    ],
+    "constants": [],
+    "source_file": "functions.js",
+    "language": "javascript",
+    "types": []
+  },
+  {
+    "name": "nested",
+    "docstring": {
+      "short_description": "Index module for the nested directory.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "init",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Initialize the subsystem.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "nested/index.js",
+        "line_number": 4,
+        "kind": "function",
+        "signature": "export function init()",
+        "visibility": "export"
+      }
+    ],
+    "constants": [],
+    "source_file": "nested/index.js",
+    "language": "javascript",
+    "types": []
+  }
+]

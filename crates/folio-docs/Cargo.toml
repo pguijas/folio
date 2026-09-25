@@ -1,0 +1,22 @@
+[package]
+name = "folio-docs"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+folio-config = { path = "../folio-config" }
+folio-ir = { path = "../folio-ir" }
+folio-lang-python = { path = "../folio-lang-python" }
+folio-lang-javascript = { path = "../folio-lang-javascript" }
+folio-lang-rust = { path = "../folio-lang-rust" }
+folio-mdx = { path = "../folio-mdx" }
+indexmap.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

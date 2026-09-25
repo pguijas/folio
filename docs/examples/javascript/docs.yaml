@@ -1,0 +1,7 @@
+project:
+  name: JavaScript Example
+
+source:
+  javascript:
+    paths:
+      - src

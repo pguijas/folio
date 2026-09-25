@@ -1,0 +1,10 @@
+# Example Package
+
+## Docs
+- [CLI reference](/docs/cli/): Run the local preview server while editing:
+- [Components](/docs/components/): Use small MDX components when prose needs a clearer shape.
+- [Example docs](/docs/): This sample project shows the kind of static documentation site Folio generates from a small Python package.
+
+## API Reference
+- [example_package](/docs/api-reference/example_package/)
+- [example_package.arithmetic](/docs/api-reference/example_package/arithmetic/)

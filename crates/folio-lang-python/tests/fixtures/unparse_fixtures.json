@@ -1,0 +1,5889 @@
+{
+ "meta": {
+  "python": "3.12.13 (main, May 10 2026, 19:20:41) [Clang 22.1.3 ]",
+  "count": 546
+ },
+ "fixtures": [
+  {
+   "id": 0,
+   "category": "str",
+   "kind": "expr",
+   "input": "'abc'",
+   "output": "'abc'",
+   "idempotent": true
+  },
+  {
+   "id": 1,
+   "category": "str",
+   "kind": "expr",
+   "input": "\"abc\"",
+   "output": "'abc'",
+   "idempotent": true
+  },
+  {
+   "id": 2,
+   "category": "str",
+   "kind": "expr",
+   "input": "\"it\\'s\"",
+   "output": "\"it's\"",
+   "idempotent": true
+  },
+  {
+   "id": 3,
+   "category": "str",
+   "kind": "expr",
+   "input": "'say \\\"hi\\\"'",
+   "output": "'say \"hi\"'",
+   "idempotent": true
+  },
+  {
+   "id": 4,
+   "category": "str",
+   "kind": "expr",
+   "input": "'don\\'t \\\"q\\\"'",
+   "output": "'don\\'t \"q\"'",
+   "idempotent": true
+  },
+  {
+   "id": 5,
+   "category": "str",
+   "kind": "expr",
+   "input": "\"a\\nb\"",
+   "output": "'a\\nb'",
+   "idempotent": true
+  },
+  {
+   "id": 6,
+   "category": "str",
+   "kind": "expr",
+   "input": "'tab\\there'",
+   "output": "'tab\\there'",
+   "idempotent": true
+  },
+  {
+   "id": 7,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\x00\\x7f'",
+   "output": "'\\x00\\x7f'",
+   "idempotent": true
+  },
+  {
+   "id": 8,
+   "category": "str",
+   "kind": "expr",
+   "input": "'é ñ 日本'",
+   "output": "'é ñ 日本'",
+   "idempotent": true
+  },
+  {
+   "id": 9,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\u200b\\ufeff'",
+   "output": "'\\u200b\\ufeff'",
+   "idempotent": true
+  },
+  {
+   "id": 10,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\U0001F600'",
+   "output": "'😀'",
+   "idempotent": true
+  },
+  {
+   "id": 11,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\\\'",
+   "output": "'\\\\'",
+   "idempotent": true
+  },
+  {
+   "id": 12,
+   "category": "str",
+   "kind": "expr",
+   "input": "\"a\" \"b\"",
+   "output": "'ab'",
+   "idempotent": true
+  },
+  {
+   "id": 13,
+   "category": "str",
+   "kind": "expr",
+   "input": "'''multi\nline'''",
+   "output": "'multi\\nline'",
+   "idempotent": true
+  },
+  {
+   "id": 14,
+   "category": "str",
+   "kind": "expr",
+   "input": "u'x'",
+   "output": "u'x'",
+   "idempotent": true
+  },
+  {
+   "id": 15,
+   "category": "str",
+   "kind": "expr",
+   "input": "r'\\d+'",
+   "output": "'\\\\d+'",
+   "idempotent": true
+  },
+  {
+   "id": 16,
+   "category": "str",
+   "kind": "expr",
+   "input": "''",
+   "output": "''",
+   "idempotent": true
+  },
+  {
+   "id": 17,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\r\\n'",
+   "output": "'\\r\\n'",
+   "idempotent": true
+  },
+  {
+   "id": 18,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\''",
+   "output": "\"'\"",
+   "idempotent": true
+  },
+  {
+   "id": 19,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\\"'",
+   "output": "'\"'",
+   "idempotent": true
+  },
+  {
+   "id": 20,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\'\\\"'",
+   "output": "'\\'\"'",
+   "idempotent": true
+  },
+  {
+   "id": 21,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\a\\b\\f\\v'",
+   "output": "'\\x07\\x08\\x0c\\x0b'",
+   "idempotent": true
+  },
+  {
+   "id": 22,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\x1b[0m'",
+   "output": "'\\x1b[0m'",
+   "idempotent": true
+  },
+  {
+   "id": 23,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\xa0'",
+   "output": "'\\xa0'",
+   "idempotent": true
+  },
+  {
+   "id": 24,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\xad'",
+   "output": "'\\xad'",
+   "idempotent": true
+  },
+  {
+   "id": 25,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\u00b2'",
+   "output": "'²'",
+   "idempotent": true
+  },
+  {
+   "id": 26,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\u0378'",
+   "output": "'\\u0378'",
+   "idempotent": true
+  },
+  {
+   "id": 27,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\u3000'",
+   "output": "'\\u3000'",
+   "idempotent": true
+  },
+  {
+   "id": 28,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\U000E0001'",
+   "output": "'\\U000e0001'",
+   "idempotent": true
+  },
+  {
+   "id": 29,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\ud800'",
+   "output": "'\\ud800'",
+   "idempotent": true
+  },
+  {
+   "id": 30,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\N{EM DASH}'",
+   "output": "'—'",
+   "idempotent": true
+  },
+  {
+   "id": 31,
+   "category": "str",
+   "kind": "expr",
+   "input": "'{x}'",
+   "output": "'{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 32,
+   "category": "str",
+   "kind": "expr",
+   "input": "'%s' % x",
+   "output": "'%s' % x",
+   "idempotent": true
+  },
+  {
+   "id": 33,
+   "category": "str",
+   "kind": "expr",
+   "input": "'a' 'b' 'c'",
+   "output": "'abc'",
+   "idempotent": true
+  },
+  {
+   "id": 34,
+   "category": "str",
+   "kind": "expr",
+   "input": "'ab\\\ncd'",
+   "output": "'abcd'",
+   "idempotent": true
+  },
+  {
+   "id": 35,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\101\\60'",
+   "output": "'A0'",
+   "idempotent": true
+  },
+  {
+   "id": 36,
+   "category": "str",
+   "kind": "expr",
+   "input": "'\\z'",
+   "output": "'\\\\z'",
+   "idempotent": true
+  },
+  {
+   "id": 37,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "b'bytes'",
+   "output": "b'bytes'",
+   "idempotent": true
+  },
+  {
+   "id": 38,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "b'\\x00\\xff'",
+   "output": "b'\\x00\\xff'",
+   "idempotent": true
+  },
+  {
+   "id": 39,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "rb'raw\\n'",
+   "output": "b'raw\\\\n'",
+   "idempotent": true
+  },
+  {
+   "id": 40,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "b\"it\\'s\"",
+   "output": "b\"it's\"",
+   "idempotent": true
+  },
+  {
+   "id": 41,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "b''",
+   "output": "b''",
+   "idempotent": true
+  },
+  {
+   "id": 42,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "b'a' b'b'",
+   "output": "b'ab'",
+   "idempotent": true
+  },
+  {
+   "id": 43,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "b'\\t\\n\\r\\x7f\\x80 ~'",
+   "output": "b'\\t\\n\\r\\x7f\\x80 ~'",
+   "idempotent": true
+  },
+  {
+   "id": 44,
+   "category": "bytes",
+   "kind": "expr",
+   "input": "B'x'",
+   "output": "b'x'",
+   "idempotent": true
+  },
+  {
+   "id": 45,
+   "category": "num",
+   "kind": "expr",
+   "input": "0xFF",
+   "output": "255",
+   "idempotent": true
+  },
+  {
+   "id": 46,
+   "category": "num",
+   "kind": "expr",
+   "input": "0o17",
+   "output": "15",
+   "idempotent": true
+  },
+  {
+   "id": 47,
+   "category": "num",
+   "kind": "expr",
+   "input": "0b101",
+   "output": "5",
+   "idempotent": true
+  },
+  {
+   "id": 48,
+   "category": "num",
+   "kind": "expr",
+   "input": "1_000",
+   "output": "1000",
+   "idempotent": true
+  },
+  {
+   "id": 49,
+   "category": "num",
+   "kind": "expr",
+   "input": "1_000.5",
+   "output": "1000.5",
+   "idempotent": true
+  },
+  {
+   "id": 50,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e3",
+   "output": "1000.0",
+   "idempotent": true
+  },
+  {
+   "id": 51,
+   "category": "num",
+   "kind": "expr",
+   "input": "1E10",
+   "output": "10000000000.0",
+   "idempotent": true
+  },
+  {
+   "id": 52,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e16",
+   "output": "1e+16",
+   "idempotent": true
+  },
+  {
+   "id": 53,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e15",
+   "output": "1000000000000000.0",
+   "idempotent": true
+  },
+  {
+   "id": 54,
+   "category": "num",
+   "kind": "expr",
+   "input": "9999999999999998.0",
+   "output": "9999999999999998.0",
+   "idempotent": true
+  },
+  {
+   "id": 55,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e-4",
+   "output": "0.0001",
+   "idempotent": true
+  },
+  {
+   "id": 56,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e-5",
+   "output": "1e-05",
+   "idempotent": true
+  },
+  {
+   "id": 57,
+   "category": "num",
+   "kind": "expr",
+   "input": "0.0001",
+   "output": "0.0001",
+   "idempotent": true
+  },
+  {
+   "id": 58,
+   "category": "num",
+   "kind": "expr",
+   "input": "0.00001",
+   "output": "1e-05",
+   "idempotent": true
+  },
+  {
+   "id": 59,
+   "category": "num",
+   "kind": "expr",
+   "input": ".5",
+   "output": "0.5",
+   "idempotent": true
+  },
+  {
+   "id": 60,
+   "category": "num",
+   "kind": "expr",
+   "input": "5.",
+   "output": "5.0",
+   "idempotent": true
+  },
+  {
+   "id": 61,
+   "category": "num",
+   "kind": "expr",
+   "input": "1.0e-7",
+   "output": "1e-07",
+   "idempotent": true
+  },
+  {
+   "id": 62,
+   "category": "num",
+   "kind": "expr",
+   "input": "0.1",
+   "output": "0.1",
+   "idempotent": true
+  },
+  {
+   "id": 63,
+   "category": "num",
+   "kind": "expr",
+   "input": "0.1 + 0.2",
+   "output": "0.1 + 0.2",
+   "idempotent": true
+  },
+  {
+   "id": 64,
+   "category": "num",
+   "kind": "expr",
+   "input": "123456789012345678901234567890",
+   "output": "123456789012345678901234567890",
+   "idempotent": true
+  },
+  {
+   "id": 65,
+   "category": "num",
+   "kind": "expr",
+   "input": "0xFFFFFFFFFFFFFFFFFFFF",
+   "output": "1208925819614629174706175",
+   "idempotent": true
+  },
+  {
+   "id": 66,
+   "category": "num",
+   "kind": "expr",
+   "input": "1j",
+   "output": "1j",
+   "idempotent": true
+  },
+  {
+   "id": 67,
+   "category": "num",
+   "kind": "expr",
+   "input": "1.5J",
+   "output": "1.5j",
+   "idempotent": true
+  },
+  {
+   "id": 68,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e16j",
+   "output": "1e+16j",
+   "idempotent": true
+  },
+  {
+   "id": 69,
+   "category": "num",
+   "kind": "expr",
+   "input": "0j",
+   "output": "0j",
+   "idempotent": true
+  },
+  {
+   "id": 70,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e309",
+   "output": "1e309",
+   "idempotent": true
+  },
+  {
+   "id": 71,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e309j",
+   "output": "1e309j",
+   "idempotent": true
+  },
+  {
+   "id": 72,
+   "category": "num",
+   "kind": "expr",
+   "input": "-1",
+   "output": "-1",
+   "idempotent": true
+  },
+  {
+   "id": 73,
+   "category": "num",
+   "kind": "expr",
+   "input": "-1.5",
+   "output": "-1.5",
+   "idempotent": true
+  },
+  {
+   "id": 74,
+   "category": "num",
+   "kind": "expr",
+   "input": "+1",
+   "output": "+1",
+   "idempotent": true
+  },
+  {
+   "id": 75,
+   "category": "num",
+   "kind": "expr",
+   "input": "~1",
+   "output": "~1",
+   "idempotent": true
+  },
+  {
+   "id": 76,
+   "category": "num",
+   "kind": "expr",
+   "input": "--1",
+   "output": "--1",
+   "idempotent": true
+  },
+  {
+   "id": 77,
+   "category": "num",
+   "kind": "expr",
+   "input": "1 + 2j",
+   "output": "1 + 2j",
+   "idempotent": true
+  },
+  {
+   "id": 78,
+   "category": "num",
+   "kind": "expr",
+   "input": "-(1)",
+   "output": "-1",
+   "idempotent": true
+  },
+  {
+   "id": 79,
+   "category": "num",
+   "kind": "expr",
+   "input": "-(-1)",
+   "output": "--1",
+   "idempotent": true
+  },
+  {
+   "id": 80,
+   "category": "num",
+   "kind": "expr",
+   "input": "2 ** -1",
+   "output": "2 ** (-1)",
+   "idempotent": true
+  },
+  {
+   "id": 81,
+   "category": "num",
+   "kind": "expr",
+   "input": "(-1) ** 2",
+   "output": "(-1) ** 2",
+   "idempotent": true
+  },
+  {
+   "id": 82,
+   "category": "num",
+   "kind": "expr",
+   "input": "-1 ** 2",
+   "output": "-1 ** 2",
+   "idempotent": true
+  },
+  {
+   "id": 83,
+   "category": "num",
+   "kind": "expr",
+   "input": "2 ** 3 ** 4",
+   "output": "2 ** 3 ** 4",
+   "idempotent": true
+  },
+  {
+   "id": 84,
+   "category": "num",
+   "kind": "expr",
+   "input": "(2 ** 3) ** 4",
+   "output": "(2 ** 3) ** 4",
+   "idempotent": true
+  },
+  {
+   "id": 85,
+   "category": "num",
+   "kind": "expr",
+   "input": "-0.0",
+   "output": "-0.0",
+   "idempotent": true
+  },
+  {
+   "id": 86,
+   "category": "num",
+   "kind": "expr",
+   "input": "0.0",
+   "output": "0.0",
+   "idempotent": true
+  },
+  {
+   "id": 87,
+   "category": "num",
+   "kind": "expr",
+   "input": "1.",
+   "output": "1.0",
+   "idempotent": true
+  },
+  {
+   "id": 88,
+   "category": "num",
+   "kind": "expr",
+   "input": "100.0",
+   "output": "100.0",
+   "idempotent": true
+  },
+  {
+   "id": 89,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e2",
+   "output": "100.0",
+   "idempotent": true
+  },
+  {
+   "id": 90,
+   "category": "num",
+   "kind": "expr",
+   "input": "12345678901234567.0",
+   "output": "1.2345678901234568e+16",
+   "idempotent": true
+  },
+  {
+   "id": 91,
+   "category": "num",
+   "kind": "expr",
+   "input": "1234567890123456.0",
+   "output": "1234567890123456.0",
+   "idempotent": true
+  },
+  {
+   "id": 92,
+   "category": "num",
+   "kind": "expr",
+   "input": "0.000123",
+   "output": "0.000123",
+   "idempotent": true
+  },
+  {
+   "id": 93,
+   "category": "num",
+   "kind": "expr",
+   "input": "1_0.0_1",
+   "output": "10.01",
+   "idempotent": true
+  },
+  {
+   "id": 94,
+   "category": "num",
+   "kind": "expr",
+   "input": "0_0",
+   "output": "0",
+   "idempotent": true
+  },
+  {
+   "id": 95,
+   "category": "num",
+   "kind": "expr",
+   "input": "00",
+   "output": "0",
+   "idempotent": true
+  },
+  {
+   "id": 96,
+   "category": "num",
+   "kind": "expr",
+   "input": "1e+3",
+   "output": "1000.0",
+   "idempotent": true
+  },
+  {
+   "id": 97,
+   "category": "num",
+   "kind": "expr",
+   "input": "1E-3",
+   "output": "0.001",
+   "idempotent": true
+  },
+  {
+   "id": 98,
+   "category": "num",
+   "kind": "expr",
+   "input": "2.5e-8",
+   "output": "2.5e-08",
+   "idempotent": true
+  },
+  {
+   "id": 99,
+   "category": "num",
+   "kind": "expr",
+   "input": "1.7976931348623157e308",
+   "output": "1.7976931348623157e+308",
+   "idempotent": true
+  },
+  {
+   "id": 100,
+   "category": "num",
+   "kind": "expr",
+   "input": "5e-324",
+   "output": "5e-324",
+   "idempotent": true
+  },
+  {
+   "id": 101,
+   "category": "const",
+   "kind": "expr",
+   "input": "None",
+   "output": "None",
+   "idempotent": true
+  },
+  {
+   "id": 102,
+   "category": "const",
+   "kind": "expr",
+   "input": "True",
+   "output": "True",
+   "idempotent": true
+  },
+  {
+   "id": 103,
+   "category": "const",
+   "kind": "expr",
+   "input": "False",
+   "output": "False",
+   "idempotent": true
+  },
+  {
+   "id": 104,
+   "category": "const",
+   "kind": "expr",
+   "input": "...",
+   "output": "...",
+   "idempotent": true
+  },
+  {
+   "id": 105,
+   "category": "const",
+   "kind": "expr",
+   "input": "(...)",
+   "output": "...",
+   "idempotent": true
+  },
+  {
+   "id": 106,
+   "category": "const",
+   "kind": "expr",
+   "input": "(None)",
+   "output": "None",
+   "idempotent": true
+  },
+  {
+   "id": 107,
+   "category": "const",
+   "kind": "expr",
+   "input": "((a))",
+   "output": "a",
+   "idempotent": true
+  },
+  {
+   "id": 108,
+   "category": "const",
+   "kind": "expr",
+   "input": "(int)",
+   "output": "int",
+   "idempotent": true
+  },
+  {
+   "id": 109,
+   "category": "container",
+   "kind": "expr",
+   "input": "(1, 2)",
+   "output": "(1, 2)",
+   "idempotent": true
+  },
+  {
+   "id": 110,
+   "category": "container",
+   "kind": "expr",
+   "input": "1, 2",
+   "output": "(1, 2)",
+   "idempotent": true
+  },
+  {
+   "id": 111,
+   "category": "container",
+   "kind": "expr",
+   "input": "(1,)",
+   "output": "(1,)",
+   "idempotent": true
+  },
+  {
+   "id": 112,
+   "category": "container",
+   "kind": "expr",
+   "input": "()",
+   "output": "()",
+   "idempotent": true
+  },
+  {
+   "id": 113,
+   "category": "container",
+   "kind": "expr",
+   "input": "a[1, 2]",
+   "output": "a[1, 2]",
+   "idempotent": true
+  },
+  {
+   "id": 114,
+   "category": "container",
+   "kind": "expr",
+   "input": "a[(1, 2)]",
+   "output": "a[1, 2]",
+   "idempotent": true
+  },
+  {
+   "id": 115,
+   "category": "container",
+   "kind": "expr",
+   "input": "a[1,]",
+   "output": "a[1,]",
+   "idempotent": true
+  },
+  {
+   "id": 116,
+   "category": "container",
+   "kind": "expr",
+   "input": "a[()]",
+   "output": "a[()]",
+   "idempotent": true
+  },
+  {
+   "id": 117,
+   "category": "container",
+   "kind": "expr",
+   "input": "Tuple[()]",
+   "output": "Tuple[()]",
+   "idempotent": true
+  },
+  {
+   "id": 118,
+   "category": "container",
+   "kind": "expr",
+   "input": "a[(1, 2), 3]",
+   "output": "a[(1, 2), 3]",
+   "idempotent": true
+  },
+  {
+   "id": 119,
+   "category": "container",
+   "kind": "expr",
+   "input": "a[*b]",
+   "output": "a[*b,]",
+   "idempotent": true
+  },
+  {
+   "id": 120,
+   "category": "container",
+   "kind": "expr",
+   "input": "tuple[int, ...]",
+   "output": "tuple[int, ...]",
+   "idempotent": true
+  },
+  {
+   "id": 121,
+   "category": "container",
+   "kind": "expr",
+   "input": "((1, 2), 3)",
+   "output": "((1, 2), 3)",
+   "idempotent": true
+  },
+  {
+   "id": 122,
+   "category": "container",
+   "kind": "expr",
+   "input": "[1, 2]",
+   "output": "[1, 2]",
+   "idempotent": true
+  },
+  {
+   "id": 123,
+   "category": "container",
+   "kind": "expr",
+   "input": "[]",
+   "output": "[]",
+   "idempotent": true
+  },
+  {
+   "id": 124,
+   "category": "container",
+   "kind": "expr",
+   "input": "{1: 2}",
+   "output": "{1: 2}",
+   "idempotent": true
+  },
+  {
+   "id": 125,
+   "category": "container",
+   "kind": "expr",
+   "input": "{}",
+   "output": "{}",
+   "idempotent": true
+  },
+  {
+   "id": 126,
+   "category": "container",
+   "kind": "expr",
+   "input": "{1, 2}",
+   "output": "{1, 2}",
+   "idempotent": true
+  },
+  {
+   "id": 127,
+   "category": "container",
+   "kind": "expr",
+   "input": "{**a, 'b': 1}",
+   "output": "{**a, 'b': 1}",
+   "idempotent": true
+  },
+  {
+   "id": 128,
+   "category": "container",
+   "kind": "expr",
+   "input": "{'a': 1, **b}",
+   "output": "{'a': 1, **b}",
+   "idempotent": true
+  },
+  {
+   "id": 129,
+   "category": "container",
+   "kind": "expr",
+   "input": "[*a, b]",
+   "output": "[*a, b]",
+   "idempotent": true
+  },
+  {
+   "id": 130,
+   "category": "container",
+   "kind": "expr",
+   "input": "{*a, b}",
+   "output": "{*a, b}",
+   "idempotent": true
+  },
+  {
+   "id": 131,
+   "category": "container",
+   "kind": "expr",
+   "input": "(1, 2) + (3,)",
+   "output": "(1, 2) + (3,)",
+   "idempotent": true
+  },
+  {
+   "id": 132,
+   "category": "container",
+   "kind": "expr",
+   "input": "f(a, b,)",
+   "output": "f(a, b)",
+   "idempotent": true
+  },
+  {
+   "id": 133,
+   "category": "container",
+   "kind": "expr",
+   "input": "[1, 2,]",
+   "output": "[1, 2]",
+   "idempotent": true
+  },
+  {
+   "id": 134,
+   "category": "container",
+   "kind": "expr",
+   "input": "(1,2,)",
+   "output": "(1, 2)",
+   "idempotent": true
+  },
+  {
+   "id": 135,
+   "category": "container",
+   "kind": "expr",
+   "input": "[\n 1,\n 2,\n]",
+   "output": "[1, 2]",
+   "idempotent": true
+  },
+  {
+   "id": 136,
+   "category": "container",
+   "kind": "expr",
+   "input": "{1:(2,3)}",
+   "output": "{1: (2, 3)}",
+   "idempotent": true
+  },
+  {
+   "id": 137,
+   "category": "container",
+   "kind": "expr",
+   "input": "set()",
+   "output": "set()",
+   "idempotent": true
+  },
+  {
+   "id": 138,
+   "category": "container",
+   "kind": "expr",
+   "input": "frozenset()",
+   "output": "frozenset()",
+   "idempotent": true
+  },
+  {
+   "id": 139,
+   "category": "container",
+   "kind": "expr",
+   "input": "x[ 1 ]",
+   "output": "x[1]",
+   "idempotent": true
+  },
+  {
+   "id": 140,
+   "category": "container",
+   "kind": "expr",
+   "input": "f( a , b )",
+   "output": "f(a, b)",
+   "idempotent": true
+  },
+  {
+   "id": 141,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a | b | c",
+   "output": "a | b | c",
+   "idempotent": true
+  },
+  {
+   "id": 142,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a | (b | c)",
+   "output": "a | (b | c)",
+   "idempotent": true
+  },
+  {
+   "id": 143,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(a | b) | c",
+   "output": "a | b | c",
+   "idempotent": true
+  },
+  {
+   "id": 144,
+   "category": "binop",
+   "kind": "expr",
+   "input": "int | None",
+   "output": "int | None",
+   "idempotent": true
+  },
+  {
+   "id": 145,
+   "category": "binop",
+   "kind": "expr",
+   "input": "None | int",
+   "output": "None | int",
+   "idempotent": true
+  },
+  {
+   "id": 146,
+   "category": "binop",
+   "kind": "expr",
+   "input": "list[int] | None",
+   "output": "list[int] | None",
+   "idempotent": true
+  },
+  {
+   "id": 147,
+   "category": "binop",
+   "kind": "expr",
+   "input": "'int' | None",
+   "output": "'int' | None",
+   "idempotent": true
+  },
+  {
+   "id": 148,
+   "category": "binop",
+   "kind": "expr",
+   "input": "Path | str | None",
+   "output": "Path | str | None",
+   "idempotent": true
+  },
+  {
+   "id": 149,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(a + b) * c - (d - e)",
+   "output": "(a + b) * c - (d - e)",
+   "idempotent": true
+  },
+  {
+   "id": 150,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a + (b + c)",
+   "output": "a + (b + c)",
+   "idempotent": true
+  },
+  {
+   "id": 151,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a * b + c",
+   "output": "a * b + c",
+   "idempotent": true
+  },
+  {
+   "id": 152,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(a * b) + c",
+   "output": "a * b + c",
+   "idempotent": true
+  },
+  {
+   "id": 153,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a * (b + c)",
+   "output": "a * (b + c)",
+   "idempotent": true
+  },
+  {
+   "id": 154,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a - (b - c)",
+   "output": "a - (b - c)",
+   "idempotent": true
+  },
+  {
+   "id": 155,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a / b // c % d @ e",
+   "output": "a / b // c % d @ e",
+   "idempotent": true
+  },
+  {
+   "id": 156,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a << b >> c",
+   "output": "a << b >> c",
+   "idempotent": true
+  },
+  {
+   "id": 157,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a & b ^ c | d",
+   "output": "a & b ^ c | d",
+   "idempotent": true
+  },
+  {
+   "id": 158,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(a & b) ^ (c | d)",
+   "output": "a & b ^ (c | d)",
+   "idempotent": true
+  },
+  {
+   "id": 159,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a+b",
+   "output": "a + b",
+   "idempotent": true
+  },
+  {
+   "id": 160,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a  -  b",
+   "output": "a - b",
+   "idempotent": true
+  },
+  {
+   "id": 161,
+   "category": "binop",
+   "kind": "expr",
+   "input": "1 << 20",
+   "output": "1 << 20",
+   "idempotent": true
+  },
+  {
+   "id": 162,
+   "category": "binop",
+   "kind": "expr",
+   "input": "2**10",
+   "output": "2 ** 10",
+   "idempotent": true
+  },
+  {
+   "id": 163,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a % b",
+   "output": "a % b",
+   "idempotent": true
+  },
+  {
+   "id": 164,
+   "category": "binop",
+   "kind": "expr",
+   "input": "-a * b",
+   "output": "-a * b",
+   "idempotent": true
+  },
+  {
+   "id": 165,
+   "category": "binop",
+   "kind": "expr",
+   "input": "-(a * b)",
+   "output": "-(a * b)",
+   "idempotent": true
+  },
+  {
+   "id": 166,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(-a) * b",
+   "output": "-a * b",
+   "idempotent": true
+  },
+  {
+   "id": 167,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a ** -b",
+   "output": "a ** (-b)",
+   "idempotent": true
+  },
+  {
+   "id": 168,
+   "category": "binop",
+   "kind": "expr",
+   "input": "not a",
+   "output": "not a",
+   "idempotent": true
+  },
+  {
+   "id": 169,
+   "category": "binop",
+   "kind": "expr",
+   "input": "not (a and b)",
+   "output": "not (a and b)",
+   "idempotent": true
+  },
+  {
+   "id": 170,
+   "category": "binop",
+   "kind": "expr",
+   "input": "not a and b",
+   "output": "not a and b",
+   "idempotent": true
+  },
+  {
+   "id": 171,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a and b or c",
+   "output": "a and b or c",
+   "idempotent": true
+  },
+  {
+   "id": 172,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a and (b or c)",
+   "output": "a and (b or c)",
+   "idempotent": true
+  },
+  {
+   "id": 173,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(a or b) and c",
+   "output": "(a or b) and c",
+   "idempotent": true
+  },
+  {
+   "id": 174,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a or (b and c)",
+   "output": "a or (b and c)",
+   "idempotent": true
+  },
+  {
+   "id": 175,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a or b or c",
+   "output": "a or b or c",
+   "idempotent": true
+  },
+  {
+   "id": 176,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a or (b or c)",
+   "output": "a or (b or c)",
+   "idempotent": true
+  },
+  {
+   "id": 177,
+   "category": "binop",
+   "kind": "expr",
+   "input": "not not a",
+   "output": "not not a",
+   "idempotent": true
+  },
+  {
+   "id": 178,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a < b < c",
+   "output": "a < b < c",
+   "idempotent": true
+  },
+  {
+   "id": 179,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a == b != c",
+   "output": "a == b != c",
+   "idempotent": true
+  },
+  {
+   "id": 180,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a is not None",
+   "output": "a is not None",
+   "idempotent": true
+  },
+  {
+   "id": 181,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a not in b",
+   "output": "a not in b",
+   "idempotent": true
+  },
+  {
+   "id": 182,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(a < b) < c",
+   "output": "(a < b) < c",
+   "idempotent": true
+  },
+  {
+   "id": 183,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a < (b < c)",
+   "output": "a < (b < c)",
+   "idempotent": true
+  },
+  {
+   "id": 184,
+   "category": "binop",
+   "kind": "expr",
+   "input": "a < b == c",
+   "output": "a < b == c",
+   "idempotent": true
+  },
+  {
+   "id": 185,
+   "category": "binop",
+   "kind": "expr",
+   "input": "(a < b) and c",
+   "output": "a < b and c",
+   "idempotent": true
+  },
+  {
+   "id": 186,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "a if b else c",
+   "output": "a if b else c",
+   "idempotent": true
+  },
+  {
+   "id": 187,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "a if b else c if d else e",
+   "output": "a if b else c if d else e",
+   "idempotent": true
+  },
+  {
+   "id": 188,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "(a if b else c) if d else e",
+   "output": "(a if b else c) if d else e",
+   "idempotent": true
+  },
+  {
+   "id": 189,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "a if (b if c else d) else e",
+   "output": "a if (b if c else d) else e",
+   "idempotent": true
+  },
+  {
+   "id": 190,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda: a if b else c",
+   "output": "lambda: a if b else c",
+   "idempotent": true
+  },
+  {
+   "id": 191,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "(lambda: a) if b else c",
+   "output": "(lambda: a) if b else c",
+   "idempotent": true
+  },
+  {
+   "id": 192,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "f(a if b else c)",
+   "output": "f(a if b else c)",
+   "idempotent": true
+  },
+  {
+   "id": 193,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "1 if x else 2",
+   "output": "1 if x else 2",
+   "idempotent": true
+  },
+  {
+   "id": 194,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda x: x + 1",
+   "output": "lambda x: x + 1",
+   "idempotent": true
+  },
+  {
+   "id": 195,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda: 0",
+   "output": "lambda: 0",
+   "idempotent": true
+  },
+  {
+   "id": 196,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda *a, **k: 0",
+   "output": "lambda *a, **k: 0",
+   "idempotent": true
+  },
+  {
+   "id": 197,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda x, /, y, *, z=1: 0",
+   "output": "lambda x, /, y, *, z=1: 0",
+   "idempotent": true
+  },
+  {
+   "id": 198,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda x=1, y=2: x",
+   "output": "lambda x=1, y=2: x",
+   "idempotent": true
+  },
+  {
+   "id": 199,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda *, k: k",
+   "output": "lambda *, k: k",
+   "idempotent": true
+  },
+  {
+   "id": 200,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda x, *args: x",
+   "output": "lambda x, *args: x",
+   "idempotent": true
+  },
+  {
+   "id": 201,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda  x :x",
+   "output": "lambda x: x",
+   "idempotent": true
+  },
+  {
+   "id": 202,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "(lambda x: x)(1)",
+   "output": "(lambda x: x)(1)",
+   "idempotent": true
+  },
+  {
+   "id": 203,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda: (yield)",
+   "output": "lambda: (yield)",
+   "idempotent": true
+  },
+  {
+   "id": 204,
+   "category": "ifexp_lambda",
+   "kind": "expr",
+   "input": "lambda: None",
+   "output": "lambda: None",
+   "idempotent": true
+  },
+  {
+   "id": 205,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(a, *b, c=1, **d)",
+   "output": "f(a, *b, c=1, **d)",
+   "idempotent": true
+  },
+  {
+   "id": 206,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(*a, *b)",
+   "output": "f(*a, *b)",
+   "idempotent": true
+  },
+  {
+   "id": 207,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(x for x in y)",
+   "output": "f((x for x in y))",
+   "idempotent": true
+  },
+  {
+   "id": 208,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f((x for x in y), 1)",
+   "output": "f((x for x in y), 1)",
+   "idempotent": true
+  },
+  {
+   "id": 209,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f()",
+   "output": "f()",
+   "idempotent": true
+  },
+  {
+   "id": 210,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(a)(b)",
+   "output": "f(a)(b)",
+   "idempotent": true
+  },
+  {
+   "id": 211,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(a)[b].c",
+   "output": "f(a)[b].c",
+   "idempotent": true
+  },
+  {
+   "id": 212,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(x=1, *a)",
+   "output": "f(*a, x=1)",
+   "idempotent": true
+  },
+  {
+   "id": 213,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(**a, b=1)",
+   "output": "f(**a, b=1)",
+   "idempotent": true
+  },
+  {
+   "id": 214,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(a = 1)",
+   "output": "f(a=1)",
+   "idempotent": true
+  },
+  {
+   "id": 215,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a.b.c",
+   "output": "a.b.c",
+   "idempotent": true
+  },
+  {
+   "id": 216,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "(1).real",
+   "output": "1 .real",
+   "idempotent": true
+  },
+  {
+   "id": 217,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "(1.5).real",
+   "output": "1.5.real",
+   "idempotent": true
+  },
+  {
+   "id": 218,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "(a + b).c",
+   "output": "(a + b).c",
+   "idempotent": true
+  },
+  {
+   "id": 219,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "(a + b)(c)",
+   "output": "(a + b)(c)",
+   "idempotent": true
+  },
+  {
+   "id": 220,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[1:2]",
+   "output": "a[1:2]",
+   "idempotent": true
+  },
+  {
+   "id": 221,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[::3]",
+   "output": "a[::3]",
+   "idempotent": true
+  },
+  {
+   "id": 222,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[1:2, ::3]",
+   "output": "a[1:2, ::3]",
+   "idempotent": true
+  },
+  {
+   "id": 223,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[:]",
+   "output": "a[:]",
+   "idempotent": true
+  },
+  {
+   "id": 224,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[1:2:3]",
+   "output": "a[1:2:3]",
+   "idempotent": true
+  },
+  {
+   "id": 225,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[lo:hi]",
+   "output": "a[lo:hi]",
+   "idempotent": true
+  },
+  {
+   "id": 226,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "d['k']",
+   "output": "d['k']",
+   "idempotent": true
+  },
+  {
+   "id": 227,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[b][c]",
+   "output": "a[b][c]",
+   "idempotent": true
+  },
+  {
+   "id": 228,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[-1]",
+   "output": "a[-1]",
+   "idempotent": true
+  },
+  {
+   "id": 229,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[1:-1]",
+   "output": "a[1:-1]",
+   "idempotent": true
+  },
+  {
+   "id": 230,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[1::]",
+   "output": "a[1:]",
+   "idempotent": true
+  },
+  {
+   "id": 231,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[:2:]",
+   "output": "a[:2]",
+   "idempotent": true
+  },
+  {
+   "id": 232,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[::]",
+   "output": "a[:]",
+   "idempotent": true
+  },
+  {
+   "id": 233,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[1:2:]",
+   "output": "a[1:2]",
+   "idempotent": true
+  },
+  {
+   "id": 234,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[::None]",
+   "output": "a[::None]",
+   "idempotent": true
+  },
+  {
+   "id": 235,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[b, c:d]",
+   "output": "a[b, c:d]",
+   "idempotent": true
+  },
+  {
+   "id": 236,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "a[...]",
+   "output": "a[...]",
+   "idempotent": true
+  },
+  {
+   "id": 237,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "print(*args)",
+   "output": "print(*args)",
+   "idempotent": true
+  },
+  {
+   "id": 238,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "os.environ.get('X', 'y')",
+   "output": "os.environ.get('X', 'y')",
+   "idempotent": true
+  },
+  {
+   "id": 239,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "Path('/tmp')",
+   "output": "Path('/tmp')",
+   "idempotent": true
+  },
+  {
+   "id": 240,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "Enum.VALUE",
+   "output": "Enum.VALUE",
+   "idempotent": true
+  },
+  {
+   "id": 241,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "field(default_factory=list)",
+   "output": "field(default_factory=list)",
+   "idempotent": true
+  },
+  {
+   "id": 242,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "x.y.z()",
+   "output": "x.y.z()",
+   "idempotent": true
+  },
+  {
+   "id": 243,
+   "category": "call_attr_sub",
+   "kind": "expr",
+   "input": "f(\n  a,\n  b\n)",
+   "output": "f(a, b)",
+   "idempotent": true
+  },
+  {
+   "id": 244,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x}'",
+   "output": "f'{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 245,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f\"{x}\"",
+   "output": "f'{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 246,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x!r}'",
+   "output": "f'{x!r}'",
+   "idempotent": true
+  },
+  {
+   "id": 247,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x!s:>10}'",
+   "output": "f'{x!s:>10}'",
+   "idempotent": true
+  },
+  {
+   "id": 248,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x:{w}.{p}f}'",
+   "output": "f'{x:{w}.{p}f}'",
+   "idempotent": true
+  },
+  {
+   "id": 249,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{\"a\"}'",
+   "output": "f\"{'a'}\"",
+   "idempotent": true
+  },
+  {
+   "id": 250,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f\"{'a'}\"",
+   "output": "f\"{'a'}\"",
+   "idempotent": true
+  },
+  {
+   "id": 251,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x}' 'y'",
+   "output": "f'{x}y'",
+   "idempotent": true
+  },
+  {
+   "id": 252,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "'y' f'{x}'",
+   "output": "f'y{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 253,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{{}}'",
+   "output": "f'{{}}'",
+   "idempotent": true
+  },
+  {
+   "id": 254,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'a{{b}}c{d}'",
+   "output": "f'a{{b}}c{d}'",
+   "idempotent": true
+  },
+  {
+   "id": 255,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x=}'",
+   "output": "f'x={x!r}'",
+   "idempotent": true
+  },
+  {
+   "id": 256,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x = }'",
+   "output": "f'x = {x!r}'",
+   "idempotent": true
+  },
+  {
+   "id": 257,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x=!s}'",
+   "output": "f'x={x!s}'",
+   "idempotent": true
+  },
+  {
+   "id": 258,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x=:>10}'",
+   "output": "f'x={x:>10}'",
+   "idempotent": true
+  },
+  {
+   "id": 259,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f\"{d['k']}\"",
+   "output": "f\"{d['k']}\"",
+   "idempotent": true
+  },
+  {
+   "id": 260,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{d[\"k\"]}'",
+   "output": "f\"{d['k']}\"",
+   "idempotent": true
+  },
+  {
+   "id": 261,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{a!r:>{w}}'",
+   "output": "f'{a!r:>{w}}'",
+   "idempotent": true
+  },
+  {
+   "id": 262,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{\"nested\"!r}'",
+   "output": "f\"{'nested'!r}\"",
+   "idempotent": true
+  },
+  {
+   "id": 263,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "rf'\\d{x}'",
+   "output": "f'\\\\d{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 264,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'\\n{x}'",
+   "output": "f'\\n{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 265,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x:%Y-%m-%d}'",
+   "output": "f'{x:%Y-%m-%d}'",
+   "idempotent": true
+  },
+  {
+   "id": 266,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x:,}'",
+   "output": "f'{x:,}'",
+   "idempotent": true
+  },
+  {
+   "id": 267,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x!a}'",
+   "output": "f'{x!a}'",
+   "idempotent": true
+  },
+  {
+   "id": 268,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x}{y}'",
+   "output": "f'{x}{y}'",
+   "idempotent": true
+  },
+  {
+   "id": 269,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{ x }'",
+   "output": "f'{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 270,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{(lambda: 1)()}'",
+   "output": "f'{(lambda: 1)()}'",
+   "idempotent": true
+  },
+  {
+   "id": 271,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x}' f'{y}'",
+   "output": "f'{x}{y}'",
+   "idempotent": true
+  },
+  {
+   "id": 272,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{\"a\" \"b\"}'",
+   "output": "f\"{'ab'}\"",
+   "idempotent": true
+  },
+  {
+   "id": 273,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f\"it's {x} \\\"q\\\"\"",
+   "output": "f'''it's {x} \"q\"'''",
+   "idempotent": true
+  },
+  {
+   "id": 274,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'it\\'s {x}'",
+   "output": "f\"it's {x}\"",
+   "idempotent": true
+  },
+  {
+   "id": 275,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'\"{x}\"'",
+   "output": "f'\"{x}\"'",
+   "idempotent": true
+  },
+  {
+   "id": 276,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x:{\"<\"}10}'",
+   "output": "f\"{x:{'<'}10}\"",
+   "idempotent": true
+  },
+  {
+   "id": 277,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x!r:^10}'",
+   "output": "f'{x!r:^10}'",
+   "idempotent": true
+  },
+  {
+   "id": 278,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f\"{x['a']:>{w}}\"",
+   "output": "f\"{x['a']:>{w}}\"",
+   "idempotent": true
+  },
+  {
+   "id": 279,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{3.0}'",
+   "output": "f'{3.0}'",
+   "idempotent": true
+  },
+  {
+   "id": 280,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{1_000}'",
+   "output": "f'{1000}'",
+   "idempotent": true
+  },
+  {
+   "id": 281,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x}\\t'",
+   "output": "f'{x}\\t'",
+   "idempotent": true
+  },
+  {
+   "id": 282,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x}\\xa0'",
+   "output": "f'{x}\\xa0'",
+   "idempotent": true
+  },
+  {
+   "id": 283,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'é{x}'",
+   "output": "f'é{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 284,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x:\\n}'",
+   "output": "f'{x:\\n}'",
+   "idempotent": true
+  },
+  {
+   "id": 285,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x:{y}}'",
+   "output": "f'{x:{y}}'",
+   "idempotent": true
+  },
+  {
+   "id": 286,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{{{x}}}'",
+   "output": "f'{{{x}}}'",
+   "idempotent": true
+  },
+  {
+   "id": 287,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{{{{'",
+   "output": "f'{{{{'",
+   "idempotent": true
+  },
+  {
+   "id": 288,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'''{x}'''",
+   "output": "f'{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 289,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x}' 'a' f'{y}' 'b'",
+   "output": "f'{x}a{y}b'",
+   "idempotent": true
+  },
+  {
+   "id": 290,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{x if y else z}'",
+   "output": "f'{(x if y else z)}'",
+   "idempotent": true
+  },
+  {
+   "id": 291,
+   "category": "fstring",
+   "kind": "expr",
+   "input": "f'{a:{b}{c}}'",
+   "output": "f'{a:{b}{c}}'",
+   "idempotent": true
+  },
+  {
+   "id": 292,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x for x in y]",
+   "output": "[x for x in y]",
+   "idempotent": true
+  },
+  {
+   "id": 293,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x for x in y if x]",
+   "output": "[x for x in y if x]",
+   "idempotent": true
+  },
+  {
+   "id": 294,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x for x in y if a if b]",
+   "output": "[x for x in y if a if b]",
+   "idempotent": true
+  },
+  {
+   "id": 295,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "{k: v for k, v in d.items()}",
+   "output": "{k: v for k, v in d.items()}",
+   "idempotent": true
+  },
+  {
+   "id": 296,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "{x for x in y}",
+   "output": "{x for x in y}",
+   "idempotent": true
+  },
+  {
+   "id": 297,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "(x for x in y)",
+   "output": "(x for x in y)",
+   "idempotent": true
+  },
+  {
+   "id": 298,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x async for x in y]",
+   "output": "[x async for x in y]",
+   "idempotent": true
+  },
+  {
+   "id": 299,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x for x in y for z in x]",
+   "output": "[x for x in y for z in x]",
+   "idempotent": true
+  },
+  {
+   "id": 300,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[(x, y) for x, y in z]",
+   "output": "[(x, y) for x, y in z]",
+   "idempotent": true
+  },
+  {
+   "id": 301,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x for (x, y) in z]",
+   "output": "[x for x, y in z]",
+   "idempotent": true
+  },
+  {
+   "id": 302,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x for x in (1, 2)]",
+   "output": "[x for x in (1, 2)]",
+   "idempotent": true
+  },
+  {
+   "id": 303,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[x for x in a if b else c]",
+   "error": "SyntaxError: invalid syntax (<unknown>, line 1)"
+  },
+  {
+   "id": 304,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "await f()",
+   "output": "await f()",
+   "idempotent": true
+  },
+  {
+   "id": 305,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "(yield)",
+   "output": "(yield)",
+   "idempotent": true
+  },
+  {
+   "id": 306,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "(yield x)",
+   "output": "(yield x)",
+   "idempotent": true
+  },
+  {
+   "id": 307,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "(yield from g())",
+   "output": "(yield from g())",
+   "idempotent": true
+  },
+  {
+   "id": 308,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[(yield)]",
+   "output": "[(yield)]",
+   "idempotent": true
+  },
+  {
+   "id": 309,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "f((yield x))",
+   "output": "f((yield x))",
+   "idempotent": true
+  },
+  {
+   "id": 310,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "await f() + 1",
+   "output": "await f() + 1",
+   "idempotent": true
+  },
+  {
+   "id": 311,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "(await f()).x",
+   "output": "(await f()).x",
+   "idempotent": true
+  },
+  {
+   "id": 312,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "-await x",
+   "output": "-await x",
+   "idempotent": true
+  },
+  {
+   "id": 313,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "await (a + b)",
+   "output": "await (a + b)",
+   "idempotent": true
+  },
+  {
+   "id": 314,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "(x := 1)",
+   "output": "(x := 1)",
+   "idempotent": true
+  },
+  {
+   "id": 315,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "[y := f(), y]",
+   "output": "[(y := f()), y]",
+   "idempotent": true
+  },
+  {
+   "id": 316,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "f(x := 1)",
+   "output": "f((x := 1))",
+   "idempotent": true
+  },
+  {
+   "id": 317,
+   "category": "comp_await_yield",
+   "kind": "expr",
+   "input": "(x := 1) + 1",
+   "output": "(x := 1) + 1",
+   "idempotent": true
+  },
+  {
+   "id": 318,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "'Config'",
+   "output": "'Config'",
+   "idempotent": true
+  },
+  {
+   "id": 319,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "\"Config\"",
+   "output": "'Config'",
+   "idempotent": true
+  },
+  {
+   "id": 320,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "\"list[str]\"",
+   "output": "'list[str]'",
+   "idempotent": true
+  },
+  {
+   "id": 321,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Literal['a', \"b\"]",
+   "output": "Literal['a', 'b']",
+   "idempotent": true
+  },
+  {
+   "id": 322,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Optional['X']",
+   "output": "Optional['X']",
+   "idempotent": true
+  },
+  {
+   "id": 323,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "'Optional[\\'X\\']'",
+   "output": "\"Optional['X']\"",
+   "idempotent": true
+  },
+  {
+   "id": 324,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Callable[[int], str]",
+   "output": "Callable[[int], str]",
+   "idempotent": true
+  },
+  {
+   "id": 325,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Callable[..., Any]",
+   "output": "Callable[..., Any]",
+   "idempotent": true
+  },
+  {
+   "id": 326,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Annotated[int, Field(gt=0)]",
+   "output": "Annotated[int, Field(gt=0)]",
+   "idempotent": true
+  },
+  {
+   "id": 327,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "dict[str, list[int]]",
+   "output": "dict[str, list[int]]",
+   "idempotent": true
+  },
+  {
+   "id": 328,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "type[T]",
+   "output": "type[T]",
+   "idempotent": true
+  },
+  {
+   "id": 329,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Union[int, str]",
+   "output": "Union[int, str]",
+   "idempotent": true
+  },
+  {
+   "id": 330,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Literal[1, 2.0, True, None, 'x', b'y']",
+   "output": "Literal[1, 2.0, True, None, 'x', b'y']",
+   "idempotent": true
+  },
+  {
+   "id": 331,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Literal[\"a\" \"b\"]",
+   "output": "Literal['ab']",
+   "idempotent": true
+  },
+  {
+   "id": 332,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Sequence['Foo']",
+   "output": "Sequence['Foo']",
+   "idempotent": true
+  },
+  {
+   "id": 333,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "typing.Optional[typing.List['A']]",
+   "output": "typing.Optional[typing.List['A']]",
+   "idempotent": true
+  },
+  {
+   "id": 334,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Literal[-1]",
+   "output": "Literal[-1]",
+   "idempotent": true
+  },
+  {
+   "id": 335,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "Literal['a:b']",
+   "output": "Literal['a:b']",
+   "idempotent": true
+  },
+  {
+   "id": 336,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "dict[str, 'Foo | None']",
+   "output": "dict[str, 'Foo | None']",
+   "idempotent": true
+  },
+  {
+   "id": 337,
+   "category": "annotation",
+   "kind": "expr",
+   "input": "tuple[()]",
+   "output": "tuple[()]",
+   "idempotent": true
+  },
+  {
+   "id": 338,
+   "category": "decorators",
+   "kind": "module",
+   "input": "@decorator.with_args(1, \"x\", key='v')\n@simple\n@property\n@functools.lru_cache(maxsize=None)\n@app.route(\"/x\", methods=[\"GET\"])\n@(lambda f: f)\n@dataclass(frozen=True)\n@pytest.mark.parametrize(\"a,b\", [(1, 2)])\n@x[0]\n@x.y.z\n@d  # comment\n@a.b(\n  1,\n)\n@ f\ndef f(): ...\n",
+   "output": {
+    "decorators": [
+     "decorator.with_args(1, 'x', key='v')",
+     "simple",
+     "property",
+     "functools.lru_cache(maxsize=None)",
+     "app.route('/x', methods=['GET'])",
+     "lambda f: f",
+     "dataclass(frozen=True)",
+     "pytest.mark.parametrize('a,b', [(1, 2)])",
+     "x[0]",
+     "x.y.z",
+     "d",
+     "a.b(1)",
+     "f"
+    ],
+    "decorator_names": [
+     "b",
+     "d",
+     "dataclass",
+     "f",
+     "lambda f: f",
+     "lru_cache",
+     "parametrize",
+     "property",
+     "route",
+     "simple",
+     "with_args",
+     "x[0]",
+     "z"
+    ]
+   }
+  },
+  {
+   "id": 339,
+   "category": "bases",
+   "kind": "module",
+   "input": "class C(Base, Generic[T], metaclass=Meta): ...\n",
+   "output": {
+    "bases": [
+     "Base",
+     "Generic[T]"
+    ],
+    "keywords_dropped": [
+     "metaclass"
+    ]
+   }
+  },
+  {
+   "id": 340,
+   "category": "bases",
+   "kind": "module",
+   "input": "class C(a.b.C, *bases, **kw): ...\n",
+   "output": {
+    "bases": [
+     "a.b.C",
+     "*bases"
+    ],
+    "keywords_dropped": [
+     null
+    ]
+   }
+  },
+  {
+   "id": 341,
+   "category": "bases",
+   "kind": "module",
+   "input": "class C(): ...\n",
+   "output": {
+    "bases": [],
+    "keywords_dropped": []
+   }
+  },
+  {
+   "id": 342,
+   "category": "bases",
+   "kind": "module",
+   "input": "class C(dict[str, int], 'Forward'): ...\n",
+   "output": {
+    "bases": [
+     "dict[str, int]",
+     "'Forward'"
+    ],
+    "keywords_dropped": []
+   }
+  },
+  {
+   "id": 343,
+   "category": "classvars",
+   "kind": "module",
+   "input": "class C:\n    x: \"Config\" = None\n    y: dict[str, list[int]] = {}\n    z: int\n    w: ClassVar[int] = 5\n    v: Final = 1\n    u: int = field(default_factory=list)\n    plain = 1\n    a, b = 1, 2\n    t: tuple = (1, 2)\n    s: str = 'a' 'b'\n    n: int = -1\n    lam = lambda self: 1\n",
+   "output": {
+    "classes": [
+     {
+      "name": "C",
+      "bases": [],
+      "decorators": [],
+      "docstring": {
+       "short_description": "",
+       "long_description": "",
+       "examples": [],
+       "notes": []
+      },
+      "methods": [],
+      "class_vars": [
+       {
+        "name": "x",
+        "type": "'Config'",
+        "value": "None",
+        "description": ""
+       },
+       {
+        "name": "y",
+        "type": "dict[str, list[int]]",
+        "value": "{}",
+        "description": ""
+       },
+       {
+        "name": "z",
+        "type": "int",
+        "value": "",
+        "description": ""
+       },
+       {
+        "name": "w",
+        "type": "ClassVar[int]",
+        "value": "5",
+        "description": ""
+       },
+       {
+        "name": "v",
+        "type": "Final",
+        "value": "1",
+        "description": ""
+       },
+       {
+        "name": "u",
+        "type": "int",
+        "value": "field(default_factory=list)",
+        "description": ""
+       },
+       {
+        "name": "plain",
+        "type": "",
+        "value": "1",
+        "description": ""
+       },
+       {
+        "name": "t",
+        "type": "tuple",
+        "value": "(1, 2)",
+        "description": ""
+       },
+       {
+        "name": "s",
+        "type": "str",
+        "value": "'ab'",
+        "description": ""
+       },
+       {
+        "name": "n",
+        "type": "int",
+        "value": "-1",
+        "description": ""
+       },
+       {
+        "name": "lam",
+        "type": "",
+        "value": "lambda self: 1",
+        "description": ""
+       }
+      ],
+      "inner_classes": [],
+      "source_file": "fx.py",
+      "line_number": 1
+     }
+    ],
+    "functions": []
+   }
+  },
+  {
+   "id": 344,
+   "category": "defaults",
+   "kind": "module",
+   "input": "def f(a=[], b={}, c=(), d=frozenset(), e=object(), f=-1, g=1.0, h=1e3, i=Path('/tmp'), j=os.environ.get('X', 'y'), k=lambda: None, l=('a', 'b'), m=Enum.VALUE, n=1 << 20, o=2**10, p=\"a\" \"b\", q='%s' % y, r=math.inf, s=float('inf'), t=-math.inf, u=not True, v=~0, w=b'', x=..., y=[1,2,3], z={'a':1}, aa=(1,2,), bb=(1,), cc=None, dd=True, ee=\"it's\", ff='say \"hi\"', gg=0xFF, hh=1_000, ii=.5, jj=1j, kk=f\"{a!r:>10}\", ll=1 if x else 2, mm=x**2, nn=inf, oo=(yield), pp=await g(), qq=[x for x in y], rr=(x := 1)): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "",
+      "default": "[]",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "b",
+      "type": "",
+      "default": "{}",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "c",
+      "type": "",
+      "default": "()",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "d",
+      "type": "",
+      "default": "frozenset()",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "e",
+      "type": "",
+      "default": "object()",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "f",
+      "type": "",
+      "default": "-1",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "g",
+      "type": "",
+      "default": "1.0",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "h",
+      "type": "",
+      "default": "1000.0",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "i",
+      "type": "",
+      "default": "Path('/tmp')",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "j",
+      "type": "",
+      "default": "os.environ.get('X', 'y')",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "k",
+      "type": "",
+      "default": "lambda: None",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "l",
+      "type": "",
+      "default": "('a', 'b')",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "m",
+      "type": "",
+      "default": "Enum.VALUE",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "n",
+      "type": "",
+      "default": "1 << 20",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "o",
+      "type": "",
+      "default": "2 ** 10",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "p",
+      "type": "",
+      "default": "'ab'",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "q",
+      "type": "",
+      "default": "'%s' % y",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "r",
+      "type": "",
+      "default": "math.inf",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "s",
+      "type": "",
+      "default": "float('inf')",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "t",
+      "type": "",
+      "default": "-math.inf",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "u",
+      "type": "",
+      "default": "not True",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "v",
+      "type": "",
+      "default": "~0",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "w",
+      "type": "",
+      "default": "b''",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "x",
+      "type": "",
+      "default": "...",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "y",
+      "type": "",
+      "default": "[1, 2, 3]",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "z",
+      "type": "",
+      "default": "{'a': 1}",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "aa",
+      "type": "",
+      "default": "(1, 2)",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "bb",
+      "type": "",
+      "default": "(1,)",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "cc",
+      "type": "",
+      "default": "None",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "dd",
+      "type": "",
+      "default": "True",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "ee",
+      "type": "",
+      "default": "\"it's\"",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "ff",
+      "type": "",
+      "default": "'say \"hi\"'",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "gg",
+      "type": "",
+      "default": "255",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "hh",
+      "type": "",
+      "default": "1000",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "ii",
+      "type": "",
+      "default": "0.5",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "jj",
+      "type": "",
+      "default": "1j",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "kk",
+      "type": "",
+      "default": "f'{a!r:>10}'",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "ll",
+      "type": "",
+      "default": "1 if x else 2",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "mm",
+      "type": "",
+      "default": "x ** 2",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "nn",
+      "type": "",
+      "default": "inf",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "oo",
+      "type": "",
+      "default": "(yield)",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "pp",
+      "type": "",
+      "default": "await g()",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "qq",
+      "type": "",
+      "default": "[x for x in y]",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "rr",
+      "type": "",
+      "default": "(x := 1)",
+      "description": "",
+      "kind": "regular"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 345,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(a, b=1, /, c=2, d=3, *args, e, f=4, **kw): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "positional_only"
+     },
+     {
+      "name": "b",
+      "type": "",
+      "default": "1",
+      "description": "",
+      "kind": "positional_only"
+     },
+     {
+      "name": "c",
+      "type": "",
+      "default": "2",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "d",
+      "type": "",
+      "default": "3",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "args",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "var_positional"
+     },
+     {
+      "name": "e",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "keyword_only"
+     },
+     {
+      "name": "f",
+      "type": "",
+      "default": "4",
+      "description": "",
+      "kind": "keyword_only"
+     },
+     {
+      "name": "kw",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "var_keyword"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 346,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(a, /, b, c=1): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "positional_only"
+     },
+     {
+      "name": "b",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "c",
+      "type": "",
+      "default": "1",
+      "description": "",
+      "kind": "regular"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 347,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(self, a, b=1, *, c, d=2): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "b",
+      "type": "",
+      "default": "1",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "c",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "keyword_only"
+     },
+     {
+      "name": "d",
+      "type": "",
+      "default": "2",
+      "description": "",
+      "kind": "keyword_only"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 348,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(cls, a=1, b=2, c=3): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "",
+      "default": "1",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "b",
+      "type": "",
+      "default": "2",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "c",
+      "type": "",
+      "default": "3",
+      "description": "",
+      "kind": "regular"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 349,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(a: int = 1, b: 'str' = 'x', *args: int, kw: int | None = None, **kwargs: Any) -> tuple[int, ...]: ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "int",
+      "default": "1",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "b",
+      "type": "'str'",
+      "default": "'x'",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "args",
+      "type": "int",
+      "default": null,
+      "description": "",
+      "kind": "var_positional"
+     },
+     {
+      "name": "kw",
+      "type": "int | None",
+      "default": "None",
+      "description": "",
+      "kind": "keyword_only"
+     },
+     {
+      "name": "kwargs",
+      "type": "Any",
+      "default": null,
+      "description": "",
+      "kind": "var_keyword"
+     }
+    ],
+    "returns": {
+     "type": "tuple[int, ...]",
+     "description": ""
+    }
+   }
+  },
+  {
+   "id": 350,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "async def g(self, x: Literal['a', \"b\"], y: Callable[[int], str], z: Annotated[int, Field(gt=0)], w: \"list[str]\" = [], q: 'Optional[\\'X\\']' = None): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "x",
+      "type": "Literal['a', 'b']",
+      "default": null,
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "y",
+      "type": "Callable[[int], str]",
+      "default": null,
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "z",
+      "type": "Annotated[int, Field(gt=0)]",
+      "default": null,
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "w",
+      "type": "'list[str]'",
+      "default": "[]",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "q",
+      "type": "\"Optional['X']\"",
+      "default": "None",
+      "description": "",
+      "kind": "regular"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 351,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(*, a, b): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "keyword_only"
+     },
+     {
+      "name": "b",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "keyword_only"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 352,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(*args, **kwargs): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "args",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "var_positional"
+     },
+     {
+      "name": "kwargs",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "var_keyword"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 353,
+   "category": "defaults_alignment",
+   "kind": "module",
+   "input": "def f(a, b=(1, 2), c=(3,), d=[(1, 2)]): ...\n",
+   "output": {
+    "args": [
+     {
+      "name": "a",
+      "type": "",
+      "default": null,
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "b",
+      "type": "",
+      "default": "(1, 2)",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "c",
+      "type": "",
+      "default": "(3,)",
+      "description": "",
+      "kind": "regular"
+     },
+     {
+      "name": "d",
+      "type": "",
+      "default": "[(1, 2)]",
+      "description": "",
+      "kind": "regular"
+     }
+    ],
+    "returns": null
+   }
+  },
+  {
+   "id": 354,
+   "category": "returns",
+   "kind": "module",
+   "input": "def f() -> 'Foo': ...\n",
+   "output": {
+    "args": [],
+    "returns": {
+     "type": "'Foo'",
+     "description": ""
+    }
+   }
+  },
+  {
+   "id": 355,
+   "category": "returns",
+   "kind": "module",
+   "input": "def f() -> (int): ...\n",
+   "output": {
+    "args": [],
+    "returns": {
+     "type": "int",
+     "description": ""
+    }
+   }
+  },
+  {
+   "id": 356,
+   "category": "returns",
+   "kind": "module",
+   "input": "def f() -> int | None: ...\n",
+   "output": {
+    "args": [],
+    "returns": {
+     "type": "int | None",
+     "description": ""
+    }
+   }
+  },
+  {
+   "id": 357,
+   "category": "returns",
+   "kind": "module",
+   "input": "def f() -> tuple[int, str]: ...\n",
+   "output": {
+    "args": [],
+    "returns": {
+     "type": "tuple[int, str]",
+     "description": ""
+    }
+   }
+  },
+  {
+   "id": 358,
+   "category": "returns",
+   "kind": "module",
+   "input": "def f() -> None: ...\n",
+   "output": {
+    "args": [],
+    "returns": {
+     "type": "None",
+     "description": ""
+    }
+   }
+  },
+  {
+   "id": 359,
+   "category": "returns",
+   "kind": "module",
+   "input": "def f() -> (yield): ...\n",
+   "output": {
+    "args": [],
+    "returns": {
+     "type": "(yield)",
+     "description": ""
+    }
+   }
+  },
+  {
+   "id": 360,
+   "category": "constants",
+   "kind": "module",
+   "input": "MAX = 10\nNAMES = [\"a\", 'b']\nA = B = 1\nX, Y = 1, 2\n_PRIVATE = 1\nMixed = 1\nA1 = 1\n__ALL__ = 1\nx: int = 1\nlogger: Logger = getLogger()\ny: int\nZ = 1 + 2\nQ = -1\nR = 'a' 'b'\nS = f'{x}'\nT = (1, 2)\nU = {'k': 1}\nobj.attr = 1\nd['k'] = 1\nW: int = (1)\nV = lambda: 1\nÀ = 1\nΣ = 1\nＡ = 1\n",
+   "output": {
+    "constants": [
+     {
+      "name": "MAX",
+      "type": "",
+      "value": "10",
+      "description": ""
+     },
+     {
+      "name": "NAMES",
+      "type": "",
+      "value": "['a', 'b']",
+      "description": ""
+     },
+     {
+      "name": "A",
+      "type": "",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "B",
+      "type": "",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "A1",
+      "type": "",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "x",
+      "type": "int",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "logger",
+      "type": "Logger",
+      "value": "getLogger()",
+      "description": ""
+     },
+     {
+      "name": "y",
+      "type": "int",
+      "value": "",
+      "description": ""
+     },
+     {
+      "name": "Z",
+      "type": "",
+      "value": "1 + 2",
+      "description": ""
+     },
+     {
+      "name": "Q",
+      "type": "",
+      "value": "-1",
+      "description": ""
+     },
+     {
+      "name": "R",
+      "type": "",
+      "value": "'ab'",
+      "description": ""
+     },
+     {
+      "name": "S",
+      "type": "",
+      "value": "f'{x}'",
+      "description": ""
+     },
+     {
+      "name": "T",
+      "type": "",
+      "value": "(1, 2)",
+      "description": ""
+     },
+     {
+      "name": "U",
+      "type": "",
+      "value": "{'k': 1}",
+      "description": ""
+     },
+     {
+      "name": "W",
+      "type": "int",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "V",
+      "type": "",
+      "value": "lambda: 1",
+      "description": ""
+     },
+     {
+      "name": "À",
+      "type": "",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "Σ",
+      "type": "",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "A",
+      "type": "",
+      "value": "1",
+      "description": ""
+     }
+    ],
+    "functions": [],
+    "classes": []
+   }
+  },
+  {
+   "id": 361,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__ = ['a', 'b']\n__all__ = ['c']\ndef a(): ...\ndef b(): ...\ndef c(): ...\n",
+   "output": {
+    "constants": [],
+    "functions": [
+     "c"
+    ],
+    "classes": []
+   }
+  },
+  {
+   "id": 362,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__ = ['a'] + ['b']\ndef a(): ...\n",
+   "output": {
+    "constants": [],
+    "functions": [
+     "a"
+    ],
+    "classes": []
+   }
+  },
+  {
+   "id": 363,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__: list[str] = ['a']\ndef a(): ...\ndef b(): ...\n",
+   "output": {
+    "constants": [],
+    "functions": [
+     "a"
+    ],
+    "classes": []
+   }
+  },
+  {
+   "id": 364,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__ = ('a',)\ndef a(): ...\ndef b(): ...\n",
+   "output": {
+    "constants": [],
+    "functions": [
+     "a"
+    ],
+    "classes": []
+   }
+  },
+  {
+   "id": 365,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__ = []\ndef a(): ...\nX = 1\n",
+   "output": {
+    "constants": [],
+    "functions": [],
+    "classes": []
+   }
+  },
+  {
+   "id": 366,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__ = ['a', b, 1, 'c']\ndef a(): ...\ndef c(): ...\n",
+   "output": {
+    "constants": [],
+    "functions": [
+     "a",
+     "c"
+    ],
+    "classes": []
+   }
+  },
+  {
+   "id": 367,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "if True:\n    __all__ = ['a']\ndef a(): ...\ndef b(): ...\n",
+   "output": {
+    "constants": [],
+    "functions": [
+     "a",
+     "b"
+    ],
+    "classes": []
+   }
+  },
+  {
+   "id": 368,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__ = ['a']\n__all__ += ['b']\ndef a(): ...\ndef b(): ...\n",
+   "output": {
+    "constants": [],
+    "functions": [
+     "a"
+    ],
+    "classes": []
+   }
+  },
+  {
+   "id": 369,
+   "category": "dunder_all",
+   "kind": "module",
+   "input": "__all__ = ['X', 'y', 'C']\nX = 1\ny: int = 2\nZ = 3\nclass C: ...\nclass D: ...\n",
+   "output": {
+    "constants": [
+     {
+      "name": "X",
+      "type": "",
+      "value": "1",
+      "description": ""
+     },
+     {
+      "name": "y",
+      "type": "int",
+      "value": "2",
+      "description": ""
+     }
+    ],
+    "functions": [],
+    "classes": [
+     "C"
+    ]
+   }
+  },
+  {
+   "id": 370,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"Doc\ttab\n\n      more\n    \"\"\"\n",
+   "output": {
+    "get_docstring": "Doc     tab\n\nmore",
+    "get_docstring_clean_false": "Doc\ttab\n\n      more\n    ",
+    "folio_ir_google": {
+     "short_description": "Doc     tab",
+     "long_description": "more",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Doc     tab",
+     "long_description": "more",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 371,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"\n    Leading blank.\n\n    Body.\n\n    \"\"\"\n",
+   "output": {
+    "get_docstring": "Leading blank.\n\nBody.",
+    "get_docstring_clean_false": "\n    Leading blank.\n\n    Body.\n\n    ",
+    "folio_ir_google": {
+     "short_description": "Leading blank.",
+     "long_description": "Body.",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Leading blank.",
+     "long_description": "Body.",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 372,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    r\"\"\"Raw \\n stays.\"\"\"\n",
+   "output": {
+    "get_docstring": "Raw \\n stays.",
+    "get_docstring_clean_false": "Raw \\n stays.",
+    "folio_ir_google": {
+     "short_description": "Raw \\n stays.",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Raw \\n stays.",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 373,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"Esc \\n newline \\t tab \\N{EM DASH} named.\"\"\"\n",
+   "output": {
+    "get_docstring": "Esc \nnewline         tab — named.",
+    "get_docstring_clean_false": "Esc \n newline \t tab — named.",
+    "folio_ir_google": {
+     "short_description": "Esc ",
+     "long_description": "newline         tab — named.",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Esc ",
+     "long_description": "newline         tab — named.",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 374,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    (\"Paren\" \" concat\")\n",
+   "output": {
+    "get_docstring": "Paren concat",
+    "get_docstring_clean_false": "Paren concat",
+    "folio_ir_google": {
+     "short_description": "Paren concat",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Paren concat",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 375,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    f\"\"\"not a docstring {x}\"\"\"\n",
+   "output": {
+    "get_docstring": null,
+    "get_docstring_clean_false": null,
+    "folio_ir_google": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 376,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    b\"\"\"bytes\"\"\"\n",
+   "output": {
+    "get_docstring": null,
+    "get_docstring_clean_false": null,
+    "folio_ir_google": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 377,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    x = 1\n    \"\"\"not first\"\"\"\n",
+   "output": {
+    "get_docstring": null,
+    "get_docstring_clean_false": null,
+    "folio_ir_google": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 378,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"First line\n  less indented\n        more indented\n    \"\"\"\n",
+   "output": {
+    "get_docstring": "First line\nless indented\n      more indented\n  ",
+    "get_docstring_clean_false": "First line\n  less indented\n        more indented\n    ",
+    "folio_ir_google": {
+     "short_description": "First line",
+     "long_description": "less indented\n      more indented",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "First line",
+     "long_description": "less indented\n      more indented",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 379,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\" NBSP-indented\n     line two\n    \"\"\"\n",
+   "output": {
+    "get_docstring": "NBSP-indented\nline two",
+    "get_docstring_clean_false": " NBSP-indented\n     line two\n    ",
+    "folio_ir_google": {
+     "short_description": "NBSP-indented",
+     "long_description": "line two",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "NBSP-indented",
+     "long_description": "line two",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 380,
+   "category": "docstring",
+   "kind": "module",
+   "input": "\"\"\"Module doc.\"\"\"\nfrom __future__ import annotations\n",
+   "output": {
+    "get_docstring": "Module doc.",
+    "get_docstring_clean_false": "Module doc.",
+    "folio_ir_google": {
+     "short_description": "Module doc.",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Module doc.",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 381,
+   "category": "docstring",
+   "kind": "module",
+   "input": "from __future__ import annotations\n\"\"\"Not module doc.\"\"\"\n",
+   "output": {
+    "get_docstring": null,
+    "get_docstring_clean_false": null,
+    "folio_ir_google": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 382,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"\"\"\"\n",
+   "output": {
+    "get_docstring": "",
+    "get_docstring_clean_false": "",
+    "folio_ir_google": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 383,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"   \"\"\"\n",
+   "output": {
+    "get_docstring": "",
+    "get_docstring_clean_false": "   ",
+    "folio_ir_google": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "",
+     "long_description": "",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 384,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"Line1\r\n    Line2\r\n    \"\"\"\n",
+   "output": {
+    "get_docstring": "Line1\nLine2",
+    "get_docstring_clean_false": "Line1\n    Line2\n    ",
+    "folio_ir_google": {
+     "short_description": "Line1",
+     "long_description": "Line2",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Line1",
+     "long_description": "Line2",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 385,
+   "category": "docstring",
+   "kind": "module",
+   "input": "def f():\n    \"\"\"Tab\tafter text\n\tTab-indented line\n    \"\"\"\n",
+   "output": {
+    "get_docstring": "Tab     after text\nTab-indented line",
+    "get_docstring_clean_false": "Tab\tafter text\n\tTab-indented line\n    ",
+    "folio_ir_google": {
+     "short_description": "Tab     after text",
+     "long_description": "Tab-indented line",
+     "examples": [],
+     "notes": []
+    },
+    "folio_ir_auto": {
+     "short_description": "Tab     after text",
+     "long_description": "Tab-indented line",
+     "examples": [],
+     "notes": []
+    }
+   }
+  },
+  {
+   "id": 386,
+   "category": "lineno",
+   "kind": "module",
+   "input": "@dec\n@dec2\ndef f(): ...\n\n@dec\nclass C: ...\n",
+   "output": {
+    "linenos": {
+     "f": 3,
+     "C": 6
+    }
+   }
+  },
+  {
+   "id": 387,
+   "category": "kind",
+   "kind": "module",
+   "input": "class C:\n    @property\n    def a(self): ...\n    @functools.cached_property\n    def b(self): ...\n    @a.setter\n    def a(self, v): ...\n    @staticmethod\n    def s(): ...\n    @classmethod\n    def c(cls): ...\n    @abc.abstractmethod\n    @property\n    def p(self): ...\n    @staticmethod\n    @property\n    def sp(): ...\n    @mod.property\n    def mp(self): ...\n    @property()\n    def pc(self): ...\n    def m(this): ...\n    def n(self, self2): ...\n    async def am(self): ...\n    @prop\n    def np(self): ...\n",
+   "output": {
+    "classes": [
+     {
+      "name": "C",
+      "bases": [],
+      "decorators": [],
+      "docstring": {
+       "short_description": "",
+       "long_description": "",
+       "examples": [],
+       "notes": []
+      },
+      "methods": [
+       {
+        "name": "a",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "property"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 3,
+        "kind": "property"
+       },
+       {
+        "name": "b",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "functools.cached_property"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 5,
+        "kind": "method"
+       },
+       {
+        "name": "s",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "staticmethod"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 9,
+        "kind": "staticmethod"
+       },
+       {
+        "name": "c",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "classmethod"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 11,
+        "kind": "classmethod"
+       },
+       {
+        "name": "p",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "abc.abstractmethod",
+         "property"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 14,
+        "kind": "property"
+       },
+       {
+        "name": "sp",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "staticmethod",
+         "property"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 17,
+        "kind": "property"
+       },
+       {
+        "name": "mp",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "mod.property"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 19,
+        "kind": "property"
+       },
+       {
+        "name": "pc",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "property()"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 21,
+        "kind": "property"
+       },
+       {
+        "name": "m",
+        "args": [
+         {
+          "name": "this",
+          "type": "",
+          "default": null,
+          "description": "",
+          "kind": "regular"
+         }
+        ],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 22,
+        "kind": "method"
+       },
+       {
+        "name": "n",
+        "args": [
+         {
+          "name": "self2",
+          "type": "",
+          "default": null,
+          "description": "",
+          "kind": "regular"
+         }
+        ],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 23,
+        "kind": "method"
+       },
+       {
+        "name": "am",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": true,
+        "source_file": "fx.py",
+        "line_number": 24,
+        "kind": "method"
+       },
+       {
+        "name": "np",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [
+         "prop"
+        ],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 26,
+        "kind": "method"
+       }
+      ],
+      "class_vars": [],
+      "inner_classes": [],
+      "source_file": "fx.py",
+      "line_number": 1
+     }
+    ],
+    "functions": []
+   }
+  },
+  {
+   "id": 388,
+   "category": "body_scope",
+   "kind": "module",
+   "input": "if TYPE_CHECKING:\n    def hidden(): ...\ntry:\n    def hidden2(): ...\nexcept ImportError:\n    pass\ndef visible():\n    def inner(): ...\nclass C:\n    if True:\n        def hidden3(self): ...\n    def visible_m(self): ...\n    x = 1\n    y: int = 2\n    class Inner:\n        z: str = 'a'\n        class Deep: ...\n",
+   "output": {
+    "classes": [
+     {
+      "name": "C",
+      "bases": [],
+      "decorators": [],
+      "docstring": {
+       "short_description": "",
+       "long_description": "",
+       "examples": [],
+       "notes": []
+      },
+      "methods": [
+       {
+        "name": "visible_m",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "is_async": false,
+        "source_file": "fx.py",
+        "line_number": 12,
+        "kind": "method"
+       }
+      ],
+      "class_vars": [
+       {
+        "name": "x",
+        "type": "",
+        "value": "1",
+        "description": ""
+       },
+       {
+        "name": "y",
+        "type": "int",
+        "value": "2",
+        "description": ""
+       }
+      ],
+      "inner_classes": [
+       {
+        "name": "Inner",
+        "bases": [],
+        "decorators": [],
+        "docstring": {
+         "short_description": "",
+         "long_description": "",
+         "examples": [],
+         "notes": []
+        },
+        "methods": [],
+        "class_vars": [
+         {
+          "name": "z",
+          "type": "str",
+          "value": "'a'",
+          "description": ""
+         }
+        ],
+        "inner_classes": [
+         {
+          "name": "Deep",
+          "bases": [],
+          "decorators": [],
+          "docstring": {
+           "short_description": "",
+           "long_description": "",
+           "examples": [],
+           "notes": []
+          },
+          "methods": [],
+          "class_vars": [],
+          "inner_classes": [],
+          "source_file": "fx.py",
+          "line_number": 17
+         }
+        ],
+        "source_file": "fx.py",
+        "line_number": 15
+       }
+      ],
+      "source_file": "fx.py",
+      "line_number": 9
+     }
+    ],
+    "functions": [
+     "visible"
+    ]
+   }
+  },
+  {
+   "id": 389,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x}\"'",
+   "output": "f'{x}\"'",
+   "idempotent": true
+  },
+  {
+   "id": 390,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f\"{x}'\"",
+   "output": "f\"{x}'\"",
+   "idempotent": true
+  },
+  {
+   "id": 391,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x!r}' \"'\"",
+   "output": "f\"{x!r}'\"",
+   "idempotent": true
+  },
+  {
+   "id": 392,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x:{\"\\'\"}}'",
+   "output": "f\"\"\"{x:{\"'\"}}\"\"\"",
+   "idempotent": true
+  },
+  {
+   "id": 393,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f\"{'a'}{\\\"b\\\"}\"",
+   "error": "SyntaxError: unexpected character after line continuation character (<unknown>, line 1)"
+  },
+  {
+   "id": 394,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'''it's \"q\" {x}'''",
+   "output": "f\"\"\"it's \"q\" {x}\"\"\"",
+   "idempotent": true
+  },
+  {
+   "id": 395,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x}' \"it's\" '\"q\"'",
+   "output": "f'''{x}it's\"q\"'''",
+   "idempotent": true
+  },
+  {
+   "id": 396,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(-1).real",
+   "output": "(-1).real",
+   "idempotent": true
+  },
+  {
+   "id": 397,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1_000 .real",
+   "output": "1000 .real",
+   "idempotent": true
+  },
+  {
+   "id": 398,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(1).real.imag",
+   "output": "1 .real.imag",
+   "idempotent": true
+  },
+  {
+   "id": 399,
+   "category": "extra",
+   "kind": "expr",
+   "input": "not -1",
+   "output": "not -1",
+   "idempotent": true
+  },
+  {
+   "id": 400,
+   "category": "extra",
+   "kind": "expr",
+   "input": "-(not x)",
+   "output": "-(not x)",
+   "idempotent": true
+  },
+  {
+   "id": 401,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a if b else (yield)",
+   "output": "a if b else (yield)",
+   "idempotent": true
+  },
+  {
+   "id": 402,
+   "category": "extra",
+   "kind": "expr",
+   "input": "[*a]",
+   "output": "[*a]",
+   "idempotent": true
+  },
+  {
+   "id": 403,
+   "category": "extra",
+   "kind": "expr",
+   "input": "print(*a, sep='')",
+   "output": "print(*a, sep='')",
+   "idempotent": true
+  },
+  {
+   "id": 404,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f(a, *b, c)",
+   "output": "f(a, *b, c)",
+   "idempotent": true
+  },
+  {
+   "id": 405,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f(*b, c=1, *d)",
+   "output": "f(*b, *d, c=1)",
+   "idempotent": true
+  },
+  {
+   "id": 406,
+   "category": "extra",
+   "kind": "expr",
+   "input": "dict(**a, **b)",
+   "output": "dict(**a, **b)",
+   "idempotent": true
+  },
+  {
+   "id": 407,
+   "category": "extra",
+   "kind": "expr",
+   "input": "x[1:2, 3]",
+   "output": "x[1:2, 3]",
+   "idempotent": true
+  },
+  {
+   "id": 408,
+   "category": "extra",
+   "kind": "expr",
+   "input": "x[1, 2:3]",
+   "output": "x[1, 2:3]",
+   "idempotent": true
+  },
+  {
+   "id": 409,
+   "category": "extra",
+   "kind": "expr",
+   "input": "x[:, None]",
+   "output": "x[:, None]",
+   "idempotent": true
+  },
+  {
+   "id": 410,
+   "category": "extra",
+   "kind": "expr",
+   "input": "x[..., 0]",
+   "output": "x[..., 0]",
+   "idempotent": true
+  },
+  {
+   "id": 411,
+   "category": "extra",
+   "kind": "expr",
+   "input": "Callable[[], None]",
+   "output": "Callable[[], None]",
+   "idempotent": true
+  },
+  {
+   "id": 412,
+   "category": "extra",
+   "kind": "expr",
+   "input": "Literal[\"\"]",
+   "output": "Literal['']",
+   "idempotent": true
+  },
+  {
+   "id": 413,
+   "category": "extra",
+   "kind": "expr",
+   "input": "Literal[\"it's\"]",
+   "output": "Literal[\"it's\"]",
+   "idempotent": true
+  },
+  {
+   "id": 414,
+   "category": "extra",
+   "kind": "expr",
+   "input": "Annotated[str, \"meta\"]",
+   "output": "Annotated[str, 'meta']",
+   "idempotent": true
+  },
+  {
+   "id": 415,
+   "category": "extra",
+   "kind": "expr",
+   "input": "TypeVar('T', bound='X')",
+   "output": "TypeVar('T', bound='X')",
+   "idempotent": true
+  },
+  {
+   "id": 416,
+   "category": "extra",
+   "kind": "expr",
+   "input": "-1e309",
+   "output": "-1e309",
+   "idempotent": true
+  },
+  {
+   "id": 417,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1e309 - 1e309",
+   "output": "1e309 - 1e309",
+   "idempotent": true
+  },
+  {
+   "id": 418,
+   "category": "extra",
+   "kind": "expr",
+   "input": "float('nan')",
+   "output": "float('nan')",
+   "idempotent": true
+  },
+  {
+   "id": 419,
+   "category": "extra",
+   "kind": "expr",
+   "input": "not a == b",
+   "output": "not a == b",
+   "idempotent": true
+  },
+  {
+   "id": 420,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(not a) == b",
+   "output": "(not a) == b",
+   "idempotent": true
+  },
+  {
+   "id": 421,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a if not b else c",
+   "output": "a if not b else c",
+   "idempotent": true
+  },
+  {
+   "id": 422,
+   "category": "extra",
+   "kind": "expr",
+   "input": "lambda x: (x, y)",
+   "output": "lambda x: (x, y)",
+   "idempotent": true
+  },
+  {
+   "id": 423,
+   "category": "extra",
+   "kind": "expr",
+   "input": "lambda x: x, y",
+   "output": "(lambda x: x, y)",
+   "idempotent": true
+  },
+  {
+   "id": 424,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(*a, b)",
+   "output": "(*a, b)",
+   "idempotent": true
+  },
+  {
+   "id": 425,
+   "category": "extra",
+   "kind": "expr",
+   "input": "*a,",
+   "error": "SyntaxError: invalid syntax (<unknown>, line 1)"
+  },
+  {
+   "id": 426,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a[*b, c]",
+   "output": "a[*b, c]",
+   "idempotent": true
+  },
+  {
+   "id": 427,
+   "category": "extra",
+   "kind": "expr",
+   "input": "{**a}",
+   "output": "{**a}",
+   "idempotent": true
+  },
+  {
+   "id": 428,
+   "category": "extra",
+   "kind": "expr",
+   "input": "-(1 + 2)",
+   "output": "-(1 + 2)",
+   "idempotent": true
+  },
+  {
+   "id": 429,
+   "category": "extra",
+   "kind": "expr",
+   "input": "+(-1)",
+   "output": "+-1",
+   "idempotent": true
+  },
+  {
+   "id": 430,
+   "category": "extra",
+   "kind": "expr",
+   "input": "~(-1)",
+   "output": "~-1",
+   "idempotent": true
+  },
+  {
+   "id": 431,
+   "category": "extra",
+   "kind": "expr",
+   "input": "-(2 ** 2)",
+   "output": "-2 ** 2",
+   "idempotent": true
+  },
+  {
+   "id": 432,
+   "category": "extra",
+   "kind": "expr",
+   "input": "2 ** (-2)",
+   "output": "2 ** (-2)",
+   "idempotent": true
+  },
+  {
+   "id": 433,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a.b[c](d).e",
+   "output": "a.b[c](d).e",
+   "idempotent": true
+  },
+  {
+   "id": 434,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(a, b)[0]",
+   "output": "(a, b)[0]",
+   "idempotent": true
+  },
+  {
+   "id": 435,
+   "category": "extra",
+   "kind": "expr",
+   "input": "[a, b][0]",
+   "output": "[a, b][0]",
+   "idempotent": true
+  },
+  {
+   "id": 436,
+   "category": "extra",
+   "kind": "expr",
+   "input": "{a: b}[a]",
+   "output": "{a: b}[a]",
+   "idempotent": true
+  },
+  {
+   "id": 437,
+   "category": "extra",
+   "kind": "expr",
+   "input": "\"s\"[0]",
+   "output": "'s'[0]",
+   "idempotent": true
+  },
+  {
+   "id": 438,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(1)()",
+   "output": "1()",
+   "idempotent": true
+  },
+  {
+   "id": 439,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(1)[0]",
+   "output": "1[0]",
+   "idempotent": true
+  },
+  {
+   "id": 440,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(a := 1).x",
+   "output": "(a := 1).x",
+   "idempotent": true
+  },
+  {
+   "id": 441,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(await x) ** 2",
+   "output": "await x ** 2",
+   "idempotent": true
+  },
+  {
+   "id": 442,
+   "category": "extra",
+   "kind": "expr",
+   "input": "await x ** 2",
+   "output": "await x ** 2",
+   "idempotent": true
+  },
+  {
+   "id": 443,
+   "category": "extra",
+   "kind": "expr",
+   "input": "x.y if a else b.c",
+   "output": "x.y if a else b.c",
+   "idempotent": true
+  },
+  {
+   "id": 444,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a < b if c else d",
+   "output": "a < b if c else d",
+   "idempotent": true
+  },
+  {
+   "id": 445,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(a for b in c if d)",
+   "output": "(a for b in c if d)",
+   "idempotent": true
+  },
+  {
+   "id": 446,
+   "category": "extra",
+   "kind": "expr",
+   "input": "[i for i in range(10) if i % 2 if i > 3]",
+   "output": "[i for i in range(10) if i % 2 if i > 3]",
+   "idempotent": true
+  },
+  {
+   "id": 447,
+   "category": "extra",
+   "kind": "expr",
+   "input": "{**{'a': 1}, 'b': 2}",
+   "output": "{**{'a': 1}, 'b': 2}",
+   "idempotent": true
+  },
+  {
+   "id": 448,
+   "category": "extra",
+   "kind": "expr",
+   "input": "print((yield))",
+   "output": "print((yield))",
+   "idempotent": true
+  },
+  {
+   "id": 449,
+   "category": "extra",
+   "kind": "expr",
+   "input": "x = 1",
+   "error": "SyntaxError: invalid syntax (<unknown>, line 1)"
+  },
+  {
+   "id": 450,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1 if 2 else 3 if 4 else 5",
+   "output": "1 if 2 else 3 if 4 else 5",
+   "idempotent": true
+  },
+  {
+   "id": 451,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(1 if 2 else 3) + 4",
+   "output": "(1 if 2 else 3) + 4",
+   "idempotent": true
+  },
+  {
+   "id": 452,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1 + (2 if 3 else 4)",
+   "output": "1 + (2 if 3 else 4)",
+   "idempotent": true
+  },
+  {
+   "id": 453,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a or b if c else d",
+   "output": "a or b if c else d",
+   "idempotent": true
+  },
+  {
+   "id": 454,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(a or b) if c else d",
+   "output": "a or b if c else d",
+   "idempotent": true
+  },
+  {
+   "id": 455,
+   "category": "extra",
+   "kind": "expr",
+   "input": "lambda: (lambda: 1)",
+   "output": "lambda: lambda: 1",
+   "idempotent": true
+  },
+  {
+   "id": 456,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(lambda: 1)()",
+   "output": "(lambda: 1)()",
+   "idempotent": true
+  },
+  {
+   "id": 457,
+   "category": "extra",
+   "kind": "expr",
+   "input": "[lambda: 1]",
+   "output": "[lambda: 1]",
+   "idempotent": true
+  },
+  {
+   "id": 458,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f(lambda x: x)",
+   "output": "f(lambda x: x)",
+   "idempotent": true
+  },
+  {
+   "id": 459,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f(x=lambda: 1)",
+   "output": "f(x=lambda: 1)",
+   "idempotent": true
+  },
+  {
+   "id": 460,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a[lambda: 1]",
+   "output": "a[lambda: 1]",
+   "idempotent": true
+  },
+  {
+   "id": 461,
+   "category": "extra",
+   "kind": "expr",
+   "input": "not a in b",
+   "output": "not a in b",
+   "idempotent": true
+  },
+  {
+   "id": 462,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a not in b",
+   "output": "a not in b",
+   "idempotent": true
+  },
+  {
+   "id": 463,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a is (not b)",
+   "output": "a is (not b)",
+   "idempotent": true
+  },
+  {
+   "id": 464,
+   "category": "extra",
+   "kind": "expr",
+   "input": "a == (b := 1)",
+   "output": "a == (b := 1)",
+   "idempotent": true
+  },
+  {
+   "id": 465,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'a' 'b' f'{c}' 'd'",
+   "output": "f'ab{c}d'",
+   "idempotent": true
+  },
+  {
+   "id": 466,
+   "category": "extra",
+   "kind": "expr",
+   "input": "b'a' b'b'",
+   "output": "b'ab'",
+   "idempotent": true
+  },
+  {
+   "id": 467,
+   "category": "extra",
+   "kind": "expr",
+   "input": "rb'\\x00' b'\\x00'",
+   "output": "b'\\\\x00\\x00'",
+   "idempotent": true
+  },
+  {
+   "id": 468,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u00e9' 'é'",
+   "output": "'éé'",
+   "idempotent": true
+  },
+  {
+   "id": 469,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x:>{w}} {y}'",
+   "output": "f'{x:>{w}} {y}'",
+   "idempotent": true
+  },
+  {
+   "id": 470,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x}{{}}{y}'",
+   "output": "f'{x}{{}}{y}'",
+   "idempotent": true
+  },
+  {
+   "id": 471,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x}' '{'",
+   "output": "f'{x}{{'",
+   "idempotent": true
+  },
+  {
+   "id": 472,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'{' f'{x}'",
+   "output": "f'{{{x}'",
+   "idempotent": true
+  },
+  {
+   "id": 473,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{\"{\"}'",
+   "output": "f\"{'{'}\"",
+   "idempotent": true
+  },
+  {
+   "id": 474,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{d[\"{\"]}'",
+   "output": "f\"{d['{']}\"",
+   "idempotent": true
+  },
+  {
+   "id": 475,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{x!r:{y}}'",
+   "output": "f'{x!r:{y}}'",
+   "idempotent": true
+  },
+  {
+   "id": 476,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{{x}}'",
+   "output": "f'{{x}}'",
+   "idempotent": true
+  },
+  {
+   "id": 477,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'{{{{x}}}}'",
+   "output": "f'{{{{x}}}}'",
+   "idempotent": true
+  },
+  {
+   "id": 478,
+   "category": "extra",
+   "kind": "expr",
+   "input": "f'\\{{x}}'",
+   "output": "f'\\\\{{x}}'",
+   "idempotent": true
+  },
+  {
+   "id": 479,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\N{BULLET}'",
+   "output": "'•'",
+   "idempotent": true
+  },
+  {
+   "id": 480,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\N{bullet}'",
+   "output": "'•'",
+   "idempotent": true
+  },
+  {
+   "id": 481,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\N{LATIN SMALL LETTER A}'",
+   "output": "'a'",
+   "idempotent": true
+  },
+  {
+   "id": 482,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u0041'",
+   "output": "'A'",
+   "idempotent": true
+  },
+  {
+   "id": 483,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\x41'",
+   "output": "'A'",
+   "idempotent": true
+  },
+  {
+   "id": 484,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\101'",
+   "output": "'A'",
+   "idempotent": true
+  },
+  {
+   "id": 485,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\8'",
+   "output": "'\\\\8'",
+   "idempotent": true
+  },
+  {
+   "id": 486,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\9'",
+   "output": "'\\\\9'",
+   "idempotent": true
+  },
+  {
+   "id": 487,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\\n'",
+   "output": "''",
+   "idempotent": true
+  },
+  {
+   "id": 488,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'a\\\r\nb'",
+   "output": "'ab'",
+   "idempotent": true
+  },
+  {
+   "id": 489,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'tab\\x09'",
+   "output": "'tab\\t'",
+   "idempotent": true
+  },
+  {
+   "id": 490,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'nul\\0'",
+   "output": "'nul\\x00'",
+   "idempotent": true
+  },
+  {
+   "id": 491,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'del\\x7f'",
+   "output": "'del\\x7f'",
+   "idempotent": true
+  },
+  {
+   "id": 492,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u2028\\u2029'",
+   "output": "'\\u2028\\u2029'",
+   "idempotent": true
+  },
+  {
+   "id": 493,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\x85'",
+   "output": "'\\x85'",
+   "idempotent": true
+  },
+  {
+   "id": 494,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u0085'",
+   "output": "'\\x85'",
+   "idempotent": true
+  },
+  {
+   "id": 495,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\ufffe'",
+   "output": "'\\ufffe'",
+   "idempotent": true
+  },
+  {
+   "id": 496,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\U0010ffff'",
+   "output": "'\\U0010ffff'",
+   "idempotent": true
+  },
+  {
+   "id": 497,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\U0001F1E6\\U0001F1E8'",
+   "output": "'🇦🇨'",
+   "idempotent": true
+  },
+  {
+   "id": 498,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u200d'",
+   "output": "'\\u200d'",
+   "idempotent": true
+  },
+  {
+   "id": 499,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u0300'",
+   "output": "'̀'",
+   "idempotent": true
+  },
+  {
+   "id": 500,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'a\\u0300'",
+   "output": "'à'",
+   "idempotent": true
+  },
+  {
+   "id": 501,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u00ad'",
+   "output": "'\\xad'",
+   "idempotent": true
+  },
+  {
+   "id": 502,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u2060'",
+   "output": "'\\u2060'",
+   "idempotent": true
+  },
+  {
+   "id": 503,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u180e'",
+   "output": "'\\u180e'",
+   "idempotent": true
+  },
+  {
+   "id": 504,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u3164'",
+   "output": "'ㅤ'",
+   "idempotent": true
+  },
+  {
+   "id": 505,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\uffa0'",
+   "output": "'ﾠ'",
+   "idempotent": true
+  },
+  {
+   "id": 506,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\ue000'",
+   "output": "'\\ue000'",
+   "idempotent": true
+  },
+  {
+   "id": 507,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\U000F0000'",
+   "output": "'\\U000f0000'",
+   "idempotent": true
+  },
+  {
+   "id": 508,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\u0378'",
+   "output": "'\\u0378'",
+   "idempotent": true
+  },
+  {
+   "id": 509,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\U0002FA1E'",
+   "output": "'\\U0002fa1e'",
+   "idempotent": true
+  },
+  {
+   "id": 510,
+   "category": "extra",
+   "kind": "expr",
+   "input": "'\\U0002FA1F'",
+   "output": "'\\U0002fa1f'",
+   "idempotent": true
+  },
+  {
+   "id": 511,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0x0",
+   "output": "0",
+   "idempotent": true
+  },
+  {
+   "id": 512,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0o0",
+   "output": "0",
+   "idempotent": true
+  },
+  {
+   "id": 513,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0b0",
+   "output": "0",
+   "idempotent": true
+  },
+  {
+   "id": 514,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0_0_0",
+   "output": "0",
+   "idempotent": true
+  },
+  {
+   "id": 515,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1e0",
+   "output": "1.0",
+   "idempotent": true
+  },
+  {
+   "id": 516,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1e-0",
+   "output": "1.0",
+   "idempotent": true
+  },
+  {
+   "id": 517,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1.0e+0",
+   "output": "1.0",
+   "idempotent": true
+  },
+  {
+   "id": 518,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0e0",
+   "output": "0.0",
+   "idempotent": true
+  },
+  {
+   "id": 519,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0.0e-10",
+   "output": "0.0",
+   "idempotent": true
+  },
+  {
+   "id": 520,
+   "category": "extra",
+   "kind": "expr",
+   "input": "123456789.123456789",
+   "output": "123456789.12345679",
+   "idempotent": true
+  },
+  {
+   "id": 521,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0.1234567890123456789",
+   "output": "0.12345678901234568",
+   "idempotent": true
+  },
+  {
+   "id": 522,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1e22",
+   "output": "1e+22",
+   "idempotent": true
+  },
+  {
+   "id": 523,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1e23",
+   "output": "1e+23",
+   "idempotent": true
+  },
+  {
+   "id": 524,
+   "category": "extra",
+   "kind": "expr",
+   "input": "9007199254740993",
+   "output": "9007199254740993",
+   "idempotent": true
+  },
+  {
+   "id": 525,
+   "category": "extra",
+   "kind": "expr",
+   "input": "9007199254740993.0",
+   "output": "9007199254740992.0",
+   "idempotent": true
+  },
+  {
+   "id": 526,
+   "category": "extra",
+   "kind": "expr",
+   "input": "2.2250738585072014e-308",
+   "output": "2.2250738585072014e-308",
+   "idempotent": true
+  },
+  {
+   "id": 527,
+   "category": "extra",
+   "kind": "expr",
+   "input": "2.2250738585072009e-308",
+   "output": "2.225073858507201e-308",
+   "idempotent": true
+  },
+  {
+   "id": 528,
+   "category": "extra",
+   "kind": "expr",
+   "input": "4.9e-324",
+   "output": "5e-324",
+   "idempotent": true
+  },
+  {
+   "id": 529,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1.5e-323",
+   "output": "1.5e-323",
+   "idempotent": true
+  },
+  {
+   "id": 530,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1e-400",
+   "output": "0.0",
+   "idempotent": true
+  },
+  {
+   "id": 531,
+   "category": "extra",
+   "kind": "expr",
+   "input": "-0j",
+   "output": "-0j",
+   "idempotent": true
+  },
+  {
+   "id": 532,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0.0j",
+   "output": "0j",
+   "idempotent": true
+  },
+  {
+   "id": 533,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1e-7j",
+   "output": "1e-07j",
+   "idempotent": true
+  },
+  {
+   "id": 534,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1E+7J",
+   "output": "10000000j",
+   "idempotent": true
+  },
+  {
+   "id": 535,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0x1_0",
+   "output": "16",
+   "idempotent": true
+  },
+  {
+   "id": 536,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0o1_0",
+   "output": "8",
+   "idempotent": true
+  },
+  {
+   "id": 537,
+   "category": "extra",
+   "kind": "expr",
+   "input": "0b1_0",
+   "output": "2",
+   "idempotent": true
+  },
+  {
+   "id": 538,
+   "category": "extra",
+   "kind": "expr",
+   "input": "1_1.1_1e1_1",
+   "output": "1111000000000.0",
+   "idempotent": true
+  },
+  {
+   "id": 539,
+   "category": "extra",
+   "kind": "expr",
+   "input": "123456789012345678901234567890 + 1",
+   "output": "123456789012345678901234567890 + 1",
+   "idempotent": true
+  },
+  {
+   "id": 540,
+   "category": "extra",
+   "kind": "expr",
+   "input": "-123456789012345678901234567890",
+   "output": "-123456789012345678901234567890",
+   "idempotent": true
+  },
+  {
+   "id": 541,
+   "category": "extra",
+   "kind": "expr",
+   "input": "True + 1",
+   "output": "True + 1",
+   "idempotent": true
+  },
+  {
+   "id": 542,
+   "category": "extra",
+   "kind": "expr",
+   "input": "None is None",
+   "output": "None is None",
+   "idempotent": true
+  },
+  {
+   "id": 543,
+   "category": "extra",
+   "kind": "expr",
+   "input": "... is ...",
+   "output": "... is ...",
+   "idempotent": true
+  },
+  {
+   "id": 544,
+   "category": "extra",
+   "kind": "expr",
+   "input": "(...)[0]",
+   "output": "...[0]",
+   "idempotent": true
+  },
+  {
+   "id": 545,
+   "category": "extra",
+   "kind": "expr",
+   "input": "....__class__",
+   "output": "....__class__",
+   "idempotent": true
+  }
+ ]
+}

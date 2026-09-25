@@ -1,0 +1,1179 @@
+[
+  {
+    "name": "rich_package",
+    "docstring": {
+      "short_description": "A package that exercises every Python construct Folio documents.",
+      "long_description": "The package docstring keeps a longer description, an example and a note.",
+      "examples": [
+        ">>> from rich_package import compute\n>>> compute(2, 3)\n5"
+      ],
+      "notes": [
+        "Only the names in ``__all__`` are published from this module."
+      ]
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "compute",
+        "args": [
+          {
+            "name": "left",
+            "type": "int",
+            "default": null,
+            "description": "First number.",
+            "kind": "regular"
+          },
+          {
+            "name": "right",
+            "type": "int",
+            "default": "3",
+            "description": "Second number. Defaults to 3.",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The sum of both numbers."
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Add two integers.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/__init__.py",
+        "line_number": 22,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      }
+    ],
+    "constants": [
+      {
+        "name": "VERSION",
+        "type": "",
+        "value": "'1.0'",
+        "description": ""
+      }
+    ],
+    "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/__init__.py",
+    "language": "python",
+    "types": []
+  },
+  {
+    "name": "rich_package.core",
+    "docstring": {
+      "short_description": "Core module: constants, functions, decorators and a class with everything.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [
+      {
+        "name": "Base",
+        "bases": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "A base class.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "methods": [],
+        "class_vars": [],
+        "inner_classes": [],
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+        "line_number": 90
+      },
+      {
+        "name": "Widget",
+        "bases": [
+          "Base",
+          "Generic[T]"
+        ],
+        "decorators": [
+          "dataclass(frozen=True)"
+        ],
+        "docstring": {
+          "short_description": "A widget with fields, properties and nested classes.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "methods": [
+          {
+            "name": "__init__",
+            "args": [
+              {
+                "name": "name",
+                "type": "str",
+                "default": null,
+                "description": "The name.",
+                "kind": "regular"
+              },
+              {
+                "name": "size",
+                "type": "int",
+                "default": "0",
+                "description": "The size.",
+                "kind": "regular"
+              }
+            ],
+            "returns": {
+              "type": "None",
+              "description": ""
+            },
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Build a widget.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+            "line_number": 110,
+            "kind": "method",
+            "signature": "",
+            "visibility": ""
+          },
+          {
+            "name": "area",
+            "args": [],
+            "returns": {
+              "type": "float",
+              "description": "Width times height."
+            },
+            "raises": [],
+            "decorators": [
+              "property"
+            ],
+            "docstring": {
+              "short_description": "The area.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+            "line_number": 119,
+            "kind": "property",
+            "signature": "",
+            "visibility": ""
+          },
+          {
+            "name": "from_dict",
+            "args": [
+              {
+                "name": "data",
+                "type": "dict[str, Any]",
+                "default": null,
+                "description": "The mapping.",
+                "kind": "regular"
+              }
+            ],
+            "returns": {
+              "type": "'Widget'",
+              "description": ""
+            },
+            "raises": [],
+            "decorators": [
+              "classmethod"
+            ],
+            "docstring": {
+              "short_description": "Build from a mapping.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+            "line_number": 132,
+            "kind": "classmethod",
+            "signature": "",
+            "visibility": ""
+          },
+          {
+            "name": "validate",
+            "args": [
+              {
+                "name": "value",
+                "type": "object",
+                "default": null,
+                "description": "",
+                "kind": "regular"
+              }
+            ],
+            "returns": {
+              "type": "bool",
+              "description": ""
+            },
+            "raises": [],
+            "decorators": [
+              "staticmethod"
+            ],
+            "docstring": {
+              "short_description": "Validate a value.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+            "line_number": 141,
+            "kind": "staticmethod",
+            "signature": "",
+            "visibility": ""
+          },
+          {
+            "name": "refresh",
+            "args": [
+              {
+                "name": "force",
+                "type": "bool",
+                "default": "False",
+                "description": "",
+                "kind": "keyword_only"
+              }
+            ],
+            "returns": {
+              "type": "None",
+              "description": ""
+            },
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Refresh asynchronously.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": true,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+            "line_number": 145,
+            "kind": "method",
+            "signature": "",
+            "visibility": ""
+          },
+          {
+            "name": "label",
+            "args": [],
+            "returns": {
+              "type": "str",
+              "description": ""
+            },
+            "raises": [],
+            "decorators": [
+              "functools.cached_property"
+            ],
+            "docstring": {
+              "short_description": "Cached properties are plain methods.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+            "line_number": 149,
+            "kind": "method",
+            "signature": "",
+            "visibility": ""
+          }
+        ],
+        "class_vars": [
+          {
+            "name": "name",
+            "type": "str",
+            "value": "",
+            "description": "The widget name (merged into the class vars)."
+          },
+          {
+            "name": "size",
+            "type": "int",
+            "value": "0",
+            "description": "The size."
+          },
+          {
+            "name": "tags",
+            "type": "list[str]",
+            "value": "field(default_factory=list)",
+            "description": ""
+          },
+          {
+            "name": "plain",
+            "type": "",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "name": "label_text",
+            "type": "'str'",
+            "value": "'ab'",
+            "description": ""
+          }
+        ],
+        "inner_classes": [
+          {
+            "name": "Config",
+            "bases": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Nested configuration.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "methods": [],
+            "class_vars": [
+              {
+                "name": "learning_rate",
+                "type": "float",
+                "value": "0.001",
+                "description": ""
+              },
+              {
+                "name": "batch_size",
+                "type": "int",
+                "value": "32",
+                "description": ""
+              }
+            ],
+            "inner_classes": [
+              {
+                "name": "Deep",
+                "bases": [],
+                "decorators": [],
+                "docstring": {
+                  "short_description": "Deeply nested.",
+                  "long_description": "",
+                  "examples": [],
+                  "notes": []
+                },
+                "methods": [],
+                "class_vars": [
+                  {
+                    "name": "level",
+                    "type": "int",
+                    "value": "3",
+                    "description": ""
+                  }
+                ],
+                "inner_classes": [],
+                "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+                "line_number": 159
+              }
+            ],
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+            "line_number": 153
+          }
+        ],
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+        "line_number": 95
+      }
+    ],
+    "functions": [
+      {
+        "name": "connect",
+        "args": [
+          {
+            "name": "host",
+            "type": "str",
+            "default": null,
+            "description": "The hostname or IP address to connect to.",
+            "kind": "regular"
+          },
+          {
+            "name": "port",
+            "type": "int",
+            "default": "8080",
+            "description": "The port number. Defaults to 8080.",
+            "kind": "regular"
+          },
+          {
+            "name": "timeout",
+            "type": "float | None",
+            "default": "None",
+            "description": "Maximum time in seconds to wait for the connection.",
+            "kind": "keyword_only"
+          }
+        ],
+        "returns": {
+          "type": "'Connection'",
+          "description": "A Connection object representing the active connection."
+        },
+        "raises": [
+          {
+            "exception": "ConnectionError",
+            "description": "If the server is unreachable."
+          },
+          {
+            "exception": "ValueError",
+            "description": "If the host string is empty."
+          }
+        ],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Establish a connection to the remote server.",
+          "long_description": "Opens a TCP connection using the specified host and port. The connection\nwill be kept alive until explicitly closed or the timeout is reached.",
+          "examples": [
+            ">>> conn = connect(\"localhost\")\n>>> conn.is_alive()\nTrue"
+          ],
+          "notes": [
+            "This function does not support Unix domain sockets."
+          ]
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+        "line_number": 23,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "fetch",
+        "args": [
+          {
+            "name": "url",
+            "type": "str",
+            "default": null,
+            "description": "The URL to fetch.",
+            "kind": "regular"
+          },
+          {
+            "name": "retries",
+            "type": "int",
+            "default": "3",
+            "description": "How many attempts. Defaults to 3.",
+            "kind": "regular"
+          },
+          {
+            "name": "verify",
+            "type": "bool",
+            "default": "True",
+            "description": "Whether to verify certificates.",
+            "kind": "keyword_only"
+          }
+        ],
+        "returns": {
+          "type": "bytes",
+          "description": "Chunks of the body."
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Fetch a resource.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": true,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+        "line_number": 51,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "log",
+        "args": [
+          {
+            "name": "message",
+            "type": "str",
+            "default": null,
+            "description": "The log message template.",
+            "kind": "regular"
+          },
+          {
+            "name": "args",
+            "type": "Any",
+            "default": null,
+            "description": "Positional arguments for string formatting.",
+            "kind": "var_positional"
+          },
+          {
+            "name": "kwargs",
+            "type": "Any",
+            "default": null,
+            "description": "Additional keyword arguments passed to the logger.",
+            "kind": "var_keyword"
+          }
+        ],
+        "returns": {
+          "type": "None",
+          "description": ""
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Log a message with optional formatting arguments.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+        "line_number": 65,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "positional",
+        "args": [
+          {
+            "name": "a",
+            "type": "",
+            "default": null,
+            "description": "",
+            "kind": "positional_only"
+          },
+          {
+            "name": "b",
+            "type": "",
+            "default": null,
+            "description": "",
+            "kind": "positional_only"
+          },
+          {
+            "name": "c",
+            "type": "",
+            "default": "1",
+            "description": "",
+            "kind": "regular"
+          },
+          {
+            "name": "d",
+            "type": "",
+            "default": "'xy'",
+            "description": "",
+            "kind": "regular"
+          },
+          {
+            "name": "e",
+            "type": "",
+            "default": "(1,)",
+            "description": "",
+            "kind": "regular"
+          },
+          {
+            "name": "f",
+            "type": "",
+            "default": "lambda: None",
+            "description": "",
+            "kind": "regular"
+          }
+        ],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Positional-only parameters and assorted defaults.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+        "line_number": 75,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "cached",
+        "args": [
+          {
+            "name": "x",
+            "type": "int",
+            "default": null,
+            "description": "",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": ""
+        },
+        "raises": [],
+        "decorators": [
+          "functools.lru_cache(maxsize=None)"
+        ],
+        "docstring": {
+          "short_description": "A cached function keeps its decorator text.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+        "line_number": 80,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      }
+    ],
+    "constants": [
+      {
+        "name": "T",
+        "type": "",
+        "value": "TypeVar('T')",
+        "description": ""
+      },
+      {
+        "name": "MAX_RETRIES",
+        "type": "",
+        "value": "3",
+        "description": ""
+      },
+      {
+        "name": "DEFAULT_TIMEOUT",
+        "type": "float",
+        "value": "30.0",
+        "description": ""
+      },
+      {
+        "name": "A",
+        "type": "",
+        "value": "1",
+        "description": ""
+      },
+      {
+        "name": "B",
+        "type": "",
+        "value": "1",
+        "description": ""
+      },
+      {
+        "name": "logger",
+        "type": "Logger",
+        "value": "getLogger(__name__)",
+        "description": ""
+      },
+      {
+        "name": "NAMES",
+        "type": "",
+        "value": "['a', 'b', 255, 1000, 1000.0]",
+        "description": ""
+      },
+      {
+        "name": "FORWARD",
+        "type": "'list[str]'",
+        "value": "[]",
+        "description": ""
+      }
+    ],
+    "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/core.py",
+    "language": "python",
+    "types": []
+  },
+  {
+    "name": "rich_package.numpy_style",
+    "docstring": {
+      "short_description": "NumPy-style docstrings.",
+      "long_description": "",
+      "examples": [],
+      "notes": [
+        "The module note is a NumPy section too."
+      ]
+    },
+    "classes": [
+      {
+        "name": "Matrix",
+        "bases": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "A matrix.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "methods": [
+          {
+            "name": "walk",
+            "args": [
+              {
+                "name": "step",
+                "type": "int",
+                "default": "1",
+                "description": "Stride.",
+                "kind": "regular"
+              }
+            ],
+            "returns": {
+              "type": "Cell",
+              "description": "Each cell in turn."
+            },
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Walk the cells.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/numpy_style.py",
+            "line_number": 64,
+            "kind": "method",
+            "signature": "",
+            "visibility": ""
+          },
+          {
+            "name": "scale",
+            "args": [
+              {
+                "name": "factor",
+                "type": "",
+                "default": null,
+                "description": "The factor, default=2.",
+                "kind": "regular"
+              }
+            ],
+            "returns": null,
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "Scale in place.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/numpy_style.py",
+            "line_number": 84,
+            "kind": "method",
+            "signature": "",
+            "visibility": ""
+          }
+        ],
+        "class_vars": [
+          {
+            "name": "rows",
+            "type": "int",
+            "value": "0",
+            "description": "Row count."
+          }
+        ],
+        "inner_classes": [],
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/numpy_style.py",
+        "line_number": 53
+      }
+    ],
+    "functions": [
+      {
+        "name": "add",
+        "args": [
+          {
+            "name": "a",
+            "type": "int",
+            "default": null,
+            "description": "First operand.",
+            "kind": "regular"
+          },
+          {
+            "name": "b",
+            "type": "int",
+            "default": null,
+            "description": "Second operand, by default 0.",
+            "kind": "regular"
+          },
+          {
+            "name": "copy",
+            "type": "bool",
+            "default": "True",
+            "description": "Whether to copy.",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The sum."
+        },
+        "raises": [
+          {
+            "exception": "ValueError",
+            "description": "If the operands do not add."
+          },
+          {
+            "exception": "UserWarning",
+            "description": "When the result overflows."
+          }
+        ],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Add two numbers.",
+          "long_description": "**See also:** Matrix : the class below.",
+          "examples": [
+            ">>> add(2, 3)\n5\nProse after the snippet."
+          ],
+          "notes": [
+            "Addition is commutative."
+          ]
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/numpy_style.py",
+        "line_number": 9,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      }
+    ],
+    "constants": [],
+    "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/numpy_style.py",
+    "language": "python",
+    "types": []
+  },
+  {
+    "name": "rich_package.rest_style",
+    "docstring": {
+      "short_description": "ReST fields, epydoc fields, a malformed docstring and docstring-only returns.",
+      "long_description": "",
+      "examples": [],
+      "notes": [
+        "A module-level rest note."
+      ]
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "read",
+        "args": [
+          {
+            "name": "path",
+            "type": "str",
+            "default": null,
+            "description": "Location to read.",
+            "kind": "regular"
+          },
+          {
+            "name": "encoding",
+            "type": "str",
+            "default": "'utf-8'",
+            "description": "The encoding, defaults to 'utf-8'.",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "The file contents."
+        },
+        "raises": [
+          {
+            "exception": "IOError",
+            "description": "when the file cannot be read."
+          }
+        ],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Read a file.",
+          "long_description": "",
+          "examples": [],
+          "notes": [
+            "Reads the whole file into memory."
+          ]
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 7,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "epydoc_fields",
+        "args": [
+          {
+            "name": "x",
+            "type": "int",
+            "default": null,
+            "description": "the x",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "str",
+          "description": "the result"
+        },
+        "raises": [
+          {
+            "exception": "ValueError",
+            "description": "when x is bad"
+          }
+        ],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Epydoc markers decide ``auto``.",
+          "long_description": "",
+          "examples": [],
+          "notes": [
+            "an epydoc note"
+          ]
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 21,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "broken_google",
+        "args": [
+          {
+            "name": "x",
+            "type": "",
+            "default": null,
+            "description": "",
+            "kind": "regular"
+          }
+        ],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Summary line.",
+          "long_description": "More prose.\n\nArgs:\n    x no colon here",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 33,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "docstring_only_returns",
+        "args": [],
+        "returns": {
+          "type": "",
+          "description": "the thing"
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Returns without a type or annotation.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 43,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "returns_then_yields",
+        "args": [],
+        "returns": {
+          "type": "int",
+          "description": "first"
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Only the first returns-like section counts.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 51,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "empty_docstring",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 62,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "whitespace_docstring",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 66,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      },
+      {
+        "name": "not_a_docstring",
+        "args": [],
+        "returns": null,
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+        "line_number": 70,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      }
+    ],
+    "constants": [],
+    "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/rest_style.py",
+    "language": "python",
+    "types": []
+  },
+  {
+    "name": "rich_package.sub",
+    "docstring": {
+      "short_description": "",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [],
+    "constants": [],
+    "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/sub/__init__.py",
+    "language": "python",
+    "types": []
+  },
+  {
+    "name": "rich_package.sub.deep",
+    "docstring": {
+      "short_description": "A subpackage module: scope rules and a tuple ``__all__``.",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [
+      {
+        "name": "Shape",
+        "bases": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "A shape.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "methods": [
+          {
+            "name": "perimeter",
+            "args": [
+              {
+                "name": "unit",
+                "type": "str",
+                "default": "'cm'",
+                "description": "The unit. Defaults to cm.",
+                "kind": "regular"
+              }
+            ],
+            "returns": {
+              "type": "str",
+              "description": ""
+            },
+            "raises": [],
+            "decorators": [],
+            "docstring": {
+              "short_description": "The perimeter.",
+              "long_description": "",
+              "examples": [],
+              "notes": []
+            },
+            "is_async": false,
+            "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/sub/deep.py",
+            "line_number": 42,
+            "kind": "method",
+            "signature": "",
+            "visibility": ""
+          }
+        ],
+        "class_vars": [
+          {
+            "name": "sides",
+            "type": "",
+            "value": "3",
+            "description": ""
+          },
+          {
+            "name": "kind",
+            "type": "str",
+            "value": "'triangle'",
+            "description": ""
+          }
+        ],
+        "inner_classes": [],
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/sub/deep.py",
+        "line_number": 33
+      }
+    ],
+    "functions": [
+      {
+        "name": "visible",
+        "args": [
+          {
+            "name": "items",
+            "type": "list[str] | None",
+            "default": "None",
+            "description": "Names to count.",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "dict[str, int]",
+          "description": "A mapping from name to count."
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Only direct children of the module body are published.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/sub/deep.py",
+        "line_number": 16,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      }
+    ],
+    "constants": [],
+    "source_file": "crates/folio-lang-python/tests/fixtures/rich_package/sub/deep.py",
+    "language": "python",
+    "types": []
+  }
+]

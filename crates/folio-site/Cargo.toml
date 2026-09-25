@@ -1,0 +1,27 @@
+[package]
+name = "folio-site"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+build = "build.rs"
+
+[dependencies]
+folio-config = { path = "../folio-config" }
+folio-mdx = { path = "../folio-mdx" }
+folio-plugins = { path = "../folio-plugins" }
+flate2.workspace = true
+indexmap.workspace = true
+regex.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+sha2.workspace = true
+tempfile.workspace = true
+thiserror.workspace = true
+
+[build-dependencies]
+sha2.workspace = true
+
+[dev-dependencies]

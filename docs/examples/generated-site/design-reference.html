@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Generated site example</title>
+    <style>
+      :root {
+        --background: oklch(0.966 0.008 82);
+        --foreground: oklch(0.155 0.007 82);
+        --card: oklch(0.976 0.007 82);
+        --muted: oklch(0.920 0.007 82);
+        --muted-foreground: oklch(0.420 0.007 82);
+        --accent: oklch(0.875 0.026 110);
+        --border: oklch(0.740 0.007 82);
+        --primary: oklch(0.315 0.050 145);
+        --primary-foreground: oklch(0.966 0.008 82);
+        --popover: oklch(0.982 0.006 82);
+        --popover-foreground: oklch(0.155 0.007 82);
+        --ring: oklch(0.520 0.070 145);
+        --radius: 0.5rem;
+        --chart-3: oklch(0.620 0.080 130);
+        --chart-4: oklch(0.560 0.120 36);
+        --chart-5: oklch(0.360 0.052 250);
+        --heading-font-family: ui-sans-serif, system-ui, sans-serif;
+        --body-font-family: ui-sans-serif, system-ui, sans-serif;
+        --code-font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        color: var(--foreground);
+        background:
+          linear-gradient(135deg, color-mix(in oklch, var(--accent) 70%, transparent), transparent 34%),
+          linear-gradient(180deg, var(--background), color-mix(in oklch, var(--muted) 42%, var(--background)));
+        font: 15px/1.55 var(--body-font-family);
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .folio-example-shell {
+        min-height: 100vh;
+        padding: 22px;
+      }
+
+      .site {
+        position: relative;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        min-height: calc(100vh - 44px);
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: color-mix(in oklch, var(--card) 96%, transparent);
+        box-shadow: 0 24px 72px -54px color-mix(in oklch, var(--foreground) 55%, transparent);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 44px;
+        border-bottom: 1px solid var(--border);
+        padding: 0 14px;
+        background: color-mix(in oklch, var(--muted) 66%, transparent);
+        color: var(--muted-foreground);
+        font-family: var(--code-font-family);
+        font-size: 12px;
+      }
+
+      .theme-sync-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid var(--border);
+        background: color-mix(in oklch, var(--background) 84%, var(--accent));
+        color: var(--foreground);
+        padding: 5px 8px;
+      }
+
+      .sync-dot {
+        width: 9px;
+        height: 9px;
+        border: 1px solid color-mix(in oklch, var(--foreground) 36%, transparent);
+        background: linear-gradient(135deg, var(--primary), var(--chart-3));
+      }
+
+      .mark {
+        display: grid;
+        place-items: center;
+        width: 24px;
+        height: 24px;
+        background: var(--foreground);
+        color: var(--background);
+        font-weight: 800;
+      }
+
+      .search {
+        margin-left: auto;
+        border: 1px solid var(--border);
+        background: var(--background);
+        padding: 5px 8px;
+      }
+
+      .floating-theme {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        z-index: 4;
+        display: grid;
+        justify-items: end;
+        gap: 8px;
+      }
+
+      .floating-theme-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 38px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        box-shadow: 0 18px 48px -30px color-mix(in oklch, var(--foreground) 72%, transparent);
+        cursor: pointer;
+        padding: 0 13px 0 10px;
+        font-family: var(--code-font-family);
+        font-size: 12px;
+      }
+
+      .floating-theme-button:focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+      }
+
+      .floating-swatch {
+        display: grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        border: 1px solid color-mix(in oklch, var(--primary-foreground) 58%, transparent);
+        border-radius: 50%;
+        background:
+          linear-gradient(135deg, var(--accent), var(--primary) 58%, var(--chart-5));
+      }
+
+      .floating-panel {
+        width: min(220px, calc(100vw - 72px));
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--popover);
+        color: var(--popover-foreground);
+        box-shadow: 0 24px 72px -44px color-mix(in oklch, var(--foreground) 70%, transparent);
+        padding: 12px;
+        transform: translateY(6px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms ease, transform 160ms ease;
+      }
+
+      .floating-theme[data-open="true"] .floating-panel {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .floating-panel strong {
+        display: block;
+        font-size: 13px;
+      }
+
+      .floating-panel span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted-foreground);
+        font-size: 12px;
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: 188px minmax(0, 1fr);
+        min-height: 0;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border-right: 1px solid var(--border);
+        background:
+          linear-gradient(180deg, color-mix(in oklch, var(--accent) 42%, transparent), transparent 40%),
+          color-mix(in oklch, var(--muted) 70%, transparent);
+        padding: 14px;
+      }
+
+      .nav-label {
+        margin: 2px 0 6px;
+        color: var(--muted-foreground);
+        font: 12px/1 var(--code-font-family);
+      }
+
+      .nav-button {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--muted-foreground);
+        cursor: pointer;
+        padding: 8px 9px;
+        text-align: left;
+      }
+
+      .nav-button[data-active="true"] {
+        border-color: var(--border);
+        background: var(--background);
+        color: var(--foreground);
+      }
+
+      .nav-button span:last-child {
+        font-family: var(--code-font-family);
+        font-size: 12px;
+      }
+
+      .content {
+        min-width: 0;
+        overflow: auto;
+        padding: clamp(24px, 5vw, 54px);
+      }
+
+      .page-panel {
+        display: none;
+        max-width: 760px;
+      }
+
+      .page-panel[data-active="true"] {
+        display: block;
+      }
+
+      .eyebrow {
+        margin-bottom: 14px;
+        color: var(--muted-foreground);
+        font: 12px/1 var(--code-font-family);
+      }
+
+      h1 {
+        margin: 0;
+        font-family: var(--heading-font-family);
+        font-size: clamp(38px, 8vw, 72px);
+        line-height: 0.92;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-family: var(--heading-font-family);
+        font-size: clamp(28px, 5vw, 46px);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      p {
+        max-width: 62ch;
+        color: var(--muted-foreground);
+      }
+
+      .command {
+        display: inline-flex;
+        margin-top: 14px;
+        background: var(--foreground);
+        color: var(--background);
+        padding: 12px 14px;
+        font-family: var(--code-font-family);
+      }
+
+      .visual-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .tile {
+        min-height: 112px;
+        border: 1px solid var(--border);
+        background:
+          linear-gradient(180deg, color-mix(in oklch, var(--accent) 64%, transparent), transparent),
+          var(--background);
+        padding: 13px;
+      }
+
+      .tile strong {
+        display: block;
+        font-size: 22px;
+        line-height: 1;
+      }
+
+      .tile span {
+        color: var(--muted-foreground);
+        font-size: 13px;
+      }
+
+      .steps {
+        display: grid;
+        gap: 12px;
+        margin-top: 24px;
+      }
+
+      .step {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 12px;
+        align-items: start;
+        border: 1px solid var(--border);
+        background: var(--background);
+        padding: 13px;
+      }
+
+      .num {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        background: var(--foreground);
+        color: var(--background);
+        font: 700 13px/1 var(--code-font-family);
+      }
+
+      .code-window {
+        margin-top: 22px;
+        border: 1px solid var(--border);
+        background: color-mix(in oklch, var(--muted) 68%, var(--card));
+      }
+
+      .code-head {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border);
+        padding: 10px 12px;
+        color: var(--muted-foreground);
+        font: 12px/1 var(--code-font-family);
+      }
+
+      pre {
+        margin: 0;
+        overflow: auto;
+        padding: 16px;
+        font: 13px/1.7 var(--code-font-family);
+      }
+
+      .api-card,
+      .component-card {
+        border: 1px solid var(--border);
+        background:
+          linear-gradient(90deg, color-mix(in oklch, var(--accent) 58%, transparent), transparent),
+          var(--background);
+        padding: 16px;
+        margin-top: 18px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      td {
+        border-top: 1px solid color-mix(in oklch, var(--border) 72%, transparent);
+        padding: 9px 0;
+      }
+
+      td:first-child {
+        width: 96px;
+        color: var(--chart-5);
+        font-family: var(--code-font-family);
+      }
+
+      .component-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .component-card {
+        min-height: 128px;
+        margin-top: 0;
+      }
+
+      .meter {
+        height: 9px;
+        margin-top: 14px;
+        background: linear-gradient(90deg, var(--chart-3), var(--chart-4), var(--chart-5));
+      }
+
+      @media (max-width: 740px) {
+        .workspace { grid-template-columns: 1fr; }
+        .sidebar {
+          border-right: 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .visual-grid,
+        .component-row {
+          grid-template-columns: 1fr;
+        }
+        .floating-theme {
+          right: 12px;
+          bottom: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body data-folio-example="generated-site">
+    <div class="folio-example-shell">
+      <section class="site">
+        <header class="topbar">
+          <span class="mark">F</span>
+          <span>example docs</span>
+          <span class="search">Search documentation...</span>
+          <span class="theme-sync-pill" data-theme-sync="true"><span class="sync-dot"></span><span>Theme synced</span></span>
+        </header>
+        <div class="workspace">
+          <nav class="sidebar" aria-label="Example pages">
+            <div class="nav-label">Generated pages</div>
+            <button class="nav-button" type="button" data-page-nav="landing" data-active="true"><span>Landing</span><span>/</span></button>
+            <button class="nav-button" type="button" data-page-nav="guide"><span>Guide</span><span>/docs</span></button>
+            <button class="nav-button" type="button" data-page-nav="cli"><span>CLI</span><span>serve</span></button>
+            <button class="nav-button" type="button" data-page-nav="config"><span>Config</span><span>yaml</span></button>
+            <button class="nav-button" type="button" data-page-nav="api"><span>API</span><span>add</span></button>
+            <button class="nav-button" type="button" data-page-nav="components"><span>Components</span><span>mdx</span></button>
+          </nav>
+          <main class="content folio-example-visual">
+            <section class="page-panel" data-page-panel="landing" data-active="true">
+              <div class="eyebrow">Generated from docs.yaml</div>
+              <h1>Example docs</h1>
+              <p>This sample documentation site shows the shape of generated output. Replace the placeholder package, guides, and source paths with your real project.</p>
+              <span class="command">uv add example-package</span>
+              <div class="visual-grid">
+                <div class="tile"><strong>3</strong><span>Guide pages</span></div>
+                <div class="tile"><strong>8</strong><span>API objects</span></div>
+                <div class="tile"><strong>1</strong><span>Static site</span><div class="meter"></div></div>
+              </div>
+            </section>
+
+            <section class="page-panel" data-page-panel="guide">
+              <div class="eyebrow">Docs / Guide</div>
+              <h2>Guide overview</h2>
+              <p>Markdown files become navigable documentation pages with clean hierarchy and source-shaped structure.</p>
+              <div class="steps">
+                <div class="step"><span class="num">1</span><span><strong>Install</strong><br />Add the package and CLI.</span></div>
+                <div class="step"><span class="num">2</span><span><strong>Configure</strong><br />Point Folio at docs and Python source.</span></div>
+                <div class="step"><span class="num">3</span><span><strong>Publish</strong><br />Export a static Nextra site.</span></div>
+              </div>
+            </section>
+
+            <section class="page-panel" data-page-panel="cli">
+              <div class="eyebrow">Reference / CLI</div>
+              <h2>folio serve</h2>
+              <p>Build the docs and start a local preview server with the same command you will use while editing.</p>
+              <div class="code-window">
+                <div class="code-head"><span>terminal</span><span>local preview</span></div>
+                <pre><code>folio serve --port 4321
+Scanning Python source...
+Generating pages...
+Ready at localhost:4321</code></pre>
+              </div>
+            </section>
+
+            <section class="page-panel" data-page-panel="config">
+              <div class="eyebrow">Configuration</div>
+              <h2>One file, visible output</h2>
+              <p>The config connects Python source, Markdown guides, plugins, and static output.</p>
+              <div class="code-window">
+                <div class="code-head"><span>docs.yaml</span><span>source map</span></div>
+                <pre><code>source:
+  python:
+    paths:
+      - "src/example_package"
+  docs:
+    - "docs"</code></pre>
+              </div>
+            </section>
+
+            <section class="page-panel" data-page-panel="api">
+              <div class="eyebrow">API / example_package.arithmetic</div>
+              <h2>add</h2>
+              <div class="api-card">
+                <pre><code>add(left: int, right: int) -&gt; int</code></pre>
+                <table aria-label="Parameters">
+                  <tr><td>left</td><td>First number.</td></tr>
+                  <tr><td>right</td><td>Second number.</td></tr>
+                  <tr><td>returns</td><td>The sum of both numbers.</td></tr>
+                </table>
+              </div>
+            </section>
+
+            <section class="page-panel" data-page-panel="components">
+              <div class="eyebrow">MDX components</div>
+              <h2>Useful pieces, small surface</h2>
+              <div class="component-row">
+                <div class="component-card"><strong>Callout</strong><p>Use components where prose needs a clearer shape.</p></div>
+                <div class="component-card"><strong>Code</strong><pre><code>add(2, 3)</code></pre></div>
+                <div class="component-card"><strong>Tabs</strong><p>Show variants without turning the guide into an app.</p></div>
+              </div>
+            </section>
+          </main>
+        </div>
+        <div class="floating-theme" data-floating-action="theme" data-open="false">
+          <div class="floating-panel" role="status">
+            <strong>Customize appearance</strong>
+            <span>Synced from the parent docs theme.</span>
+          </div>
+          <button class="floating-theme-button" type="button" aria-expanded="false" aria-label="Customize appearance" title="Customize appearance">
+            <span class="floating-swatch"></span>
+            <span>Theme</span>
+          </button>
+        </div>
+      </section>
+    </div>
+    <script>
+      const buttons = Array.from(document.querySelectorAll("[data-page-nav]"));
+      const panels = Array.from(document.querySelectorAll("[data-page-panel]"));
+      const floatingTheme = document.querySelector("[data-floating-action='theme']");
+      const floatingThemeButton = floatingTheme?.querySelector("button");
+
+      for (const button of buttons) {
+        button.addEventListener("click", () => {
+          const page = button.getAttribute("data-page-nav");
+          for (const item of buttons) {
+            item.dataset.active = String(item === button);
+          }
+          for (const panel of panels) {
+            panel.dataset.active = String(panel.getAttribute("data-page-panel") === page);
+          }
+        });
+      }
+
+      floatingThemeButton?.addEventListener("click", () => {
+        const nextOpen = floatingTheme.dataset.open !== "true";
+        floatingTheme.dataset.open = String(nextOpen);
+        floatingThemeButton.setAttribute("aria-expanded", String(nextOpen));
+      });
+    </script>
+  </body>
+</html>

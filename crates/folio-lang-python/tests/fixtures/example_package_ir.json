@@ -1,0 +1,70 @@
+[
+  {
+    "name": "example_package",
+    "docstring": {
+      "short_description": "",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [],
+    "constants": [],
+    "source_file": "docs/examples/generated-site/src/example_package/__init__.py",
+    "language": "python",
+    "types": []
+  },
+  {
+    "name": "example_package.arithmetic",
+    "docstring": {
+      "short_description": "",
+      "long_description": "",
+      "examples": [],
+      "notes": []
+    },
+    "classes": [],
+    "functions": [
+      {
+        "name": "add",
+        "args": [
+          {
+            "name": "left",
+            "type": "int",
+            "default": null,
+            "description": "First number.",
+            "kind": "regular"
+          },
+          {
+            "name": "right",
+            "type": "int",
+            "default": null,
+            "description": "Second number.",
+            "kind": "regular"
+          }
+        ],
+        "returns": {
+          "type": "int",
+          "description": "The sum of both numbers."
+        },
+        "raises": [],
+        "decorators": [],
+        "docstring": {
+          "short_description": "Add two integers.",
+          "long_description": "",
+          "examples": [],
+          "notes": []
+        },
+        "is_async": false,
+        "source_file": "docs/examples/generated-site/src/example_package/arithmetic.py",
+        "line_number": 1,
+        "kind": "function",
+        "signature": "",
+        "visibility": ""
+      }
+    ],
+    "constants": [],
+    "source_file": "docs/examples/generated-site/src/example_package/arithmetic.py",
+    "language": "python",
+    "types": []
+  }
+]
