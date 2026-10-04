@@ -11,7 +11,7 @@ interface HookMapProps {
 
 export function HookMap({ title = "Extension lifecycle", hooks }: HookMapProps) {
   return (
-    <section className="my-6 rounded-lg border border-border bg-card">
+    <section data-slot="hook-map" className="my-6 rounded-lg border border-border bg-card">
       <div className="border-b border-border px-4 py-3">
         <h3 className="m-0 text-base font-semibold text-foreground">{title}</h3>
       </div>
@@ -19,9 +19,10 @@ export function HookMap({ title = "Extension lifecycle", hooks }: HookMapProps) 
         {hooks.map((item, index) => (
           <li
             key={`${item.stage}-${item.hook}`}
+            data-slot="hook-map-item"
             className="grid gap-3 px-4 py-3 text-sm md:grid-cols-[2.5rem_minmax(9rem,0.8fr)_1fr]"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
+            <span data-slot="hook-map-marker" className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">
               {index + 1}
             </span>
             <div>

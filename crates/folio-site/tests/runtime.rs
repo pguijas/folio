@@ -127,7 +127,7 @@ fn install_deps_patches_the_nextra_loader_once() {
             .installed
     );
     let patched = common::read(&loader);
-    assert_eq!(patched, "const isGeneratedFolioContent = resourcePath.includes(`${CWD}/content/`);\n  const lastCommitTime = IS_PRODUCTION ? isGeneratedFolioContent ? void 0 : await getLastCommitTime(resourcePath) : NOW;\n");
+    assert_eq!(patched, "const isGeneratedFolioContent = resourcePath.includes(`${CWD}/content/`);\n  const lastCommitTime = IS_PRODUCTION && !isGeneratedFolioContent ? await getLastCommitTime(resourcePath) : void 0;\n");
     assert_eq!(
         common::read(&schema),
         "x = { children: reactNode.optional(), other: 1 }\n"
@@ -136,6 +136,25 @@ fn install_deps_patches_the_nextra_loader_once() {
         .install_deps(&template, &build, &mut |_| {})
         .unwrap();
     assert_eq!(common::read(&loader), patched);
+
+    // A loader patched by an earlier release stops stamping dev pages too.
+    common::write(
+        &build,
+        "node_modules/nextra/dist/server/loader.js",
+        "const isGeneratedFolioContent = resourcePath.includes(`${CWD}/content/`);\n  const lastCommitTime = IS_PRODUCTION ? isGeneratedFolioContent ? void 0 : await getLastCommitTime(resourcePath) : NOW;\n",
+    );
+    runtime(&pnpm)
+        .install_deps(&template, &build, &mut |_| {})
+        .unwrap();
+    assert_eq!(common::read(&loader), patched);
+
+    // A loader in any other state is left as it is.
+    let other = "const isGeneratedFolioContent = false;\n  const lastCommitTime = NOW;\n";
+    common::write(&build, "node_modules/nextra/dist/server/loader.js", other);
+    runtime(&pnpm)
+        .install_deps(&template, &build, &mut |_| {})
+        .unwrap();
+    assert_eq!(common::read(&loader), other);
 }
 
 #[test]

@@ -88,7 +88,7 @@ $ folio init
                 ╰──────────────────────────────────────────────╯
 
 ✔ Docstring style › auto
-✔ Visual preset   › organic-editorial
+✔ Visual preset   › pastel
 
   ✔ Created docs.yaml
   ✔ Created docs/index.md
@@ -96,6 +96,8 @@ $ folio init
   ✔ Created .github/workflows/branch-previews.yml
   Next folio serve
 ```
+
+The default visual preset is Folio Pastel with Ink. Roller remains an explicit choice.
 
 With `--yes` there are no questions: the created files and the next commands are listed in a `Ready` panel, which suggests `folio coverage` only when a Python source was detected.
 

@@ -9,14 +9,14 @@ export function TypeBadge({ type, href }: TypeBadgeProps) {
   if (href) {
     return (
       <a href={href} className="no-underline">
-        <Badge variant="secondary" className="font-mono text-xs">
+        <Badge data-slot="type-badge" variant="secondary" className="font-mono text-xs">
           {type}
         </Badge>
       </a>
     )
   }
   return (
-    <Badge variant="secondary" className="font-mono text-xs">
+    <Badge data-slot="type-badge" variant="secondary" className="font-mono text-xs">
       {type}
     </Badge>
   )

@@ -53,3 +53,26 @@ Collapsible content sections for organizing information into expandable panels. 
 </Accordion>
 
 </PreviewCode>
+
+## Markdown details
+
+For a single section, a plain `<details>` element with a `<summary>` collapses too, with no import.
+
+<PreviewCode>
+
+````mdx
+<details>
+  <summary>Do I need to import anything?</summary>
+
+  No. `<details>` and `<summary>` are HTML elements, and Folio
+  renders them as a collapsible section.
+</details>
+````
+
+<details>
+  <summary>Do I need to import anything?</summary>
+
+  No. `<details>` and `<summary>` are HTML elements, and Folio renders them as a collapsible section.
+</details>
+
+</PreviewCode>

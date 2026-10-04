@@ -129,5 +129,75 @@ fn generated_site_example_exports_end_to_end() {
         home.contains("src=\"../../_next/") || home.contains("src=\"./_next/"),
         "relative chunk srcs expected"
     );
+    // The Nextra classes `template/lib/nextra-dom.ts` finds its hooks by. A
+    // Nextra upgrade that renames one fails here, not silently in a browser.
+    for class in ["nextra-code", "nextra-hamburger", "nextra-mobile-nav"] {
+        let renders = home
+            .split(|c: char| c == '"' || c.is_whitespace())
+            .any(|token| token == class);
+        assert!(renders, "{class} no longer renders");
+    }
+    // The search results reach the page only once a search opens, and the
+    // template's own chunks name the class, so it is looked for in Nextra.
+    // The same holds for headless-ui's portal root, which holds them.
+    let ships = |dist: &Path, needle: &str| {
+        folio_site::fs::files_under(dist)
+            .iter()
+            .filter(|path| {
+                path.extension()
+                    .is_some_and(|ext| ext == "js" || ext == "cjs" || ext == "css")
+            })
+            .any(|path| {
+                std::fs::read_to_string(path)
+                    .unwrap_or_default()
+                    .contains(needle)
+            })
+    };
+    let nextra = build_dir.join("node_modules/nextra/dist");
+    assert!(
+        ships(&nextra, "\"nextra-search-results\""),
+        "nextra-search-results no longer renders"
+    );
+    let theme_package = build_dir.join("node_modules/nextra-theme-docs");
+    // headless-ui is nextra-theme-docs' dependency, so it resolves from there.
+    let headless = std::fs::canonicalize(&theme_package)
+        .expect("nextra-theme-docs installed")
+        .parent()
+        .expect("inside node_modules")
+        .join("@headlessui/react/dist");
+    assert!(
+        ships(&headless, "\"headlessui-portal-root\""),
+        "headlessui-portal-root no longer renders"
+    );
+    let theme = theme_package.join("dist");
+    let holds = |file: &str, needle: &str| {
+        std::fs::read_to_string(theme.join(file))
+            .unwrap_or_default()
+            .contains(needle)
+    };
+    // The drawer closes at Nextra's `md`: the mobile menu hides through
+    // `x:md:hidden`, and that utility is a `(width >= 48rem)` query.
+    let style: String = std::fs::read_to_string(theme.join("style.css"))
+        .unwrap_or_default()
+        .split_whitespace()
+        .collect();
+    assert!(
+        holds("components/sidebar.js", "\"nextra-mobile-nav\"")
+            && holds("components/sidebar.js", "\"x:md:hidden\"")
+            && style.contains(".x\\:md\\:hidden{@media(width>=48rem){display:none"),
+        "Nextra's mobile menu no longer hides at 48rem"
+    );
+    // The Nextra utility classes the docs CSS selects on, where Nextra gives
+    // the element no class or attribute of its own: the Collapse that opens a
+    // folder (shell.css, and the drawer in globals.css), the current table of
+    // contents entry (shell.css) and the Details behind an MDX `<details>`
+    // (disclosure.css). Renamed, those rules would stop matching silently.
+    for class in ["x:transform-gpu", "x:not-first:mt-4"] {
+        assert!(ships(&nextra, class), "{class} no longer renders");
+    }
+    assert!(
+        holds("components/toc.js", "x:text-primary-600"),
+        "x:text-primary-600 no longer renders"
+    );
     assert!(build_dir.join(".folio-build.log").is_file() && !export.output_lines.is_empty());
 }

@@ -111,12 +111,15 @@ pub static DOC_PAGE_ORDER: &[OrderEntry] = &[
             Page("pull-quote", "PullQuote"),
             Page("compare-matrix", "CompareMatrix"),
             Page("swot", "Swot"),
+            Page("kbd", "Kbd"),
+            Page("marker", "Marker"),
+            Page("term", "Term"),
             Page("class-overview", "ClassOverview"),
             Page("method-accordion", "MethodAccordion"),
             Page("param-table", "ParamTable"),
             Page("type-badge", "TypeBadge"),
             Page("deprecation-notice", "DeprecationNotice"),
-            Page("theme-configurator", "ThemeConfigurator"),
+            Page("theme-configurator", "Theme picker"),
             Page("copy-page-button", "Page Actions"),
         ],
     ),
@@ -510,15 +513,11 @@ fn generate_meta_from_tree(
     tree: &IndexMap<String, Tree>,
     prefix: &str,
     result: &mut BTreeMap<String, String>,
-    include_index: bool,
     default_collapsed: bool,
     leading: &Meta,
     titles: &BTreeMap<String, String>,
 ) {
     let mut meta = Meta::new();
-    if include_index {
-        meta.insert("index".to_string(), hidden());
-    }
     for (key, value) in leading {
         meta.insert(key.clone(), value.clone());
     }
@@ -531,7 +530,6 @@ fn generate_meta_from_tree(
                     children,
                     &format!("{prefix}/{key}"),
                     result,
-                    false,
                     default_collapsed,
                     &Meta::new(),
                     titles,
@@ -576,7 +574,6 @@ pub fn generate_meta_files(input: &SidebarInput) -> BTreeMap<String, String> {
             &tree,
             SOURCE_CODE_SLUG,
             &mut result,
-            true,
             input.default_collapsed,
             &leading,
             &titles,

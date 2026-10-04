@@ -5,14 +5,18 @@ import { Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { useTheme } from "next-themes"
 
+import { ThemeGallery } from "@/components/theme-gallery"
 import {
   GitHubMark,
   isGitHubHref,
   normalizeLandingHref,
 } from "@/components/landing/actions"
+import { switchScheme } from "@/lib/scheme-transition"
 
 const projectName = __PROJECT_NAME_JSON__
 const projectMonogram = __PROJECT_MONOGRAM_JSON__
+/* Root-relative URL of `theme.logo`, or null: the monogram is the fallback. */
+const projectLogo: string | null = __PROJECT_LOGO_JSON__
 const secondaryCtaText = __LANDING_CTA_SECONDARY_TEXT_JSON__
 const secondaryCtaLink: string | null = __LANDING_CTA_SECONDARY_LINK_JSON__
 /* The navbar always points at the docs — the hero owns the configured CTA. */
@@ -44,9 +48,12 @@ function ThemeToggle() {
   return (
     <button
       type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
+      onClick={(event) =>
+        switchScheme(setTheme, isDark ? "light" : "dark", event.currentTarget)
+      }
       aria-label="Toggle theme"
       title="Toggle theme"
+      data-theme-toggle
       className="p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
     >
       {mounted ? (
@@ -76,14 +83,25 @@ export function LandingNavbar({
     : null
   const secondaryCtaIsExternal =
     normalizedSecondaryCtaLink?.startsWith("http") ?? false
+  // The bar takes the docs navbar's height, which a theme may change
+  // (Omarchy's is 52px), and holds its border inside it, as Nextra's does.
   return (
-    <header className="landing-navbar fixed top-0 z-50 w-full border-b border-border bg-background">
-      <div className="flex h-16 w-full items-center justify-between px-6">
+    <header className="landing-navbar fixed top-0 z-50 box-border h-[var(--nextra-navbar-height,4rem)] w-full border-b border-border bg-background">
+      <div className="flex h-full w-full items-center justify-between px-6">
         <div className="flex min-w-0 items-center gap-3">
           <a href={`${pathToRoot}/`} className="flex items-center gap-2.5">
-            <span className="flex size-7 items-center justify-center bg-primary font-mono text-[11px] font-bold text-primary-foreground">
-              {projectMonogram}
-            </span>
+            {projectLogo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={normalizeLandingHref(projectLogo, pathToRoot)}
+                alt=""
+                className="h-7 w-auto"
+              />
+            ) : (
+              <span className="folio-monogram flex size-7 items-center justify-center bg-primary font-mono text-[11px] font-bold text-primary-foreground">
+                {projectMonogram}
+              </span>
+            )}
             <span className="text-sm font-semibold text-foreground">
               {projectName}
             </span>
@@ -122,6 +140,7 @@ export function LandingNavbar({
               </a>
             )
           ) : null}
+          <ThemeGallery />
           <ThemeToggle />
         </nav>
       </div>

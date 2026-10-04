@@ -7,9 +7,9 @@
 
 ### **HTML for people, MD for agents.**
 
-[![Website](https://img.shields.io/badge/Website-pguijas.github.io%2Ffolio-111113)](https://pguijas.github.io/folio/)
+[![Website](https://img.shields.io/badge/Website-pguijas.github.io%2Ffolio-blue?color=233153)](https://pguijas.github.io/folio/)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repo-000000?logo=github)](https://github.com/pguijas/folio)
-[![Docs](https://img.shields.io/badge/Docs-Read-111113)](https://pguijas.github.io/folio/docs/)
+[![Docs](https://img.shields.io/badge/Docs-Read-233153)](https://pguijas.github.io/folio/docs/)
 [![License](https://img.shields.io/github/license/pguijas/folio)](LICENSE)
 
 | [**Website**](https://pguijas.github.io/folio/) | [**Documentation**](https://pguijas.github.io/folio/docs/) | [**Quick Start**](https://pguijas.github.io/folio/docs/quickstart) | [**Components**](https://pguijas.github.io/folio/docs/components) |
@@ -50,8 +50,8 @@ agents read instead of scraping HTML. Folio reads your code and never runs it.
 ### What Folio runs
 
 - **One binary.** `folio`, for Linux, macOS and Windows. `folio build` and `folio serve` render through a bundled Nextra/Next.js template and need Node.js 20.19+ and pnpm 10; the deployed site needs neither.
-- **Python, JavaScript and Rust.** Three readers in the binary; TypeScript arrives with 0.4 "Every Reader", Go, C# and Java later on the roadmap.
-- **Not its own reference yet.** Folio reads Rust now, but the live site still ships landing and guides without an API reference for its own code. That reference is part of 0.4.
+- **Python, JavaScript and Rust.** Three readers in the binary; TypeScript, then Go, C# and Java, arrive with 0.5 "Every Language" on the roadmap.
+- **Not its own reference yet.** Folio reads Rust now, but the live site still ships landing and guides without an API reference for its own code. That reference is part of 0.5.
 - **Project plugins later.** Your own plugins return with the sidecar protocol; the built-in integrations are compiled in.
 
 ## Getting Started
@@ -112,10 +112,10 @@ integration fixture that proves the engine works.
 
 Documenting with Folio? Say so:
 
-[![Docs by Folio](https://img.shields.io/badge/docs-by_Folio-111113)](https://github.com/pguijas/folio)
+[![Docs by Folio](https://img.shields.io/badge/docs-by_Folio-blue?color=233153)](https://github.com/pguijas/folio)
 
 ```md
-[![Docs by Folio](https://img.shields.io/badge/docs-by_Folio-111113)](https://github.com/pguijas/folio)
+[![Docs by Folio](https://img.shields.io/badge/docs-by_Folio-blue?color=233153)](https://github.com/pguijas/folio)
 ```
 
 ## Acknowledgment
@@ -124,6 +124,11 @@ Folio renders through [Next.js](https://nextjs.org/) and [Nextra](https://nextra
 [shadcn/ui](https://ui.shadcn.com/) and [Tailwind CSS](https://tailwindcss.com/) for the component
 library, [Pagefind](https://pagefind.app/) for search, and [KaTeX](https://katex.org/) and
 [Mermaid](https://mermaid.js.org/) for math and diagrams.
+
+Folio Pastel takes inspiration from [cojeev](https://000h.cojeev.com/): its organic
+shapes, typography, floating docs layout and motion. Thank you to
+[Sanjay Kumar (luv-jeri)](https://github.com/luv-jeri) for designing it and sharing
+[cojeev-ui](https://github.com/luv-jeri/cojeev-ui) as open source.
 
 ## License
 

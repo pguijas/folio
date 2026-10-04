@@ -431,7 +431,7 @@ fn bundled_template_carries_injection_anchors() {
         "images: [\"/docs/opengraph-image\"]",
         "getPageMap(\"/docs\")",
         "footer={<Footer />}",
-        "<ThemeConfigurator />",
+        "<ThemeGallery />",
         "darkMode={false}",
         "// __PROJECT_HEADER_ACTION_IMPORTS_START__",
         "{/* __PROJECT_HEADER_LOGO_START__ */}",
@@ -445,6 +445,7 @@ fn bundled_template_carries_injection_anchors() {
             "app/docs/layout.tsx lacks {anchor:?}"
         );
     }
+    assert!(!docs_layout.contains("<ThemeConfigurator />"));
     let page = text("app/docs/[[...mdxPath]]/page.jsx");
     for anchor in [
         "`${siteUrl}/docs/opengraph-image`",
@@ -473,9 +474,8 @@ fn bundled_template_carries_injection_anchors() {
         "builtins register before the project preset (registry is last-wins)"
     );
     assert!(text("components/landing-navbar.tsx").contains("__PROJECT_NAME_JSON__"));
-    assert!(text("components/theme-configurator.tsx").contains(
-        "const configuredDefaultPresetId = \"organic-editorial\" // __FOLIO_THEME_PRESET__"
-    ));
+    assert!(text("components/theme-configurator.tsx")
+        .contains("const configuredDefaultPresetId = \"pastel\" // __FOLIO_THEME_PRESET__"));
     let selector = text("components/version-selector.tsx");
     assert!(selector.contains("__VERSIONS__") && selector.contains("__CURRENT_VERSION_PATH__"));
     let sitemap = text("app/sitemap.ts");

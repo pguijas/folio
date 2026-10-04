@@ -286,6 +286,70 @@ fn og_images_favicon_metadata_sitemap_and_postbuild() {
 }
 
 #[test]
+fn generated_favicon_follows_the_preset_without_owning_custom_icons() {
+    let dir = tempfile::tempdir().unwrap();
+    let template = common::make_template(dir.path());
+    common::write(
+        &template,
+        "app/icon.svg",
+        &common::read(&common::bundled_template().join("app/icon.svg")),
+    );
+    common::write(
+        &template,
+        "theme/project-icon.ts",
+        "export const projectIconSvg: string | null = null\n",
+    );
+    let project_icon = |build: &Path| -> Option<String> {
+        serde_json::from_str(
+            read(build, "theme/project-icon.ts")
+                .trim()
+                .strip_prefix("export const projectIconSvg: string | null = ")
+                .unwrap(),
+        )
+        .unwrap()
+    };
+
+    for (preset, shape) in [("pastel", "pastel"), ("atlas", "default")] {
+        let config = common::config(
+            dir.path(),
+            &format!("project:\n  name: Folio\ntheme:\n  preset: {preset}\n"),
+        );
+        let build = common::prepared(dir.path(), &config, &template, preset);
+        let svg = read(&build, "app/icon.svg");
+        assert!(svg.contains(&format!("data-folio-icon=\"{shape}\"")));
+        assert!(svg.contains(">fo</text>"));
+        assert_eq!(project_icon(&build), Some(svg));
+    }
+
+    for (ext, bytes) in [
+        ("ico", "custom icon bytes"),
+        (
+            "svg",
+            "<svg data-folio-icon=\"default\"><text>custom</text></svg>",
+        ),
+    ] {
+        common::write(dir.path(), &format!("custom.{ext}"), bytes);
+        let config = common::config(dir.path(), &format!("theme:\n  favicon: custom.{ext}\n"));
+        let build = common::prepared(dir.path(), &config, &template, ext);
+        assert_eq!(read(&build, &format!("app/icon.{ext}")), bytes);
+        assert_eq!(project_icon(&build), None);
+    }
+
+    let custom_svg = "<svg><style>[data-folio-icon=\"pastel\"] text { fill: blue }</style><path d=\"M0 0h32v32H0Z\"/></svg>";
+    common::write(&dir.path().join("theme"), "app/icon.svg", custom_svg);
+    let config = common::config(dir.path(), "theme:\n  package: theme\n");
+    let build = common::prepared(dir.path(), &config, &template, "package-icon");
+    assert_eq!(read(&build, "app/icon.svg"), custom_svg);
+    assert_eq!(project_icon(&build), None);
+
+    common::write(&template, "app/icon.svg", custom_svg);
+    let config = common::config(dir.path(), "");
+    let build = common::prepared(dir.path(), &config, &template, "template-icon");
+    assert_eq!(read(&build, "app/icon.svg"), custom_svg);
+    assert_eq!(project_icon(&build), None);
+}
+
+#[test]
 fn next_config_i18n_base_path_and_versions() {
     let dir = tempfile::tempdir().unwrap();
     let template = common::make_template(dir.path());
@@ -316,6 +380,18 @@ fn next_config_i18n_base_path_and_versions() {
     assert!(
         configurator.contains("const configuredDefaultPresetId = \"beacon\"")
             && !configurator.contains("__FOLIO_THEME_PRESET__")
+    );
+
+    // New bundled defaults and older overlays both retain the injection contract.
+    common::write(
+        &template,
+        "components/theme-configurator.tsx",
+        "const configuredDefaultPresetId = \"pastel\" // __FOLIO_THEME_PRESET__\n",
+    );
+    let current = common::prepared(dir.path(), &plain, &template, "current-preset-marker");
+    assert_eq!(
+        read(&current, "components/theme-configurator.tsx"),
+        "const configuredDefaultPresetId = \"beacon\"\n"
     );
 
     let deploy = common::config(dir.path(), "deploy:\n  base_path: /published/docs\n");
@@ -820,7 +896,11 @@ fn bundled_template_without_landing_or_repo() {
             && !docs.contains("aria-label=\"GitHub repository\"")
             && !docs.contains("__PROJECT_REPO")
     );
-    assert!(docs.contains("<ThemeConfigurator />") && docs.contains("darkMode={false}"));
+    assert!(
+        docs.contains("<ThemeGallery />")
+            && !docs.contains("<ThemeConfigurator />")
+            && docs.contains("darkMode={false}")
+    );
     assert!(
         docs.contains("getPageMap(\"/docs\")") && docs.contains("url: \"/docs/opengraph-image\"")
     );
@@ -1020,7 +1100,30 @@ fn dark_mode_false_forces_light_and_drops_every_toggle() {
     let build = common::prepared(dir.path(), &default, &template, "default");
     assert!(read(&build, "components/theme-provider.tsx")
         .contains("const darkModeEnabled: boolean = true // __FOLIO_DARK_MODE__"));
+    let navbar = read(&build, "components/landing-navbar.tsx");
+    assert!(
+        !navbar.contains("<ThemeToggle />") && navbar.contains("<ThemeGallery />"),
+        "{navbar}"
+    );
+}
+
+#[test]
+fn the_landing_toggle_stays_only_when_asked_for_with_dark_mode_on() {
+    let dir = tempfile::tempdir().unwrap();
+    let template = common::bundled_template();
+    let asked = common::config(
+        dir.path(),
+        "theme:\n  header:\n    theme_toggle: true\nlanding: true\n",
+    );
+    let build = common::prepared(dir.path(), &asked, &template, "asked");
     assert!(read(&build, "components/landing-navbar.tsx").contains("<ThemeToggle />"));
+
+    let declined = common::config(
+        dir.path(),
+        "theme:\n  header:\n    theme_toggle: false\nlanding: true\n",
+    );
+    let build = common::prepared(dir.path(), &declined, &template, "declined");
+    assert!(!read(&build, "components/landing-navbar.tsx").contains("<ThemeToggle />"));
 }
 
 #[test]
@@ -1076,4 +1179,39 @@ fn theme_logo_is_an_image_in_the_logo_slot_or_a_clear_error() {
         err.starts_with("theme.logo does not exist: ") && err.ends_with("assets/nope.svg"),
         "{err}"
     );
+}
+
+#[test]
+fn theme_logo_replaces_the_landing_monogram_and_shows_once_in_the_docs_navbar() {
+    let dir = tempfile::tempdir().unwrap();
+    let template = common::bundled_template();
+    common::write(dir.path(), "assets/logo mark.svg", "<svg/>");
+    let config = common::config(dir.path(), "theme:\n  logo: assets/logo mark.svg\n");
+    let build = common::prepared(dir.path(), &config, &template, "logo");
+    let navbar = read(&build, "components/landing-navbar.tsx");
+    assert!(
+        navbar.contains("const projectLogo: string | null = \"/logo%20mark.svg\"\n")
+            && navbar.contains("src={normalizeLandingHref(projectLogo, pathToRoot)}"),
+        "{navbar}"
+    );
+    // The monogram is the fallback branch of the logo, never drawn beside it.
+    let at = navbar.find("{projectLogo ? (").unwrap();
+    let (logo, fallback) = navbar[at..].split_once(") : (").unwrap();
+    assert!(logo.contains("<img") && !logo.contains("projectMonogram"));
+    assert!(fallback[..fallback.find(")}").unwrap()].contains("{projectMonogram}"));
+    assert_eq!(navbar.matches("{projectMonogram}").count(), 1, "{navbar}");
+    let docs = read(&build, "app/docs/layout.tsx");
+    assert_eq!(docs.matches("<img ").count(), 1, "{docs}");
+    assert_eq!(docs.matches("\"/logo%20mark.svg\"").count(), 1, "{docs}");
+
+    // Without a logo the landing navbar keeps the monogram.
+    let plain = common::config(dir.path(), "");
+    let build = common::prepared(dir.path(), &plain, &template, "no-logo");
+    let navbar = read(&build, "components/landing-navbar.tsx");
+    assert!(
+        navbar.contains("const projectLogo: string | null = null\n")
+            && navbar.contains("const projectMonogram = \"te\"\n"),
+        "{navbar}"
+    );
+    assert!(!read(&build, "app/docs/layout.tsx").contains("<img "));
 }

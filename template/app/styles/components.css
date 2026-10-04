@@ -1,0 +1,175 @@
+/* Kbd, Marker and Term. A bare <kbd> written in a page draws like Kbd:
+   MDX passes lowercase tags through untouched, so only a rule can reach it.
+   The key's fill is close to the page, so its edge is what draws it, and the
+   Marker's rules are all it has besides its label: both are
+   --muted-foreground mixed 15% toward --border, which clears 3:1 against
+   the fill and the page with every built-in preset, where --border alone
+   fell to 1:1. */
+
+:is([data-slot="kbd"], article main kbd) {
+  padding: 0.1em 0.4em;
+  border: 1px solid color-mix(in oklab, var(--muted-foreground) 85%, var(--border));
+  border-bottom-width: 2px;
+  border-radius: min(var(--radius), 4px);
+  background: var(--muted);
+  color: var(--foreground);
+  font-family: var(--folio-code-font-family);
+  font-size: max(10px, 0.75em);
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Marker: a short label between two dashed rules. */
+
+[data-slot="marker"] {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+[data-slot="marker"]::before,
+[data-slot="marker"]::after {
+  content: "";
+  flex: 1 1 0%;
+  min-width: 1rem;
+  border-top: 1px dashed color-mix(in oklab, var(--muted-foreground) 85%, var(--border));
+}
+
+[data-slot="marker"] > * {
+  margin: 0;
+}
+
+[data-slot="marker"][data-tone="ok"] {
+  color: var(--folio-tone-check-accent);
+}
+
+[data-slot="marker"][data-tone="danger"] {
+  color: var(--folio-tone-danger-accent);
+}
+
+/* Term: a dotted underline, and the definition in a small floating card. */
+
+[data-slot="term"] {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: help;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--muted-foreground);
+  text-underline-offset: 0.22em;
+}
+
+article a[data-slot="term"]:not(.not-prose *),
+article a[data-slot="term"]:not(.not-prose *):hover {
+  cursor: pointer;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: currentColor;
+}
+
+[data-slot="term"][data-state="open"] {
+  text-decoration-color: currentColor;
+}
+
+[data-slot="term"]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+[data-slot="term-card"] {
+  z-index: 75;
+  max-width: min(260px, calc(100vw - 24px));
+  padding: 6px 10px;
+  border-radius: min(var(--radius), 6px);
+  background: var(--foreground);
+  color: var(--background);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.12);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+[data-slot="term-card"][data-state="open"] {
+  animation: folio-term-in var(--folio-motion-micro) var(--folio-ease-enter);
+}
+
+[data-slot="term-card"][data-state="closed"] {
+  animation: folio-term-out var(--folio-motion-micro) var(--folio-ease-exit);
+}
+
+@keyframes folio-term-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes folio-term-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="term-card"][data-state] {
+    animation: none;
+  }
+}
+
+/* ─── Pastel keys, markers and terms ─── */
+
+/* cojeev's key, marker and tooltip (MIT, Copyright (c) 2026 Sanjay Kumar; see
+   THIRD-PARTY-NOTICES.md), re-expressed as values from registry/cojeev/
+   ui/{kbd,marker,tooltip}.tsx and styles/tokens.css. */
+
+html[data-folio-preset="pastel"] :is([data-slot="kbd"], article main kbd) {
+  padding: 2px 6px;
+  border-width: 0 0 2px;
+  border-radius: 4px;
+  background: var(--secondary);
+  color: var(--foreground);
+  font-size: max(10px, 0.6875em);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+html[data-folio-preset="pastel"] [data-slot="marker"] {
+  gap: 12px;
+  margin: 8px 0;
+  font-size: 12px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="marker"][data-tone="ok"] {
+  color: var(--ring);
+}
+
+html[data-folio-preset="pastel"] [data-slot="marker"][data-tone="danger"] {
+  color: var(--destructive);
+}
+
+html.dark[data-folio-preset="pastel"] [data-slot="marker"][data-tone="ok"] {
+  color: var(--ring);
+}
+
+html.dark[data-folio-preset="pastel"] [data-slot="marker"][data-tone="danger"] {
+  color: var(--destructive);
+}
+
+html[data-folio-preset="pastel"] [data-slot="term-card"] {
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: none;
+  font-size: 12px;
+}

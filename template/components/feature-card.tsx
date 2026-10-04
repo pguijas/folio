@@ -75,6 +75,7 @@ function FeatureIcon({ icon }: { icon?: string }) {
   if (!iconElement) {
     return (
       <div
+        data-slot="feature-card-icon"
         className="mb-2 text-2xl leading-none"
         aria-hidden="true"
         data-feature-card-icon={icon}
@@ -86,6 +87,7 @@ function FeatureIcon({ icon }: { icon?: string }) {
 
   return (
     <div
+      data-slot="feature-card-icon"
       className="mb-3 inline-flex size-9 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary"
       aria-hidden="true"
       data-feature-card-icon={icon}
@@ -98,6 +100,8 @@ function FeatureIcon({ icon }: { icon?: string }) {
 export function FeatureCard({ title, description, icon, href }: FeatureCardProps) {
   const content = (
     <Card
+      data-slot="feature-card"
+      data-linked={href ? "" : undefined}
       className={cn(
         "h-full transition-all duration-200",
         href && "cursor-pointer hover:ring-2 hover:ring-primary/30 hover:shadow-md"

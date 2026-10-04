@@ -309,3 +309,39 @@ fn a_preset_must_be_one_the_configurator_shows() {
     .to_string();
     assert_eq!(err.matches("'atlas'").count(), 1, "{err}");
 }
+
+#[test]
+fn a_variant_control_without_style_is_a_colour_control() {
+    let yaml = r#"
+project: {name: T}
+theme:
+  preset: acme
+  name: Acme
+  variants:
+    palette:
+      label: Palette
+      default: day
+      options:
+        day: {label: Day, swatch: "oklch(0.98 0 0)"}
+        night:
+          label: Night
+          tokens: {dark: {--background: "oklch(0.16 0 0)"}}
+    density:
+      label: Density
+      default: cozy
+      options:
+        cozy: {label: Cozy}
+        tight:
+          label: Tight
+          style: {--folio-body-line-height: "1.4"}
+"#;
+    let mapping: serde_yaml_ng::Mapping = serde_yaml_ng::from_str(yaml).unwrap();
+    let config =
+        folio_config::parse_docs_config_with(&mapping, Path::new("/proj"), "", &mut Vec::new())
+            .unwrap();
+    let controls = controls(&config);
+    assert_eq!(controls[0]["id"], "palette");
+    assert_eq!(controls[0]["kind"], "color");
+    assert_eq!(controls[1]["id"], "density");
+    assert!(controls[1].get("kind").is_none(), "{}", controls[1]);
+}

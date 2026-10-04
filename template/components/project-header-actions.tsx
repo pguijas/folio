@@ -10,6 +10,8 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import { useTheme } from "next-themes"
 
+import { switchScheme } from "@/lib/scheme-transition"
+
 interface ProjectHeaderActionsProps {
   repoHref?: string
   themeToggle?: boolean
@@ -40,7 +42,7 @@ export function ProjectHeaderActions({
   const isDark = resolvedTheme === "dark"
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="folio-header-actions flex items-center gap-3">
       {repoHref ? (
         <a
           href={repoHref}
@@ -60,9 +62,12 @@ export function ProjectHeaderActions({
       {themeToggle ? (
         <button
           type="button"
-          onClick={() => setTheme(isDark ? "light" : "dark")}
+          onClick={(event) =>
+            switchScheme(setTheme, isDark ? "light" : "dark", event.currentTarget)
+          }
           aria-label="Toggle theme"
           title="Toggle theme"
+          data-theme-toggle
           className="rounded-md p-2 text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
         >
           {mounted ? (
@@ -81,6 +86,7 @@ export function ProjectHeaderActions({
         <a
           href={actionHref}
           {...externalProps(actionHref)}
+          title={actionLabel}
           className="flex items-center gap-1.5 rounded-md bg-foreground px-3.5 py-1.5 text-xs font-medium text-background transition-colors hover:bg-foreground/80 focus:outline-none focus:ring-1 focus:ring-ring"
         >
           <span>{actionLabel}</span>

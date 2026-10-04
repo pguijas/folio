@@ -19,7 +19,13 @@ fn minimal_config_takes_every_default() {
     assert_eq!(config.project.url, "");
     assert_eq!(config.output_dir, "_site");
     assert!(config.theme.dark_mode);
-    assert_eq!(config.theme.preset, "organic-editorial");
+    assert_eq!(config.theme.preset, "pastel");
+    assert_eq!(
+        parse_ok("project:\n  name: Roller\ntheme:\n  preset: organic-editorial\n")
+            .theme
+            .preset,
+        "organic-editorial"
+    );
     assert_eq!(config.theme.radius, "");
     assert_eq!(config.nav, Vec::<String>::new());
     assert_eq!(config.public, Vec::<String>::new());

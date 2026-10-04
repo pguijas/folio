@@ -27,18 +27,24 @@ const stateLabels: Record<ChecklistState, string> = {
 
 export function Checklist({ title, items }: ChecklistProps) {
   return (
-    <section className="my-6 rounded-lg border border-border bg-card">
+    <section data-slot="checklist" className="my-6 rounded-lg border border-border bg-card">
       {title && (
         <div className="border-b border-border px-4 py-3">
-          <h3 className="m-0 text-base font-semibold text-foreground">{title}</h3>
+          <h3 data-slot="checklist-title" className="m-0 text-base font-semibold text-foreground">{title}</h3>
         </div>
       )}
       <ul className="m-0 list-none divide-y divide-border p-0">
         {items.map((item) => {
           const state = item.state ?? "todo"
           return (
-            <li key={item.label} className="flex gap-3 px-4 py-3">
+            <li
+              key={item.label}
+              data-slot="checklist-item"
+              data-variant={state}
+              className="flex gap-3 px-4 py-3"
+            >
               <span
+                data-slot="checklist-state"
                 className={cn(
                   "mt-0.5 h-fit rounded border px-1.5 py-0.5 text-[0.68rem] font-semibold",
                   stateStyles[state]
@@ -47,9 +53,9 @@ export function Checklist({ title, items }: ChecklistProps) {
                 {stateLabels[state]}
               </span>
               <div className="min-w-0">
-                <p className="m-0 text-sm font-medium text-foreground">{item.label}</p>
+                <p data-slot="checklist-label" className="m-0 text-sm font-medium text-foreground">{item.label}</p>
                 {item.description && (
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p data-slot="checklist-description" className="mt-1 text-sm text-muted-foreground">
                     {item.description}
                   </p>
                 )}

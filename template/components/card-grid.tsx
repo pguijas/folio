@@ -14,6 +14,8 @@ const columnClasses: Record<number, string> = {
 export function CardGrid({ columns = 3, children }: CardGridProps) {
   return (
     <div
+      data-slot="card-grid"
+      data-columns={columns}
       className={cn(
         "my-6 grid grid-cols-1 gap-4 md:grid-cols-2",
         columnClasses[columns]

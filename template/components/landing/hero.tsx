@@ -1,6 +1,9 @@
 "use client"
 
+import type { ComponentProps } from "react"
 import { BrowserFrame } from "@/components/browser-frame"
+import { FOLIO_BANNER, ThemeWordmark } from "@/components/theme-artwork"
+import { PastelArtwork } from "@/components/pastel-artwork"
 import {
   GitHubMark,
   isGitHubHref,
@@ -11,6 +14,16 @@ import {
 import { defaultRoutes } from "@/components/landing/defaults"
 import type { LandingLink, LandingPipelineStep } from "@/components/landing/types"
 import { cn } from "@/lib/utils"
+
+function LandingHeroVisual({ embedded = false, ...props }: ComponentProps<"aside"> & { embedded?: boolean }) {
+  if (embedded) return <aside {...props} />
+  return (
+    <div className="landing-hero-visual">
+      <PastelArtwork seed="landing" />
+      <aside {...props} />
+    </div>
+  )
+}
 
 type LandingHeroProps = {
   tagline: string
@@ -43,21 +56,6 @@ type LandingHeroCopyProps = Omit<LandingHeroProps, "buildSteps"> & {
   className?: string
 }
 
-/* folio's real CLI banner (FOLIO_ASCII_ART in folio-cli/src/ui/banner.rs). The CLI also
-   stamps its own release on the last line (`banner()` in the same file passes the crate
-   version). Nothing injects that release into the template,
-   and the site's `projectVersion` is a different number, so the mock renders
-   the art alone: a literal here would go stale on the next folio release and
-   would misstate folio's version on every other project's landing page. */
-const FOLIO_BANNER = [
-  " ████████╗ ██████╗ ██╗     ██╗ ██████╗ ",
-  " ██╔═════╝██╔═══██╗██║     ██║██╔═══██╗",
-  " █████╗   ██║   ██║██║     ██║██║   ██║",
-  " ██╔══╝   ██║   ██║██║     ██║██║   ██║",
-  " ██║      ╚██████╔╝███████╗██║╚██████╔╝",
-  " ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝ ",
-].join("\n")
-
 function LandingHeroCopy({
   tagline,
   headline,
@@ -65,6 +63,7 @@ function LandingHeroCopy({
   actionLinks,
   actionGridClassName,
   installCommands,
+  projectName,
   className,
 }: LandingHeroCopyProps) {
   const hasTagline = tagline.trim() !== ""
@@ -77,6 +76,7 @@ function LandingHeroCopy({
 
   return (
     <div className={copyClassName}>
+      <ThemeWordmark name={projectName || "Docs"} />
       {hasTagline ? (
         <p className="landing-kicker font-mono text-[11px] tracking-[0.14em] text-primary uppercase">
           {tagline}
@@ -112,6 +112,7 @@ export function DocsMapLandingHero({
   actionLinks,
   actionGridClassName,
   installCommands,
+  projectName,
 }: LandingHeroProps) {
   return (
     <section className="landing-surface border-b border-border">
@@ -123,10 +124,11 @@ export function DocsMapLandingHero({
           actionLinks={actionLinks}
           actionGridClassName={actionGridClassName}
           installCommands={installCommands}
+          projectName={projectName}
           className="pb-4 lg:pb-16"
         />
 
-        <aside
+        <LandingHeroVisual
           className="border border-border bg-card"
           aria-label="Documentation routes"
         >
@@ -175,7 +177,7 @@ export function DocsMapLandingHero({
               </div>
             ))}
           </div>
-        </aside>
+        </LandingHeroVisual>
       </div>
     </section>
   )
@@ -193,12 +195,14 @@ export function BuildPipelineLandingHero({
   description,
   actionLinks,
   installCommands,
+  projectName,
 }: LandingHeroProps) {
   const hasTagline = tagline.trim() !== ""
   return (
     <section className="landing-surface border-b border-border">
       <div className="mx-auto grid max-w-site gap-12 px-6 pt-20 pb-16 sm:pt-24 lg:min-h-[680px] lg:grid-cols-[minmax(0,0.94fr)_minmax(380px,1fr)] lg:items-center xl:gap-16">
         <div className="landing-hero-copy min-w-0 max-w-2xl">
+          <ThemeWordmark name={projectName || "Docs"} />
           {hasTagline ? (
             <p className="landing-kicker font-mono text-[11px] tracking-[0.14em] text-primary uppercase">
               {tagline}
@@ -216,7 +220,7 @@ export function BuildPipelineLandingHero({
             {description}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="landing-hero-actions mt-8 flex flex-wrap items-center gap-3">
             {actionLinks.map((action) => (
               <a
                 key={action.title}
@@ -245,7 +249,7 @@ export function BuildPipelineLandingHero({
           ) : null}
         </div>
 
-        <aside
+        <LandingHeroVisual
           className="landing-artifact min-w-0 rounded-lg"
           aria-label="Docstrings rendered into an API reference"
         >
@@ -325,7 +329,7 @@ export function BuildPipelineLandingHero({
               </div>
             </div>
           </BrowserFrame>
-        </aside>
+        </LandingHeroVisual>
       </div>
     </section>
   )
@@ -403,6 +407,7 @@ export function HeartbeatLandingHero({
                 </span>
               )
             ) : null}
+            <ThemeWordmark name={mockName} />
             {hasTagline ? (
               <p className="landing-kicker font-mono text-[11px] tracking-[0.14em] text-primary uppercase">
                 {tagline}
@@ -421,7 +426,7 @@ export function HeartbeatLandingHero({
             </p>
 
             <div
-              className={`mt-8 grid w-full max-w-xl gap-3 ${actionLinks.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
+              className={`landing-hero-actions mt-8 grid w-full max-w-xl gap-3 ${actionLinks.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}
             >
               {actionLinks.map((action) => (
                 <a
@@ -452,7 +457,8 @@ export function HeartbeatLandingHero({
           </div>
         ) : null}
 
-        <aside
+        <LandingHeroVisual
+          embedded={embedded}
           className={cn(
             "landing-artifact landing-heartbeat min-w-0 lg:flex lg:flex-col",
             embedded && "h-full"
@@ -487,7 +493,7 @@ export function HeartbeatLandingHero({
                 <div className="flex shrink-0 items-center justify-between gap-4 border-b border-border px-4 py-2.5">
                   <span className="flex items-center gap-2 text-xs font-semibold text-foreground">
                     <span
-                      className="grid size-[18px] place-items-center rounded-[5px] bg-primary font-mono text-[8px] font-semibold text-primary-foreground"
+                      className="folio-monogram grid size-[18px] place-items-center rounded-[5px] bg-primary font-mono text-[8px] font-semibold text-primary-foreground"
                       aria-hidden="true"
                     >
                       {mockMark}
@@ -651,7 +657,7 @@ export function HeartbeatLandingHero({
               </div>
             </div>
           </div>
-        </aside>
+        </LandingHeroVisual>
       </div>
     </Root>
   )
@@ -665,6 +671,7 @@ export function SourcePipelineLandingHero({
   actionGridClassName,
   installCommands,
   buildSteps,
+  projectName,
 }: LandingHeroProps) {
   return (
     <section className="landing-surface border-b border-border">
@@ -676,9 +683,10 @@ export function SourcePipelineLandingHero({
           actionLinks={actionLinks}
           actionGridClassName={actionGridClassName}
           installCommands={installCommands}
+          projectName={projectName}
         />
 
-        <aside
+        <LandingHeroVisual
           className="landing-artifact border border-border bg-card"
           aria-label="Build pipeline overview"
         >
@@ -747,7 +755,7 @@ export function SourcePipelineLandingHero({
               </li>
             ))}
           </ol>
-        </aside>
+        </LandingHeroVisual>
       </div>
     </section>
   )

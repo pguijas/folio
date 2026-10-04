@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils"
 
 export function Timeline({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative my-8 ml-4 pl-8 space-y-8">
-      <div className="absolute left-0 top-2 bottom-2 w-px bg-border" />
+    <div data-slot="timeline" className="relative my-8 ml-4 pl-8 space-y-8">
+      <div data-slot="timeline-rail" className="absolute left-0 top-2 bottom-2 w-px bg-border" />
       {children}
     </div>
   )
@@ -23,12 +23,14 @@ export function TimelineItem({
   children: React.ReactNode
 }) {
   return (
-    <div className="relative">
-      <div className="absolute -left-[35px] top-1 h-3 w-3 rounded-full bg-primary ring-4 ring-background" />
+    <div data-slot="timeline-item" className="relative">
+      <div data-slot="timeline-marker" className="absolute -left-[35px] top-1 h-3 w-3 rounded-full bg-primary ring-4 ring-background" />
       <div className="flex items-center gap-2 mb-1">
-        <span className="text-xs font-medium text-muted-foreground">{date}</span>
+        <span data-slot="timeline-date" className="text-xs font-medium text-muted-foreground">{date}</span>
         {badge && (
           <span
+            data-slot="timeline-badge"
+            data-variant={badge}
             className={cn(
               "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium",
               badge === "breaking"
@@ -42,8 +44,8 @@ export function TimelineItem({
           </span>
         )}
       </div>
-      <h4 className="text-sm font-semibold text-foreground mb-1">{title}</h4>
-      <div className="text-sm text-muted-foreground [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
+      <h4 data-slot="timeline-title" className="text-sm font-semibold text-foreground mb-1">{title}</h4>
+      <div data-slot="timeline-body" className="text-sm text-muted-foreground [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
         {children}
       </div>
     </div>

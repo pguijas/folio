@@ -196,12 +196,15 @@ pub fn module_to_mdx(module: &ModuleIR, opts: &RenderOptions) -> String {
 
 /// The `api-reference/index` overview: one `<ApiReferenceIndex>` over the
 /// modules sorted by name, with their class, function and type counts.
+/// Nextra treats it as the folder's page so breadcrumbs use the overview
+/// route instead of the first language group, which may have no index page.
 pub fn api_reference_index_to_mdx(modules: &[ModuleIR]) -> String {
     let mut fm = IndexMap::new();
-    fm.insert("title".to_string(), "Source Code".to_string());
+    fm.insert("asIndexPage".to_string(), json!(true));
+    fm.insert("title".to_string(), json!("Source Code"));
     fm.insert(
         "description".to_string(),
-        "Generated source code documentation for project modules.".to_string(),
+        json!("Generated source code documentation for project modules."),
     );
     let mut parts = vec![render_frontmatter(&fm)];
     if modules.is_empty() {

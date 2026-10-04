@@ -324,6 +324,72 @@ fn prepare_artifact_prefers_the_saved_root_and_restores_previews() {
 }
 
 #[test]
+fn repeated_state_fetches_replace_existing_and_missing_worktrees() {
+    let dir = tempfile::tempdir().unwrap();
+    let root = dir.path().canonicalize().unwrap();
+    let repo = root.join("repo");
+    fs::create_dir(&repo).unwrap();
+    git(&repo, &["init", "--initial-branch=main"]).unwrap();
+    git(&repo, &["config", "user.name", "Folio test"]).unwrap();
+    git(&repo, &["config", "user.email", "folio@example.test"]).unwrap();
+    fs::write(repo.join("index.html"), "deployed root").unwrap();
+    make_preview(&repo.join("previews"), "pr-1-a", None);
+    git(&repo, &["add", "."]).unwrap();
+    git(&repo, &["commit", "-m", "seed state"]).unwrap();
+    let remote = root.join("origin.git");
+    git(&root, &["init", "--bare", remote.to_str().unwrap()]).unwrap();
+    git(
+        &repo,
+        &["remote", "add", "origin", remote.to_str().unwrap()],
+    )
+    .unwrap();
+    git(&repo, &["push", "origin", &format!("HEAD:{STATE_BRANCH}")]).unwrap();
+
+    let other = root.join("other-work");
+    git(
+        &repo,
+        &["worktree", "add", "--detach", other.to_str().unwrap()],
+    )
+    .unwrap();
+    fs::write(other.join("keep.txt"), "unrelated work").unwrap();
+    let state = root.join("_pages-state");
+    let site = root.join("_site");
+    let artifact = root.join("_pages-artifact");
+    fs::create_dir(&site).unwrap();
+    fs::write(site.join("index.html"), "rebuilt production").unwrap();
+
+    for externally_deleted in [false, true] {
+        if externally_deleted {
+            fs::remove_dir_all(&state).unwrap();
+        }
+        preserve_branch_previews(&site, &repo, &state, STATE_BRANCH, true).unwrap();
+        assert!(site.join("previews/pr-1-a/index.html").is_file());
+        if externally_deleted {
+            fs::remove_dir_all(&state).unwrap();
+        }
+        prepare_pages_artifact(&site, &artifact, &repo, &state, STATE_BRANCH, true).unwrap();
+        assert_eq!(
+            fs::read_to_string(artifact.join("index.html")).unwrap(),
+            "deployed root"
+        );
+        assert!(artifact.join("previews/pr-1-a/index.html").is_file());
+        assert_eq!(
+            fs::read_to_string(other.join("keep.txt")).unwrap(),
+            "unrelated work"
+        );
+        let worktrees = git(&repo, &["worktree", "list", "--porcelain"]).unwrap();
+        assert_eq!(
+            worktrees
+                .lines()
+                .filter(|line| line.starts_with("worktree "))
+                .count(),
+            3
+        );
+        assert!(worktrees.contains(other.to_str().unwrap()));
+    }
+}
+
+#[test]
 fn preserve_previews_copies_the_state_previews_into_the_site() {
     let dir = tempfile::tempdir().unwrap();
     let site = dir.path().join("_site");

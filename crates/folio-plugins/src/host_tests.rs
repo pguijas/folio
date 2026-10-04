@@ -423,10 +423,10 @@ fn build_registry_assembles_layout_builtins_config_then_plugins() {
         .layouts
         .contains_key(crate::builtins::PUBLIC_LAYOUT));
     let names: Vec<&str> = registry.components.keys().map(String::as_str).collect();
-    assert_eq!(names.len(), 42);
+    assert_eq!(names.len(), 45);
     assert_eq!(names[0], "ParamTable");
-    assert_eq!(names[40], "Hero");
-    assert_eq!(names[41], "Recorded");
+    assert_eq!(names[43], "Hero");
+    assert_eq!(names[44], "Recorded");
     let err = build_registry(&host_of(vec![Box::new(Boom)]), &config, &mut Vec::new()).unwrap_err();
     assert_eq!(
         err.to_string(),

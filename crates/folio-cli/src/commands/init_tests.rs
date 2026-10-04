@@ -110,7 +110,7 @@ source:
 output: "_site"
 
 theme:
-  preset: "organic-editorial"
+  preset: "pastel"
   dark_mode: true
   # logo: "docs/logo.png"
   # favicon: "docs/favicon.ico"

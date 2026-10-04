@@ -546,6 +546,7 @@ fn api_reference_index_lists_modules_sorted_by_name() {
     let rust = geo(vec![point(TypeKind::Struct, "Point")], vec![]);
     let mdx = api_reference_index_to_mdx(&[rust, core, root]);
     let expected = r#"---
+asIndexPage: true
 description: Generated source code documentation for project modules.
 title: Source Code
 ---
@@ -582,7 +583,7 @@ title: Source Code
     assert!(undocumented.contains("\"description\": \"Module documentation.\""));
     assert_eq!(
             api_reference_index_to_mdx(&[]),
-            "---\ndescription: Generated source code documentation for project modules.\ntitle: Source Code\n---\n\n# Source Code\n\nNo source modules were found.\n"
+            "---\nasIndexPage: true\ndescription: Generated source code documentation for project modules.\ntitle: Source Code\n---\n\n# Source Code\n\nNo source modules were found.\n"
         );
 }
 

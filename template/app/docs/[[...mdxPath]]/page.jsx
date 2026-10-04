@@ -10,6 +10,8 @@ import {
 } from "@/lib/docs-route-params"
 import { useMDXComponents as getMDXComponents } from "@/mdx-components"
 import { PageActionsButton } from "@/components/page-actions-button"
+import { ThemeWordmark } from "@/components/theme-artwork"
+import { PastelArtwork } from "@/components/pastel-artwork"
 
 const _nextraParams = generateStaticParamsFor("mdxPath")
 const configuredSiteUrl = "__SITE_URL__"
@@ -197,6 +199,8 @@ export default async function Page(props) {
       <div className="mb-2 flex justify-end" data-pagefind-ignore="all">
         <PageActionsButton markdownPath={markdownMirrorPath(mdxPath)} />
       </div>
+      <ThemeWordmark name={projectName} />
+      <PastelArtwork seed={mdxPath.join("/") || "folio"} />
       <MDXContent {...props} params={normalizedParams} />
     </Wrapper>
   )

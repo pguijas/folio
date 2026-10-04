@@ -8,16 +8,16 @@ interface DeprecationNoticeProps {
 
 export function DeprecationNotice({ since, alternative, message }: DeprecationNoticeProps) {
   return (
-    <div className="my-4 rounded-lg border border-destructive/50 bg-destructive/5 p-4">
+    <div data-slot="deprecation-notice" className="my-4 rounded-lg border border-destructive/50 bg-destructive/5 p-4">
       <div className="flex items-center gap-2 mb-1">
         <Badge variant="destructive" className="text-xs">Deprecated</Badge>
         {since && (
-          <span className="text-xs text-muted-foreground">since {since}</span>
+          <span data-slot="deprecation-since" className="text-xs text-muted-foreground">since {since}</span>
         )}
       </div>
-      {message && <p className="text-sm mt-1">{message}</p>}
+      {message && <p data-slot="deprecation-message" className="text-sm mt-1">{message}</p>}
       {alternative && (
-        <p className="text-sm mt-1 text-muted-foreground">
+        <p data-slot="deprecation-alternative" className="text-sm mt-1 text-muted-foreground">
           Use <code className="font-mono text-foreground">{alternative}</code> instead.
         </p>
       )}

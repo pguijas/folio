@@ -3,8 +3,8 @@ use super::*;
 const PRESETS: [Choice; 4] = [
     Choice {
         value: "organic-editorial",
-        label: "Organic Editorial",
-        description: "Warm editorial docs with rich backgrounds.",
+        label: "Roller",
+        description: "Fine headings, generous spacing, and cobalt ink.",
     },
     Choice {
         value: "beacon",
@@ -13,13 +13,13 @@ const PRESETS: [Choice; 4] = [
     },
     Choice {
         value: "atlas",
-        label: "Atlas",
-        description: "Structured reference docs with dense navigation.",
+        label: "Letterpress",
+        description: "Bold serif headings on a paper surface.",
     },
     Choice {
         value: "workshop",
-        label: "Workshop",
-        description: "Practical technical docs with compact rhythm.",
+        label: "Notebook",
+        description: "Framed pages with warm surfaces and green accents.",
     },
 ];
 
@@ -61,7 +61,7 @@ fn arrow_selector_moves_down_and_accepts() {
     assert_eq!(result, Ok("beacon"));
     assert!(output.contains("\x1b[38;5;147m?\x1b[0m \x1b[1mVisual preset\x1b[0m"));
     assert!(output.contains("Use arrow-keys. Return to submit."));
-    assert!(output.contains("\x1b[4mOrganic Editorial\x1b[0m"));
+    assert!(output.contains("\x1b[4mRoller\x1b[0m"));
     assert!(output.contains("\x1b[4mBeacon\x1b[0m"));
     assert!(output.contains("\x1b[5A"));
     assert!(output.contains("\x1b[2K"));

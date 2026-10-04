@@ -26,7 +26,18 @@ pub const THEME_TUNE_KEYS: [&str; 8] = [
 /// The option ids the bundled configurator offers for each `theme.tune` id,
 /// in the order it lists them.
 pub const THEME_TUNE_OPTIONS: [(&str, &[&str]); 8] = [
-    ("fontId", &["folio", "sans", "geist", "serif", "mono"]),
+    (
+        "fontId",
+        &[
+            "folio",
+            "sans",
+            "geist",
+            "serif",
+            "mono",
+            "terminal",
+            "grotesque",
+        ],
+    ),
     ("colorId", &["ink", "laurel", "indigo", "copper"]),
     ("surfaceColorId", &["preset", "paper", "moss", "mist"]),
     ("shellPaddingId", &["preset", "flush", "frame", "gallery"]),
@@ -800,7 +811,7 @@ pub(crate) fn parse_theme(
 ) -> Result<ThemeConfig, ConfigError> {
     warn_unknown_keys(theme, &THEME_KEYS, "theme", warnings);
     let dark_mode = bool_field(theme, "dark_mode", "theme.dark_mode", true)?;
-    let preset = string_field(theme, "preset", "theme.preset", "organic-editorial")?;
+    let preset = string_field(theme, "preset", "theme.preset", "pastel")?;
     let name = theme_string(get(theme, "name"));
     let description = theme_string(get(theme, "description"));
     let scene = theme_string(get(theme, "scene"));

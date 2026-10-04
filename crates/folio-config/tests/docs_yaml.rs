@@ -57,7 +57,7 @@ fn the_config_fixture_loads_with_the_documented_values() {
     assert_eq!(config.source.docs, ["docs/"]);
     assert_eq!(config.output_dir, "_site");
     assert!(config.theme.dark_mode);
-    assert_eq!(config.theme.preset, "organic-editorial");
+    assert_eq!(config.theme.preset, "pastel");
     assert_eq!(config.nav, ["Introduction", "API Reference"]);
     assert!(config.llm.generate_llms_txt && config.llm.generate_llms_full_txt);
     assert_eq!(
@@ -81,8 +81,11 @@ fn folios_own_docs_yaml_loads_without_config_warnings() {
     let loaded = load_docs_config(&repo_root().join("docs.yaml")).unwrap();
     assert_eq!(loaded.warnings, Vec::<String>::new());
     let config = loaded.config;
-    assert_eq!(config.project.version, "0.3.0-a1");
+    assert_eq!(config.project.version, env!("CARGO_PKG_VERSION"));
     assert_eq!(config.theme.package_path, "theme/folio-site");
+    assert_eq!(config.theme.preset, "pastel");
+    assert!(config.theme.radius.is_empty());
+    assert!(config.theme.tune.is_empty());
     assert_eq!(config.components.specs.len(), 1);
     assert_eq!(
         config.components.specs[0].from.as_deref(),

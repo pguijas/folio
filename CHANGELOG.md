@@ -3,6 +3,139 @@
 All notable user-facing changes are recorded here. Folio follows semantic
 versioning while the public CLI, configuration, and plugin contracts stabilize.
 
+## 0.3.0 — 2026-10-04
+
+### Added
+
+- `theme.logo` shows in the landing navbar in place of the monogram.
+- The navbar theme picker offers fifteen choices in three families: six Folio
+  styles, five Folio Pastel palettes and four Omarchy palettes. Each swatch applies
+  a complete color-and-style recipe. Project and registered presets keep all their
+  choices; earlier saved styles and palettes continue to render unchanged.
+- Customize opens from the final circle in the swatch row, inside the same
+  popup with a live preview. It offers background, text and accent colors
+  per mode, plus typography, rhythm, corners, borders and layout. Choices
+  apply and save immediately; Done closes the picker and keeps them.
+- Motion and drawer CSS variables: `--folio-motion-*`, `--folio-ease-enter`,
+  `--folio-ease-exit`, `--folio-spring-drawer` and `--folio-drawer-*`. A
+  theme sets `--folio-drawer-inset: 0`, `--folio-drawer-width: 100vw`,
+  `--folio-drawer-radius: 0` and `--folio-drawer-shadow: none` for a
+  full-screen menu.
+- The Omarchy preset, inspired by [Omarchy](https://omarchy.org): one theme
+  with four selected palettes, each light or dark only,
+  with flat square navbar and chapter rows, a palette-tinted pixel background
+  and a block-letter Folio wordmark, also visible in picker previews.
+  The pixels flow, follow the mouse with a soft halo and release a wave on
+  click or hold. The wordmark cycles through four reconstructions on entry,
+  palette change or replay by click, Enter or Space. Omarchy palette changes
+  have a brief diagonal transition in supporting browsers. Reduced motion
+  leaves the artwork and palette changes still; hidden or offscreen artwork
+  pauses, and neighbouring previews stay static.
+  Other projects keep their own name. The palettes come from the
+  MIT-licensed omacom/omarchy repository; `THIRD-PARTY-NOTICES.md` carries
+  its notice.
+- The Terminal typography (`fontId: "terminal"`): a monospaced body under
+  Geist headings.
+- Folio Pastel is the default for new sites and `folio init`, with Ink's
+  pen-blue palette, Grotesque typography and 0.75rem corners. Ink, Jade,
+  Lavender, Peach and Sky support light and dark with the same shapes.
+  Existing reader choices survive the default change; older saved Pastel
+  choices without a palette keep Jade. Project defaults still override
+  preset defaults. Its palettes and irregular silhouettes are Folio's own; layout,
+  measurements, motion timings and component CSS adapt [cojeev](https://github.com/luv-jeri/cojeev-ui).
+  `THIRD-PARTY-NOTICES.md` retains its MIT notice and the fonts' OFL notice.
+- Pastel draws the docs shell after cojeev: a 288 px floating sidebar with
+  integrated branding, search and controls, and a reading trail that marks
+  the section in view. Three original, soft asymmetric silhouettes morph,
+  drift and respond to the pointer above a soft color wash. The landing
+  places them in solid, contrasting palette colors around the product
+  demo, outside the title and text flow; content and actions stay intact.
+  Reduced motion keeps them still; hidden and offscreen artwork pauses,
+  and neighbouring previews stay static. The picker shares the page's
+  layout, type and artwork.
+- Pastel callouts keep their functional icons on soft asymmetric holders.
+  FeatureCard keeps named Hugeicons centered over four original organic
+  backgrounds, alternating with the card colors; text/emoji fallback and
+  cards without icons stay unchanged. Decorative masks, number tabs and
+  timeline markers use original organic outlines, with ruled connectors
+  and FileTree elbows.
+- Pastel tabs, code groups, example tabs and the Preview/Code switch are
+  pills with a selected surface that glides between them, and accordions and
+  Markdown details are soft cards that open in 300 ms and close in 180 ms.
+- Pastel code blocks are paper sheets with a file header and language pill,
+  with five syntax roles in each scheme. TerminalSession is a petrol window
+  with three stationery tabs. Cards, pill badges, dot-grid previews, dashed
+  empty states and flush tables retain the adapted component layout.
+- Under Pastel, switching between light and dark reveals the new scheme as
+  a circle growing from the control over 300 ms, where the browser supports
+  view transitions. Under reduced motion the scheme changes at once.
+- The Grotesque typography (`fontId: "grotesque"`): Bricolage Grotesque
+  headings over a DM Sans body, from Google Fonts. The files are not
+  preloaded, so a site on another typography downloads neither.
+- One CSS file per component family under `app/styles/`, imported at the
+  end of `globals.css`, so a theme package can restyle a family by
+  overriding one file. The MDX components carry `data-slot` attributes, and
+  `data-variant` where they come in kinds (a callout's type, a checklist
+  item's state), for that CSS to target.
+- Kbd, Marker and Term, in every theme: keycaps (a bare `<kbd>` in page
+  content too), labelled dividers between two dashed rules with `ok` and
+  `danger` tones, and inline definitions that open on hover, focus or tap.
+  Under Pastel their adapted component styles follow the chosen palette.
+- Tone variables for the six callout types, `--folio-tone-<type>-fill`,
+  `-ink` and `-accent`, and `--folio-surface-radius` for the corner of a
+  raised surface.
+
+### Changed
+
+- Folio styles use stationery names: Letterpress, Ballpoint, Notebook,
+  Paperback, Roller and Typewriter. Existing preset IDs and saved preferences
+  remain compatible; Roller remains an explicit choice.
+- Callouts draw six distinct tones, one per type, from the tone variables on
+  every preset; `note`, `tip` and `check` no longer share the primary color.
+- On a phone, the docs menu is a drawer that floats 12 px from the screen
+  edges and springs in from the left over a dimmed page. It is a modal
+  dialog with a title and a close button: Esc, the close button and a tap
+  outside close it, focus stays inside it while it is open, and the rest of
+  the page is inert. Under reduced motion, docs pages drop their transitions
+  and animations at every width; otherwise desktop does not change.
+- The theme drawer in the docs sidebar is removed; its controls are the
+  picker's Customize step, on every page and on phones. `ThemeConfigurator`
+  renders nothing and stays exported, so a layout that mounts it still
+  builds.
+- The landing no longer shows its own light/dark button;
+  `theme.header.theme_toggle: true` adds one to the landing and the docs
+  navbars alike.
+- The carousel arrows and swipes browse each color-and-style variant in
+  swatch order, continuing across families. Neighbouring previews show
+  the recipes they select. Navigating applies the selected theme to the page
+  immediately, without a separate confirmation.
+- Choosing a variant restores its configured style. The site preset uses
+  `theme.tune` and `theme.radius`; Reset in Customize clears manual changes.
+- Manual colors also work on fixed-scheme Omarchy palettes and persist
+  through the initial theme bootstrap without a color flash.
+- A theme package that overrides `components/theme-configurator.tsx` keeps
+  the exports the picker imports; the root layout mounts
+  `ThemeStyleBootstrap`, and page overrides no longer need their own.
+- A theme package whose `theme/project-theme.ts` exports
+  `projectThemeDefaultConfig` as an untyped literal no longer fails the
+  frontend type check. The bundled configurator reads it with every key
+  optional, so the literal may leave keys out ("does not exist on type") and
+  may set `customization` keys the configurator also defaults, such as
+  `fontId` or `colorId` ("specified more than once").
+
+### Fixed
+
+- Theme previews show real text, section rules and workspace frames, so
+  typography and spacing differences remain visible alongside colors.
+- Going from the docs to the landing page by the logo keeps the reader's
+  theme.
+- The landing navbar takes the theme's navbar height, and landing headings
+  and code boxes follow the theme's heading font and code background.
+- Under `folio serve`, a docs page no longer turns into "Element type is
+  invalid" when it is reloaded or opened from the landing page. Pages under
+  `folio serve` carry no "Last updated" line; a build still shows it on
+  authored pages.
+
 ## 0.3.0-a1 — 2026-09-25
 
 ### Added

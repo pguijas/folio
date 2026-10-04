@@ -54,7 +54,7 @@ fn manifest_imports_and_entries_are_present_and_ordered_in_the_template() {
     sorted.sort_unstable();
     assert_eq!(positions, sorted, "entry order drifted from template");
     assert_eq!(check_template_drift(&content), Vec::<String>::new());
-    assert_eq!(template_component_entry_names(&content).len(), 40);
+    assert_eq!(template_component_entry_names(&content).len(), 43);
 }
 
 #[test]
@@ -120,7 +120,7 @@ fn contract_matches_the_baseline_fixture_bytes() {
         expected,
         "mdx_contract_baseline.json is stale; regenerate with FOLIO_UPDATE_GOLDEN=1"
     );
-    assert_eq!(payload.len(), 22);
+    assert_eq!(payload.len(), 25);
 }
 
 #[test]

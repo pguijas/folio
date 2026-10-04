@@ -11,7 +11,7 @@ running your code. The native parsers extract modules, declarations,
 signatures, types, attributes, and doc comments.
 
 <Callout type="warning" title="Not available in this release">
-  TypeScript is a separate parser, planned for 0.4 Every Reader. `.ts`,
+  TypeScript is a separate parser, planned for 0.5 Every Language. `.ts`,
   `.tsx`, `.mts` and `.cts` files are not read; the build reports them in a
   warning instead.
 </Callout>

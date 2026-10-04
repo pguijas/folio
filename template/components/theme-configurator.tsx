@@ -1,19 +1,9 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { createPortal } from "react-dom"
-import { useTheme } from "next-themes"
-import { HugeiconsIcon } from "@hugeicons/react"
-import {
-  ArrowDown01Icon,
-  ComputerIcon,
-  Moon02Icon,
-  Sun03Icon,
-} from "@hugeicons/core-free-icons"
-import { cn } from "@/lib/utils"
+import { useLayoutEffect } from "react"
+import { THEME_SCHEME_EVENT } from "@/components/theme-provider"
 import { projectThemeDefaultConfig } from "@/theme/project-theme"
 import { presets } from "@/theme/presets"
-import { getGroups, groupPresetsForDisplay } from "@/theme/preset-registry"
 import { themeRadiusScale } from "@/theme/theme-contract.generated"
 import {
   type PresetOptionValues,
@@ -22,6 +12,7 @@ import {
   type ThemeStyle,
   type ThemeVars,
   buildBootstrapPresets,
+  getPresetOptionKey,
   normalizePresetOptions,
   resolvePresetTheme,
 } from "@/theme/preset-types"
@@ -29,21 +20,11 @@ import {
 // Radius values come from the generated theme contract so the TypeScript
 // scale can never drift from the Python one; only the labels live here.
 const radiusLabels = ["None", "Sm", "Md", "Lg", "Full"]
-const radiusOptions: Array<{ label: string; value: string }> = themeRadiusScale.map(
+export const radiusOptions: Array<{ label: string; value: string }> = themeRadiusScale.map(
   (value, index) => ({ label: radiusLabels[index] ?? value, value })
 )
 
-const modeOptions = [
-  { id: "light", label: "Light", icon: Sun03Icon },
-  { id: "dark", label: "Dark", icon: Moon02Icon },
-  { id: "system", label: "System", icon: ComputerIcon },
-] as const
-
-type ThemeMode = (typeof modeOptions)[number]["id"]
-
-const presetGroups = getGroups()
-
-const fontOptions = [
+export const fontOptions = [
   {
     id: "folio",
     label: "Editorial",
@@ -99,6 +80,28 @@ const fontOptions = [
       "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
+  {
+    id: "terminal",
+    label: "Terminal",
+    description: "Monospaced body, Geist headings",
+    sample: ">_",
+    style: {
+      "--folio-heading-font-family": "var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folio-body-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+    },
+  },
+  {
+    id: "grotesque",
+    label: "Grotesque",
+    description: "Bricolage Grotesque headings, DM Sans body",
+    sample: "Gq",
+    style: {
+      "--folio-heading-font-family": "var(--font-bricolage), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folio-body-font-family": "var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+    },
+  },
 ] satisfies Array<{
   id: string
   label: string
@@ -107,7 +110,7 @@ const fontOptions = [
   style: Pick<ResolvedPresetTheme["style"], "--folio-heading-font-family" | "--folio-body-font-family" | "--folio-code-font-family">
 }>
 
-const colorOptions = [
+export const colorOptions = [
   {
     id: "ink",
     label: "Theme ink",
@@ -223,7 +226,7 @@ type SurfaceColorOption = {
   dark: Partial<ThemeVars>
 }
 
-const surfaceColorOptions = [
+export const surfaceColorOptions = [
   {
     id: "preset",
     label: "Preset",
@@ -314,7 +317,7 @@ const surfaceColorOptions = [
   },
 ] satisfies SurfaceColorOption[]
 
-const shellPaddingOptions = [
+export const shellPaddingOptions = [
   { id: "preset", label: "Preset", style: {} },
   { id: "flush", label: "Flush", style: { "--folio-workspace-shell-padding": "0px" } },
   { id: "frame", label: "Frame", style: { "--folio-workspace-shell-padding": "18px" } },
@@ -328,7 +331,7 @@ const contentWidthOptions = [
   { id: "wide", label: "Wide", style: { "--folio-content-max-width": "74rem" } },
 ] satisfies StyleOption[]
 
-const rhythmOptions = [
+export const rhythmOptions = [
   { id: "preset", label: "Preset", style: {} },
   {
     id: "compact",
@@ -362,7 +365,7 @@ const rhythmOptions = [
   },
 ] satisfies StyleOption[]
 
-const borderOptions = [
+export const borderOptions = [
   { id: "preset", label: "Preset", style: {} },
   {
     id: "fine",
@@ -399,7 +402,7 @@ const borderOptions = [
   },
 ] satisfies StyleOption[]
 
-const codeTreatmentOptions = [
+export const codeTreatmentOptions = [
   { id: "preset", label: "Preset", style: {} },
   {
     id: "soft",
@@ -458,11 +461,16 @@ interface ThemeCustomization {
   codeTreatmentId: string
 }
 
+export type ThemeColorOverrides = Partial<
+  Record<"light" | "dark", Partial<Record<"--background" | "--foreground" | "--primary", string>>>
+>
+
 interface ThemeConfig {
   presetId: string
   radiusIndex: number
   optionsByPreset: Record<string, PresetOptionValues>
   customization: ThemeCustomization
+  colorOverrides?: ThemeColorOverrides
 }
 
 type LegacyThemeConfig = Partial<ThemeConfig> & {
@@ -471,6 +479,17 @@ type LegacyThemeConfig = Partial<ThemeConfig> & {
   optionsByFlavor?: Record<string, PresetOptionValues>
 }
 
+// A theme package's project-theme.ts may export an untyped literal that leaves
+// keys out or sets the very customization keys defaulted below, so read it
+// through the shape the configurator expects, every key optional.
+const packageDefaults: {
+  presetId?: string
+  radiusIndex?: number
+  optionsByPreset?: Record<string, PresetOptionValues>
+  customization?: Partial<ThemeCustomization>
+} = projectThemeDefaultConfig
+const configuredDefaultPresetId = "pastel" // __FOLIO_THEME_PRESET__
+const DEFAULT_PRESET = presets.find((preset) => preset.id === (packageDefaults.presetId ?? configuredDefaultPresetId)) ?? presets[0]!
 const DEFAULT_CUSTOMIZATION: ThemeCustomization = {
   fontId: "sans",
   colorId: "ink",
@@ -480,16 +499,21 @@ const DEFAULT_CUSTOMIZATION: ThemeCustomization = {
   rhythmId: "preset",
   borderId: "preset",
   codeTreatmentId: "preset",
-  ...(projectThemeDefaultConfig.customization ?? {}),
-} as ThemeCustomization
-const configuredDefaultPresetId = "organic-editorial" // __FOLIO_THEME_PRESET__
-const DEFAULT_CONFIG: ThemeConfig = {
-  presetId: projectThemeDefaultConfig.presetId ?? configuredDefaultPresetId,
-  radiusIndex: projectThemeDefaultConfig.radiusIndex ?? 2,
-  optionsByPreset: projectThemeDefaultConfig.optionsByPreset ?? {},
+  ...DEFAULT_PRESET.defaultCustomization,
+  ...packageDefaults.customization,
+}
+export const DEFAULT_CONFIG: ThemeConfig = {
+  presetId: DEFAULT_PRESET.id,
+  radiusIndex: packageDefaults.radiusIndex ?? DEFAULT_PRESET.defaultRadiusIndex ?? 2,
+  optionsByPreset: {
+    ...packageDefaults.optionsByPreset,
+    [DEFAULT_PRESET.id]: normalizePresetOptions(DEFAULT_PRESET, packageDefaults.optionsByPreset?.[DEFAULT_PRESET.id]),
+  },
   customization: DEFAULT_CUSTOMIZATION,
 }
 const STORAGE_KEY = `folio-theme:${DEFAULT_CONFIG.presetId}`
+// Readers of sites that used Folio's former default keep their selection.
+const PREVIOUS_STORAGE_KEY = DEFAULT_CONFIG.presetId === "pastel" ? "folio-theme:organic-editorial" : undefined
 // Pre-namespacing storage key; migrated to STORAGE_KEY on first read.
 const LEGACY_STORAGE_KEY = "folio-theme"
 const SHELL_THEME_CSS = `
@@ -556,10 +580,6 @@ body > div:has(> .nextra-sidebar) {
   max-height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
 }
 
-details[data-theme-configurator] {
-  isolation: isolate;
-}
-
 @media (max-width: 767px) {
   body > .nextra-navbar {
     top: 0 !important;
@@ -606,8 +626,6 @@ const LEGACY_PRESET_IDS: Record<string, string> = {
   "carbon": "carbon",
 }
 
-const DEFAULT_PRESET = presets.find((preset) => preset.id === DEFAULT_CONFIG.presetId) ?? presets[0]!
-
 function getRadius(index: number) {
   return radiusOptions[index] ?? radiusOptions[DEFAULT_CONFIG.radiusIndex]
 }
@@ -615,10 +633,6 @@ function getRadius(index: number) {
 function getRadiusIndex(value: string, fallback = DEFAULT_CONFIG.radiusIndex) {
   const index = radiusOptions.findIndex((option) => option.value === value)
   return index >= 0 ? index : fallback
-}
-
-function normalizeThemeMode(value: string | undefined): ThemeMode {
-  return modeOptions.some((option) => option.id === value) ? value as ThemeMode : "system"
 }
 
 function getFontOption(id: string | undefined) {
@@ -686,14 +700,7 @@ function getPreset(id: string | undefined): ThemePreset {
   return presets.find((preset) => preset.id === migratedId) ?? DEFAULT_PRESET
 }
 
-// Presets are deduped across groups (first group wins; the "project" group is
-// registered first, so a project preset that reuses a builtin id only shows
-// under Project). Presets that belong to no group render in a fallback group
-// so presets registered through the extension API are never invisible. The
-// logic lives in preset-registry.ts so it stays behaviorally testable.
-const groupedPresets = groupPresetsForDisplay(presetGroups, presets)
-
-function getPresetDefaults(preset: ThemePreset) {
+export function getPresetDefaults(preset: ThemePreset) {
   const radiusIndex = radiusOptions[preset.defaultRadiusIndex ?? DEFAULT_CONFIG.radiusIndex]
     ? preset.defaultRadiusIndex ?? DEFAULT_CONFIG.radiusIndex
     : DEFAULT_CONFIG.radiusIndex
@@ -734,11 +741,31 @@ function getMigratedOptions(input: LegacyThemeConfig): Record<string, PresetOpti
   return optionsByPreset
 }
 
+function normalizeColorOverrides(input: unknown): ThemeColorOverrides | undefined {
+  if (!input || typeof input !== "object") return undefined
+  const result: ThemeColorOverrides = {}
+  for (const mode of ["light", "dark"] as const) {
+    const values = (input as Record<string, unknown>)[mode]
+    if (!values || typeof values !== "object") continue
+    for (const token of ["--background", "--foreground", "--primary"] as const) {
+      const value = (values as Record<string, unknown>)[token]
+      if (typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value)) {
+        const colors = (result[mode] ??= {})
+        colors[token] = value
+      }
+    }
+  }
+  return Object.keys(result).length ? result : undefined
+}
+
 function normalizeConfig(input: LegacyThemeConfig = {}): ThemeConfig {
   const requestedId = getRequestedPresetId(input)
   const preset = getPreset(requestedId === "custom" ? input.flavorId ?? input.themeId : requestedId)
   const defaults = getPresetDefaults(preset)
   const optionsByPreset = getMigratedOptions(input)
+  if (requestedId === "pastel" && !optionsByPreset.pastel?.palette) {
+    optionsByPreset.pastel = { ...optionsByPreset.pastel, palette: "jade" }
+  }
   const requestedRadiusIndex = Number.isInteger(input.radiusIndex)
     ? Number(input.radiusIndex)
     : defaults.radiusIndex
@@ -752,6 +779,7 @@ function normalizeConfig(input: LegacyThemeConfig = {}): ThemeConfig {
     radiusIndex: radiusOptions[requestedRadiusIndex] ? requestedRadiusIndex : defaults.radiusIndex,
     optionsByPreset,
     customization: normalizeCustomization(input.customization ?? defaults.customization),
+    colorOverrides: normalizeColorOverrides(input.colorOverrides),
   }
 }
 
@@ -763,11 +791,12 @@ function loadConfig(): ThemeConfig {
     if (stored) {
       return normalizeConfig(JSON.parse(stored))
     }
-    const legacy = localStorage.getItem(LEGACY_STORAGE_KEY)
+    const previous = PREVIOUS_STORAGE_KEY && localStorage.getItem(PREVIOUS_STORAGE_KEY)
+    const legacy = previous || localStorage.getItem(LEGACY_STORAGE_KEY)
     if (legacy) {
       const migrated = normalizeConfig(JSON.parse(legacy))
       localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated))
-      localStorage.removeItem(LEGACY_STORAGE_KEY)
+      if (!previous) localStorage.removeItem(LEGACY_STORAGE_KEY)
       return migrated
     }
   } catch {}
@@ -775,16 +804,33 @@ function loadConfig(): ThemeConfig {
   return DEFAULT_CONFIG
 }
 
-function themeToCss(theme: ResolvedPresetTheme, radius: string, customization: ThemeCustomization) {
+// A theme that fixes its scheme sets every colour itself: the reader's accent
+// and surface stay stored but add nothing on top of it.
+const NO_COLOR_LAYER = { light: {}, dark: {} }
+
+function colorLayers(theme: ResolvedPresetTheme, customization: ThemeCustomization) {
+  if (theme.scheme) return { color: NO_COLOR_LAYER, surface: NO_COLOR_LAYER }
+  return {
+    color: getColorOption(customization.colorId),
+    surface: getSurfaceColorOption(customization.surfaceColorId),
+  }
+}
+
+function themeToCss(
+  theme: ResolvedPresetTheme,
+  radius: string,
+  customization: ThemeCustomization,
+  colorOverrides: ThemeColorOverrides = {}
+) {
   const font = getFontOption(customization.fontId)
-  const color = getColorOption(customization.colorId)
-  const surface = getSurfaceColorOption(customization.surfaceColorId)
+  const { color, surface } = colorLayers(theme, customization)
   const style = getCustomizationStyle(customization)
   const toVars = (vars: object) =>
     Object.entries(vars)
       .map(([key, value]) => `  ${key}: ${String(value)};`)
       .join("\n")
 
+  // Keep light-only overrides out of the dark cascade.
   return `
     :root {
 ${toVars(theme.light)}
@@ -800,6 +846,12 @@ ${toVars(theme.dark)}
 ${toVars(surface.dark)}
 ${toVars(color.dark)}
     }
+    :root:not(.dark) {
+${toVars(colorOverrides[theme.scheme ?? "light"] ?? {})}
+    }
+    .dark {
+${toVars(colorOverrides[theme.scheme ?? "dark"] ?? {})}
+    }
 ${SHELL_THEME_CSS}
   `
 }
@@ -811,21 +863,177 @@ function configToCss(config: ThemeConfig) {
   const theme = resolvePresetTheme(preset, options)
   const radius = getRadius(normalized.radiusIndex)
 
-  return themeToCss(theme, radius.value, normalized.customization)
+  return themeToCss(theme, radius.value, normalized.customization, normalized.colorOverrides)
 }
 
 const DEFAULT_THEME_CSS = configToCss(DEFAULT_CONFIG)
 
-function applyConfig(config: ThemeConfig) {
+// Marks <html> with the applied preset, and with its scheme when the theme is
+// only light or only dark. For a fixed scheme it sets the class itself, so the
+// page is right before the theme provider catches up with the event. The
+// bootstrap script carries a copy of this.
+function markScheme(presetId: string, scheme: ResolvedPresetTheme["scheme"]) {
+  const root = document.documentElement
+  root.dataset.folioPreset = presetId
+  if (scheme) {
+    root.dataset.folioScheme = scheme
+    root.classList.remove("light", "dark")
+    root.classList.add(scheme)
+    root.style.colorScheme = scheme
+  } else {
+    delete root.dataset.folioScheme
+  }
+  window.dispatchEvent(new Event(THEME_SCHEME_EVENT))
+}
 
-  const style = document.getElementById("theme-configurator-style") || (() => {
+function applyConfig(config: ThemeConfig) {
+  // The root layout mounts the style element; a theme package's page may
+  // still mount a second one. Every copy gets the same CSS, so a later copy
+  // never paints the default theme over the reader's.
+  const styles = Array.from(document.querySelectorAll("style#theme-configurator-style"))
+  if (styles.length === 0) {
     const el = document.createElement("style")
     el.id = "theme-configurator-style"
     document.head.appendChild(el)
-    return el
-  })()
+    styles.push(el)
+  }
 
-  style.textContent = configToCss(config)
+  const css = configToCss(config)
+  styles.forEach((style) => {
+    style.textContent = css
+  })
+  const normalized = normalizeConfig(config)
+  const preset = getPreset(normalized.presetId)
+  markScheme(preset.id, resolvePresetTheme(preset, getPresetOptions(normalized, preset.id)).scheme)
+}
+
+// The gallery (theme-gallery.tsx) saves the theme a reader applies and fires
+// THEME_CONFIG_EVENT, so every mounted reader of the config stays in step.
+export const THEME_CONFIG_EVENT = "folio:theme-config"
+
+export type { ThemeConfig }
+
+export function readThemeConfig(): ThemeConfig {
+  return loadConfig()
+}
+
+let themeTransition: ViewTransition | undefined
+let themeUpdate = 0
+
+export function saveThemeConfig(config: ThemeConfig) {
+  const previous = readThemeConfig()
+  const next = normalizeConfig(config)
+  const update = ++themeUpdate
+  themeTransition?.skipTransition()
+  document.documentElement.classList.remove("folio-theme-transition")
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
+  } catch {}
+  const apply = () => {
+    if (update !== themeUpdate) return
+    applyConfig(next)
+    window.dispatchEvent(new Event(THEME_CONFIG_EVENT))
+  }
+  const changingPalette = next.presetId === "omarchy" && (
+    previous.presetId !== "omarchy" || previous.optionsByPreset.omarchy?.palette !== next.optionsByPreset.omarchy?.palette
+  )
+  if (changingPalette && document.startViewTransition && !document.hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("folio-theme-transition")
+    try {
+      const transition = document.startViewTransition(apply)
+      themeTransition = transition
+      void transition.ready.catch(() => {})
+      void transition.finished.finally(() => {
+        if (themeTransition === transition) {
+          themeTransition = undefined
+          document.documentElement.classList.remove("folio-theme-transition")
+        }
+      }).catch(() => {})
+    } catch {
+      document.documentElement.classList.remove("folio-theme-transition")
+      apply()
+    }
+  } else {
+    apply()
+  }
+}
+
+// Restyles the page with a config without saving it or telling anyone: the
+// picker previews a draft this way and restores the saved config after.
+export function previewThemeConfig(config: ThemeConfig) {
+  ++themeUpdate
+  themeTransition?.skipTransition()
+  document.documentElement.classList.remove("folio-theme-transition")
+  applyConfig(config)
+}
+
+// The config a reader gets by picking a preset with the given options, or with
+// the options they last stored for it. On the preset they already use it
+// changes the options and keeps their customization; the corners snap only
+// when the options change the preset's own radius. Another preset starts from
+// its own defaults; the site preset starts from the site's defaults.
+export function configForPreset(
+  config: ThemeConfig,
+  presetId: string,
+  options?: PresetOptionValues
+): ThemeConfig {
+  const preset = getPreset(presetId)
+  const isSitePreset = preset.id === DEFAULT_CONFIG.presetId
+  const nextOptions = normalizePresetOptions(
+    preset,
+    options ??
+      config.optionsByPreset[preset.id] ??
+      (isSitePreset ? DEFAULT_CONFIG.optionsByPreset[preset.id] : undefined)
+  )
+  const optionsByPreset = { ...config.optionsByPreset, [preset.id]: nextOptions }
+
+  if (preset.id === getPreset(config.presetId).id) {
+    const currentOptions = getPresetOptions(config, preset.id)
+    if (getPresetOptionKey(nextOptions) === getPresetOptionKey(currentOptions)) {
+      return normalizeConfig(config)
+    }
+    const radius = resolvePresetTheme(preset, nextOptions).radius
+    const radiusIndex =
+      radius === resolvePresetTheme(preset, currentOptions).radius
+        ? config.radiusIndex
+        : getRadiusIndex(radius, config.radiusIndex)
+    return normalizeConfig({ ...config, radiusIndex, optionsByPreset })
+  }
+
+  const defaults = isSitePreset
+    ? { radiusIndex: DEFAULT_CONFIG.radiusIndex, customization: DEFAULT_CONFIG.customization }
+    : getPresetDefaults(preset)
+  return normalizeConfig({
+    ...config,
+    presetId: preset.id,
+    radiusIndex: defaults.radiusIndex,
+    optionsByPreset,
+    customization: defaults.customization,
+    colorOverrides: undefined,
+  })
+}
+
+// The custom properties a config puts on the page in one scheme, in the order
+// themeToCss writes them, so a preview can scope them to its own element.
+export function configVars(config: ThemeConfig, dark: boolean): Record<string, string | undefined> {
+  const normalized = normalizeConfig(config)
+  const preset = getPreset(normalized.presetId)
+  const theme = resolvePresetTheme(preset, getPresetOptions(normalized, preset.id))
+  const customization = normalized.customization
+  const { color, surface } = colorLayers(theme, customization)
+  const isDark = theme.scheme ? theme.scheme === "dark" : dark
+  const vars: Record<string, string | undefined> = {
+    ...theme.light,
+    ...surface.light,
+    ...color.light,
+    ...theme.style,
+    ...getCustomizationStyle(customization),
+    ...getFontOption(customization.fontId).style,
+    "--radius": getRadius(normalized.radiusIndex).value,
+  }
+
+  const resolved = isDark ? { ...vars, ...theme.dark, ...surface.dark, ...color.dark } : vars
+  return { ...resolved, ...normalized.colorOverrides?.[isDark ? "dark" : "light"] }
 }
 
 // Combination-capped bootstrap payload; buildBootstrapPresets (preset-types.ts)
@@ -913,10 +1121,6 @@ const THEME_BOOTSTRAP_SCRIPT = `
       ...getBorderOption(customization.borderId).style,
       ...getCodeTreatmentOption(customization.codeTreatmentId).style,
     });
-    const getRadiusIndex = (value, fallback) => {
-      const index = radiusOptions.findIndex((item) => item.value === value);
-      return index >= 0 ? index : fallback;
-    };
     const normalizeCustomization = (raw = {}) => {
       const current = raw && typeof raw === "object" ? raw : {};
       return {
@@ -964,11 +1168,30 @@ const THEME_BOOTSTRAP_SCRIPT = `
       });
       return optionsByPreset;
     };
+    const normalizeColorOverrides = (raw) => {
+      if (!raw || typeof raw !== "object") return undefined;
+      const result = {};
+      for (const mode of ["light", "dark"]) {
+        const values = raw[mode];
+        if (!values || typeof values !== "object") continue;
+        for (const token of ["--background", "--foreground", "--primary"]) {
+          const value = values[token];
+          if (typeof value === "string" && /^#[0-9a-f]{6}$/i.test(value)) {
+            const colors = (result[mode] ??= {});
+            colors[token] = value;
+          }
+        }
+      }
+      return Object.keys(result).length ? result : undefined;
+    };
     const normalizeConfig = (raw = {}) => {
       const requestedId = getRequestedPresetId(raw);
       const preset = getPreset(requestedId === "custom" ? raw.flavorId || raw.themeId : requestedId);
       const defaults = getPresetDefaults(preset);
       const optionsByPreset = getMigratedOptions(raw);
+      if (requestedId === "pastel" && !optionsByPreset.pastel?.palette) {
+        optionsByPreset.pastel = { ...optionsByPreset.pastel, palette: "jade" };
+      }
       const requestedRadiusIndex = Number.isInteger(raw.radiusIndex) ? raw.radiusIndex : defaults.radiusIndex;
       if (!optionsByPreset[preset.id]) {
         optionsByPreset[preset.id] = normalizeOptions(preset);
@@ -978,6 +1201,7 @@ const THEME_BOOTSTRAP_SCRIPT = `
         radiusIndex: radiusOptions[requestedRadiusIndex] ? requestedRadiusIndex : defaults.radiusIndex,
         optionsByPreset,
         customization: normalizeCustomization(raw.customization || defaults.customization),
+        colorOverrides: normalizeColorOverrides(raw.colorOverrides),
       };
     };
     const readConfig = () => {
@@ -986,1022 +1210,94 @@ const THEME_BOOTSTRAP_SCRIPT = `
         if (stored) {
           return normalizeConfig(JSON.parse(stored));
         }
-        const legacy = localStorage.getItem("${LEGACY_STORAGE_KEY}");
+        const previousKey = ${JSON.stringify(PREVIOUS_STORAGE_KEY ?? null)};
+        const previous = previousKey && localStorage.getItem(previousKey);
+        const legacy = previous || localStorage.getItem("${LEGACY_STORAGE_KEY}");
         if (legacy) {
           const migrated = normalizeConfig(JSON.parse(legacy));
           localStorage.setItem("${STORAGE_KEY}", JSON.stringify(migrated));
-          localStorage.removeItem("${LEGACY_STORAGE_KEY}");
+          if (!previous) localStorage.removeItem("${LEGACY_STORAGE_KEY}");
           return migrated;
         }
-        return normalizeConfig({});
+        return normalizeConfig(defaultConfig);
       } catch {
-        return normalizeConfig({});
+        return normalizeConfig(defaultConfig);
       }
     };
     const getTheme = (preset, options) => preset.themes[getOptionKey(options)] || preset.themes[preset.defaultKey];
-    const getStyleElement = () => document.getElementById("theme-configurator-style") || (() => {
-      const element = document.createElement("style");
-      element.id = "theme-configurator-style";
-      document.head.appendChild(element);
-      return element;
-    })();
-    const setPage = (page = "presets") => {
-      const requested = page === "custom" ? "custom" : "presets";
-      document.querySelectorAll("[data-theme-page]").forEach((button) => {
-        button.dataset.active = button.dataset.themePage === requested ? "true" : "false";
-      });
-      document.querySelectorAll("[data-theme-panel]").forEach((panel) => {
-        panel.dataset.active = panel.dataset.themePanel === requested ? "true" : "false";
-      });
+    const markScheme = (presetId, scheme) => {
+      const root = document.documentElement;
+      root.dataset.folioPreset = presetId;
+      if (scheme) {
+        root.dataset.folioScheme = scheme;
+        root.classList.remove("light", "dark");
+        root.classList.add(scheme);
+        root.style.colorScheme = scheme;
+      } else {
+        delete root.dataset.folioScheme;
+      }
+      window.dispatchEvent(new Event("${THEME_SCHEME_EVENT}"));
     };
-    const markActive = (rawConfig) => {
-      const config = normalizeConfig(rawConfig);
-      const preset = getPreset(config.presetId);
-      const options = normalizeOptions(preset, config.optionsByPreset[preset.id]);
-      const customization = normalizeCustomization(config.customization);
-      document.querySelectorAll("[data-theme-preset]").forEach((button) => {
-        button.dataset.active = button.dataset.themePreset === preset.id ? "true" : "false";
-      });
-      document.querySelectorAll("[data-preset-panel]").forEach((panel) => {
-        panel.dataset.active = panel.dataset.presetPanel === preset.id ? "true" : "false";
-      });
-      document.querySelectorAll("[data-preset-id][data-preset-control][data-preset-option]").forEach((button) => {
-        button.dataset.active = button.dataset.presetId === preset.id && options[button.dataset.presetControl] === button.dataset.presetOption ? "true" : "false";
-      });
-      document.querySelectorAll("[data-radius-option]").forEach((button) => {
-        button.dataset.active = button.dataset.radiusOption === String(config.radiusIndex) ? "true" : "false";
-      });
-      document.querySelectorAll("[data-font-option]").forEach((button) => {
-        button.dataset.active = button.dataset.fontOption === customization.fontId ? "true" : "false";
-      });
-      document.querySelectorAll("[data-color-option]").forEach((button) => {
-        button.dataset.active = button.dataset.colorOption === customization.colorId ? "true" : "false";
-      });
-      document.querySelectorAll("[data-surface-color-option]").forEach((button) => {
-        button.dataset.active = button.dataset.surfaceColorOption === customization.surfaceColorId ? "true" : "false";
-      });
-      document.querySelectorAll("[data-shell-padding-option]").forEach((button) => {
-        button.dataset.active = button.dataset.shellPaddingOption === customization.shellPaddingId ? "true" : "false";
-      });
-      document.querySelectorAll("[data-content-width-option]").forEach((button) => {
-        button.dataset.active = button.dataset.contentWidthOption === customization.contentWidthId ? "true" : "false";
-      });
-      document.querySelectorAll("[data-rhythm-option]").forEach((button) => {
-        button.dataset.active = button.dataset.rhythmOption === customization.rhythmId ? "true" : "false";
-      });
-      document.querySelectorAll("[data-border-option]").forEach((button) => {
-        button.dataset.active = button.dataset.borderOption === customization.borderId ? "true" : "false";
-      });
-      document.querySelectorAll("[data-code-treatment-option]").forEach((button) => {
-        button.dataset.active = button.dataset.codeTreatmentOption === customization.codeTreatmentId ? "true" : "false";
-      });
+    const getStyleElements = () => {
+      const elements = Array.from(document.querySelectorAll("style#theme-configurator-style"));
+      if (elements.length === 0) {
+        const element = document.createElement("style");
+        element.id = "theme-configurator-style";
+        document.head.appendChild(element);
+        elements.push(element);
+      }
+      return elements;
     };
-    const apply = (rawConfig, persist = false, syncControls = true) => {
+    const apply = (rawConfig) => {
       const config = normalizeConfig(rawConfig);
       const preset = getPreset(config.presetId);
       const options = normalizeOptions(preset, config.optionsByPreset[preset.id]);
       const theme = getTheme(preset, options);
       const radius = getRadius(config.radiusIndex);
       const font = getFontOption(config.customization.fontId);
-      const color = getColorOption(config.customization.colorId);
-      const surface = getSurfaceColorOption(config.customization.surfaceColorId);
+      // A theme that fixes its scheme sets every colour itself, as in
+      // colorLayers().
+      const noLayer = { light: {}, dark: {} };
+      const color = theme.scheme ? noLayer : getColorOption(config.customization.colorId);
+      const surface = theme.scheme ? noLayer : getSurfaceColorOption(config.customization.surfaceColorId);
       const style = getCustomizationStyle(config.customization);
+      const overrides = config.colorOverrides || {};
       // Keep this format byte-identical to themeToCss(): the bootstrap runs
       // before hydration and rewrites the server-rendered style element, so a
       // format drift would make every page load a hydration mismatch even for
       // the default config.
-      getStyleElement().textContent = "\\n    :root {\\n" + toVars(theme.light) + "\\n" + toVars(surface.light) + "\\n" + toVars(color.light) + "\\n" + toVars(theme.style) + "\\n" + toVars(style) + "\\n" + toVars(font.style) + "\\n      --radius: " + radius.value + ";\\n    }\\n    .dark {\\n" + toVars(theme.dark) + "\\n" + toVars(surface.dark) + "\\n" + toVars(color.dark) + "\\n    }\\n" + shellThemeCss + "\\n  ";
-      if (persist) {
-        localStorage.setItem("${STORAGE_KEY}", JSON.stringify(config));
-      }
-      if (syncControls) {
-        markActive(config);
-      }
+      const css = "\\n    :root {\\n" + toVars(theme.light) + "\\n" + toVars(surface.light) + "\\n" + toVars(color.light) + "\\n" + toVars(theme.style) + "\\n" + toVars(style) + "\\n" + toVars(font.style) + "\\n      --radius: " + radius.value + ";\\n    }\\n    .dark {\\n" + toVars(theme.dark) + "\\n" + toVars(surface.dark) + "\\n" + toVars(color.dark) + "\\n    }\\n    :root:not(.dark) {\\n" + toVars(overrides[theme.scheme || "light"] || {}) + "\\n    }\\n    .dark {\\n" + toVars(overrides[theme.scheme || "dark"] || {}) + "\\n    }\\n" + shellThemeCss + "\\n  ";
+      getStyleElements().forEach((element) => {
+        element.textContent = css;
+      });
+      markScheme(preset.id, theme.scheme);
     };
-    const applyPreset = (presetId) => {
-      const config = readConfig();
-      const preset = getPreset(presetId);
-      const defaults = getPresetDefaults(preset);
-      apply({
-        ...config,
-        presetId: preset.id,
-        radiusIndex: defaults.radiusIndex,
-        optionsByPreset: { ...config.optionsByPreset, [preset.id]: normalizeOptions(preset) },
-        customization: defaults.customization,
-      }, true);
-    };
-    apply(readConfig(), false, false);
-    // A plain inline <script> re-executes whenever the docs layout remounts
-    // during client-side navigation. Re-applying the theme above is idempotent
-    // and desirable, but the document-level click listener must only ever be
-    // registered once or handlers would accumulate across navigations.
-    if (window.__folioThemeBootstrapBound) {
-      return;
-    }
-    window.__folioThemeBootstrapBound = true;
-    document.addEventListener("click", (event) => {
-      const backButton = event.target.closest("[data-theme-back]");
-      if (backButton) {
-        setPage(backButton.dataset.themeBack);
-        return;
-      }
-      const customButton = event.target.closest("[data-theme-custom]");
-      if (customButton) {
-        setPage("custom");
-        return;
-      }
-      const presetButton = event.target.closest("[data-theme-preset]");
-      if (presetButton) {
-        applyPreset(presetButton.dataset.themePreset);
-        return;
-      }
-      const optionButton = event.target.closest("[data-preset-id][data-preset-control][data-preset-option]");
-      if (optionButton) {
-        const config = readConfig();
-        const preset = getPreset(optionButton.dataset.presetId || config.presetId);
-        const currentOptions = normalizeOptions(preset, config.optionsByPreset[preset.id]);
-        const nextOptions = { ...currentOptions, [optionButton.dataset.presetControl]: optionButton.dataset.presetOption };
-        const theme = getTheme(preset, nextOptions);
-        apply({
-          ...config,
-          presetId: preset.id,
-          radiusIndex: getRadiusIndex(theme.radius, config.radiusIndex),
-          optionsByPreset: { ...config.optionsByPreset, [preset.id]: nextOptions },
-        }, true);
-        return;
-      }
-      const radiusButton = event.target.closest("[data-radius-option]");
-      if (radiusButton) {
-        apply({ ...readConfig(), radiusIndex: Number(radiusButton.dataset.radiusOption) }, true);
-        return;
-      }
-      const fontButton = event.target.closest("[data-font-option]");
-      if (fontButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, fontId: fontButton.dataset.fontOption } }, true);
-        return;
-      }
-      const colorButton = event.target.closest("[data-color-option]");
-      if (colorButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, colorId: colorButton.dataset.colorOption } }, true);
-        return;
-      }
-      const surfaceColorButton = event.target.closest("[data-surface-color-option]");
-      if (surfaceColorButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, surfaceColorId: surfaceColorButton.dataset.surfaceColorOption } }, true);
-        return;
-      }
-      const shellPaddingButton = event.target.closest("[data-shell-padding-option]");
-      if (shellPaddingButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, shellPaddingId: shellPaddingButton.dataset.shellPaddingOption } }, true);
-        return;
-      }
-      const contentWidthButton = event.target.closest("[data-content-width-option]");
-      if (contentWidthButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, contentWidthId: contentWidthButton.dataset.contentWidthOption } }, true);
-        return;
-      }
-      const rhythmButton = event.target.closest("[data-rhythm-option]");
-      if (rhythmButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, rhythmId: rhythmButton.dataset.rhythmOption } }, true);
-        return;
-      }
-      const borderButton = event.target.closest("[data-border-option]");
-      if (borderButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, borderId: borderButton.dataset.borderOption } }, true);
-        return;
-      }
-      const codeTreatmentButton = event.target.closest("[data-code-treatment-option]");
-      if (codeTreatmentButton) {
-        const config = readConfig();
-        apply({ ...config, customization: { ...config.customization, codeTreatmentId: codeTreatmentButton.dataset.codeTreatmentOption } }, true);
-        return;
-      }
-      if (event.target.closest("[data-theme-reset]")) {
-        apply(defaultConfig, true);
-      }
-    });
+    apply(readConfig());
   } catch {}
 })();
 `
 
-function ThemePreviewStrip({ theme, isDark }: { theme: ResolvedPresetTheme; isDark: boolean }) {
-  const vars = isDark ? theme.dark : theme.light
-  const s = theme.style
-  const isUppercase = s["--folio-h2-transform"] === "uppercase"
-  const hasBottomBorder = s["--folio-h2-border"] !== "none"
-  const cardRadius = theme.radius
-  const hasShadow = s["--folio-card-shadow"] !== "none"
-  const isInvertedCode = s["--folio-code-bg"] === "var(--foreground)"
-  const borderWidth = s["--folio-card-border-width"]
-
-  return (
-    <div
-      className="mt-2 flex h-10 w-full gap-1.5 overflow-hidden rounded-sm p-1"
-      style={{ background: vars["--background"] }}
-    >
-      <div className="flex min-w-0 flex-[2] flex-col justify-center gap-0.5">
-        <div
-          className="h-1.5"
-          style={{
-            background: vars["--foreground"],
-            width: isUppercase ? "54%" : "74%",
-            borderRadius: cardRadius === "0" ? "0" : "9999px",
-          }}
-        />
-        {hasBottomBorder && (
-          <div className="h-px w-full" style={{ background: vars["--border"] }} />
-        )}
-        <div
-          className="h-1 w-[90%] opacity-40"
-          style={{ background: vars["--foreground"], borderRadius: cardRadius === "0" ? "0" : "9999px" }}
-        />
-        <div
-          className="h-1 w-[65%] opacity-40"
-          style={{ background: vars["--foreground"], borderRadius: cardRadius === "0" ? "0" : "9999px" }}
-        />
-      </div>
-
-      <div
-        className="flex min-w-0 flex-1 flex-col justify-center p-1"
-        style={{
-          background: vars["--card"] || vars["--background"],
-          borderRadius: cardRadius,
-          border: `${borderWidth} solid ${vars["--border"]}`,
-          boxShadow: hasShadow ? "0 1px 3px oklch(0.1 0 0 / 0.12)" : "none",
-        }}
-      >
-        <div
-          className="mb-0.5 h-1 w-3/4"
-          style={{ background: vars["--primary"], borderRadius: cardRadius === "0" ? "0" : "9999px" }}
-        />
-        <div
-          className="h-0.5 w-full opacity-30"
-          style={{ background: vars["--foreground"], borderRadius: cardRadius === "0" ? "0" : "9999px" }}
-        />
-      </div>
-
-      <div
-        className="flex w-5 shrink-0 flex-col justify-center p-0.5"
-        style={{
-          background: isInvertedCode ? vars["--foreground"] : vars["--muted"],
-          borderRadius: cardRadius === "0" ? "0" : "2px",
-          border: isInvertedCode ? "none" : `1px solid ${vars["--border"]}`,
-        }}
-      >
-        <div
-          className="mb-0.5 h-0.5 w-full opacity-70"
-          style={{ background: isInvertedCode ? vars["--background"] : vars["--primary"] }}
-        />
-        <div
-          className="h-0.5 w-3/4 opacity-40"
-          style={{ background: isInvertedCode ? vars["--background"] : vars["--foreground"] }}
-        />
-      </div>
-    </div>
-  )
-}
-
-function PresetVisualTile({ theme, isDark }: { theme: ResolvedPresetTheme; isDark: boolean }) {
-  const vars = isDark ? theme.dark : theme.light
-  const s = theme.style
-  const cardRadius = theme.radius
-  const isInvertedCode = s["--folio-code-bg"] === "var(--foreground)"
-  const hasShadow = s["--folio-card-shadow"] !== "none"
-
-  return (
-    <div
-      className="theme-visual-preview mb-1.5 grid h-12 w-full grid-cols-[1.35fr_0.85fr] gap-1 overflow-hidden rounded-sm border p-1"
-      style={{ background: vars["--background"], borderColor: vars["--border"] }}
-      aria-hidden="true"
-    >
-      <div className="flex min-w-0 flex-col justify-between">
-        <div className="space-y-1">
-          <div
-            className="h-2 w-10/12"
-            style={{ background: vars["--foreground"], borderRadius: cardRadius === "0" ? "0" : "9999px" }}
-          />
-          <div
-            className="h-1 w-7/12 opacity-55"
-            style={{ background: vars["--foreground"], borderRadius: cardRadius === "0" ? "0" : "9999px" }}
-          />
-        </div>
-        <div className="grid grid-cols-3 gap-1">
-          {[0, 1, 2].map((item) => (
-            <div
-              key={item}
-              className="h-4"
-              style={{
-                background: item === 0 ? vars["--primary"] : vars["--muted"],
-                border: `1px solid ${vars["--border"]}`,
-                borderRadius: cardRadius,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="grid min-w-0 grid-rows-[1fr_1fr] gap-1">
-        <div
-          style={{
-            background: vars["--card"] || vars["--background"],
-            border: `1px solid ${vars["--border"]}`,
-            borderRadius: cardRadius,
-            boxShadow: hasShadow ? "0 1px 3px oklch(0.1 0 0 / 0.12)" : "none",
-          }}
-        />
-        <div
-          className="flex flex-col justify-center gap-1 p-1"
-          style={{
-            background: isInvertedCode ? vars["--foreground"] : vars["--muted"],
-            border: isInvertedCode ? "none" : `1px solid ${vars["--border"]}`,
-            borderRadius: cardRadius,
-          }}
-        >
-          <div
-            className="h-0.5 w-full opacity-80"
-            style={{ background: isInvertedCode ? vars["--background"] : vars["--primary"] }}
-          />
-          <div
-            className="h-0.5 w-7/12 opacity-45"
-            style={{ background: isInvertedCode ? vars["--background"] : vars["--foreground"] }}
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function CurrentThemeSummary({
-  preset,
-  theme,
-  isDark,
-}: {
-  preset: ThemePreset
-  theme: ResolvedPresetTheme
-  isDark: boolean
-}) {
-  const vars = isDark ? theme.dark : theme.light
-
-  return (
-    <div
-      data-theme-current
-      className="flex min-w-0 items-center gap-2 border border-border bg-background px-2 py-1.5"
-    >
-      <span
-        className="grid size-6 shrink-0 place-items-center border"
-        style={{ background: vars["--background"], borderColor: vars["--border"] }}
-        aria-hidden="true"
-      >
-        <span
-          className="size-3.5"
-          style={{ background: vars["--primary"], borderRadius: theme.radius === "0" ? "0" : "9999px" }}
-        />
-      </span>
-      <span className="min-w-0">
-        <span className="block truncate text-sm font-semibold leading-tight text-foreground">
-          {preset.name}
-        </span>
-      </span>
-    </div>
-  )
-}
-
-function ThemeModeControls({
-  activeMode,
-  onSelect,
-}: {
-  activeMode: ThemeMode
-  onSelect: (mode: ThemeMode) => void
-}) {
-  return (
-    <div>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Theme scheme
-      </h4>
-      <div className="grid grid-cols-3 gap-1.5">
-        {modeOptions.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            data-theme-mode={option.id}
-            data-active={activeMode === option.id ? "true" : "false"}
-            onClick={() => onSelect(option.id)}
-            className={cn(
-              "inline-flex min-h-9 items-center justify-center gap-1.5 border border-border bg-background px-2 py-1.5 text-xs font-semibold transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-              "hover:bg-muted"
-            )}
-          >
-            <HugeiconsIcon icon={option.icon} size={14} strokeWidth={1.5} />
-            <span className="truncate">{option.label}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function PresetControlsPanel({
-  config,
-  preset,
-  isActive,
-  isDark,
-  onUpdate,
-}: {
-  config: ThemeConfig
-  preset: ThemePreset
-  isActive: boolean
-  isDark: boolean
-  onUpdate: (presetId: string, controlId: string, value: string) => void
-}) {
-  const selectedOptions = getPresetOptions(config, preset.id)
-  const selectedTheme = resolvePresetTheme(preset, selectedOptions)
-
-  return (
-    <div
-      data-preset-panel={preset.id}
-      data-active={isActive ? "true" : "false"}
-      className="hidden data-[active=true]:block"
-    >
-      <h4 className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Preset controls
-      </h4>
-      <ThemePreviewStrip theme={selectedTheme} isDark={isDark} />
-      <div className="mt-3 space-y-3">
-        {preset.controls.map((control) => (
-          <div key={control.id} className="space-y-1.5">
-            <div className="text-xs font-medium text-foreground">{control.label}</div>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(4.25rem,1fr))] gap-1.5">
-              {control.options.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  data-preset-id={preset.id}
-                  data-preset-control={control.id}
-                  data-preset-option={option.value}
-                  data-active={selectedOptions[control.id] === option.value ? "true" : "false"}
-                  onClick={() => onUpdate(preset.id, control.id, option.value)}
-                  className={cn(
-                    "inline-flex min-h-8 items-center justify-center gap-1.5 rounded-sm border px-2 py-1 text-xs font-medium transition-colors duration-150",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                    "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-                    "border-border bg-background text-foreground hover:bg-muted"
-                  )}
-                >
-                  {option.swatch ? (
-                    <span
-                      aria-hidden="true"
-                      data-preset-option-swatch
-                      className="size-2.5 shrink-0 rounded-full border border-foreground/10"
-                      style={{ background: option.swatch }}
-                    />
-                  ) : null}
-                  <span className="truncate">{option.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function StyleOptionGroup({
-  label,
-  options,
-  activeId,
-  dataAttribute,
-  onSelect,
-}: {
-  label: string
-  options: StyleOption[]
-  activeId: string
-  dataAttribute: string
-  onSelect: (id: string) => void
-}) {
-  return (
-    <div>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        {label}
-      </h4>
-      <div className="grid grid-cols-2 gap-1.5">
-        {options.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            {...{ [dataAttribute]: option.id }}
-            data-active={activeId === option.id ? "true" : "false"}
-            onClick={() => onSelect(option.id)}
-            className={cn(
-              "min-h-9 border border-border bg-background px-2 py-1.5 text-left transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-              "hover:bg-muted"
-            )}
-          >
-            <span className="block truncate text-xs font-semibold">{option.label}</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function SurfaceColorGroup({
-  options,
-  activeId,
-  isDark,
-  onSelect,
-}: {
-  options: SurfaceColorOption[]
-  activeId: string
-  isDark: boolean
-  onSelect: (id: string) => void
-}) {
-  return (
-    <div>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Surface color
-      </h4>
-      <div className="grid grid-cols-2 gap-1.5">
-        {options.map((option) => (
-          <button
-            key={option.id}
-            type="button"
-            data-surface-color-option={option.id}
-            data-active={activeId === option.id ? "true" : "false"}
-            onClick={() => onSelect(option.id)}
-            className={cn(
-              "grid min-h-12 grid-cols-[2rem_1fr] gap-2 border border-border bg-background px-2 py-2 text-left transition-colors duration-150",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-              "hover:bg-muted"
-            )}
-          >
-            <span
-              className="mt-0.5 size-6 border border-current/20"
-              style={{ background: isDark ? option.preview.dark : option.preview.light }}
-              aria-hidden="true"
-            />
-            <span className="min-w-0">
-              <span className="block text-xs font-semibold">{option.label}</span>
-            </span>
-          </button>
-        ))}
-      </div>
-    </div>
-  )
-}
-
+// Every theme control lives in the theme picker (theme-gallery.tsx). This
+// renders nothing and stays exported for one release, so a theme package
+// layout that still mounts it keeps building.
 export function ThemeConfigurator() {
-  const [config, setConfig] = useState<ThemeConfig>(DEFAULT_CONFIG)
-  const [activePage, setActivePage] = useState<"presets" | "custom">("presets")
-  const [mounted, setMounted] = useState(false)
-  const [drawerTarget, setDrawerTarget] = useState<HTMLElement | null>(null)
-  const drawerRef = useRef<HTMLDetailsElement | null>(null)
-  const { resolvedTheme, theme, setTheme, forcedTheme } = useTheme()
-
-  useEffect(() => {
-    const loaded = loadConfig()
-    applyConfig(loaded)
-    const frame = requestAnimationFrame(() => {
-      const latest = loadConfig()
-      applyConfig(latest)
-      setConfig(latest)
-      setMounted(true)
-    })
-    return () => cancelAnimationFrame(frame)
-  }, [])
-
-  useEffect(() => {
-    function syncDrawerTarget() {
-      const target = document.querySelector(".nextra-sidebar-footer")
-      setDrawerTarget(target instanceof HTMLElement ? target : null)
-    }
-
-    syncDrawerTarget()
-    const observer = new MutationObserver(syncDrawerTarget)
-    observer.observe(document.body, { childList: true, subtree: true })
-
-    return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
-    function closeDrawerOnOutsidePointerDown(event: PointerEvent) {
-      const control = drawerRef.current
-      const target = event.target
-
-      if (!control?.open || !(target instanceof Node) || control.contains(target)) {
-        return
-      }
-
-      control.open = false
-    }
-
-    document.addEventListener("pointerdown", closeDrawerOnOutsidePointerDown)
-
-    return () => {
-      document.removeEventListener("pointerdown", closeDrawerOnOutsidePointerDown)
-    }
-  }, [])
-
-  const updateConfig = useCallback((patch: LegacyThemeConfig) => {
-    setConfig((prev) => {
-      const next = normalizeConfig({ ...prev, ...patch })
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
-      applyConfig(next)
-      return next
-    })
-  }, [])
-
-  const updateCustomization = useCallback((patch: Partial<ThemeCustomization>) => {
-    const current = normalizeCustomization(config.customization)
-    updateConfig({ customization: { ...current, ...patch } })
-  }, [config.customization, updateConfig])
-
-  const selectPreset = useCallback((presetId: string) => {
-    const preset = getPreset(presetId)
-    const defaults = getPresetDefaults(preset)
-
-    updateConfig({
-      presetId: preset.id,
-      radiusIndex: defaults.radiusIndex,
-      optionsByPreset: {
-        ...config.optionsByPreset,
-        [preset.id]: normalizePresetOptions(preset),
-      },
-      customization: defaults.customization,
-    })
-  }, [config.optionsByPreset, updateConfig])
-
-  const updatePresetOption = useCallback((presetId: string, controlId: string, value: string) => {
-    const preset = getPreset(presetId)
-    const nextOptions = {
-      ...getPresetOptions(config, preset.id),
-      [controlId]: value,
-    }
-    const theme = resolvePresetTheme(preset, nextOptions)
-
-    updateConfig({
-      presetId: preset.id,
-      radiusIndex: getRadiusIndex(theme.radius, config.radiusIndex),
-      optionsByPreset: {
-        ...config.optionsByPreset,
-        [preset.id]: nextOptions,
-      },
-    })
-  }, [config, updateConfig])
-
-  const updateRadius = useCallback((radiusIndex: number) => {
-    updateConfig({ radiusIndex })
-  }, [updateConfig])
-
-  const isDark = mounted && resolvedTheme === "dark"
-  const activeMode = mounted ? normalizeThemeMode(theme) : "system"
-  const activeModeLabel = activeMode === "system"
-    ? isDark ? "System: Dark" : "System: Light"
-    : modeOptions.find((option) => option.id === activeMode)?.label ?? "System"
-  // With dark mode off the provider forces light, so the trigger names no mode.
-  const modeSummary = forcedTheme ? "" : `Current mode: ${activeModeLabel}. `
-  const activePreset = getPreset(config.presetId)
-  const activePresetOptions = getPresetOptions(config, activePreset.id)
-  const activeTheme = resolvePresetTheme(activePreset, activePresetOptions)
-  const customization = normalizeCustomization(config.customization)
-
-  const control = (
-    <details
-      ref={drawerRef}
-      className="group/theme-picker theme-drawer-control relative z-[80] min-w-0"
-      data-theme-configurator
-    >
-      <summary
-        className="theme-drawer-trigger"
-        title={`Change appearance. ${modeSummary}Current theme: ${activePreset.name}`}
-        aria-label={`Customize appearance. ${modeSummary}Current theme: ${activePreset.name}`}
-      >
-        <span className="theme-drawer-trigger-label">Theme</span>
-        <HugeiconsIcon
-          className="theme-drawer-trigger-chevron"
-          icon={ArrowDown01Icon}
-          size={13}
-          strokeWidth={1.9}
-        />
-      </summary>
-      <div className="theme-drawer-panel absolute left-0 bottom-full mb-2 rounded-md border border-border bg-popover p-3 text-popover-foreground shadow-xl">
-        <div
-          data-theme-page="presets"
-          data-theme-panel="presets"
-          data-active={activePage === "presets" ? "true" : "false"}
-          className="hidden data-[active=true]:block"
-        >
-            <div className="space-y-4">
-              <CurrentThemeSummary
-                preset={activePreset}
-                theme={activeTheme}
-                isDark={isDark}
-              />
-
-              {forcedTheme ? null : (
-                <ThemeModeControls activeMode={activeMode} onSelect={(mode) => setTheme(mode)} />
-              )}
-
-              <div className="space-y-3">
-                {groupedPresets.map((group) => (
-                  <section key={group.id} data-theme-group={group.id} className="space-y-1.5">
-                    <h4
-                      data-theme-group-label
-                      className="font-mono text-[11px] font-semibold text-muted-foreground"
-                    >
-                      {group.label}
-                    </h4>
-                    <div
-                      data-theme-carousel
-                      className="flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                    >
-                      {group.presets.map((preset) => {
-                        const presetOptions = getPresetOptions(config, preset.id)
-                        const previewTheme = resolvePresetTheme(preset, presetOptions)
-
-                        return (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            data-theme-preset={preset.id}
-                            data-active={activePreset.id === preset.id ? "true" : "false"}
-                            onClick={() => selectPreset(preset.id)}
-                            className={cn(
-                              "min-h-[4.75rem] w-[7.25rem] shrink-0 border border-border bg-background px-2 py-1.5 text-left transition-colors duration-150",
-                              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                              "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-                              "hover:bg-muted"
-                            )}
-                          >
-                            <PresetVisualTile theme={previewTheme} isDark={isDark} />
-                            <span className="flex min-w-0 items-center gap-1">
-                              <span className="block min-w-0 flex-1 truncate text-xs font-semibold">
-                                {preset.name}
-                              </span>
-                              {preset.id === DEFAULT_CONFIG.presetId && (
-                                <span
-                                  data-theme-default-tag
-                                  className="shrink-0 border border-current/20 px-1 font-mono text-[9px] leading-4 opacity-75"
-                                >
-                                  Default
-                                </span>
-                              )}
-                            </span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </section>
-                ))}
-              </div>
-
-              <button
-                type="button"
-                data-theme-custom
-                onClick={() => setActivePage("custom")}
-                className={cn(
-                  "w-full border border-border bg-background px-3 py-3 text-left transition-colors duration-150",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                  "hover:bg-muted"
-                )}
-              >
-                <span className="block text-sm font-semibold text-foreground">Customize</span>
-              </button>
-
-              <button
-                type="button"
-                data-theme-reset
-                onClick={() => {
-                  updateConfig(DEFAULT_CONFIG)
-                }}
-                className="w-full border-t border-border pt-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Reset appearance
-              </button>
-            </div>
-          </div>
-
-          <div
-            data-theme-page="custom"
-            data-theme-panel="custom"
-            data-active={activePage === "custom" ? "true" : "false"}
-            className="hidden data-[active=true]:block"
-          >
-            <div className="space-y-5">
-              <div className="theme-panel-header">
-                <button
-                  type="button"
-                  data-theme-back="presets"
-                  onClick={() => setActivePage("presets")}
-                  className="theme-back-button"
-                >
-                  Back
-                </button>
-                <CurrentThemeSummary
-                  preset={activePreset}
-                  theme={activeTheme}
-                  isDark={isDark}
-                />
-              </div>
-
-              {presets.map((preset) => (
-                <PresetControlsPanel
-                  key={preset.id}
-                  config={config}
-                  preset={preset}
-                  isActive={activePreset.id === preset.id}
-                  isDark={isDark}
-                  onUpdate={updatePresetOption}
-                />
-              ))}
-
-              <StyleOptionGroup
-                label="Shell spacing"
-                options={shellPaddingOptions}
-                activeId={customization.shellPaddingId}
-                dataAttribute="data-shell-padding-option"
-                onSelect={(shellPaddingId) => updateCustomization({ shellPaddingId })}
-              />
-
-              <StyleOptionGroup
-                label="Content width"
-                options={contentWidthOptions}
-                activeId={customization.contentWidthId}
-                dataAttribute="data-content-width-option"
-                onSelect={(contentWidthId) => updateCustomization({ contentWidthId })}
-              />
-
-              <StyleOptionGroup
-                label="Reading rhythm"
-                options={rhythmOptions}
-                activeId={customization.rhythmId}
-                dataAttribute="data-rhythm-option"
-                onSelect={(rhythmId) => updateCustomization({ rhythmId })}
-              />
-
-              <StyleOptionGroup
-                label="Borders"
-                options={borderOptions}
-                activeId={customization.borderId}
-                dataAttribute="data-border-option"
-                onSelect={(borderId) => updateCustomization({ borderId })}
-              />
-
-              <StyleOptionGroup
-                label="Code blocks"
-                options={codeTreatmentOptions}
-                activeId={customization.codeTreatmentId}
-                dataAttribute="data-code-treatment-option"
-                onSelect={(codeTreatmentId) => updateCustomization({ codeTreatmentId })}
-              />
-
-              <div>
-                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Typography
-                </h4>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {fontOptions.map((option) => (
-                    <button
-                      key={option.id}
-                      type="button"
-                      data-font-option={option.id}
-                      data-active={customization.fontId === option.id ? "true" : "false"}
-                      onClick={() => updateCustomization({ fontId: option.id })}
-                      className={cn(
-                        "grid min-h-14 grid-cols-[2.35rem_1fr] gap-2 border border-border bg-background px-2 py-2 text-left transition-colors duration-150",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-                        "hover:bg-muted"
-                      )}
-                    >
-                      <span
-                        className="self-center text-xl font-semibold leading-none"
-                        style={{ fontFamily: option.style["--folio-heading-font-family"] }}
-                      >
-                        {option.sample}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block text-xs font-semibold">{option.label}</span>
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Accent color
-                </h4>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {colorOptions.map((option) => (
-                    <button
-                      key={option.id}
-                      type="button"
-                      data-color-option={option.id}
-                      data-active={customization.colorId === option.id ? "true" : "false"}
-                      onClick={() => updateCustomization({ colorId: option.id })}
-                      className={cn(
-                        "grid min-h-12 grid-cols-[2rem_1fr] gap-2 border border-border bg-background px-2 py-2 text-left transition-colors duration-150",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-                        "hover:bg-muted"
-                      )}
-                    >
-                      <span
-                        className="mt-0.5 size-6 border border-current/20"
-                        style={{ background: isDark ? option.preview.dark : option.preview.light }}
-                        aria-hidden="true"
-                      />
-                      <span className="min-w-0">
-                        <span className="block text-xs font-semibold">{option.label}</span>
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <SurfaceColorGroup
-                options={surfaceColorOptions}
-                activeId={customization.surfaceColorId}
-                isDark={isDark}
-                onSelect={(surfaceColorId) => updateCustomization({ surfaceColorId })}
-              />
-
-              <div>
-                <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Corner radius
-                </h4>
-                <div className="flex gap-1.5">
-                  {radiusOptions.map((option, i) => (
-                    <button
-                      key={option.label}
-                      type="button"
-                      data-radius-option={i}
-                      data-active={config.radiusIndex === i ? "true" : "false"}
-                      onClick={() => updateRadius(i)}
-                      className={cn(
-                        "h-8 flex-1 border text-xs font-medium transition-all duration-150",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        "data-[active=true]:border-primary data-[active=true]:bg-primary data-[active=true]:text-primary-foreground",
-                        "border-border bg-background text-foreground hover:bg-muted"
-                      )}
-                      style={{ borderRadius: option.value || "0" }}
-                      title={option.label}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                type="button"
-                data-theme-reset
-                onClick={() => {
-                  updateConfig(DEFAULT_CONFIG)
-                }}
-                className="w-full border-t border-border pt-3 text-xs text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Reset appearance
-              </button>
-            </div>
-          </div>
-        </div>
-    </details>
-  )
-
-  return (
-    <>
-      <ThemeStyleBootstrap />
-      {drawerTarget ? (
-        createPortal(control, drawerTarget)
-      ) : (
-        <div className="theme-drawer-fallback">{control}</div>
-      )}
-    </>
-  )
+  return null
 }
 
 /**
- * The saved-reader-theme bootstrap on its own: the default theme CSS plus the
- * pre-hydration script that rewrites it to whatever the reader stored. Pages
- * that don't mount the configurator UI (the landing) mount this instead, so
- * the theme stays in sync across every route. Idempotent — the script
- * re-applies the stored config and binds its document listener only once.
+ * The saved-reader-theme bootstrap: the default theme CSS plus the
+ * pre-hydration script that rewrites it to whatever the reader stored. The
+ * root layout mounts it once, so every route shows the same theme. React does
+ * not run an inline script it inserts on the client, so a copy mounted by a
+ * client-side navigation (a theme package's page may still carry one) applies
+ * the stored config in a layout effect, before paint. Idempotent: every copy
+ * re-applies the same stored config.
  */
 export function ThemeStyleBootstrap() {
+  useLayoutEffect(() => {
+    applyConfig(loadConfig())
+  }, [])
+
   return (
     <>
       {/* The bootstrap script rewrites this element's text before hydration

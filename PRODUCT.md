@@ -36,8 +36,7 @@ Primary visitor contexts:
 
 ## Positioning & Voice
 
-Approved hero copy (August 30 2026 round; change only through a deliberate
-copy round):
+Approved hero copy (change only through a deliberate copy round):
 
 - No kicker and no tagline. The hero opens directly on the product promise.
 - Headline: `HTML for people, MD for agents.`
@@ -46,10 +45,10 @@ copy round):
   Open source.` This string doubles as the llms.txt summary blockquote, so it
   must stand alone outside the page.
 
-Page-level copy rules from the July 2026 round: no meta-copy (never describe
-the page or count its cards); each product claim is argued in exactly one
-owning section and at most mentioned elsewhere; section links point at live
-artifacts (the generated reference, the live roadmap) over generic routes.
+Page-level copy rules: no meta-copy (never describe the page or count its
+cards); each product claim is argued in exactly one owning section and at most
+mentioned elsewhere; section links point at live artifacts (the generated
+reference, the live roadmap) over generic routes.
 
 Register: affirmative and outcome-led — sell what the user gets and what it
 enables (the discourse family of "knowledge infrastructure", "self-updating
@@ -93,32 +92,33 @@ roadmap.
 
 1. **Agent-readable documentation** — the site is ground truth for people and
    agents. `llms.txt`, per-page Markdown mirrors, and the authoring contract
-   ship today; a scorer, typed exports, and richer discovery come next.
+   ship today; discovery by the specs, a read-only MCP server, a
+   documentation skill, and typed exports come next.
 2. **More languages** — Python, JavaScript, and Rust read today; TypeScript
    comes next, followed by Go, C#, and Java. New languages arrive as parsers,
    not new toolchains. Versioning and internationalization follow the same
    path: every version of your library, in your readers' languages, in one
    site.
-3. **Adoption without rewrites** — existing documentation moves into Folio with
-   redirects, preserved cross-links, and an honest conversion report.
+3. **Adoption without rewrites** — the team's own coding agent moves existing
+   documentation into Folio, guided by a migration skill and a few scripts,
+   instead of an importer per tool.
 4. **Static forever** — output runs anywhere static files do. Access control
    happens at build time, never as client-side password theater over shipped
    data.
 
 ## Market
 
-Researched July 2026 (Mintlify teardown, competitive sweep); durable facts
-only, refreshed deliberately rather than casually.
+Durable facts only, refreshed deliberately rather than casually.
 
 - **The open quadrant**: open-source × agent-ready-by-default is nearly empty
   in every language ecosystem. Hosted platforms (Mintlify, GitBook, Fern) own
   the agent story; OSS generators treat it as a bolt-on plugin. Python is the
   entry wedge — its incumbent, Material for MkDocs, entered maintenance mode
-  in November 2025 — but the strategy is the quadrant, not the language:
-  Folio generalizes (new parsers, same funnel) rather than staying a Python
-  tool.
+  in November 2025 and ends maintenance on 2027-05-05 — but the strategy is
+  the quadrant, not the language: Folio generalizes (new parsers, same
+  funnel) rather than staying a Python tool.
 - **What incumbents monetize**: Mintlify gives the static generator away and
-  charges $540/mo plus metered AI credits for hosted AI over the corpus,
+  charges a subscription plus metered AI credits for hosted AI over the corpus,
   agent analytics, and enterprise compliance. Their renderer is closed and
   local dev phones home. The artifact layer (static site, llms.txt, and .md
   mirrors) is commoditizing. Folio ships that layer free, with no vendor in the
@@ -127,13 +127,11 @@ only, refreshed deliberately rather than casually.
   bespoke JS docs app; teams with no-SaaS or air-gapped constraints;
   cost-refusers who want the artifacts without the credit meter; agent-native
   workflows where the coding agent edits docs in the same PR as the code.
-- **The agent layer is standardizing** (July 2026 teardown): skill.md,
-  `.well-known` discovery, `Accept: text/markdown` negotiation, and the
-  Agent-Friendly Documentation Spec (AFDocs) are becoming conventions —
-  target the specs, not any vendor's behavior. Mintlify gives away an
-  agent-readiness scorer as top-of-funnel; `folio score` (roadmap 0.5, Open Platform) is
-  our open equivalent and doubles as the migration hook. Their hosted AI
-  translations were retired — validation for not chasing that.
+- **The agent layer is standardizing**: skill.md, `.well-known` discovery,
+  `Accept: text/markdown` negotiation, and the Agent-Friendly Documentation
+  Spec (AFDocs) are becoming conventions — target the specs, not any vendor's
+  behavior. Mintlify gives away an agent-readiness scorer as top-of-funnel.
+  Their hosted AI translations were retired — validation for not chasing that.
 - **Open renderer with agent output by default is the position**: Mintlify
   has docs with hosted AI and a meter; the OSS generators have docs with the
   agent side bolted on as a plugin. Folio emits `llms.txt`, the per-page

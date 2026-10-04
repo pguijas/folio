@@ -20,6 +20,8 @@ function Cell({ value }: { value: CellValue }) {
     return (
       <span
         aria-label="yes"
+        data-slot="compare-cell"
+        data-variant="yes"
         className="inline-flex size-5 items-center justify-center rounded-full bg-primary/15 text-primary"
       >
         <svg
@@ -39,7 +41,7 @@ function Cell({ value }: { value: CellValue }) {
   }
   if (value === false) {
     return (
-      <span aria-label="no" className="text-muted-foreground/40">
+      <span aria-label="no" data-slot="compare-cell" data-variant="no" className="text-muted-foreground/40">
         —
       </span>
     )
@@ -49,13 +51,19 @@ function Cell({ value }: { value: CellValue }) {
       <span
         aria-label="partial"
         title="Partial"
+        data-slot="compare-cell"
+        data-variant="partial"
         className="font-mono text-xs font-semibold text-warning"
       >
         ~
       </span>
     )
   }
-  return <span className="text-xs text-muted-foreground">{value}</span>
+  return (
+    <span data-slot="compare-cell" data-variant="text" className="text-xs text-muted-foreground">
+      {value}
+    </span>
+  )
 }
 
 export function CompareMatrix({
@@ -65,7 +73,7 @@ export function CompareMatrix({
   highlight = 0,
 }: CompareMatrixProps) {
   return (
-    <figure className="not-prose my-6 overflow-x-auto rounded-lg border border-border bg-card">
+    <figure data-slot="compare-matrix" className="not-prose my-6 overflow-x-auto rounded-lg border border-border bg-card">
       <table className="m-0 w-full table-fixed border-collapse text-sm">
         <thead>
           <tr className="border-b border-border">
@@ -75,6 +83,7 @@ export function CompareMatrix({
             {tools.map((tool, index) => (
               <th
                 key={tool}
+                data-highlight={index === highlight ? "" : undefined}
                 className={cn(
                   "px-2 py-2.5 text-center text-xs font-semibold",
                   index === highlight
@@ -96,7 +105,7 @@ export function CompareMatrix({
               <td className="px-3 py-2.5 text-[13px] leading-5 text-foreground/85">
                 {row.feature}
                 {row.note ? (
-                  <span className="block text-xs text-muted-foreground">
+                  <span data-slot="compare-note" className="block text-xs text-muted-foreground">
                     {row.note}
                   </span>
                 ) : null}
@@ -104,6 +113,7 @@ export function CompareMatrix({
               {row.values.map((value, index) => (
                 <td
                   key={`${row.feature}-${tools[index] ?? index}`}
+                  data-highlight={index === highlight ? "" : undefined}
                   className={cn(
                     "px-2 py-2.5 text-center",
                     index === highlight && "bg-primary/[0.06]"

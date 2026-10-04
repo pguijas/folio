@@ -12,7 +12,7 @@ use crate::json;
 use crate::SiteError;
 
 /// Builtin ThemeConfigurator preset ids.
-pub const BUILTIN_THEME_PRESETS: [&str; 11] = [
+pub const BUILTIN_THEME_PRESETS: [&str; 13] = [
     "aperture",
     "atlas",
     "beacon",
@@ -20,7 +20,9 @@ pub const BUILTIN_THEME_PRESETS: [&str; 11] = [
     "carbon",
     "draftline",
     "ledger",
+    "omarchy",
     "organic-editorial",
+    "pastel",
     "proof",
     "stacks",
     "workshop",
@@ -363,6 +365,15 @@ fn controls(config: &DocsConfig) -> Value {
                     "description".into(),
                     Value::String(control.description.clone()),
                 );
+                // A control whose options set no style only recolours the
+                // theme: the picker shows it as the theme's colour row.
+                if control
+                    .options
+                    .values()
+                    .all(|option| option.style.is_empty())
+                {
+                    entry.insert("kind".into(), Value::String("color".into()));
+                }
                 entry.insert("options".into(), Value::Array(options));
                 Value::Object(entry)
             })

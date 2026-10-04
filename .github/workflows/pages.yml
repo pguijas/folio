@@ -4,6 +4,12 @@ name: Deploy Docs
   push:
     branches: ["main"]
   workflow_dispatch:
+    inputs:
+      source_ref:
+        description: "Branch or commit to publish at the site root"
+        required: true
+        default: "main"
+        type: string
 
 permissions:
   contents: read
@@ -15,6 +21,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: production-source
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -24,10 +33,21 @@ jobs:
       id-token: write
       pull-requests: read
     steps:
+      - name: Clear job workspace
+        shell: bash
+        working-directory: ${{ github.workspace }}
+        run: rm -rf -- "${GITHUB_WORKSPACE:?}/production-source"
+
       - name: Check out repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ inputs.source_ref || github.sha }}
+          path: production-source
           fetch-depth: 0
+
+      - name: Record deployment source
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Configure GitHub Pages
         id: pages
@@ -35,6 +55,9 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: production-source
+          cache-bin: false
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -81,11 +104,13 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: production-source/_site
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        env:
+          GITHUB_SHA: ${{ steps.source.outputs.sha }}
 
       - name: Verify and print deployment URL
         shell: bash

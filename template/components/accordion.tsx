@@ -7,6 +7,7 @@ export function Accordion({ children }: { children: React.ReactNode }) {
   return (
     <div
       data-accordion-root
+      data-slot="accordion"
       className="my-6 divide-y divide-border overflow-hidden rounded-lg border border-border"
     >
       {children}
@@ -66,10 +67,11 @@ export function AccordionItem({
   }
 
   return (
-    <div>
+    <div data-slot="accordion-item" data-state={open ? "open" : "closed"}>
       <button
         id={triggerId}
         data-accordion-trigger
+        data-slot="accordion-trigger"
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
@@ -80,6 +82,7 @@ export function AccordionItem({
         {title}
         <svg
           aria-hidden="true"
+          data-slot="accordion-chevron"
           className={cn(
             "h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200",
             open && "rotate-180"
@@ -98,12 +101,19 @@ export function AccordionItem({
       </button>
       <div
         id={panelId}
+        data-slot="accordion-panel"
+        data-state={open ? "open" : "closed"}
         role="region"
         aria-labelledby={triggerId}
-        hidden={!open}
-        className="px-4 pb-4 text-sm text-muted-foreground [&>p:first-child]:mt-0 [&>p:last-child]:mb-0"
+        inert={!open}
+        className="data-[state=closed]:hidden"
       >
-        {children}
+        <div
+          data-slot="accordion-body"
+          className="px-4 pb-4 text-sm text-muted-foreground [&>p:first-child]:mt-0 [&>p:last-child]:mb-0"
+        >
+          {children}
+        </div>
       </div>
     </div>
   )

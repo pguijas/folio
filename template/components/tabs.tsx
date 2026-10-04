@@ -18,6 +18,56 @@ interface TabsProps {
   "aria-label"?: string
 }
 
+// One surface under the selected tab, placed from its offsets. It stays
+// hidden unless a preset's CSS shows it for a list marked `data-glide`;
+// that CSS also positions the list, so the offsets are the list's own.
+export function TabGlide({
+  selected = '[aria-selected="true"]',
+}: {
+  selected?: string
+}) {
+  const ref = React.useRef<HTMLSpanElement>(null)
+
+  React.useLayoutEffect(() => {
+    const glide = ref.current
+    const list = glide?.parentElement
+    if (!glide || !list) return
+
+    const place = () => {
+      const tab = list.querySelector<HTMLElement>(selected)
+      if (!tab) return
+      glide.style.width = `${tab.offsetWidth}px`
+      glide.style.height = `${tab.offsetHeight}px`
+      glide.style.translate = `${tab.offsetLeft}px ${tab.offsetTop}px`
+      list.dataset.glide = ""
+    }
+
+    place()
+    const resize = new ResizeObserver(place)
+    resize.observe(list)
+    for (const child of Array.from(list.children)) {
+      if (child !== glide) resize.observe(child)
+    }
+    const mutation = new MutationObserver(place)
+    mutation.observe(list, { subtree: true, attributeFilter: ["aria-selected"] })
+    // A preset switch can move the tabs without resizing any of them, and
+    // the move can run through a transition on the list or the tabs.
+    mutation.observe(document.documentElement, { attributeFilter: ["data-folio-preset"] })
+    list.addEventListener("transitionend", place)
+    // Radio groups report a new selection only through `change`.
+    document.addEventListener("change", place)
+
+    return () => {
+      resize.disconnect()
+      mutation.disconnect()
+      list.removeEventListener("transitionend", place)
+      document.removeEventListener("change", place)
+    }
+  }, [selected])
+
+  return <span ref={ref} data-slot="tab-glide" aria-hidden="true" className="hidden" />
+}
+
 export function Tabs({
   children,
   "aria-label": ariaLabel = "Content tabs",
@@ -70,13 +120,15 @@ export function Tabs({
   }
 
   return (
-    <div className="my-6 overflow-hidden rounded-lg border border-border">
+    <div data-slot="tabs" className="my-6 overflow-hidden rounded-lg border border-border">
       <div
+        data-slot="tab-list"
         role="tablist"
         aria-label={ariaLabel}
         aria-orientation="horizontal"
         className="flex border-b border-border bg-muted/50"
       >
+        <TabGlide />
         {tabs.map((tab, i) => (
           <button
             key={i}
@@ -84,6 +136,7 @@ export function Tabs({
               tabRefs.current[i] = node
             }}
             id={`${tabSetId}-tab-${i}`}
+            data-slot="tab"
             type="button"
             role="tab"
             aria-selected={i === activeIndex}
@@ -100,7 +153,7 @@ export function Tabs({
           >
             {tab.label}
             {i === activeIndex && (
-              <span className="absolute right-0 bottom-0 left-0 h-0.5 bg-primary" />
+              <span data-slot="tab-indicator" className="absolute right-0 bottom-0 left-0 h-0.5 bg-primary" />
             )}
           </button>
         ))}
@@ -109,6 +162,7 @@ export function Tabs({
         <div
           key={i}
           id={`${tabSetId}-panel-${i}`}
+          data-slot="tab-panel"
           role="tabpanel"
           aria-labelledby={`${tabSetId}-tab-${i}`}
           tabIndex={0}

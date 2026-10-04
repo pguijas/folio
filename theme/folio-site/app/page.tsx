@@ -13,7 +13,6 @@ import {
   SectionHeading,
 } from "@/components/landing/sections";
 import { ProductRoadmap } from "@/components/product-roadmap";
-import { ThemeStyleBootstrap } from "@/components/theme-configurator";
 import type {
   LandingCatalogItem,
   LandingHeroVariant,
@@ -125,8 +124,7 @@ const LandingHero =
 
 export default function FolioDocsHome() {
   return (
-    <div className="flex min-h-screen flex-col overflow-hidden bg-background">
-      <ThemeStyleBootstrap />
+    <div className="landing-shell flex min-h-screen flex-col overflow-hidden">
       <LandingNavbar pathToRoot={pathToRoot} />
 
       <main id="main-content" className="flex-1">
@@ -173,7 +171,7 @@ export default function FolioDocsHome() {
         <div className="mx-auto flex max-w-site flex-col items-start justify-between gap-8 px-6 py-10 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <span
-              className="grid size-9 place-items-center border border-border bg-card font-mono text-[11px] font-bold text-primary"
+              className="folio-monogram grid size-9 place-items-center border border-border bg-card font-mono text-[11px] font-bold text-primary"
               aria-hidden="true"
             >
               {projectMonogram}

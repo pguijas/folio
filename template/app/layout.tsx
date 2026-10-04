@@ -1,5 +1,7 @@
-import { Geist, Geist_Mono, Sora, JetBrains_Mono } from "next/font/google"
+import { Bricolage_Grotesque, DM_Sans, Geist, Geist_Mono, Sora, JetBrains_Mono } from "next/font/google"
+import { ThemeStyleBootstrap } from "@/components/theme-configurator"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ThemePixelField } from "@/components/theme-artwork"
 import "nextra-theme-docs/style.css"
 import "katex/dist/katex.min.css"
 import "./globals.css"
@@ -53,6 +55,25 @@ const geistMono = Geist_Mono({
   display: "swap",
 })
 
+// The Grotesque typography. Not preloaded: a page fetches these files only
+// when it renders text in them, so a site on another typography pays for the
+// @font-face rules alone. The opsz axis gives large headings their display cut.
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin", "latin-ext"],
+  axes: ["opsz"],
+  variable: "--font-bricolage",
+  display: "swap",
+  preload: false,
+})
+
+const dmSans = DM_Sans({
+  subsets: ["latin", "latin-ext"],
+  axes: ["opsz"],
+  variable: "--font-dm-sans",
+  display: "swap",
+  preload: false,
+})
+
 export const metadata = {
   ...(siteUrl
     ? {
@@ -99,7 +120,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning className={`${sora.variable} ${jetbrainsMono.variable} ${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" dir="ltr" suppressHydrationWarning className={`${sora.variable} ${jetbrainsMono.variable} ${geistSans.variable} ${geistMono.variable} ${bricolage.variable} ${dmSans.variable}`}>
       <head>
         {structuredData ? (
           <script
@@ -110,6 +131,11 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider>
+          {/* The reader's saved theme, once for every page. It comes after the
+              next-themes script, which ThemeProvider renders before its
+              children: a palette that fixes its scheme sets the class last. */}
+          <ThemeStyleBootstrap />
+          <ThemePixelField />
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-foreground"

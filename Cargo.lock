@@ -571,7 +571,7 @@ dependencies = [
 
 [[package]]
 name = "folio-cli"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "anstream",
  "anstyle",
@@ -600,7 +600,7 @@ dependencies = [
 
 [[package]]
 name = "folio-config"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "indexmap",
  "jiff",
@@ -613,7 +613,7 @@ dependencies = [
 
 [[package]]
 name = "folio-docs"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "folio-config",
  "folio-ir",
@@ -630,7 +630,7 @@ dependencies = [
 
 [[package]]
 name = "folio-ir"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "regex",
  "serde",
@@ -640,7 +640,7 @@ dependencies = [
 
 [[package]]
 name = "folio-lang-javascript"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "folio-ir",
  "serde_json",
@@ -652,7 +652,7 @@ dependencies = [
 
 [[package]]
 name = "folio-lang-python"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "criterion",
  "folio-ir",
@@ -668,7 +668,7 @@ dependencies = [
 
 [[package]]
 name = "folio-lang-rust"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "folio-ir",
  "proc-macro2",
@@ -681,7 +681,7 @@ dependencies = [
 
 [[package]]
 name = "folio-mdx"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "indexmap",
  "regex",
@@ -694,7 +694,7 @@ dependencies = [
 
 [[package]]
 name = "folio-plugins"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "folio-config",
  "folio-mdx",
@@ -709,7 +709,7 @@ dependencies = [
 
 [[package]]
 name = "folio-site"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "flate2",
  "folio-config",
@@ -727,7 +727,7 @@ dependencies = [
 
 [[package]]
 name = "folio-watch"
-version = "0.3.0-a1"
+version = "0.3.0"
 dependencies = [
  "folio-config",
  "notify",

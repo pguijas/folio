@@ -1,3 +1,4 @@
+import { projectIconSvg } from "@/theme/project-icon"
 import { ImageResponse } from "next/og"
 
 export const dynamic = "force-static"
@@ -30,21 +31,25 @@ export default function OGImage() {
             letterSpacing: 0,
           }}
         >
-          <div
-            style={{
-              width: "54px",
-              height: "54px",
-              borderRadius: "10px",
-              border: "2px solid rgb(35, 34, 31)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 18,
-              fontWeight: 800,
-            }}
-          >
-            __PROJECT_MONOGRAM__
-          </div>
+          {projectIconSvg && /<svg\b[^>]*\bdata-folio-icon="pastel"/.test(projectIconSvg) ? (
+            <img width={54} height={54} alt="" src={"data:image/svg+xml," + encodeURIComponent(projectIconSvg)} />
+          ) : (
+            <div
+              style={{
+                width: "54px",
+                height: "54px",
+                borderRadius: "10px",
+                border: "2px solid rgb(35, 34, 31)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 18,
+                fontWeight: 800,
+              }}
+            >
+              __PROJECT_MONOGRAM__
+            </div>
+          )}
           __PROJECT_NAME__
         </div>
 

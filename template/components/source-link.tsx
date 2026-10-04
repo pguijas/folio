@@ -5,6 +5,7 @@ interface SourceLinkProps {
 export function SourceLink({ href }: SourceLinkProps) {
   return (
     <a
+      data-slot="source-link"
       href={href}
       target="_blank"
       rel="noopener noreferrer"

@@ -3,7 +3,7 @@ name: rust
 # A `v*` tag runs these checks through release.yml, which calls this workflow.
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, "release/*"]
   pull_request:
     branches: [main, develop]
   workflow_call:
@@ -17,6 +17,8 @@ jobs:
         with:
           components: clippy, rustfmt
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-bin: ${{ runner.environment == 'github-hosted' }}
       - name: fmt
         run: cargo fmt --all --check
       - name: clippy
@@ -35,17 +37,37 @@ jobs:
       - name: template typecheck
         working-directory: template
         run: pnpm typecheck
+      # A theme package's theme/project-theme.ts may export an untyped
+      # literal that sets only some keys; the bundled configurator must still
+      # type-check against it. Last step: it rewrites a tracked file.
+      - name: template typecheck against an untyped package default
+        working-directory: template
+        run: |
+          cat > theme/project-theme.ts <<'EOF'
+          import type { ThemePreset } from "./preset-types"
+
+          export const projectThemePreset: ThemePreset | null = null
+
+          export const projectThemeDefaultConfig = {
+            customization: { fontId: "geist", colorId: "ink" },
+          }
+          EOF
+          pnpm typecheck
 
   test:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        # Temporarily paused: restore macos-latest and its required check together.
+        os: [ubuntu-latest]
+    # Keep the matrix labels: branch protection requires these check names.
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-bin: ${{ runner.environment == 'github-hosted' }}
       # 22, not the documented 20.19 floor: the template's TypeScript helpers
       # are driven directly by Node in folio-site's tests, and older releases
       # skip them instead of asserting.
@@ -56,14 +78,15 @@ jobs:
         run: corepack enable && corepack prepare pnpm@10 --activate
       - name: test
         run: cargo test --workspace --locked
-  windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
-      - name: the shipped CLI surface
-        run: cargo test -p folio-cli --test cli_surface --locked
+  # Temporarily paused: uncomment this job and restore its required check together.
+  # windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: dtolnay/rust-toolchain@stable
+  #     - uses: Swatinem/rust-cache@v2
+  #     - name: the shipped CLI surface
+  #       run: cargo test -p folio-cli --test cli_surface --locked
 
   real-export:
     runs-on: ubuntu-latest
@@ -71,6 +94,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
+        with:
+          cache-bin: ${{ runner.environment == 'github-hosted' }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22

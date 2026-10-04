@@ -557,6 +557,7 @@ export function DocPreview({
   const previewModeTabs = (
     <div
       role="tablist"
+      data-slot="preview-mode-switch"
       aria-label={`${title} preview mode`}
       className="mb-2 inline-flex rounded-md border border-border bg-muted p-0.5"
     >
@@ -565,6 +566,8 @@ export function DocPreview({
         role="tab"
         aria-selected={mode === "preview"}
         aria-controls={previewPanelId}
+        data-slot="preview-mode"
+        data-variant="preview"
         onClick={showPreview}
         className={tabButtonClass(mode === "preview")}
       >
@@ -576,6 +579,8 @@ export function DocPreview({
         role="tab"
         aria-selected={mode === "source"}
         aria-controls={sourcePanelId}
+        data-slot="preview-mode"
+        data-variant="source"
         onClick={showSource}
         className={tabButtonClass(mode === "source")}
       >
@@ -653,15 +658,16 @@ export function DocPreview({
 
   return (
     <figure
+      data-slot="doc-preview"
       className="my-7 max-w-full overflow-hidden rounded-lg border border-border bg-card"
       style={frameStyle}
     >
-      <figcaption className="flex flex-col gap-3 border-b border-border bg-muted/35 px-4 py-3 lg:flex-row lg:items-start lg:justify-between">
+      <figcaption data-slot="preview-toolbar" className="flex flex-col gap-3 border-b border-border bg-muted/35 px-4 py-3 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0">
           {previewModeTabs}
-          <h3 className="m-0 text-base font-semibold text-foreground">{title}</h3>
+          <h3 data-slot="preview-title" className="m-0 text-base font-semibold text-foreground">{title}</h3>
           {description && (
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
+            <p data-slot="preview-description" className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
               {description}
             </p>
           )}
@@ -670,6 +676,7 @@ export function DocPreview({
           {previewHref && exampleBuilt !== false && (
             <a
               href={previewHref}
+              data-slot="preview-open"
               className="inline-flex h-8 w-fit shrink-0 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-primary underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Open page
@@ -679,12 +686,13 @@ export function DocPreview({
         </div>
       </figcaption>
       {mode === "preview" ? (
-        <div id={previewPanelId} role="tabpanel" className="bg-background">
+        <div id={previewPanelId} role="tabpanel" data-slot="preview-canvas" className="bg-background">
           {exampleBuilt === false ? (
             notBuilt
           ) : (
             <iframe
               ref={previewFrameRef}
+              data-slot="preview-frame"
               title={`${title} preview`}
               src={previewHref}
               loading="lazy"
@@ -698,10 +706,11 @@ export function DocPreview({
         <div
           id={sourcePanelId}
           role="tabpanel"
+          data-slot="preview-source"
           className="h-[var(--folio-doc-preview-height)] overflow-hidden bg-background"
         >
           <div className="grid h-full min-h-0 w-full min-w-0 grid-rows-[12rem_minmax(0,1fr)] overflow-hidden md:grid-cols-[16rem_minmax(0,1fr)] md:grid-rows-none">
-            <aside className="source-file-drawer min-h-0 min-w-0 border-b border-border bg-muted/15 md:border-b-0 md:border-r">
+            <aside data-slot="preview-files" className="source-file-drawer min-h-0 min-w-0 border-b border-border bg-muted/15 md:border-b-0 md:border-r">
               <div className="flex h-10 items-center gap-2 border-b border-border px-3 text-xs font-medium text-foreground">
                 <HugeiconsIcon icon={FolderOpenIcon} size={14} strokeWidth={2} />
                 <span className="truncate">content</span>

@@ -76,7 +76,7 @@ pub(crate) fn parse(text: &str) -> Result<Docstring, ParseError> {
         ]
         .into_iter()
         .find_map(|(base, re)| re.captures(chunk).map(|c| (base, c)))
-        .ok_or_else(&error)?;
+        .ok_or_else(error)?;
         let key = caps[1].to_string();
         let args: Vec<String> = match base {
             Base::Param | Base::Attribute => vec![caps[2].trim().to_string()],

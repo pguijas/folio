@@ -40,7 +40,7 @@ const RST: Option<&str> = Some("markdown-rst");
 const MDX: Option<&str> = Some("markdown-mdx");
 const CATALOG: Option<&str> = Some("component-catalog");
 
-/// The forty builtin components in `mdx-components.tsx` entry order.
+/// The forty-three builtin components in `mdx-components.tsx` entry order.
 pub static BUILTIN_COMPONENTS: LazyLock<Vec<ComponentDefinition>> = LazyLock::new(|| {
     vec![
         component("ParamTable", "param-table", true, API, &[(
@@ -149,6 +149,16 @@ pub static BUILTIN_COMPONENTS: LazyLock<Vec<ComponentDefinition>> = LazyLock::ne
             ("label", "string | undefined"),
             ("footer", "React.ReactNode | undefined"),
             ("children", "React.ReactNode | undefined"),
+        ]),
+        component("Kbd", "kbd", false, CATALOG, &[("children", "React.ReactNode")]),
+        component("Marker", "marker", false, CATALOG, &[
+            ("tone", "\"ok\" | \"danger\" | undefined"),
+            ("children", "React.ReactNode"),
+        ]),
+        component("Term", "term", false, CATALOG, &[
+            ("def", "string"),
+            ("href", "string | undefined"),
+            ("children", "React.ReactNode"),
         ]),
     ]
 });

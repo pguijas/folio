@@ -19,6 +19,7 @@ function FolderIcon({ className }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"
+      data-slot="file-tree-icon"
       className={cn("size-4 shrink-0", className)}
     >
       <path d="M3.75 3A1.75 1.75 0 0 0 2 4.75v3.26a3.235 3.235 0 0 1 1.75-.51h12.5c.644 0 1.245.188 1.75.51V6.75A1.75 1.75 0 0 0 16.25 5h-4.836a.25.25 0 0 1-.177-.073L9.823 3.513A1.75 1.75 0 0 0 8.586 3H3.75Z" />
@@ -33,6 +34,7 @@ function FileIcon({ className }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"
+      data-slot="file-tree-icon"
       className={cn("size-4 shrink-0", className)}
     >
       <path d="M3 3.5A1.5 1.5 0 0 1 4.5 2h6.879a1.5 1.5 0 0 1 1.06.44l4.122 4.12A1.5 1.5 0 0 1 17 7.622V16.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 16.5v-13Z" />
@@ -90,6 +92,17 @@ function parseTree(tree: string): TreeNode[] {
   return root
 }
 
+// One connector per level: an ancestor's line running on, a gap, or this
+// row's own branch. Each keeps its ASCII text, so a theme can draw it instead.
+type Connector = "pipe" | "blank" | "tee" | "last"
+
+const connectorText: Record<Connector, string> = {
+  pipe: "│   ",
+  blank: "    ",
+  tee: "├── ",
+  last: "└── ",
+}
+
 function TreeNodeRow({
   node,
   isLast,
@@ -97,21 +110,33 @@ function TreeNodeRow({
 }: {
   node: TreeNode
   isLast: boolean
-  prefix: string
+  prefix: Connector[]
 }) {
-  const connector = isLast ? "└── " : "├── "
-  const childPrefix = prefix + (isLast ? "    " : "│   ")
+  const connectors: Connector[] = [...prefix, isLast ? "last" : "tee"]
+  const childPrefix: Connector[] = [...prefix, isLast ? "blank" : "pipe"]
 
   return (
     <>
-      <div className="flex items-center leading-7 whitespace-pre">
-        <span className="text-muted-foreground/50 select-none">{prefix}{connector}</span>
+      <div
+        data-slot="file-tree-row"
+        data-variant={node.isFolder ? "folder" : "file"}
+        data-depth={connectors.length}
+        className="flex items-center leading-7 whitespace-pre"
+      >
+        <span data-slot="file-tree-guide" className="text-muted-foreground/50 select-none">
+          {connectors.map((connector, i) => (
+            <span key={i} data-slot="file-tree-connector" data-variant={connector}>
+              {connectorText[connector]}
+            </span>
+          ))}
+        </span>
         {node.isFolder ? (
           <FolderIcon className="text-primary/70 mr-1.5" />
         ) : (
           <FileIcon className="text-muted-foreground/60 mr-1.5" />
         )}
         <span
+          data-slot="file-tree-name"
           className={cn(
             node.isFolder ? "text-foreground font-medium" : "text-foreground/80"
           )}
@@ -134,13 +159,19 @@ function TreeNodeRow({
 function RootNode({ node }: { node: TreeNode }) {
   return (
     <>
-      <div className="flex items-center leading-7 whitespace-pre">
+      <div
+        data-slot="file-tree-row"
+        data-variant={node.isFolder ? "folder" : "file"}
+        data-depth={0}
+        className="flex items-center leading-7 whitespace-pre"
+      >
         {node.isFolder ? (
           <FolderIcon className="text-primary/70 mr-1.5" />
         ) : (
           <FileIcon className="text-muted-foreground/60 mr-1.5" />
         )}
         <span
+          data-slot="file-tree-name"
           className={cn(
             node.isFolder ? "text-foreground font-medium" : "text-foreground/80"
           )}
@@ -153,7 +184,7 @@ function RootNode({ node }: { node: TreeNode }) {
           key={`${child.name}-${i}`}
           node={child}
           isLast={i === node.children.length - 1}
-          prefix=""
+          prefix={[]}
         />
       ))}
     </>
@@ -167,6 +198,7 @@ export function FileTree({ tree }: FileTreeProps) {
 
   return (
     <div
+      data-slot="file-tree"
       className={cn(
         "my-5 rounded-lg border border-border bg-muted/30 px-4 py-3",
         "font-mono text-sm overflow-x-auto"

@@ -25,7 +25,7 @@ use super::{command_target_suffix, format_cli_path, resolve_path};
 /// `docstring_style` when the user keeps the default.
 pub const DEFAULT_DOCSTRING_STYLE: &str = "auto";
 /// `theme.preset` when the user keeps the default.
-pub const DEFAULT_THEME_PRESET: &str = "organic-editorial";
+pub const DEFAULT_THEME_PRESET: &str = "pastel";
 
 /// The Docstring style prompt, in menu order.
 pub const DOCSTRING_STYLES: [Choice; 3] = [
@@ -47,11 +47,11 @@ pub const DOCSTRING_STYLES: [Choice; 3] = [
 ];
 
 /// The Visual preset prompt, in menu order.
-pub const THEME_PRESETS: [Choice; 4] = [
+pub const THEME_PRESETS: [Choice; 5] = [
     Choice {
         value: "organic-editorial",
-        label: "Organic Editorial",
-        description: "Warm editorial docs with rich backgrounds.",
+        label: "Roller",
+        description: "Fine headings, generous spacing, and cobalt ink.",
     },
     Choice {
         value: "beacon",
@@ -60,13 +60,18 @@ pub const THEME_PRESETS: [Choice; 4] = [
     },
     Choice {
         value: "atlas",
-        label: "Atlas",
-        description: "Structured reference docs with dense navigation.",
+        label: "Letterpress",
+        description: "Bold serif headings on a paper surface.",
     },
     Choice {
         value: "workshop",
-        label: "Workshop",
-        description: "Practical technical docs with compact rhythm.",
+        label: "Notebook",
+        description: "Framed pages with warm surfaces and green accents.",
+    },
+    Choice {
+        value: "pastel",
+        label: "Folio Pastel",
+        description: "Pen-blue ink, soft colours, and organic shapes.",
     },
 ];
 

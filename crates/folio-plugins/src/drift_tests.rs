@@ -13,7 +13,7 @@ fn template_entry_names_are_whole_line_shorthand_entries_only() {
 #[test]
 fn name_drift_is_bidirectional_and_names_the_rust_manifest() {
     let drift = check_template_drift(TEMPLATE);
-    assert_eq!(drift.len(), 38);
+    assert_eq!(drift.len(), 41);
     assert_eq!(
             drift[0],
             "builtin component 'ClassOverview' is declared in the manifest (folio-plugins/src/builtins.rs) but has no entry in mdx-components.tsx"

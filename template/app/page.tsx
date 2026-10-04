@@ -9,7 +9,6 @@ import {
 } from "@/components/landing/hero"
 import { LandingNavbar } from "@/components/landing-navbar"
 import { LandingSectionRenderer } from "@/components/landing/sections"
-import { ThemeStyleBootstrap } from "@/components/theme-configurator"
 import type {
   LandingHeroVariant,
   LandingLink,
@@ -106,9 +105,6 @@ const LandingHero =
 export default function Home() {
   return (
     <div className="landing-shell flex min-h-screen flex-col overflow-hidden">
-      {/* the landing applies the reader's saved theme exactly like the docs
-          pages do, so navigating between them never changes appearance */}
-      <ThemeStyleBootstrap />
       <LandingNavbar />
 
       <main id="main-content" className="flex-1">
@@ -137,7 +133,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-site flex-col items-start justify-between gap-8 px-6 py-10 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <span
-              className="grid size-9 place-items-center rounded-lg border border-border bg-card font-mono text-[11px] font-bold text-primary"
+              className="folio-monogram grid size-9 place-items-center rounded-lg border border-border bg-card font-mono text-[11px] font-bold text-primary"
               aria-hidden="true"
             >
               {projectMonogram}

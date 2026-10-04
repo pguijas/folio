@@ -185,11 +185,11 @@ Folio-managed MDX component wiring.
 > Optional targets — paired blocks that are stripped when a feature is off, the
 > `mdx-components.tsx` component markers (which fall back to a `...components,`
 > spread), and markers that only live in optional files such as the landing page
-> or theme configurator — are not hard failures: when one is absent, that
-> injection does not happen and the build goes on. The safest way to author a
-> custom template is to copy the marker-bearing files **verbatim** from the
-> bundled template and edit around the markers, rather than recreating them from
-> scratch.
+> or `components/theme-configurator.tsx` — are not hard failures: when one is
+> absent, that injection does not happen and the build goes on. The safest way
+> to author a custom template is to copy the marker-bearing files **verbatim**
+> from the bundled template and edit around the markers, rather than recreating
+> them from scratch.
 
 ### Text replacements
 
@@ -224,6 +224,7 @@ expected.
 | `__FOLIO_DOCS_ROUTE_BASE__` | `next.config.mjs` | Configured `template.docs_route_base` (the bundled template does not use it). |
 | `__LANDING_*__`, `__LANDING_*_JSON__` | `app/page.tsx`, `components/landing-navbar.tsx` | Landing hero/CTA/feature/section data (raw and JSON-encoded forms). |
 | `__PROJECT_NAME_JSON__`, `__PROJECT_MONOGRAM_JSON__` | `app/page.tsx`, `components/landing-navbar.tsx` | JSON-encoded name/monogram for the landing page. |
+| `__PROJECT_LOGO_JSON__` | `components/landing-navbar.tsx` | JSON-encoded root-relative URL of the `theme.logo` copy (`"/logo.svg"`, percent-encoded, without `deploy.base_path`), or `null` without a logo; the bundled navbar makes it page-relative with `normalizeLandingHref`. |
 
 ### Paired block markers
 
@@ -263,9 +264,9 @@ table to map the symptom to its cause and fix.
 | Config error mentioning an unsafe URL scheme | A header URL uses a rejected scheme (`javascript:`, `data:`), or a repository URL uses a scheme that could execute script or read local files. | Use an `http(s)`, `mailto:`, or relative URL for header links; repository URLs may also use `ssh://`, `git://`, `git+https://`, or scp-style forms. See [header URL validation](./personalization#header-url-validation). |
 
 Optional markers (paired feature blocks, the `mdx-components.tsx` markers, and
-markers that only live in optional files such as the landing page or theme
-configurator) do **not** fail the build. When one is absent Folio skips that
-injection without a message, with one exception: `theme.dark_mode: false` warns
+markers that only live in optional files such as the landing page or
+`components/theme-configurator.tsx`) do **not** fail the build. When one is
+absent Folio skips that injection without a message, with one exception: `theme.dark_mode: false` warns
 when `components/theme-provider.tsx` lacks its marker. If a template change did
 not take effect and the build still succeeded, compare the file in `.build/`
 with the bundled template: a marker that is still there verbatim, or missing
@@ -280,9 +281,11 @@ be present verbatim.
 
 | Marker string | Expected file | What Folio substitutes |
 |---------------|---------------|------------------------|
-| `const configuredDefaultPresetId = "organic-editorial" // __FOLIO_THEME_PRESET__` | `components/theme-configurator.tsx` | Rewrites the line to the configured `theme.preset`. |
+| `const configuredDefaultPresetId = "pastel" // __FOLIO_THEME_PRESET__` | `components/theme-configurator.tsx` | Rewrites the line to the configured `theme.preset`. |
 | `const configuredBasePath = '' // __FOLIO_BASE_PATH__` | `next.config.mjs` | Rewrites the line to the resolved deploy base path. |
 | `const darkModeEnabled: boolean = true // __FOLIO_DARK_MODE__` | `components/theme-provider.tsx` | Rewrites the line to `false` when `theme.dark_mode` is `false`, so the provider forces the light theme. |
+
+The earlier theme marker with `"organic-editorial"` is still accepted for existing overlays.
 
 `next.config.mjs` is also edited by other substitutions: `contentDirBasePath` is
 rewritten to the docs route base, `NEXT_PUBLIC_FOLIO_DOCS_ROUTE_BASE` is appended
@@ -431,7 +434,7 @@ rely on these stability guarantees:
 When `template.path` is omitted, Folio uses the bundled template and applies
 Folio-owned options such as `theme.preset`, `theme.tune`, `theme.dark_mode`,
 logo, favicon, Pagefind search, and the default docs layout. A `theme.tune`
-value the configurator does not offer always stops the build and names the
+value the theme model does not offer always stops the build and names the
 nearest valid value. `theme.preset` is checked the same way against the bundled
 presets (and a theme package's) unless `template.path` is set.
 

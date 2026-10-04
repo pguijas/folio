@@ -177,7 +177,9 @@ export { escapeHtml as mermaidEscapeHtml, unescapeHtml as mermaidUnescapeHtml }
 export function Mermaid({ chart }: MermaidProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [svg, setSvg] = useState("")
-  const { resolvedTheme } = useTheme()
+  // resolvedTheme stays on the reader's own mode while a palette forces one.
+  const { resolvedTheme, forcedTheme } = useTheme()
+  const scheme = forcedTheme ?? resolvedTheme
 
   useEffect(() => {
     let cancelled = false
@@ -186,7 +188,7 @@ export function Mermaid({ chart }: MermaidProps) {
     const render = async () => {
       try {
         const mermaid = (await import("mermaid")).default
-        mermaid.initialize(mermaidThemeConfig(resolvedTheme === "dark"))
+        mermaid.initialize(mermaidThemeConfig(scheme === "dark"))
         const id = `mermaid-${Math.random().toString(36).slice(2)}`
         const { svg: rendered } = await mermaid.render(id, cleanChart)
         if (!cancelled) setSvg(rendered)
@@ -202,7 +204,7 @@ export function Mermaid({ chart }: MermaidProps) {
     render()
 
     return () => { cancelled = true }
-  }, [chart, resolvedTheme])
+  }, [chart, scheme])
 
   if (!svg) {
     return (

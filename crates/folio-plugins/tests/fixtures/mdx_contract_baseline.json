@@ -96,6 +96,23 @@
     "required": false,
     "source": "component-catalog"
   },
+  "Kbd": {
+    "name": "Kbd",
+    "props": {
+      "children": "React.ReactNode"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
+  "Marker": {
+    "name": "Marker",
+    "props": {
+      "children": "React.ReactNode",
+      "tone": "\"ok\" | \"danger\" | undefined"
+    },
+    "required": false,
+    "source": "component-catalog"
+  },
   "Mermaid": {
     "name": "Mermaid",
     "props": {
@@ -175,6 +192,16 @@
     },
     "required": true,
     "source": "markdown-mdx"
+  },
+  "Term": {
+    "name": "Term",
+    "props": {
+      "children": "React.ReactNode",
+      "def": "string",
+      "href": "string | undefined"
+    },
+    "required": false,
+    "source": "component-catalog"
   },
   "Timeline": {
     "name": "Timeline",

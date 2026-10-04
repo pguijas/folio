@@ -1,3 +1,4 @@
+import { projectIconSvg } from "@/theme/project-icon"
 import { ImageResponse } from "next/og"
 
 export const dynamic = "force-static"
@@ -102,23 +103,27 @@ export default async function OGImage({
             }}
           >
             {/* Monogram box */}
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "8px",
-                border: "2px solid rgb(35, 34, 31)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 16,
-                fontWeight: 700,
-                color: "rgb(35, 34, 31)",
-                letterSpacing: 0,
-              }}
-            >
-              __PROJECT_MONOGRAM__
-            </div>
+            {projectIconSvg && /<svg\b[^>]*\bdata-folio-icon="pastel"/.test(projectIconSvg) ? (
+              <img width={40} height={40} alt="" src={"data:image/svg+xml," + encodeURIComponent(projectIconSvg)} />
+            ) : (
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "8px",
+                  border: "2px solid rgb(35, 34, 31)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: "rgb(35, 34, 31)",
+                  letterSpacing: 0,
+                }}
+              >
+                __PROJECT_MONOGRAM__
+              </div>
+            )}
             <div
               style={{
                 fontSize: 26,

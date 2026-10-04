@@ -6,8 +6,10 @@ import { getPageMap } from "nextra/page-map"
 import { GithubIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 // __PROJECT_REPO_IMPORTS_END__
+import { MobileNavDrawer } from "@/components/mobile-nav-drawer"
+import { FloatingFeedback } from "@/components/floating-feedback"
 import { SidebarIndexLinks } from "@/components/sidebar-index-links"
-import { ThemeConfigurator } from "@/components/theme-configurator"
+import { ThemeGallery } from "@/components/theme-gallery"
 import { VersionSelector } from "@/components/version-selector"
 
 export const metadata = {
@@ -38,7 +40,7 @@ export default async function DocsLayout({
           logo={
             <span className="flex items-center gap-2.5">
               {/* __PROJECT_HEADER_LOGO_START__ */}
-              <span className="flex size-7 items-center justify-center rounded-md bg-primary font-mono text-[11px] font-bold text-primary-foreground">
+              <span className="folio-monogram flex size-7 items-center justify-center rounded-md bg-primary font-mono text-[11px] font-bold text-primary-foreground">
                 __PROJECT_MONOGRAM__
               </span>
               <span className="text-sm font-semibold tracking-tight">
@@ -68,6 +70,7 @@ export default async function DocsLayout({
             {/* __PROJECT_REPO_LINK_END__ */}
             <VersionSelector />
           {/* __PROJECT_HEADER_ACTIONS_END__ */}
+          <ThemeGallery />
         </Navbar>
       }
       darkMode={false}
@@ -75,7 +78,8 @@ export default async function DocsLayout({
       footer={<Footer />}
     >
       <SidebarIndexLinks />
-      <ThemeConfigurator />
+      <MobileNavDrawer />
+      <FloatingFeedback />
       <div id="main-content">{children}</div>
     </Layout>
   )

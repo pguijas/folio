@@ -1,7 +1,6 @@
 import type { CSSProperties, ReactNode } from "react"
 
 import { LandingNavbar } from "@/components/landing-navbar"
-import { ThemeStyleBootstrap } from "@/components/theme-configurator"
 import { cn } from "@/lib/utils"
 
 interface PublicLayoutProps {
@@ -59,7 +58,6 @@ export function PublicLayout({
       // and oversizes their max-height.
       style={{ "--nextra-navbar-height": "4rem" } as CSSProperties}
     >
-      <ThemeStyleBootstrap />
       {/* A public plugin view can sit at any depth, the front page
           included; pathToRoot carries its measure. The bar takes the
           view's own width: a workspace runs to the edges, so a navbar

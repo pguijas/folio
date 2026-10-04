@@ -44,15 +44,16 @@ const QUADRANTS = [
 ] as const
 
 function Quadrant({
+  quadrant,
   label,
   letter,
   tone,
   surface,
   marker,
   items,
-}: Omit<(typeof QUADRANTS)[number], "key"> & { items: string[] }) {
+}: Omit<(typeof QUADRANTS)[number], "key"> & { quadrant: string; items: string[] }) {
   return (
-    <div className={cn("min-w-0 p-5", surface)}>
+    <div data-slot="swot-quadrant" data-variant={quadrant} className={cn("min-w-0 p-5", surface)}>
       <div className="mb-3 flex items-center gap-2.5">
         <span
           className={cn(
@@ -89,7 +90,7 @@ export function Swot({
   const items = { strengths, weaknesses, opportunities, threats }
 
   return (
-    <figure className="not-prose my-6 overflow-hidden rounded-lg border border-border bg-card">
+    <figure data-slot="swot" className="not-prose my-6 overflow-hidden rounded-lg border border-border bg-card">
       <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3">
         <p className="m-0 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
           {title ?? "SWOT"}
@@ -100,7 +101,7 @@ export function Swot({
       </div>
       <div className="grid divide-y divide-border sm:grid-cols-2 sm:divide-x">
         {QUADRANTS.map(({ key, ...quadrant }) => (
-          <Quadrant key={key} {...quadrant} items={items[key] ?? []} />
+          <Quadrant key={key} quadrant={key} {...quadrant} items={items[key] ?? []} />
         ))}
       </div>
     </figure>

@@ -434,16 +434,41 @@ impl<'a> TemplateConfigInjector<'a> {
                 if ext != ".svg" && default_icon.exists() {
                     std::fs::remove_file(&default_icon).map_err(io(&default_icon))?;
                 }
-                return Ok(());
+                return self.write_project_icon(None);
             }
         }
+        let mut project_icon = None;
         if default_icon.exists() {
-            let content = self
+            let mut content = self
                 .read(&default_icon)?
                 .replace("__PROJECT_MONOGRAM__", &html_escape(&self.monogram()));
+            // Only a marked, generated icon uses the site's configured preset.
+            // Custom favicons and unmarked template/package icons stay theirs.
+            let marker = re(r#"(<svg\b[^>]*\bdata-folio-icon=")(?:default|pastel)(")"#);
+            if self.config.theme.favicon.is_empty() && marker.is_match(&content) {
+                let shape = if self.config.theme.preset == "pastel" {
+                    "pastel"
+                } else {
+                    "default"
+                };
+                content = marker
+                    .replace(&content, format!("${{1}}{shape}${{2}}"))
+                    .into_owned();
+                project_icon = Some(content.clone());
+            }
             write_text_if_changed(&default_icon, &content).map_err(io(&default_icon))?;
         }
-        Ok(())
+        self.write_project_icon(project_icon.as_deref())
+    }
+
+    fn write_project_icon(&mut self, svg: Option<&str>) -> Result<()> {
+        self.write(
+            &self.build_dir.join("theme/project-icon.ts"),
+            &format!(
+                "export const projectIconSvg: string | null = {}\n",
+                json::compact(&svg)
+            ),
+        )
     }
 
     fn header_logo(&self) -> String {
@@ -511,14 +536,19 @@ impl<'a> TemplateConfigInjector<'a> {
             .join("\n")
     }
 
+    /// `theme.logo` as the root-relative URL of its copy in `public/`, which
+    /// both navbars show; `None` without a logo.
+    fn logo_src(&self) -> Option<String> {
+        let file = Path::new(&self.config.theme.logo).file_name()?;
+        Some(format!("/{}", url_path_segment(&file.to_string_lossy())))
+    }
+
     /// The `<img>` for `theme.logo`, copied to `public/`: plain content,
     /// since Nextra already links the whole logo slot to the home page.
     fn logo_image(&self) -> Option<String> {
-        let file = Path::new(&self.config.theme.logo).file_name()?;
-        let src = format!("/{}", url_path_segment(&file.to_string_lossy()));
         Some(format!(
             "<img src={{(process.env.NEXT_PUBLIC_FOLIO_BASE_PATH ?? \"\") + {}}} alt=\"\" className=\"h-7 w-auto\" />",
-            json::string(&src)
+            json::string(&self.logo_src()?)
         ))
     }
 
@@ -752,6 +782,10 @@ impl<'a> TemplateConfigInjector<'a> {
         LandingPageData::derive(&Landing::from_config(self.config), self.config)
     }
 
+    /// The landing navbar with the project's name, logo and calls to action.
+    /// Its light/dark toggle stays only when `theme.header.theme_toggle` is
+    /// true and dark mode is on, as in the docs navbar; otherwise the mode
+    /// lives in the theme picker alone.
     fn inject_landing_navbar(&mut self, name: &str) -> Result<()> {
         let path = self.build_dir.join("components/landing-navbar.tsx");
         if !path.exists() {
@@ -767,10 +801,15 @@ impl<'a> TemplateConfigInjector<'a> {
             .as_deref()
             .map(json::string)
             .unwrap_or_else(|| "null".to_string());
+        let logo_json = self
+            .logo_src()
+            .map(|src| json::string(&src))
+            .unwrap_or_else(|| "null".to_string());
         let content = self
             .read(&path)?
             .replace("__PROJECT_NAME_JSON__", &json::string(name))
             .replace("__PROJECT_MONOGRAM_JSON__", &json::string(&self.monogram()))
+            .replace("__PROJECT_LOGO_JSON__", &logo_json)
             .replace(
                 "__LANDING_CTA_PRIMARY_TEXT_JSON__",
                 &json::compact(&data.cta_primary_text),
@@ -789,6 +828,15 @@ impl<'a> TemplateConfigInjector<'a> {
             "__LANDING_CTA_SECONDARY_LINK__",
             data.cta_secondary_link.as_deref().unwrap_or(""),
         );
+        let keep_toggle =
+            self.config.theme.header.theme_toggle == Some(true) && self.config.theme.dark_mode;
+        let content = if keep_toggle {
+            content
+        } else {
+            re(r"(?m)^[ \t]*<ThemeToggle />\n")
+                .replace_all(&content, "")
+                .into_owned()
+        };
         self.write(&path, &content)
     }
 
@@ -1003,20 +1051,26 @@ impl<'a> TemplateConfigInjector<'a> {
             declared.dedup();
             check_theme_preset(self.config, &declared)?;
         }
-        let content = self.read(&path)?.replace(
-            "const configuredDefaultPresetId = \"organic-editorial\" // __FOLIO_THEME_PRESET__",
-            &format!(
-                "const configuredDefaultPresetId = {}",
-                json::string(&self.config.theme.preset)
-            ),
+        let replacement = format!(
+            "const configuredDefaultPresetId = {}",
+            json::string(&self.config.theme.preset)
         );
+        let content = self
+            .read(&path)?
+            .replace(
+                "const configuredDefaultPresetId = \"organic-editorial\" // __FOLIO_THEME_PRESET__",
+                &replacement,
+            )
+            .replace(
+                "const configuredDefaultPresetId = \"pastel\" // __FOLIO_THEME_PRESET__",
+                &replacement,
+            );
         self.write(&path, &content)
     }
 
-    /// `theme.dark_mode: false`: the theme provider forces light, and the
-    /// landing navbar loses its toggle. A provider without the marker (a
-    /// theme package's or a custom template's own) keeps dark mode, with a
-    /// warning saying so.
+    /// `theme.dark_mode: false`: the theme provider forces light. A provider
+    /// without the marker (a theme package's or a custom template's own)
+    /// keeps dark mode, with a warning saying so.
     fn inject_dark_mode(&mut self) -> Result<()> {
         if self.config.theme.dark_mode {
             return Ok(());
@@ -1038,14 +1092,6 @@ impl<'a> TemplateConfigInjector<'a> {
             &provider,
             &content.replace(MARKER, "const darkModeEnabled: boolean = false"),
         )?;
-        let navbar = self.build_dir.join("components/landing-navbar.tsx");
-        if navbar.exists() {
-            let content = self.read(&navbar)?;
-            let stripped = re(r"(?m)^[ \t]*<ThemeToggle />\n").replace_all(&content, "");
-            if stripped != content {
-                self.write(&navbar, &stripped)?;
-            }
-        }
         Ok(())
     }
 

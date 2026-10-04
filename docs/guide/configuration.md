@@ -48,7 +48,7 @@ Project metadata shown in the navbar, page titles, and generated output.
 |-------|------|---------|-------------|
 | `name` | `string` | `"Untitled"` | Project name displayed in the navbar and page titles. If missing or empty, a warning is emitted and `"Untitled"` is used. |
 | `version` | `string` | `"0.0.0"` | Version string shown in the docs header. Quote it (`version: "1.0"`): an unquoted `1.0` is a YAML number, not a string, and fails the load. |
-| `repo` | `string` | `""` | URL to the source repository (e.g. GitHub). Used for source links, the navbar repository link, the "Question? Give us feedback" link on docs pages (it opens an issue there) and project metadata. Without it, none of these links is shown. |
+| `repo` | `string` | `""` | URL to the source repository (e.g. GitHub). Used for source links, the navbar repository link, the small Feedback button at the bottom right of docs pages (it opens an issue there with the current page title) and project metadata. Without it, none of these links is shown. |
 | `repo_ref` | `string` | `"main"` | Branch, tag, or commit used for generated source links. |
 | `url` | `string` | `""` | Public site URL for sitemap, canonical metadata, and social previews. It does not control local routing or static asset paths. |
 
@@ -236,24 +236,24 @@ Controls the visual appearance of the generated documentation site.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `preset` | `string` | `"organic-editorial"` | Default visual preset for the generated site. `folio init` offers `organic-editorial`, `beacon`, `atlas`, and `workshop`; it may also be any built-in id, one a theme package or overlay declares, or a new id that `theme.name`, `theme.tokens` or `theme.style` defines. Anything else stops the build and names the nearest id. |
-| `dark_mode` | `bool` | `true` | Enable the dark mode toggle. When enabled, users can press `d` to switch between light and dark themes; `false` keeps the site light, with no mode controls, toggles or `d` shortcut, and `theme.header.theme_toggle` then warns. Must be a YAML boolean; an explicit `null` is an error. |
-| `logo` | `string` | `""` | Path to a logo image shown in the docs navbar beside the project name, under `deploy.base_path`. Resolved relative to the project directory; a missing file stops the build. |
+| `preset` | `string` | `"pastel"` | Default visual preset for the generated site (Folio Pastel with Ink). `folio init` offers `organic-editorial`, `beacon`, `atlas`, `workshop`, and `pastel`; it may also be any built-in id, one a theme package or overlay declares, or a new id that `theme.name`, `theme.tokens` or `theme.style` defines. Anything else stops the build and names the nearest id. |
+| `dark_mode` | `bool` | `true` | Enable dark mode: the theme picker's Light, Dark and System radios, the toggles `theme.header.theme_toggle` adds, and the `d` key that switches between light and dark themes; `false` keeps the site light, with no mode controls, toggles or `d` shortcut, and `theme.header.theme_toggle` then warns; a dark-only palette the reader applies, such as a dark Omarchy one, still turns the page dark. Must be a YAML boolean; an explicit `null` is an error. |
+| `logo` | `string` | `""` | Path to a logo image shown beside the project name in the docs navbar and the landing navbar, under `deploy.base_path`. Resolved relative to the project directory; a missing file stops the build. |
 | `favicon` | `string` | `""` | Path to a favicon file. Resolved relative to the project directory. |
-| `name` | `string` | `""` | Optional project preset display name. When set with project theme data, Folio adds a Project group to the configurator. |
+| `name` | `string` | `""` | Optional project preset display name. When set with project theme data, Folio adds a Project group to the theme picker. |
 | `description` | `string` | `""` | Optional project preset description. |
 | `preview` | `mapping` | `{}` | Optional `light` and `dark` swatch colors for the project preset preview. |
-| `radius` | `string` | `""` | Default radius choice for the theme configurator. Must be one of `"0"`, `"0.3rem"`, `"0.5rem"`, `"0.75rem"`, or `"1rem"`, or a named alias (`"none"`, `"sm"`, `"md"`, `"lg"`, `"full"`); any other value fails config validation. |
-| `tune` | `mapping` | `{}` | Default configurator choices such as font, accent, surface, width, rhythm, borders, code blocks, and radius. |
+| `radius` | `string` | `""` | Default radius choice for the theme picker. Must be one of `"0"`, `"0.3rem"`, `"0.5rem"`, `"0.75rem"`, or `"1rem"`, or a named alias (`"none"`, `"sm"`, `"md"`, `"lg"`, `"full"`); any other value fails config validation. |
+| `tune` | `mapping` | `{}` | Defaults of the theme picker's Customize step, such as font, accent, surface, width, rhythm, borders, code blocks, and radius. |
 | `style` | `mapping` | `{}` | Safe layout and typography CSS custom property overrides. |
 | `tokens` | `mapping` | `{}` | Safe light/dark CSS variable overrides for shadcn tokens and project tokens. |
 | `header` | `mapping` | `{}` | Docs header brand, badge, repository link, search visibility, theme toggle, and project action. |
-| `variants` | `mapping` | `{}` | Project-owned configurator controls with options, swatches, previews, style overrides, and token overrides. Capped at 256 option combinations across all controls (the product of each control's option count); larger products fail config validation. |
+| `variants` | `mapping` | `{}` | Project-owned theme picker controls with options, swatches, previews, style overrides, and token overrides. Capped at 256 option combinations across all controls (the product of each control's option count); larger products fail config validation. |
 | `package` | `string` \| `mapping` | `""` | Theme package copied over the bundled template before generated content and metadata are injected. A string is a directory in the project. A mapping (`git`, `rev`, `digest`, optional `path`) fetches a published package and verifies its tree against the digest. See [Theme Packages](./theming/theme-packages#install-a-package-someone-else-published). |
 
 ```yaml
 theme:
-  preset: "organic-editorial"
+  preset: "pastel"
   dark_mode: true
   logo: "docs/assets/logo.svg"
   favicon: "docs/assets/favicon.ico"

@@ -24,7 +24,7 @@ export function ParamTable({ args }: ParamTableProps) {
   if (args.length === 0) return null
 
   return (
-    <div className="my-4 overflow-x-auto">
+    <div data-slot="param-table" className="my-4 overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>

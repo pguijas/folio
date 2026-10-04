@@ -1,0 +1,731 @@
+/* Shell: the navbar, sidebar, table of contents and mobile drawer around every page. */
+
+.folio-search-trigger {
+  display: none;
+}
+
+.folio-search-panel {
+  display: contents;
+}
+
+/* Match Nextra's layer so its important result height can be constrained. */
+@layer utilities {
+  @media screen and (width >= 48rem) {
+    html[data-folio-preset="pastel"]:has(.nextra-sidebar [title="Expand sidebar"]) .nextra-search-results {
+      max-height: min(400px, calc(100dvh - 160px)) !important;
+    }
+  }
+}
+
+/* Nextra renders feedback first in the TOC footer. Keep its other actions
+   where they are, and remove the empty footer while those actions are hidden. */
+body:has(.folio-feedback) .nextra-toc > div > div > a:first-child,
+body:has(.folio-feedback) .nextra-toc > div > div:has(> a:first-child):not(:has(> :not(a:first-child, [aria-hidden="true"]))) {
+  display: none;
+}
+
+.folio-feedback {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--muted-foreground);
+  box-shadow: 0 3px 12px rgb(0 0 0 / 0.1);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.folio-feedback:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.folio-feedback:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+@media (pointer: coarse) {
+  .folio-feedback {
+    min-height: 44px;
+  }
+}
+
+@media print {
+  .folio-feedback {
+    display: none;
+  }
+}
+
+/* ─── Pastel shell ─── */
+
+/* cojeev's docs shell (MIT, Copyright (c) 2026 Sanjay Kumar; see
+   THIRD-PARTY-NOTICES.md), from app/docs/docs.css and
+   registry/cojeev/styles/{reading-trail,pigment-field}.css: the sidebar as a
+   floating rail, the table of contents as a reading trail and the page title
+   on a pigment wash. Pastels are fills; the text on them is ink, and every
+   state cue is ink or the 3:1 ring. The jade bar under a hovered trail entry
+   is decoration: the cue is the entry's text turning to ink. */
+html[data-folio-preset="pastel"] {
+  --folio-rail-surface: color-mix(in srgb, var(--chart-4) 12%, var(--card));
+  --folio-rail-shadow: 0 8px 28px rgb(0 0 0 / 0.06);
+  --folio-rail-hover: color-mix(in srgb, var(--chart-4) 10%, transparent);
+  --folio-rail-active: var(--chart-2);
+  --folio-trail-marker: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 19'%3E%3Cpath d='M5 1H19V18L12 14L5 18Z'/%3E%3C/svg%3E");
+}
+
+html.dark[data-folio-preset="pastel"] {
+  --folio-rail-shadow: 0 8px 28px rgb(0 0 0 / 0.32);
+  --folio-rail-active: var(--secondary);
+}
+
+/* Keep Nextra's controls and tab order. The desktop header and rail share
+   viewport positioning and width transitions, so scrolling and collapsing
+   move them as one surface. Only the menu inside the rail scrolls. */
+html[data-folio-preset="pastel"] .nextra-sidebar {
+  transition: width var(--folio-motion-max) var(--folio-ease-enter);
+}
+
+html[data-folio-preset="pastel"] .nextra-sidebar::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 12px 10px;
+  border-radius: 24px;
+  background: var(--folio-rail-surface);
+  box-shadow: var(--folio-rail-shadow);
+  pointer-events: none;
+}
+
+html[data-folio-preset="pastel"] .nextra-sidebar > div:first-child {
+  padding: 24px 16px 12px;
+}
+
+html[data-folio-preset="pastel"] .nextra-sidebar > div:first-child > div > ul {
+  padding-inline: 6px;
+}
+
+html[data-folio-preset="pastel"] .nextra-sidebar-footer {
+  margin-inline: 22px;
+  margin-bottom: 12px;
+  border-color: var(--border);
+  background: transparent;
+}
+
+/* Nextra fades the collapsed footer in over 1s after 0.2s. */
+html[data-folio-preset="pastel"] .nextra-sidebar-footer > * {
+  animation-duration: var(--folio-motion-element);
+  animation-delay: 0s;
+}
+
+@media screen and (width >= 48rem) {
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) {
+    --nextra-navbar-height: 0px;
+    --folio-pastel-rail-width: 288px;
+    --folio-pastel-header-space: 132px;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar [aria-expanded="false"][title="Expand sidebar"]) {
+    --folio-pastel-rail-width: 84px;
+    --folio-pastel-header-space: 248px;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) body > .nextra-navbar {
+    position: fixed;
+    top: 32px !important;
+    inset-inline-start: 28px;
+    width: calc(var(--folio-pastel-rail-width) - 44px);
+    background: transparent !important;
+    transition: width var(--folio-motion-max) var(--folio-ease-enter);
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar-blur {
+    display: none;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar nav {
+    height: auto !important;
+    padding: 0 0 16px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px 8px;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar nav > a:first-child {
+    flex: 1 1 0;
+    min-width: 0;
+    margin: 0;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar nav > a:first-child > span {
+    min-width: 0;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar nav > a:first-child > span > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--folio-heading-font-family);
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar nav > div:empty {
+    display: none;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar nav > div:has(.nextra-search) {
+    order: 1;
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar .nextra-search {
+    width: 100%;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-navbar input[type="search"] {
+    width: 100%;
+    height: 44px;
+    padding-inline-end: 50px !important;
+    font-size: 13px;
+  }
+
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar:not([class~="x:hidden"])) .nextra-search-results {
+    z-index: 75;
+    width: min(36rem, calc(100vw - 56px));
+  }
+
+  html[data-folio-preset="pastel"] div:has(> .nextra-sidebar) {
+    max-width: none;
+    overflow: visible;
+    align-items: flex-start;
+  }
+
+  html[data-folio-preset="pastel"] div:has(> .nextra-sidebar:not([class~="x:hidden"])) {
+    padding-inline-start: var(--folio-pastel-rail-width);
+    transition: padding-inline-start var(--folio-motion-max) var(--folio-ease-enter);
+  }
+
+  html[data-folio-preset="pastel"] .nextra-sidebar {
+    position: fixed;
+    inset-inline-start: 0;
+    top: 12px !important;
+    height: calc(100dvh - 24px) !important;
+    width: var(--folio-pastel-rail-width);
+    margin-block: 0;
+    padding: var(--folio-pastel-header-space) 16px 0 28px;
+  }
+
+  html[data-folio-preset="pastel"] .nextra-sidebar::before {
+    inset: 0 0 0 12px;
+  }
+
+  html[data-folio-preset="pastel"] .nextra-sidebar > div:first-child {
+    min-height: 0;
+    padding: 12px 0;
+  }
+
+  /* Nextra measures a 224px list inline for its horizontal collapse. Its
+     expanded contents should instead use the rail's real available width. */
+  html[data-folio-preset="pastel"] .nextra-sidebar:has([title="Collapse sidebar"]) > div:first-child > div,
+  html[data-folio-preset="pastel"] .nextra-sidebar > div:first-child > div > ul {
+    width: 100% !important;
+  }
+
+  html[data-folio-preset="pastel"] .nextra-sidebar > div:first-child > div > ul {
+    padding-inline: 0;
+  }
+
+  html[data-folio-preset="pastel"] .nextra-sidebar-footer {
+    margin-inline: 0;
+    padding-block: 12px;
+    justify-content: flex-end;
+  }
+
+  /* The closed rail is a toolbar, not a squeezed copy of the full header.
+     Keep Nextra's search input and collapse state; no duplicate controls. */
+  html[data-folio-preset="pastel"]:has(.nextra-sidebar [title="Expand sidebar"]) {
+    & body > .nextra-navbar {
+      inset-inline-start: 26px;
+      width: 44px;
+    }
+
+    & .nextra-navbar nav {
+      flex-direction: column;
+      flex-wrap: nowrap;
+    }
+
+    & .nextra-navbar nav > :is(a, button),
+    & .nextra-navbar nav > div:has(.nextra-search) {
+      flex: none;
+      width: 44px;
+      height: 44px;
+      justify-content: center;
+      order: 0;
+    }
+
+    & .nextra-navbar nav > a:first-child > span > span:not(:first-child) {
+      display: none;
+    }
+
+    & .nextra-navbar .folio-header-actions {
+      flex-direction: column;
+      width: 44px;
+    }
+
+    & .nextra-navbar .folio-header-actions > :is(a, button) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+    }
+
+    & .nextra-navbar .folio-header-actions > a > span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+
+    & .nextra-navbar .folio-monogram {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+    }
+
+    & .nextra-navbar .nextra-search kbd {
+      display: none;
+    }
+
+    & .nextra-navbar nav > div:has(.nextra-search) {
+      position: relative;
+    }
+
+    & .folio-search-trigger {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--background);
+      color: var(--muted-foreground);
+      cursor: pointer;
+    }
+
+    & .folio-search-trigger:hover,
+    & .folio-search-trigger[aria-expanded="true"] {
+      background: var(--muted);
+      color: var(--foreground);
+    }
+
+    & .folio-search-trigger:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+    }
+
+    & .folio-search-panel {
+      display: none;
+      position: absolute;
+      inset-inline-start: calc(100% + 16px);
+      top: 0;
+      width: min(34rem, calc(100vw - 112px));
+      border-radius: 8px;
+      background: var(--popover);
+      box-shadow: var(--folio-rail-shadow);
+    }
+
+    & [data-folio-search-open="true"] .folio-search-panel {
+      display: block;
+    }
+
+    & .nextra-navbar input[type="search"] {
+      padding-inline-end: 12px !important;
+      transition-property: background-color, border-color, box-shadow;
+    }
+
+    & .nextra-search-results {
+      width: var(--input-width);
+    }
+
+    & .nextra-sidebar {
+      padding-inline: 26px 14px;
+    }
+
+    & .nextra-sidebar > div:first-child {
+      visibility: hidden;
+    }
+
+    & .nextra-sidebar-footer {
+      justify-content: center;
+    }
+
+    & .nextra-sidebar-footer button {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+    }
+
+    & .nextra-sidebar-footer button svg {
+      height: 16px;
+    }
+  }
+
+  html[data-folio-preset="pastel"] .nextra-sidebar ~ article {
+    max-width: 1048px;
+    margin-inline: auto;
+    padding: 40px clamp(24px, 4vw, 64px) 96px;
+  }
+
+  html[data-folio-preset="pastel"] .nextra-toc {
+    /* The sticky panel needs a containing column as tall as the article. */
+    align-self: stretch;
+    width: 240px;
+    padding-block: 24px;
+    padding-inline-end: 16px;
+  }
+
+  html[data-folio-preset="pastel"] .nextra-toc > div {
+    top: 24px !important;
+    max-height: calc(100dvh - 48px) !important;
+    padding: 0;
+  }
+}
+
+/* Rows: 12px corners, a lavender tint under the pointer and jade on the
+   current page, which also takes the ring as its edge. */
+html[data-folio-preset="pastel"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button) {
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  color: var(--muted-foreground);
+  line-height: 1.4;
+  transition:
+    background-color var(--folio-motion-micro) var(--folio-ease-enter),
+    color var(--folio-motion-micro) var(--folio-ease-enter);
+}
+
+html[data-folio-preset="pastel"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button):hover {
+  background: var(--folio-rail-hover);
+  color: var(--foreground);
+}
+
+html[data-folio-preset="pastel"] :is(.nextra-sidebar, .nextra-mobile-nav) li.active > a {
+  background: var(--folio-rail-active);
+  box-shadow: inset 0 0 0 1px var(--ring);
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+html[data-folio-preset="pastel"] :is(.nextra-sidebar, .nextra-mobile-nav, .nextra-toc) li > :is(a, button):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+html[data-folio-preset="pastel"] :is(.nextra-sidebar, .nextra-mobile-nav) li > button > svg {
+  transition:
+    rotate var(--folio-motion-element) var(--folio-ease-enter),
+    background-color var(--folio-motion-micro) var(--folio-ease-enter);
+}
+
+html[data-folio-preset="pastel"] :is(.nextra-sidebar, .nextra-mobile-nav) li > div > ul::before {
+  background: var(--border);
+}
+
+/* Nextra opens a folder over 500ms and runs the rail's own collapse through
+   the same element; neither goes past the 300ms ceiling here. The durations
+   are inline, hence the `!important`, and reduced motion keeps its own. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-folio-preset="pastel"] :is(.nextra-sidebar, .nextra-mobile-nav) [class~="x:transform-gpu"] {
+    transition-duration: var(--folio-motion-max) !important;
+    transition-timing-function: var(--folio-ease-enter);
+  }
+}
+
+/* The mobile drawer: paper, the title in the display face, and 44px rows. */
+@media (width < 48rem) {
+  html[data-folio-preset="pastel"][data-folio-drawer] .nextra-mobile-nav {
+    background: var(--card) !important;
+  }
+
+  html[data-folio-preset="pastel"][data-folio-drawer] .folio-drawer-header {
+    padding: 16px 12px 4px 20px;
+  }
+
+  html[data-folio-preset="pastel"] .folio-drawer-title {
+    font-family: var(--folio-heading-font-family);
+    font-size: 1.375rem;
+    letter-spacing: -0.025em;
+  }
+
+  html[data-folio-preset="pastel"] .folio-drawer-close:hover {
+    background: var(--folio-rail-hover);
+  }
+
+  html[data-folio-preset="pastel"] .nextra-mobile-nav li > :is(a, button) {
+    min-height: 44px;
+    padding-inline: 12px;
+  }
+}
+
+/* ─── Pastel reading trail ─── */
+
+/* The contents list hangs off a spine, and an ink marker travels down it to
+   the section in view. Only the current entry is bold. The spine takes the
+   file tree's guide mix, 60% of the way from --border to --input, and clears
+   3:1 on the page. */
+html[data-folio-preset="pastel"] .nextra-toc > div > p {
+  padding-top: 16px;
+  color: var(--foreground);
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+html[data-folio-preset="pastel"] .nextra-toc ul {
+  position: relative;
+}
+
+html[data-folio-preset="pastel"] .nextra-toc ul::before {
+  content: "";
+  position: absolute;
+  inset-block: 20px;
+  inset-inline-start: 23px;
+  width: 1px;
+  background: color-mix(in oklab, var(--input) 60%, var(--border));
+  pointer-events: none;
+}
+
+html[data-folio-preset="pastel"] .nextra-toc li {
+  margin-block: 2px;
+}
+
+html[data-folio-preset="pastel"] .nextra-toc li > a {
+  position: relative;
+  padding: 6px 8px 6px 32px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+html[data-folio-preset="pastel"] .nextra-toc li > a:hover {
+  color: var(--foreground);
+}
+
+html[data-folio-preset="pastel"] .nextra-toc li > a::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  inset-inline-start: 32px;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--chart-2);
+  opacity: 0;
+  transition: opacity var(--folio-motion-micro) var(--folio-ease-enter);
+}
+
+html[data-folio-preset="pastel"] .nextra-toc li > a:hover::after {
+  opacity: 1;
+}
+
+html[data-folio-preset="pastel"] .nextra-toc li > a[class~="x:text-primary-600"] {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+/* The marker. Where anchor positioning runs, one marker on the list follows
+   the current entry; elsewhere each entry draws its own. Until Nextra marks
+   an entry current, which it does only once the page scrolls, the marker
+   rests on the first. */
+@supports (anchor-name: --folio-trail) {
+  html[data-folio-preset="pastel"] .nextra-toc li > a[class~="x:text-primary-600"],
+  html[data-folio-preset="pastel"] .nextra-toc ul:not(:has(a[class~="x:text-primary-600"])) > li:first-child > a {
+    anchor-name: --folio-trail-current;
+  }
+
+  html[data-folio-preset="pastel"] .nextra-toc ul:has(> li > a)::after {
+    content: "";
+    position: absolute;
+    position-anchor: --folio-trail-current;
+    top: calc(anchor(center) - 6px);
+    inset-inline-start: 16px;
+    width: 15px;
+    height: 12px;
+    background: var(--foreground);
+    -webkit-mask: var(--folio-trail-marker) center / contain no-repeat;
+    mask: var(--folio-trail-marker) center / contain no-repeat;
+    pointer-events: none;
+    transition: top var(--folio-motion-max) var(--folio-ease-enter);
+  }
+}
+
+@supports not (anchor-name: --folio-trail) {
+  html[data-folio-preset="pastel"] .nextra-toc li > a[class~="x:text-primary-600"]::before,
+  html[data-folio-preset="pastel"] .nextra-toc ul:not(:has(a[class~="x:text-primary-600"])) > li:first-child > a::before {
+    content: "";
+    position: absolute;
+    top: calc(50% - 6px);
+    inset-inline-start: -16px;
+    width: 15px;
+    height: 12px;
+    background: var(--foreground);
+    -webkit-mask: var(--folio-trail-marker) center / contain no-repeat;
+    mask: var(--folio-trail-marker) center / contain no-repeat;
+  }
+}
+
+/* The focus ink fills a progress bar as the page scrolls. Reduced motion
+   omits the scroll-driven animation. */
+@keyframes folio-trail-progress {
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-folio-preset="pastel"] .nextra-toc > div > p::after {
+      content: "";
+      display: block;
+      height: 4px;
+      margin-top: 10px;
+      border-radius: 999px;
+      background: linear-gradient(var(--ring), var(--ring)) 0 0 / 0 100% no-repeat var(--muted);
+      animation: folio-trail-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+/* ─── Pastel page type ─── */
+
+/* The display face with negative tracking, an H2 that outweighs the H3 under
+   it, and an upright lead: the body face ships no italic, so the browser
+   would slant it. A component's own title carries a data-slot and keeps its
+   family's type. */
+html[data-folio-preset="pastel"] .nextra-sidebar ~ article {
+  color: var(--foreground);
+}
+
+html[data-folio-preset="pastel"] article :is(h1, h2, h3, h4):not(.not-prose *, [data-slot]) {
+  color: var(--foreground);
+}
+
+html[data-folio-preset="pastel"] article h1:not(.not-prose *, [data-slot]) {
+  font-size: clamp(2.25rem, 3.7vw, 3.25rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+html[data-folio-preset="pastel"] article h2:not(.not-prose *, [data-slot]) {
+  font-size: 1.625rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+html[data-folio-preset="pastel"] article h3:not(.not-prose *, [data-slot]) {
+  font-family: var(--folio-heading-font-family);
+  font-size: 1.3125rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+}
+
+html[data-folio-preset="pastel"] article h1:not(.not-prose *) + p:has(> em:only-child) {
+  max-width: 62ch;
+  color: var(--muted-foreground);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+html[data-folio-preset="pastel"] article h1:not(.not-prose *) + p > em:only-child {
+  font-style: normal;
+}
+
+/* ─── Pastel pigment wash ─── */
+
+/* Three soft pigments behind the top of a docs page, fading out before the
+   first section; static, and never over the sidebar or the contents. */
+html[data-folio-preset="pastel"] .nextra-sidebar ~ article {
+  position: relative;
+  isolation: isolate;
+}
+
+html[data-folio-preset="pastel"] .nextra-sidebar ~ article::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 auto;
+  height: 34rem;
+  background:
+    radial-gradient(ellipse at 18% 35%, color-mix(in srgb, var(--chart-2) 65%, transparent), transparent 62%),
+    radial-gradient(ellipse at 82% 72%, color-mix(in srgb, var(--chart-4) 60%, transparent), transparent 62%),
+    radial-gradient(ellipse at 56% 8%, color-mix(in srgb, var(--chart-1) 40%, transparent), transparent 56%);
+  opacity: 0.48;
+  -webkit-mask: linear-gradient(to bottom, #000 0 22%, transparent), linear-gradient(to right, transparent, #000 12% 88%, transparent);
+  -webkit-mask-composite: source-in;
+  mask: linear-gradient(to bottom, #000 0 22%, transparent), linear-gradient(to right, transparent, #000 12% 88%, transparent);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+html.dark[data-folio-preset="pastel"] .nextra-sidebar ~ article::before {
+  opacity: 0.22;
+}
+
+@media print {
+  html[data-folio-preset="pastel"] .nextra-sidebar ~ article::before {
+    content: none;
+  }
+}
+
+/* ─── Pastel scheme switch ─── */
+
+/* Light to dark and back: the new scheme is revealed as a circle from the
+   toggle, over the old one, which stays still. lib/scheme-transition.ts
+   starts the view transition only under Pastel and without reduced motion,
+   and sets the centre and radius. */
+@keyframes folio-scheme-reveal {
+  from {
+    clip-path: circle(0 at var(--folio-reveal-at));
+  }
+  to {
+    clip-path: circle(var(--folio-reveal-r) at var(--folio-reveal-at));
+  }
+}
+
+html[data-folio-preset="pastel"]::view-transition-group(root),
+html[data-folio-preset="pastel"]::view-transition-old(root) {
+  animation: none;
+}
+
+html[data-folio-preset="pastel"]::view-transition-old(root),
+html[data-folio-preset="pastel"]::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+html[data-folio-preset="pastel"]::view-transition-new(root) {
+  animation: folio-scheme-reveal var(--folio-motion-max) var(--folio-ease-enter);
+}

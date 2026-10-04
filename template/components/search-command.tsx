@@ -1,7 +1,10 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { Search } from "nextra/components"
+import { Search01Icon } from "@hugeicons/core-free-icons"
+import { HugeiconsIcon } from "@hugeicons/react"
+import { NEXTRA_CLASS } from "@/lib/nextra-dom"
 import {
   type FolioSearchDocument,
   folioSearchDocuments,
@@ -192,10 +195,44 @@ export function SearchCommand({
   placeholder = "Search documentation…",
 }: SearchCommandProps) {
   const searchRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const panelId = useId()
+  const [open, setOpen] = useState(false)
+
+  function closeSearch() {
+    setOpen(false)
+    triggerRef.current?.focus({ preventScroll: true })
+  }
 
   useEffect(() => {
     installDevelopmentSearchIndex()
   }, [])
+
+  useEffect(() => {
+    if (!open) return
+    searchRef.current?.querySelector<HTMLInputElement>('input[type="search"]')?.focus()
+
+    function onPointerDown(event: PointerEvent) {
+      const target = event.target
+      if (!(target instanceof Element)) return
+      if (searchRef.current?.contains(target) || target.closest(`.${NEXTRA_CLASS.searchResults}`)) return
+      setOpen(false)
+    }
+    function onResultClick(event: MouseEvent) {
+      if (event.target instanceof Element && event.target.closest(`.${NEXTRA_CLASS.searchResults} a`)) setOpen(false)
+    }
+    function onResize() {
+      setOpen(false)
+    }
+    document.addEventListener("pointerdown", onPointerDown)
+    document.addEventListener("click", onResultClick)
+    window.addEventListener("resize", onResize)
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown)
+      document.removeEventListener("click", onResultClick)
+      window.removeEventListener("resize", onResize)
+    }
+  }, [open])
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
@@ -209,14 +246,20 @@ export function SearchCommand({
       }
 
       const target = event.target instanceof HTMLElement ? event.target : null
-      if (target?.closest(editableSelector)) {
+      if (target !== triggerRef.current && target?.closest(editableSelector)) {
+        return
+      }
+
+      if (triggerRef.current?.getClientRects().length) {
+        event.preventDefault()
+        setOpen(true)
         return
       }
 
       const input = searchRef.current?.querySelector<HTMLInputElement>(
         'input[type="search"]'
       )
-      if (!input) {
+      if (!input?.getClientRects().length) {
         return
       }
 
@@ -229,13 +272,42 @@ export function SearchCommand({
   }, [])
 
   return (
-    <div ref={searchRef} data-folio-search className="contents">
-      <Search
-        placeholder={placeholder}
-        emptyResult="No matching docs or API pages."
-        errorText="Search index unavailable."
-        loading="Searching docs…"
-      />
+    <div
+      ref={searchRef}
+      data-folio-search
+      data-folio-search-open={open}
+      className="contents"
+      onKeyDownCapture={(event) => {
+        if (open && event.key === "Escape") {
+          // Let the combobox release its modal focus before returning to the rail.
+          requestAnimationFrame(closeSearch)
+        }
+      }}
+      onBlurCapture={(event) => {
+        const next = event.relatedTarget
+        if (!(next instanceof Element) || (!event.currentTarget.contains(next) && !next.closest(`.${NEXTRA_CLASS.searchResults}`))) setOpen(false)
+      }}
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        className="folio-search-trigger"
+        aria-label="Search documentation"
+        title="Search documentation"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen(!open)}
+      >
+        <HugeiconsIcon icon={Search01Icon} size={18} strokeWidth={1.8} aria-hidden="true" />
+      </button>
+      <div id={panelId} className="folio-search-panel" role="search">
+        <Search
+          placeholder={placeholder}
+          emptyResult="No matching docs or API pages."
+          errorText="Search index unavailable."
+          loading="Searching docs…"
+        />
+      </div>
     </div>
   )
 }

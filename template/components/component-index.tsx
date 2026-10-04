@@ -215,6 +215,33 @@ const componentGroups: ComponentGroup[] = [
     ],
   },
   {
+    title: "Prose Components",
+    summary:
+      "Mark keys, define terms, and label the parts of a long guide without leaving the sentence.",
+    accent: "var(--chart-1)",
+    entries: [
+      {
+        title: "Kbd",
+        description: "Keycaps for shortcuts and key names inside a sentence.",
+        href: "/docs/components/kbd",
+        role: "Keys",
+      },
+      {
+        title: "Marker",
+        description: "A labelled dashed divider between the parts of a long guide.",
+        href: "/docs/components/marker",
+        role: "Divider",
+      },
+      {
+        title: "Term",
+        description:
+          "An inline term whose definition opens on hover, focus, or tap.",
+        href: "/docs/components/term",
+        role: "Glossary",
+      },
+    ],
+  },
+  {
     title: "API Reference Components",
     summary:
       "These appear automatically when Folio turns Python source into reference pages.",
@@ -263,9 +290,9 @@ const componentGroups: ComponentGroup[] = [
     accent: "var(--chart-2)",
     entries: [
       {
-        title: "ThemeConfigurator",
+        title: "Theme picker",
         description:
-          "Popover widget for customizing accent color and border radius.",
+          "Gallery of themes and their colours, with a Customize step for each.",
         href: "/docs/components/theme-configurator",
         role: "Theme",
       },

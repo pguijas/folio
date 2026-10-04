@@ -22,7 +22,7 @@ interface MethodAccordionProps {
 
 export function MethodAccordion({ methods }: MethodAccordionProps) {
   return (
-    <Accordion type="multiple" className="my-4">
+    <Accordion type="multiple" data-slot="method-accordion" className="my-4">
       {methods.map((method) => (
         <AccordionItem key={method.name} value={method.name}>
           <AccordionTrigger className="font-mono text-sm hover:no-underline">

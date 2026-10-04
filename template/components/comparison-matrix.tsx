@@ -157,7 +157,10 @@ export function ComparisonMatrix({
   }))
 
   return (
-    <div className={cn(includeSurface && "comparison-evidence", className)}>
+    <div
+      data-slot="comparison-matrix"
+      className={cn(includeSurface && "comparison-evidence", className)}
+    >
       <CompareMatrix
         caption={caption ?? (configured ? undefined : "Capability")}
         tools={configured ? tools! : bundledTools}

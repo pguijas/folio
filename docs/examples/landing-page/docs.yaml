@@ -8,6 +8,7 @@ source:
 
 landing:
   hero:
+    variant: "heartbeat"
     tagline: "Generated landing page"
     headline: "Example docs"
     description: "A minimal project preview built from docs.yaml and one guide page."
@@ -34,6 +35,15 @@ landing:
         - value: "1"
           label: "config file"
     - type: "routes"
+      routes:
+        - label: "Guide"
+          path: "/docs"
+          href: "/docs/"
+          detail: "Markdown pages"
+        - label: "Search"
+          path: "/_pagefind"
+          href: "/docs/?q="
+          detail: "Static index"
     - type: "output"
     - type: "cta"
 

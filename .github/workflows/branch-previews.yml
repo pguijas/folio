@@ -80,6 +80,10 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Clear job workspace
+        shell: bash
+        run: rm -rf -- "${GITHUB_WORKSPACE:?}/preview-source"
+
       - name: Check out preview branch
         uses: actions/checkout@v4
         with:
@@ -92,6 +96,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: preview-source
+          cache-bin: false
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -198,6 +203,15 @@ jobs:
 
           echo "enabled=true" >> "$GITHUB_OUTPUT"
 
+      - name: Clear job workspace
+        if: steps.deploy-gate.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          rm -rf -- "${GITHUB_WORKSPACE:?}/trusted-source" \
+            "$GITHUB_WORKSPACE/_preview-site" \
+            "$GITHUB_WORKSPACE/_pages-artifact" \
+            "$GITHUB_WORKSPACE/_pages-state"
+
       - name: Check out production branch
         if: steps.deploy-gate.outputs.enabled == 'true'
         uses: actions/checkout@v4
@@ -217,6 +231,7 @@ jobs:
         if: steps.deploy-gate.outputs.enabled == 'true'
         with:
           workspaces: trusted-source
+          cache-bin: false
 
       - name: Install pnpm
         if: steps.deploy-gate.outputs.enabled == 'true'

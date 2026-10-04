@@ -161,6 +161,73 @@
     --folio-workspace-shell-topbar-border: 1px solid var(--border);
     --folio-nextra-bg: var(--background);
 
+    /* Motion, after cojeev's scale (MIT, see THIRD-PARTY-NOTICES.md). 120ms
+       for a control answering the pointer, 200ms for something arriving,
+       180ms for something leaving, and 300ms as the ceiling for anything a
+       reader waits on. Exits run shorter than entrances so a dismissed thing
+       never lingers. Pastel's tabs glide over cojeev's 240ms and fade a new
+       panel in over 160ms. The one exception is the mobile drawer's spring: it is
+       at 64% of its travel by 160ms, and the 560ms is the slow settle over the
+       last few pixels, which is what makes it read as smooth rather than as
+       late. */
+    --folio-motion-micro: 120ms;
+    --folio-motion-element: 200ms;
+    --folio-motion-exit: 180ms;
+    --folio-motion-max: 300ms;
+    --folio-motion-glide: 240ms;
+    --folio-motion-fade: 160ms;
+    --folio-motion-drawer: 560ms;
+    --folio-ease-enter: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --folio-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    /* A stiffness 180, damping 26, mass 1 spring. This cubic is its closest
+       fit (under 2% off at any point); browsers with `linear()` get the
+       sampled spring itself, in the @supports block below. */
+    --folio-spring-drawer: cubic-bezier(0.28, 0.32, 0.1, 1);
+
+    /* The mobile drawer: a card floating 12px in from the edges, over a
+       dimmed page. A preset that wants a full-screen sheet instead sets the
+       inset and the radius to 0, the width to 100vw and the shadow to none.
+       The width is 340px at the default font size and in rem, so a reader
+       with a larger font gets a wider drawer, not a cramped one. */
+    --folio-drawer-inset: 12px;
+    --folio-drawer-width: 21.25rem;
+    --folio-drawer-radius: 24px;
+    --folio-drawer-shadow:
+      0 0 0 1px color-mix(in oklch, var(--border) 55%, transparent),
+      8px 1px 21px rgb(17 17 26 / 0.1);
+    --folio-drawer-scrim: color-mix(in oklch, var(--scrim) 30%, transparent);
+
+    /* Tones for the six callout types: a fill for the surface, an ink for
+       its text and an accent for its icon and edge. Each mixes one fixed hue,
+       or the theme's own warning or destructive, with the applied theme's
+       foreground and background, so every preset gets six distinct tones
+       without declaring any, and a preset can still set one by name. With
+       each built-in preset's defaults, every Omarchy palette included, the
+       ink clears 5:1 on its fill and the accent 3:1. */
+    --folio-tone-note-accent: var(--muted-foreground);
+    --folio-tone-note-fill: color-mix(in oklab, var(--muted-foreground) 8%, var(--background));
+    --folio-tone-note-ink: var(--foreground);
+    --folio-tone-info-accent: color-mix(in oklab, oklch(0.58 0.14 250) 75%, var(--foreground));
+    --folio-tone-info-fill: color-mix(in oklab, var(--folio-tone-info-accent) 12%, var(--background));
+    --folio-tone-info-ink: color-mix(in oklab, var(--folio-tone-info-accent) 25%, var(--foreground));
+    --folio-tone-tip-accent: color-mix(in oklab, oklch(0.58 0.14 300) 75%, var(--foreground));
+    --folio-tone-tip-fill: color-mix(in oklab, var(--folio-tone-tip-accent) 12%, var(--background));
+    --folio-tone-tip-ink: color-mix(in oklab, var(--folio-tone-tip-accent) 25%, var(--foreground));
+    --folio-tone-check-accent: color-mix(in oklab, oklch(0.58 0.14 150) 75%, var(--foreground));
+    --folio-tone-check-fill: color-mix(in oklab, var(--folio-tone-check-accent) 12%, var(--background));
+    --folio-tone-check-ink: color-mix(in oklab, var(--folio-tone-check-accent) 25%, var(--foreground));
+    --folio-tone-warning-accent: color-mix(in oklab, var(--warning) 75%, var(--foreground));
+    --folio-tone-warning-fill: color-mix(in oklab, var(--folio-tone-warning-accent) 12%, var(--background));
+    --folio-tone-warning-ink: color-mix(in oklab, var(--folio-tone-warning-accent) 25%, var(--foreground));
+    --folio-tone-danger-accent: color-mix(in oklab, var(--destructive) 75%, var(--foreground));
+    --folio-tone-danger-fill: color-mix(in oklab, var(--folio-tone-danger-accent) 12%, var(--background));
+    --folio-tone-danger-ink: color-mix(in oklab, var(--folio-tone-danger-accent) 25%, var(--foreground));
+
+    /* The corner of a raised surface: cards, panels and preview frames. It is
+       the theme radius unless a preset rounds its surfaces apart from its
+       controls. */
+    --folio-surface-radius: var(--radius);
+
     /* DEPRECATED v1.x compat — remove in v2.0 */
     /* Aliases the pre-namespace Folio CSS custom property names to their new
        --folio-* equivalents so any missed/external consumer still resolves. */
@@ -520,7 +587,9 @@ body > div:has(> .nextra-sidebar) {
   color: var(--foreground) !important;
 }
 
-@media (min-width: 768px) {
+/* Nextra's `md`, in rem like the drawer's queries: below it the only search
+   on the page is the drawer's, which fills the panel instead. */
+@media (width >= 48rem) {
   [data-folio-search] .nextra-search {
     width: clamp(16rem, 24vw, 22rem);
   }
@@ -537,10 +606,6 @@ body > div:has(> .nextra-sidebar) {
 .nextra-toc > div {
   top: calc(var(--nextra-navbar-height) + var(--folio-workspace-shell-padding)) !important;
   max-height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
-}
-
-details[data-theme-configurator] {
-  isolation: isolate;
 }
 
 @media (max-width: 767px) {
@@ -569,6 +634,223 @@ details[data-theme-configurator] {
 
   .nextra-toc > div {
     max-height: calc(100dvh - var(--nextra-navbar-height) - var(--folio-workspace-shell-padding)) !important;
+  }
+}
+
+/* ─── Mobile drawer ─── */
+
+/* Nextra's mobile menu as a floating drawer (components/mobile-nav-drawer.tsx).
+   Every rule keys off `html[data-folio-drawer]`, which that component sets
+   once it has taken the menu over; until then, or on a layout that does not
+   mount it, the menu keeps Nextra's own look and behaviour.
+
+   The panel sits at 90, above the navbar's 70 and over a scrim at 85: the
+   page behind it, navbar included, is dimmed and inert while it is open.
+   Nextra's utilities are layered, so these unlayered rules win without
+   `!important`. The closed panel is `visibility: hidden` as well as off
+   screen, so its links leave the tab order and the accessibility tree; the
+   visibility flips only after the exit transition has run. */
+
+/* Registered as a length so a theme may write a bare `0`: unregistered, it
+   would substitute as a number and void the `calc()`s below. */
+@property --folio-drawer-inset {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 12px;
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    /* The drawer spring sampled every 35ms over its 560ms. */
+    --folio-spring-drawer: linear(0, 0.082, 0.245, 0.418, 0.571, 0.693, 0.786, 0.854, 0.902, 0.935, 0.958, 0.973, 0.983, 0.989, 0.993, 0.996, 1);
+  }
+}
+
+.folio-drawer-header,
+.folio-drawer-scrim {
+  display: none;
+}
+
+/* The drawer's queries are Nextra's own `md`, in rem. A px query would miss
+   the menu between 767 and 768 px, and at every width up to Nextra's `md`
+   when the browser's default font is larger. */
+@media (width < 48rem) {
+  html[data-folio-drawer] .nextra-mobile-nav {
+    inset: var(--folio-drawer-inset) auto var(--folio-drawer-inset) var(--folio-drawer-inset);
+    z-index: 90;
+    width: min(var(--folio-drawer-width), calc(100% - var(--folio-drawer-inset) * 2));
+    padding-top: 0;
+    overflow: hidden;
+    border-radius: var(--folio-drawer-radius);
+    box-shadow: var(--folio-drawer-shadow);
+    outline: none;
+    transform: translate3d(calc(-100% - var(--folio-drawer-inset)), 0, 0);
+    visibility: hidden;
+  }
+
+  html[data-folio-drawer="open"] .nextra-mobile-nav {
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+
+  html[data-folio-drawer-motion] .nextra-mobile-nav {
+    transition:
+      transform var(--folio-motion-max) var(--folio-ease-exit),
+      visibility 0s linear var(--folio-motion-max);
+  }
+
+  html[data-folio-drawer-motion][data-folio-drawer="open"] .nextra-mobile-nav {
+    transition:
+      transform var(--folio-motion-drawer) var(--folio-spring-drawer),
+      visibility 0s;
+  }
+
+  /* Nextra's Collapse, which opens a folder, transitions `all` over an
+     inline 500ms, so it would carry the panel's visibility, which its rows
+     inherit, through a 500ms transition of its own on every open and close.
+     Here it animates only its size and its fade. */
+  html[data-folio-drawer] .nextra-mobile-nav [class~="x:transform-gpu"] {
+    transition-property: height, width, opacity;
+  }
+
+  html[data-folio-drawer] .folio-drawer-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 85;
+    background: var(--folio-drawer-scrim);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  html[data-folio-drawer="open"] .folio-drawer-scrim {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  html[data-folio-drawer-motion] .folio-drawer-scrim {
+    transition:
+      opacity var(--folio-motion-exit) var(--folio-ease-exit),
+      visibility 0s linear var(--folio-motion-exit);
+  }
+
+  html[data-folio-drawer-motion][data-folio-drawer="open"] .folio-drawer-scrim {
+    transition:
+      opacity var(--folio-motion-element) var(--folio-ease-enter),
+      visibility 0s;
+  }
+
+  /* The search box lives in the drawer; its results are portaled to the
+     body at Nextra's 30, which would put them under the panel, and as wide
+     as the screen, past the panel's edge. Headless UI gives them the input's
+     width. Keyed on the drawer in any state, not only open: picking a result
+     closes the drawer while the list is still fading out. Below `md` the
+     navbar's search is hidden, so no other list is caught. */
+  html[data-folio-drawer] .nextra-search-results {
+    z-index: 95;
+    width: var(--input-width);
+  }
+
+  html[data-folio-drawer] .folio-drawer-header {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.75rem 0.75rem 0 1.25rem;
+  }
+
+  .folio-drawer-title {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    color: var(--foreground);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .folio-drawer-close {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    transition:
+      background-color var(--folio-motion-micro) var(--folio-ease-enter),
+      color var(--folio-motion-micro) var(--folio-ease-enter);
+  }
+
+  .folio-drawer-close:hover {
+    background: var(--muted);
+    color: var(--foreground);
+  }
+
+  .folio-drawer-close:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .folio-drawer-close svg {
+    transition: transform var(--folio-motion-element) var(--folio-ease-enter);
+  }
+}
+
+/* The drawer is narrower than the full-screen menu it replaces, so it drops
+   the search's shortcut hint, which Nextra already hides below `sm`, and the
+   room kept for it: the placeholder fits at every drawer width. */
+@media (width < 48rem) {
+  html[data-folio-drawer] .nextra-mobile-nav .nextra-search input[type="search"] {
+    padding-inline-end: 0.75rem !important;
+  }
+
+  html[data-folio-drawer] .nextra-mobile-nav .nextra-search kbd {
+    display: none;
+  }
+}
+
+@media (width < 48rem) and (hover: hover) {
+  .folio-drawer-close:hover svg {
+    transform: rotate(90deg);
+  }
+}
+
+/* Where the drawer sends focus after a navigation: the page, or the section
+   a hash link points at. It is a place to land, not a control, so it takes
+   no ring. */
+[data-folio-focus-target]:focus {
+  outline: none;
+}
+
+/* Reduced motion on the docs shell: on a page that carries the drawer no
+   transition runs and every animation finishes within a frame and starts at
+   once. Transitions take 0s, not 0.01ms: with `transition-property` at its
+   initial `all`, a 0.01ms transition still runs on every style change, and
+   Mermaid measured its labels mid-way through one and drew blank diagrams.
+   Animations keep 0.01ms so their end events still fire. It is scoped to those pages, and it leaves out the landing and the
+   roadmap, whose own reduced-motion blocks keep a state change visible where
+   an instant cut would hide it; `data-folio-motion="essential"` opts a
+   component out the same way. It is unlayered and `!important` so no
+   component's own timing outranks it; only a layered `!important` could. */
+@media (prefers-reduced-motion: reduce) {
+  html[data-folio-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folio-roadmap"], [class*="folio-roadmap"] *, [data-folio-motion="essential"], [data-folio-motion="essential"] *),
+  html[data-folio-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folio-roadmap"], [class*="folio-roadmap"] *, [data-folio-motion="essential"], [data-folio-motion="essential"] *)::before,
+  html[data-folio-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folio-roadmap"], [class*="folio-roadmap"] *, [data-folio-motion="essential"], [data-folio-motion="essential"] *)::after {
+    animation-delay: 0s !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0s !important;
+    transition-duration: 0s !important;
   }
 }
 
@@ -1600,6 +1882,15 @@ aside li > a[href="/"] {
     linear-gradient(to bottom, transparent, var(--background));
 }
 
+/* Landing headings take the theme's heading face, as docs headings do, and
+   keep their own sizes and weights. The base layer lets a heading's own font
+   utility win. */
+@layer base {
+  .landing-shell :is(h1, h2) {
+    font-family: var(--folio-heading-font-family, var(--font-heading));
+  }
+}
+
 .landing-kicker,
 .landing-hero-copy h1,
 .landing-hero-copy > p,
@@ -1652,7 +1943,9 @@ aside li > a[href="/"] {
   background: color-mix(in oklch, var(--primary) 88%, var(--foreground));
 }
 
+/* The install command sits on the theme's code surface, as docs code does. */
 .landing-command {
+  background: var(--folio-code-bg, var(--card));
   animation-delay: 430ms;
 }
 
@@ -1791,10 +2084,10 @@ aside li > a[href="/"] {
   }
 }
 
-/* the terminal surface: paper, never black; covers the page at the seam,
-   lifts up and out at the reveal */
+/* the terminal surface: the theme's code surface, as docs code is; covers
+   the page at the seam, lifts up and out at the reveal */
 .landing-hb-shutter {
-  background: color-mix(in oklch, var(--muted) 32%, var(--background));
+  background: var(--folio-code-bg, var(--card));
   transform: translateY(-102%); /* rest: gone, up and out */
   animation: folio-hb-shutter var(--folio-hb-cycle) var(--folio-hb-snap)
     infinite;
@@ -2151,128 +2444,1340 @@ aside li > a[href="/"] {
   --folio-comparison-empty-soft: oklch(0.245 0.050 28);
 }
 
+/* ─── Theme gallery ─── */
 
-.theme-drawer-control {
-  order: -1;
-  flex: 1 1 auto;
-  min-width: 0;
+/* The navbar trigger is drawn at 32px and takes a 40px hit. */
+[data-theme-gallery-trigger] {
+  position: relative;
 }
 
-.theme-drawer-fallback {
-  background: var(--sidebar);
-  bottom: max(1rem, env(safe-area-inset-bottom));
-  left: max(1rem, env(safe-area-inset-left));
-  position: fixed;
-  width: min(16rem, calc(100vw - 2rem));
-  z-index: 80;
+[data-theme-gallery-trigger]::before {
+  content: "";
+  inset: -4px;
+  position: absolute;
 }
 
-.theme-drawer-fallback .theme-drawer-trigger {
-  background: var(--sidebar);
-}
-
-.theme-drawer-trigger {
+/* The theme picker in the navbar: a dialog in the page's own theme around a
+   stage of slides, the chosen theme in front and two on each side receding
+   behind it, each one a small page drawn in its own theme. A slide keeps its
+   theme's radius, so the gallery shows the corners along with the colours. */
+.theme-gallery {
+  --theme-gallery-width: min(33rem, 62vw, calc((100dvh - 24rem) * 16 / 10));
+  --theme-gallery-height: calc(var(--theme-gallery-width) * 10 / 16 + 18rem);
+  --theme-gallery-ratio: 16 / 10;
+  --theme-gallery-motion: 220ms cubic-bezier(0.16, 1, 0.3, 1);
   align-items: center;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 0.55rem;
-  color: var(--sidebar-foreground);
-  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px) saturate(0.8);
+  backdrop-filter: blur(6px) saturate(0.8);
+  background: color-mix(in oklch, black 56%, transparent);
   display: flex;
-  gap: 0.625rem;
-  list-style: none;
-  min-height: 2.75rem;
-  padding: 0.5rem 0.625rem;
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease,
-    color 160ms ease;
-  width: 100%;
+  inset: 0;
+  justify-content: center;
+  outline: none;
+  padding: 1rem;
+  position: fixed;
+  z-index: 100;
 }
 
-.theme-drawer-trigger::-webkit-details-marker {
-  display: none;
-}
-
-.theme-drawer-trigger:hover {
-  background: var(--sidebar-accent);
-}
-
-.theme-drawer-trigger:focus-visible {
-  outline: 2px solid var(--sidebar-ring);
+.theme-gallery :focus-visible {
+  outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
-.theme-drawer-control[open] > .theme-drawer-trigger {
-  background: color-mix(in oklch, var(--sidebar-accent) 76%, transparent);
-  border-color: color-mix(in oklch, var(--sidebar-border) 58%, transparent);
+/* The rings around a slide are drawn in the dialog's colours, not the
+   slide's: these are resolved here, before a slide rescopes the tokens. */
+.theme-gallery-box {
+  --theme-gallery-selected: var(--foreground);
+  --theme-gallery-focus: var(--ring);
+  --theme-gallery-surface: var(--background);
+  --theme-gallery-edge: color-mix(in oklab, var(--foreground) 32%, transparent);
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 2rem 4rem -1.5rem rgb(0 0 0 / 0.6);
+  color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+  /* Size both steps around the preview and controls, without an empty footer gap. */
+  height: min(var(--theme-gallery-height), 100%);
+  max-height: 100%;
+  overflow: hidden;
+  width: min(62rem, 100%);
 }
 
-.theme-drawer-trigger-label {
-  color: var(--sidebar-foreground);
-  font-size: 0.875rem;
-  flex: 1 1 auto;
-  font-weight: 400;
+.theme-gallery-header {
+  flex: none;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 1rem;
+  min-height: 3.25rem;
+  padding: 0.5rem 0.75rem 0.5rem 1.25rem;
+}
+
+.theme-gallery-heading {
+  align-items: baseline;
+  display: flex;
+  flex: 1;
+  gap: 0.75rem;
   min-width: 0;
+}
+
+.theme-gallery-heading h2 {
+  font-family: var(--folio-heading-font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.theme-gallery-heading p,
+.theme-gallery-mode-note {
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.theme-drawer-trigger-chevron {
-  color: color-mix(in oklch, var(--sidebar-foreground) 50%, transparent);
-  flex: 0 0 auto;
-  opacity: 0.72;
-  transition: transform 160ms ease, opacity 160ms ease;
+.theme-gallery-mode {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  min-width: 0;
 }
 
-.theme-drawer-control[open] > .theme-drawer-trigger .theme-drawer-trigger-chevron {
-  opacity: 1;
-  transform: rotate(180deg);
+.theme-gallery-mode fieldset {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex: none;
+  gap: 2px;
+  margin: 0;
+  min-width: 0;
+  padding: 2px;
 }
 
-.theme-drawer-control:not([open]) > .theme-drawer-panel {
+.theme-gallery-mode label {
+  align-items: center;
+  border-radius: calc(var(--radius) - 2px);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  display: flex;
+  font-size: 0.75rem;
+  gap: 0.375rem;
+  height: 1.75rem;
+  padding: 0 0.625rem;
+  transition: color var(--theme-gallery-motion);
+}
+
+.theme-gallery-mode label:hover {
+  color: var(--foreground);
+}
+
+.theme-gallery-mode label:has(input:checked) {
+  background: var(--muted);
+  box-shadow: inset 0 0 0 1.5px var(--foreground);
+  color: var(--foreground);
+}
+
+.theme-gallery-mode label:has(input:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+.theme-gallery-mode fieldset:disabled {
+  opacity: 0.5;
+}
+
+.theme-gallery-mode fieldset:disabled label {
+  cursor: not-allowed;
+}
+
+.theme-gallery-mode-note {
+  font-size: 0.6875rem;
+}
+
+/* Only a phone, whose radios are bare marks, names the checked mode. */
+.theme-gallery-mode-note:not([data-forced]) {
   display: none;
 }
 
-.theme-drawer-panel {
-  width: min(23.5rem, calc(100vw - 2rem));
-  max-height: min(42rem, calc(100vh - 7rem));
+.theme-gallery-close {
+  align-items: center;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--muted-foreground);
+  display: flex;
+  flex: none;
+  height: 2rem;
+  justify-content: center;
+  width: 2rem;
+}
+
+.theme-gallery-close:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.theme-gallery-track {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0 0.75rem;
+  position: relative;
+}
+
+.theme-gallery-stage {
+  aspect-ratio: var(--theme-gallery-ratio);
+  flex: none;
+  outline: none;
+  position: relative;
+  touch-action: pan-y;
+  width: var(--theme-gallery-width);
+}
+
+/* Each step away from the front shrinks a slide and pushes it further out. */
+.theme-gallery-slide {
+  --theme-gallery-shift: 0%;
+  --theme-gallery-scale: 1;
+  animation: theme-gallery-enter var(--theme-gallery-motion);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  inset: 0;
+  padding: 0;
+  position: absolute;
+  transform: translateX(var(--theme-gallery-shift)) scale(var(--theme-gallery-scale));
+  transition: transform var(--theme-gallery-motion);
+  z-index: 3;
+}
+
+.theme-gallery-slide:is([data-offset="-1"], [data-offset="1"]) {
+  --theme-gallery-scale: 0.84;
+  z-index: 2;
+}
+
+.theme-gallery-slide:is([data-offset="-2"], [data-offset="2"]) {
+  --theme-gallery-scale: 0.7;
+  z-index: 1;
+}
+
+.theme-gallery-slide[data-offset="-2"] { --theme-gallery-shift: -56%; }
+.theme-gallery-slide[data-offset="-1"] { --theme-gallery-shift: -32%; }
+.theme-gallery-slide[data-offset="1"] { --theme-gallery-shift: 32%; }
+.theme-gallery-slide[data-offset="2"] { --theme-gallery-shift: 56%; }
+
+@keyframes theme-gallery-enter {
+  from { opacity: 0; }
+}
+
+/* A single mark identifies the applied theme. */
+.theme-gallery-tags {
+  bottom: 0.75rem;
+  display: flex;
+  gap: 0.25rem;
+  left: 0.75rem;
+  position: absolute;
+  z-index: 1;
+}
+
+.theme-gallery-slide:not([data-offset="0"]) .theme-gallery-tags {
+  display: none;
+}
+
+.theme-gallery-tags > span {
+  background: var(--foreground);
+  border: 1px solid var(--foreground);
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px var(--background);
+  color: var(--background);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.25rem 0.5rem;
+  white-space: nowrap;
+}
+
+.theme-gallery-arrow {
+  align-items: center;
+  background: var(--background);
+  border: 1px solid var(--muted-foreground);
+  border-radius: var(--radius);
+  color: var(--foreground);
+  display: flex;
+  height: 2.5rem;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition:
+    border-color var(--theme-gallery-motion),
+    color var(--theme-gallery-motion);
+  width: 2.5rem;
+  z-index: 5;
+}
+
+.theme-gallery-arrow:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.theme-gallery-arrow[data-direction="previous"] { left: 1rem; }
+.theme-gallery-arrow[data-direction="next"] { right: 1rem; }
+
+.theme-gallery-caption {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  height: 3.75rem;
+  justify-content: center;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.theme-gallery-caption-name {
+  color: var(--foreground);
+  font-family: var(--folio-heading-font-family);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.theme-gallery-caption-variant {
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  max-width: min(36rem, 100%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The colour row keeps one height, one line of swatches or two, or none,
+   under its label. */
+.theme-gallery-variants {
+  align-items: center;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  height: 5.25rem;
+  justify-content: flex-start;
+  margin: 0;
+  min-width: 0;
+  padding: 0.5rem 1.25rem;
+}
+
+.theme-gallery-variants-list {
+  --theme-gallery-swatch: 2.25rem;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.theme-gallery-swatch {
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  flex: none;
+  height: var(--theme-gallery-swatch);
+  justify-content: center;
+  position: relative;
+  width: var(--theme-gallery-swatch);
+}
+
+/* A disc in quarters: background, text, primary and accent of the colour. */
+.theme-gallery-swatch-disc {
+  background: conic-gradient(
+    var(--background) 0 25%,
+    var(--foreground) 0 50%,
+    var(--primary) 0 75%,
+    var(--accent) 0
+  );
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--theme-gallery-edge);
+  height: 1.75rem;
+  transition: transform var(--theme-gallery-motion);
+  width: 1.75rem;
+}
+
+.theme-gallery-swatch:hover .theme-gallery-swatch-disc {
+  transform: scale(1.1);
+}
+
+.theme-gallery-swatch:has(input:checked) {
+  box-shadow: 0 0 0 2px var(--foreground);
+}
+
+.theme-gallery-swatch:has(input:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.theme-gallery-swatch[data-disabled] {
+  cursor: default;
+}
+
+/* A sun or a moon, bare, on the disc's top-right quarter, which is the
+   colour's own background, in the colour's own text. */
+.theme-gallery-swatch-scheme {
+  color: var(--foreground);
+  display: flex;
+  left: 50%;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(calc(-50% + 0.375rem), calc(-50% - 0.375rem));
+}
+
+.theme-gallery-footer {
+  flex: none;
+  margin-top: auto;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.625rem 0.75rem calc(0.625rem + env(safe-area-inset-bottom)) 1.25rem;
+}
+
+.theme-gallery-footer :is([data-picker-action="reset"], [data-picker-action="reset-adjustments"]) {
+  background: none;
+  border: 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  margin-right: auto;
+  padding: 0.5rem 0;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, currentColor 40%, transparent);
+  text-underline-offset: 3px;
+}
+
+.theme-gallery-footer :is([data-picker-action="reset"], [data-picker-action="reset-adjustments"]):hover {
+  color: var(--foreground);
+}
+
+.theme-gallery-footer [data-picker-action="done"] {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  height: 2.25rem;
+  padding: 0 1.125rem;
+  transition:
+    background-color var(--theme-gallery-motion),
+    border-color var(--theme-gallery-motion);
+}
+
+.theme-gallery-footer [data-picker-action="done"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.theme-gallery-footer [data-picker-action="done"]:hover {
+  background: color-mix(in oklch, var(--primary) 86%, var(--foreground));
+}
+
+/* The same short document in every slide, using the real theme tokens.
+   Scale lengths together so typography, rhythm and framing stay comparable. */
+.theme-gallery-page {
+  --theme-gallery-page-scale: 0.6;
+  background: var(--folio-workspace-shell-background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.5);
+  color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--folio-body-font-family);
+  height: 100%;
+  overflow: hidden;
+  padding: calc(var(--folio-workspace-shell-padding) * var(--theme-gallery-page-scale));
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+/* The front slide is ringed in the dialog's text colour; the others sit
+   under a shade that deepens with distance and lifts on hover. */
+.theme-gallery-slide[data-offset="0"] .theme-gallery-page {
+  outline: 2px solid var(--theme-gallery-selected);
+  outline-offset: 3px;
+}
+
+/* The stage holds keyboard focus for the whole carousel: the front slide
+   takes a second ring, in the focus colour, outside the first. */
+.theme-gallery-stage:focus-visible {
+  outline: none;
+}
+
+.theme-gallery-stage:focus-visible .theme-gallery-slide[data-offset="0"] .theme-gallery-page {
+  box-shadow:
+    0 0 0 6px var(--theme-gallery-surface),
+    0 0 0 8px var(--theme-gallery-focus),
+    0 1.5rem 3rem -1rem rgb(0 0 0 / 0.5);
+}
+
+.theme-gallery-page::after {
+  background: var(--theme-gallery-surface);
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity var(--theme-gallery-motion);
+}
+
+.theme-gallery-slide:is([data-offset="-1"], [data-offset="1"]) .theme-gallery-page::after {
+  opacity: 0.5;
+}
+
+.theme-gallery-slide:is([data-offset="-2"], [data-offset="2"]) .theme-gallery-page::after {
+  opacity: 0.7;
+}
+
+.theme-gallery-slide:not([data-offset="0"]):hover .theme-gallery-page::after {
+  opacity: 0.3;
+}
+
+.theme-gallery-page > * {
+  font-size: calc(var(--folio-font-size-base) * var(--theme-gallery-page-scale));
+}
+
+.theme-gallery-page-bar {
+  align-items: center;
+  background: var(--folio-workspace-shell-topbar);
+  border: var(--folio-workspace-shell-border);
+  border-bottom: var(--folio-workspace-shell-topbar-border);
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.75em;
+  height: calc(4rem * var(--theme-gallery-page-scale));
+  padding: 0 1.5em;
+}
+
+.theme-gallery-page-mark {
+  background: var(--primary);
+  border-radius: calc(var(--radius) * var(--theme-gallery-page-scale));
+  flex: 0 0 auto;
+  height: 1.25em;
+  width: 1.25em;
+}
+
+.theme-gallery-page-brand {
+  font-weight: 700;
+}
+
+.theme-gallery-page-icons {
+  display: flex;
+  gap: 0.5em;
+  margin-left: auto;
+}
+
+.theme-gallery-page-icons > span {
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) * var(--theme-gallery-page-scale));
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.theme-gallery-page-body {
+  background: var(--folio-workspace-shell-surface);
+  border: var(--folio-workspace-shell-border);
+  border-top: 0;
+  box-shadow: var(--folio-workspace-shell-shadow);
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.theme-gallery-page-nav {
+  background: var(--sidebar);
+  border-right: 1px solid var(--sidebar-border);
+  color: var(--sidebar-foreground);
+  display: flex;
+  flex: 0 0 12em;
+  flex-direction: column;
+  gap: 0.3em;
+  padding: 1.5em 0.75em;
+}
+
+.theme-gallery-page-nav > span {
+  border-radius: calc(var(--radius) * var(--theme-gallery-page-scale));
+  line-height: 1.5;
+  padding: 0.45em 0.65em;
+  white-space: nowrap;
+}
+
+.theme-gallery-page-nav > [data-active] {
+  background: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+  font-weight: 600;
+}
+
+.theme-gallery-page-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  padding: calc(1.5rem * var(--theme-gallery-page-scale));
+}
+
+.theme-gallery-page-content {
+  display: block;
+  margin: 0 auto;
+  max-width: calc(var(--folio-content-max-width) * var(--theme-gallery-page-scale));
+}
+
+.theme-gallery-page-title {
+  display: block;
+  font-family: var(--folio-heading-font-family);
+  font-size: calc(2.25rem * var(--theme-gallery-page-scale));
+  font-weight: var(--folio-heading-weight);
+  letter-spacing: var(--folio-heading-letter-spacing);
+  line-height: 1.2;
+}
+
+.theme-gallery-page-text {
+  display: block;
+  line-height: var(--folio-body-line-height);
+  margin-top: 0.75em;
+}
+
+.theme-gallery-page-link {
+  color: var(--primary);
+  text-decoration: var(--folio-link-decoration);
+  text-underline-offset: 0.15em;
+}
+
+.theme-gallery-page-code {
+  background: var(--folio-code-bg);
+  border: var(--folio-code-border);
+  border-radius: var(--folio-code-border-radius);
+  box-shadow: var(--folio-code-shadow);
+  color: var(--folio-code-foreground);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--folio-code-font-family);
+  gap: 0.25em;
+  line-height: 1.5;
+  margin-top: 1em;
+  padding: 0.75em 1em;
+  white-space: nowrap;
+}
+
+.theme-gallery-page-prompt,
+.theme-gallery-page-cards strong {
+  color: var(--primary);
+}
+
+.theme-gallery-page-cards {
+  display: grid;
+  gap: 0.75em;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1em;
+}
+
+.theme-gallery-page-cards > span {
+  background: var(--card);
+  border: var(--folio-card-border-width) solid var(--border);
+  border-radius: calc(var(--radius) * var(--theme-gallery-page-scale));
+  box-shadow: var(--folio-card-shadow);
+  color: var(--card-foreground);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  line-height: var(--folio-body-line-height);
+  padding: calc(var(--folio-card-padding) * var(--theme-gallery-page-scale));
+}
+
+.theme-gallery-page-heading {
+  border-bottom: var(--folio-h2-border);
+  border-left: var(--folio-h2-border-left);
+  display: block;
+  font-family: var(--folio-heading-font-family);
+  font-size: calc(1.5rem * var(--theme-gallery-page-scale));
+  font-weight: var(--folio-h2-weight);
+  letter-spacing: var(--folio-h2-letter-spacing);
+  line-height: 1.3;
+  margin-top: calc(var(--folio-section-gap) * var(--theme-gallery-page-scale));
+  padding-bottom: calc(0.5rem * var(--theme-gallery-page-scale));
+  padding-left: calc(var(--folio-h2-padding-left) * var(--theme-gallery-page-scale));
+  text-transform: var(--folio-h2-transform);
+}
+
+/* Omarchy's flat navigation is also applied to the miniature. */
+.theme-gallery-page[data-preset="omarchy"] .theme-gallery-page-bar {
+  height: calc(52px * var(--theme-gallery-page-scale));
+}
+
+.theme-gallery-page[data-preset="omarchy"] .theme-gallery-page-icons > span {
+  border-color: transparent;
+}
+
+.theme-gallery-page[data-preset="omarchy"] .theme-gallery-page-icons > span,
+.theme-gallery-page[data-preset="omarchy"] .theme-gallery-page-nav > span {
+  border-radius: 0;
+}
+
+.theme-gallery-page[data-preset="omarchy"] .theme-gallery-page-nav > [data-active] {
+  background: var(--muted);
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+/* Any touch screen gives every control at least a 40px hit, a laptop with a
+   trackpad as well: 44px swatches, and the footer buttons taller still. */
+@media (any-pointer: coarse) {
+  .theme-gallery-close,
+  .theme-gallery-back {
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+  }
+
+  .theme-gallery-mode label {
+    height: 2.5rem;
+    justify-content: center;
+    min-width: 2.5rem;
+  }
+
+  .theme-gallery {
+    --theme-gallery-width: min(33rem, 62vw, calc((100dvh - 27rem) * 16 / 10));
+    --theme-gallery-height: calc(var(--theme-gallery-width) * 10 / 16 + 21.5rem);
+  }
+
+  .theme-gallery-variants {
+    height: 8rem;
+  }
+
+  .theme-gallery-variants-list {
+    --theme-gallery-swatch: 2.75rem;
+  }
+
+  .theme-gallery-footer :is([data-picker-action="reset"], [data-picker-action="reset-adjustments"]) {
+    align-items: center;
+    display: inline-flex;
+    min-height: 2.5rem;
+  }
+
+  .theme-gallery-footer [data-picker-action="done"] {
+    height: 2.75rem;
+  }
+}
+
+/* Below 1024px a long colour row wraps to two lines. */
+@media (max-width: 1023px) and (not (any-pointer: coarse)) {
+  .theme-gallery {
+    --theme-gallery-width: min(33rem, 62vw, calc((100dvh - 26rem) * 16 / 10));
+    --theme-gallery-height: calc(var(--theme-gallery-width) * 10 / 16 + 19.75rem);
+  }
+
+  .theme-gallery-variants {
+    height: 7rem;
+  }
+}
+
+/* Phones get a portrait slide without the chapter list, drawn larger, one
+   neighbour on each side, and a colour row that scrolls sideways. */
+@media (max-width: 639px) {
+  .theme-gallery {
+    --theme-gallery-width: min(62vw, calc((100dvh - 27rem) * 3 / 4));
+    --theme-gallery-height: calc(var(--theme-gallery-width) * 4 / 3 + 21rem);
+    --theme-gallery-ratio: 3 / 4;
+    padding: 0.5rem;
+  }
+
+  .theme-gallery-header {
+    padding-left: 1rem;
+  }
+
+  .theme-gallery-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .theme-gallery-heading p,
+  .theme-gallery-caption-variant {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  /* The caption holds the name and two lines, so a long description ends in
+     an ellipsis and the colour row stays put. */
+  .theme-gallery-caption {
+    gap: 0;
+    height: 5rem;
+  }
+
+  .theme-gallery-caption-variant {
+    flex: none;
+  }
+
+  /* A line under the mode radios names the checked mode, or the scheme a
+     colour fixes, and is always there, so the header keeps its height. */
+  .theme-gallery-mode {
+    align-items: flex-end;
+    flex-direction: column-reverse;
+    gap: 0.125rem;
+  }
+
+  .theme-gallery-mode-note,
+  .theme-gallery-mode-note:not([data-forced]) {
+    display: block;
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+    min-height: 1.125rem;
+  }
+
+  /* A phone has room for "Dark only"; the caption names the colour. */
+  .theme-gallery-mode-note-by {
+    display: none;
+  }
+
+  .theme-gallery-mode-note::first-letter {
+    text-transform: uppercase;
+  }
+
+  .theme-gallery-mode label {
+    padding: 0 0.5rem;
+  }
+
+  .theme-gallery-mode label > span {
+    display: none;
+  }
+
+  .theme-gallery-slide:is([data-offset="-2"], [data-offset="2"]) {
+    display: none;
+  }
+
+  .theme-gallery-slide[data-offset="-1"] { --theme-gallery-shift: -62%; }
+  .theme-gallery-slide[data-offset="1"] { --theme-gallery-shift: 62%; }
+
+  .theme-gallery-variants {
+    align-items: stretch;
+    gap: 0;
+    height: 5rem;
+    padding: 0.375rem 0 0;
+  }
+
+  /* A short row centres; a long one scrolls from its first swatch. */
+  .theme-gallery-variants-list > :first-child {
+    margin-left: auto;
+  }
+
+  .theme-gallery-variants-list > :last-child {
+    margin-right: auto;
+  }
+
+  .theme-gallery-variants-list {
+    flex: 1;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    max-width: none;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 0.25rem 1rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .theme-gallery-swatch {
+    scroll-snap-align: start;
+  }
+
+  .theme-gallery-page {
+    --theme-gallery-page-scale: 0.5;
+  }
+
+  .theme-gallery-page-nav {
+    display: none;
+  }
+
+  .theme-gallery-arrow[data-direction="previous"] { left: 0.5rem; }
+  .theme-gallery-arrow[data-direction="next"] { right: 0.5rem; }
+}
+
+/* ─── Customize step ─── */
+
+/* Both pages use the same centered dialog and backdrop. */
+.theme-adjust-preview {
+  aspect-ratio: 16 / 10;
+  flex: none;
+  margin: 0 auto;
+  width: min(33rem, 100%);
+}
+
+.theme-gallery-customize {
+  background: none;
+  border: 0;
+  color: var(--muted-foreground);
+  padding: 0;
+}
+
+.theme-gallery-customize:hover { color: var(--foreground); }
+
+.theme-adjust-colors {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+
+.theme-adjust-colors label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8125rem;
+  gap: 0.5rem;
+}
+
+.theme-adjust-colors input {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  cursor: pointer;
+  height: 2.75rem;
+  padding: 3px;
+  width: 2.75rem;
+}
+
+.theme-gallery-back {
+  align-items: center;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--muted-foreground);
+  display: inline-flex;
+  flex: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  gap: 0.25rem;
+  height: 2rem;
+  margin: 0 0 0 -0.5rem;
+  padding: 0 0.5rem;
+}
+
+.theme-gallery-back:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.theme-gallery-count {
+  color: var(--muted-foreground);
+  flex: none;
+  font-weight: 500;
+}
+
+.theme-adjust-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1rem 1.25rem 1.25rem;
 }
 
-.theme-panel-header {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 0.75rem;
+.theme-adjust-body > section {
+  align-self: center;
+  max-width: 44rem;
+  width: 100%;
 }
 
-.theme-section-label {
+.theme-adjust-section {
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.theme-adjust-section h3 {
   color: var(--muted-foreground);
   font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin: 0;
   text-transform: uppercase;
 }
 
-.theme-back-button {
+.theme-adjust-row {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.theme-adjust-row legend {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.theme-adjust-note {
   color: var(--muted-foreground);
-  display: inline-flex;
   font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1rem;
-  margin-bottom: 0.65rem;
-  transition: color 150ms ease, transform 150ms ease;
+  margin: 0 0 0.5rem;
 }
 
-.theme-back-button::before {
-  content: "<";
-  margin-right: 0.35rem;
+.theme-adjust-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
 }
 
-.theme-back-button:hover {
+/* One pill per option; the checked one takes the theme's primary edge. */
+.theme-adjust-option {
+  align-items: center;
+  border: 1px solid var(--muted-foreground);
+  border-radius: var(--radius);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.8125rem;
+  gap: 0.375rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.625rem;
+  position: relative;
+  transition:
+    background-color var(--theme-gallery-motion),
+    border-color var(--theme-gallery-motion),
+    color var(--theme-gallery-motion);
+}
+
+.theme-adjust-option:hover {
+  border-color: var(--foreground);
   color: var(--foreground);
-  transform: translateX(-1px);
+}
+
+.theme-adjust-option:has(input:checked) {
+  background: color-mix(in oklch, var(--primary) 10%, var(--background));
+  border-color: var(--primary);
+  color: var(--foreground);
+}
+
+.theme-adjust-option:has(input:focus-visible) {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.theme-adjust-row:disabled .theme-adjust-option {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* Typography cards: a sample in the face, the name under it. */
+.theme-adjust-row[data-kind="card"] .theme-adjust-options {
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.theme-adjust-row[data-kind="card"] .theme-adjust-option {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.5rem 0.625rem;
+}
+
+.theme-adjust-sample {
+  color: var(--foreground);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.theme-adjust-row[data-kind="card"] .theme-adjust-option-label {
+  font-size: 0.75rem;
+}
+
+.theme-adjust-disc {
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--foreground) 20%, transparent);
+  flex: none;
+  height: 0.875rem;
+  width: 0.875rem;
+}
+
+/* The dot on the option a reset goes back to. */
+.theme-adjust-default {
+  background: currentColor;
+  border-radius: 50%;
+  flex: none;
+  height: 0.3125rem;
+  opacity: 0.6;
+  width: 0.3125rem;
+}
+
+.theme-adjust-row[data-kind="card"] .theme-adjust-default {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+@media (any-pointer: coarse) {
+  .theme-adjust-option {
+    min-height: 2.75rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .theme-adjust-row[data-kind="card"] .theme-adjust-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Without motion a step swaps the slides in place. */
+@media (prefers-reduced-motion: reduce) {
+  .theme-gallery,
+  .theme-gallery *,
+  .theme-gallery *::after {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* A theme that is only light or only dark sets the scheme itself, so the
+   light/dark toggles have nothing to switch while it is applied. */
+html[data-folio-scheme] [data-theme-toggle] {
+  display: none;
+}
+
+/* ─── Pastel surfaces ─── */
+
+/* Pastel rounds its cards and panels to 20px over a 12px control radius. */
+html[data-folio-preset="pastel"] {
+  --folio-surface-radius: 20px;
+}
+
+/* ─── Omarchy artwork and menus ─── */
+
+.theme-wordmark,
+.theme-pixel-field {
+  display: none;
+}
+
+html[data-folio-preset="omarchy"] body {
+  isolation: isolate;
+}
+
+html[data-folio-preset="omarchy"] :is(.landing-shell, .landing-surface),
+html[data-folio-preset="omarchy"] body > div:has(> .nextra-sidebar) {
+  background: transparent;
+}
+
+html[data-folio-preset="omarchy"] .landing-surface::before {
+  display: none;
+}
+
+html[data-folio-preset="omarchy"] :is(.landing-hero-copy, main) > .theme-wordmark,
+.theme-gallery-page[data-preset="omarchy"] .theme-wordmark {
+  background: linear-gradient(to bottom, var(--primary) 0 33%, color-mix(in oklch, var(--primary) 75%, var(--foreground)) 33% 66%, var(--foreground) 66%);
+  background-clip: text;
+  border: 0;
+  color: transparent;
+  cursor: pointer;
+  display: block;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Liberation Mono", monospace;
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  margin-bottom: 2rem;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  white-space: pre;
+  width: fit-content;
+}
+
+html[data-folio-preset="omarchy"] :is(.landing-hero-copy, main) > .theme-wordmark[data-ascii] {
+  font-size: 0.625rem;
+  font-weight: 400;
+}
+
+html[data-folio-preset="omarchy"] .landing-hero-copy > .theme-wordmark[data-ascii] {
+  font-size: min(1.2vw, 1rem);
+}
+
+html[data-folio-preset="omarchy"] body > .theme-pixel-field,
+.theme-gallery-page[data-preset="omarchy"] > .theme-pixel-field {
+  color: var(--primary);
+  display: block;
+  height: 100%;
+  inset: 0;
+  mask-image: radial-gradient(ellipse at 50% 35%, #0002 25%, #000 95%);
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+  z-index: -1;
+}
+
+.theme-gallery-page[data-preset="omarchy"] {
+  isolation: isolate;
+}
+
+.theme-gallery-page[data-preset="omarchy"] > .theme-pixel-field {
+  position: absolute;
+  z-index: 0;
+}
+
+.theme-gallery-page[data-preset="omarchy"] .theme-gallery-page-body {
+  background: transparent;
+  position: relative;
+}
+
+.theme-gallery-page[data-preset="omarchy"] .theme-wordmark {
+  font-size: calc(0.625rem * var(--theme-gallery-page-scale));
+  font-weight: 400;
+  margin-bottom: 1.5em;
+}
+
+.theme-pixel-field > :is(svg, canvas) {
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.theme-pixel-field > canvas,
+.theme-pixel-field[data-live] > svg {
+  display: none;
+}
+
+.theme-pixel-field[data-live] > canvas {
+  display: block;
+}
+
+.theme-wordmark:disabled {
+  cursor: default;
+}
+
+.theme-wordmark:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 6px;
+}
+
+html.folio-theme-transition::view-transition-old(root),
+html.folio-theme-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.folio-theme-transition::view-transition-new(root) {
+  animation: folio-theme-wipe 280ms ease-out both;
+}
+
+@keyframes folio-theme-wipe {
+  from { clip-path: polygon(0 0, 0 0, 0 0); }
+  to { clip-path: polygon(0 0, 200% 0, 0 200%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.folio-theme-transition::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  html[data-folio-preset="omarchy"] .landing-hero-copy > .theme-wordmark[data-ascii] {
+    font-size: min(2.5vw, 0.875rem);
+  }
+}
+
+/* The Omarchy preset's bars and chapter list, Folio's own drawing: a low bar
+   the page shows through, flat square chapter rows, and one rule between the
+   list and the page. The theme marks <html> with the preset it applies; these
+   rules key off that mark. The height is in px because Nextra passes it to an
+   IntersectionObserver rootMargin, which rejects rem. */
+html[data-folio-preset="omarchy"] {
+  --folio-omarchy-motion: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --nextra-navbar-height: 52px;
+}
+
+/* The mobile menu stays a full-screen sheet, with no card and no scrim. */
+html[data-folio-preset="omarchy"] {
+  --folio-drawer-inset: 0;
+  --folio-drawer-width: 100vw;
+  --folio-drawer-radius: 0;
+  --folio-drawer-shadow: none;
+  --folio-drawer-scrim: transparent;
+}
+
+html[data-folio-preset="omarchy"] body > .nextra-navbar {
+  background: transparent !important;
+}
+
+html[data-folio-preset="omarchy"] body > .nextra-navbar .nextra-navbar-blur,
+html[data-folio-preset="omarchy"] .landing-navbar {
+  -webkit-backdrop-filter: blur(10px) saturate(1.2) !important;
+  backdrop-filter: blur(10px) saturate(1.2) !important;
+  background: color-mix(in oklch, var(--background) 84%, transparent) !important;
+}
+
+html[data-folio-preset="omarchy"] :is(.nextra-navbar, .landing-navbar) nav :is(a, button)[title] {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  transition:
+    background-color var(--folio-omarchy-motion),
+    color var(--folio-omarchy-motion);
+}
+
+html[data-folio-preset="omarchy"] :is(.nextra-navbar, .landing-navbar) nav :is(a, button)[title]:hover {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button) {
+  border-radius: 0;
+  color: var(--foreground);
+  font-size: 0.8rem;
+  padding: 0.3125rem 0.625rem;
+  transition:
+    background-color var(--folio-omarchy-motion),
+    color var(--folio-omarchy-motion);
+}
+
+html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button):hover {
+  background: var(--muted);
+  color: var(--accent-foreground);
+}
+
+html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > a[class~="x:text-primary-800"] {
+  background: var(--muted);
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) ul::before {
+  display: none;
+}
+
+html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-toc) {
+  background: color-mix(in oklch, var(--background) 92%, transparent);
+}
+
+html[data-folio-preset="omarchy"] .nextra-mobile-nav {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  background: color-mix(in oklch, var(--background) 92%, transparent) !important;
+}
+
+@media (min-width: 768px) {
+  html[data-folio-preset="omarchy"] .nextra-sidebar {
+    border-inline-end: 1px solid var(--border);
+  }
 }
 
 .preview-code [data-preview-code-panel] {
@@ -2368,3 +3873,14 @@ aside li > a[href="/"] {
     animation: none !important;
   }
 }
+
+/* One file per component family. They come last, so a family rule wins over
+   a base rule of the same weight above. */
+@import "./styles/shell.css";
+@import "./styles/callout.css";
+@import "./styles/disclosure.css";
+@import "./styles/code.css";
+@import "./styles/shapes.css";
+@import "./styles/surfaces.css";
+@import "./styles/components.css";
+@import "./styles/pastel-artwork.css";

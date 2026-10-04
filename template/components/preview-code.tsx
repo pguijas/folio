@@ -3,9 +3,14 @@
 import React, { useId, type ReactElement, type ReactNode } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { FileCodeIcon, ViewIcon } from "@hugeicons/core-free-icons"
+import { isNextraCodeClassName } from "@/lib/nextra-dom"
 import { cn } from "@/lib/utils"
+import { TabGlide } from "@/components/tabs"
 
 type PreviewCodeMode = "preview" | "code"
+
+const checkedMode =
+  '.preview-code:has(.preview-code-radio--preview:checked) [data-preview-code-tab="preview"], .preview-code:has(.preview-code-radio--code:checked) [data-preview-code-tab="code"]'
 
 type PreviewCodeProps = {
   title?: string
@@ -34,13 +39,6 @@ function classNameIncludesLanguage(className: unknown) {
   )
 }
 
-function classNameIncludesNextraCode(className: unknown) {
-  return (
-    typeof className === "string" &&
-    /(?:^|\s)nextra-code(?:\s|$)/.test(className)
-  )
-}
-
 function hasPreDescendant(node: ReactNode): boolean {
   if (!React.isValidElement(node)) return false
   if (node.type === "pre") return true
@@ -58,7 +56,7 @@ function hasCodeSignal(element: ReactElement): boolean {
   }
 
   if (
-    classNameIncludesNextraCode(props.className) &&
+    isNextraCodeClassName(props.className) &&
     hasPreDescendant(element)
   ) {
     return true
@@ -103,7 +101,7 @@ export function PreviewCode({
   )
 
   return (
-    <figure className="preview-code my-7 overflow-hidden rounded-lg border border-border bg-card">
+    <figure data-slot="preview-code" className="preview-code my-7 overflow-hidden rounded-lg border border-border bg-card">
       <input
         id={previewId}
         name={id}
@@ -122,16 +120,20 @@ export function PreviewCode({
         aria-label="Code"
         aria-controls={codePanelId}
       />
-      <figcaption className="flex flex-col items-start gap-3 border-b border-border bg-muted/35 px-4 py-3">
+      <figcaption data-slot="preview-toolbar" className="flex flex-col items-start gap-3 border-b border-border bg-muted/35 px-4 py-3">
         <div
           role="radiogroup"
+          data-slot="preview-mode-switch"
           aria-label={title ? `${title} example view` : "Example view"}
           className="inline-flex w-fit shrink-0 rounded-md border border-border bg-muted p-0.5"
         >
+          <TabGlide selected={checkedMode} />
           <label
             id={previewLabelId}
             htmlFor={previewId}
             data-preview-code-tab="preview"
+            data-slot="preview-mode"
+            data-variant="preview"
             className={tabClass}
           >
             <HugeiconsIcon icon={ViewIcon} size={14} strokeWidth={2} />
@@ -141,6 +143,8 @@ export function PreviewCode({
             id={codeLabelId}
             htmlFor={codeId}
             data-preview-code-tab="code"
+            data-slot="preview-mode"
+            data-variant="code"
             className={tabClass}
           >
             <HugeiconsIcon icon={FileCodeIcon} size={14} strokeWidth={2} />
@@ -149,12 +153,12 @@ export function PreviewCode({
         </div>
         <div className="min-w-0">
           {title && (
-            <h3 className="m-0 text-base font-semibold text-foreground">
+            <h3 data-slot="preview-title" className="m-0 text-base font-semibold text-foreground">
               {title}
             </h3>
           )}
           {description && (
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
+            <p data-slot="preview-description" className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
               {description}
             </p>
           )}
@@ -165,6 +169,7 @@ export function PreviewCode({
         role="region"
         aria-labelledby={previewLabelId}
         data-preview-code-panel="preview"
+        data-slot="preview-canvas"
         className="preview-code-preview bg-background p-4 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
       >
         {previewChildren.length > 0 ? (
@@ -180,6 +185,7 @@ export function PreviewCode({
         role="region"
         aria-labelledby={codeLabelId}
         data-preview-code-panel="code"
+        data-slot="preview-source"
         className="preview-code-source bg-background [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!border-0"
       >
         {codeBlock ? (

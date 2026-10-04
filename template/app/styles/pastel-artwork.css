@@ -1,0 +1,292 @@
+/* Original irregular silhouettes, shared by the landing, docs and preview. */
+.folio-pastel-artwork {
+  display: none;
+  position: relative;
+  width: 210px;
+  height: 190px;
+  pointer-events: none;
+  transition: translate 400ms ease-out;
+}
+
+html[data-folio-preset="pastel"] article main > .folio-pastel-artwork,
+.theme-gallery-page[data-preset="pastel"] .folio-pastel-artwork {
+  display: block;
+  float: right;
+  margin: 0 0 12px 24px;
+}
+
+.folio-pastel-artwork > svg {
+  position: absolute;
+  overflow: visible;
+  width: 82%;
+  left: 12%;
+  top: 2%;
+  color: var(--chart-2);
+}
+
+.folio-pastel-artwork > svg:nth-child(2) {
+  width: 52%;
+  left: 48%;
+  top: 52%;
+  color: var(--chart-4);
+}
+
+.folio-pastel-artwork > svg:nth-child(3) {
+  width: 30%;
+  left: 0;
+  top: 16%;
+  color: var(--chart-3);
+}
+
+html[data-folio-preset="pastel"] article main > :is(h2, pre, figure, .not-prose) {
+  clear: both;
+}
+
+/* The thumbnail has the same floating rail and composition as the page. */
+.theme-gallery-page[data-preset="pastel"] {
+  --pastel-preview-rail: 27%;
+  border-radius: 12px;
+  background: var(--background);
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-bar {
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  left: 8px;
+  width: calc(var(--pastel-preview-rail) - 8px);
+  height: 3.5em;
+  padding-inline: 1em;
+  border: 0;
+  background: transparent;
+}
+
+html[data-folio-preset="pastel"] .folio-monogram,
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-mark {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: 0;
+  border-radius: 0;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 18C44 5 65 18 72 36C79 53 96 59 80 77C64 96 41 83 31 71C22 60 7 58 11 39C13 29 17 23 25 18Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-mark {
+  width: 2em;
+  height: 2em;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-icons {
+  display: none;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-body {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-nav {
+  position: relative;
+  flex-basis: var(--pastel-preview-rail);
+  margin: 8px 0 8px 8px;
+  padding: 7em .65em 1em;
+  border: 0;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--chart-4) 12%, var(--card));
+  box-shadow: 0 4px 14px rgb(0 0 0 / .06);
+  font-size: .8em;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-nav::before {
+  content: "Search docs…";
+  position: absolute;
+  top: 4.6em;
+  left: .8em;
+  right: .8em;
+  padding: .5em .75em;
+  border: 1px solid var(--border);
+  border-radius: .65em;
+  color: var(--muted-foreground);
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-nav > [data-active] {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-main {
+  background:
+    radial-gradient(ellipse at 12% 10%, color-mix(in srgb, var(--chart-2) 13%, transparent), transparent 70%),
+    radial-gradient(ellipse at 90% 30%, color-mix(in srgb, var(--chart-4) 14%, transparent), transparent 65%);
+  padding: 2.4em 1.8em;
+}
+
+.theme-gallery-page[data-preset="pastel"] .folio-pastel-artwork {
+  width: 6em;
+  height: 6em;
+  margin: -1em 0 0 .8em;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-title {
+  font-size: 2.8em;
+  font-weight: 500;
+  letter-spacing: -.03em;
+  line-height: 1.04;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-code {
+  clear: both;
+  margin-top: 1.8em;
+  border-radius: 1.1em;
+}
+
+.theme-gallery-page[data-preset="pastel"] .theme-gallery-page-cards > span {
+  border-radius: 1.4em;
+  box-shadow: none;
+}
+
+/* Keep the configured hero layout in other themes. Pastel's art belongs
+   to the demo, behind its unchanged clipping frame and outside the text. */
+.landing-hero-visual {
+  display: contents;
+}
+
+html[data-folio-preset="pastel"] .landing-hero-visual {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  padding: 28px;
+  align-self: center;
+}
+
+html[data-folio-preset="pastel"] .landing-hero-visual > .folio-pastel-artwork {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+html[data-folio-preset="pastel"] .landing-hero-visual > .folio-pastel-artwork > svg {
+  width: clamp(140px, 16vw, 220px);
+  left: auto;
+  right: -5px;
+  top: -45px;
+  color: var(--chart-1);
+}
+
+html[data-folio-preset="pastel"] .landing-hero-visual > .folio-pastel-artwork > svg:nth-child(2) {
+  width: clamp(100px, 11vw, 150px);
+  left: -8px;
+  right: auto;
+  top: auto;
+  bottom: -24px;
+  color: var(--chart-4);
+}
+
+html[data-folio-preset="pastel"] .landing-hero-visual > .folio-pastel-artwork > svg:nth-child(3) {
+  width: 70px;
+  left: -10px;
+  right: auto;
+  top: 14%;
+  color: var(--chart-2);
+}
+
+@media (width < 48rem) {
+  html[data-folio-preset="pastel"] .landing-hero-visual {
+    padding: 14px;
+  }
+
+  html[data-folio-preset="pastel"] .landing-hero-visual > .folio-pastel-artwork > svg {
+    width: 110px;
+    top: -26px;
+    right: 0;
+  }
+
+  html[data-folio-preset="pastel"] .landing-hero-visual > .folio-pastel-artwork > svg:nth-child(2) {
+    width: 90px;
+    left: 0;
+    top: auto;
+    bottom: -14px;
+  }
+
+  html[data-folio-preset="pastel"] .landing-hero-visual > .folio-pastel-artwork > svg:nth-child(3) {
+    width: 40px;
+    left: -2px;
+    top: 15%;
+  }
+}
+
+html[data-folio-preset="pastel"] .landing-surface {
+  background:
+    radial-gradient(ellipse at 75% 30%, color-mix(in srgb, var(--chart-1) 9%, transparent), transparent 60%),
+    radial-gradient(ellipse at 90% 70%, color-mix(in srgb, var(--chart-2) 7%, transparent), transparent 60%);
+}
+
+html[data-folio-preset="pastel"] .landing-hero-copy h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -.045em;
+  line-height: 1.04;
+}
+
+html[data-folio-preset="pastel"] :is(.landing-action-grid, .landing-hero-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+html[data-folio-preset="pastel"] :is(.landing-action, .landing-hero-actions > a) {
+  min-width: 0;
+  min-height: 48px;
+  padding: 16px 24px;
+  border: 0;
+  border-radius: 999px;
+  box-shadow: none;
+  transition: transform 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-folio-preset="pastel"] :is(.landing-action, .landing-hero-actions > a):hover {
+    transform: translateY(-2px) rotate(-1deg);
+  }
+}
+
+html[data-folio-preset="pastel"] .landing-action > :is(span:first-child, span:last-child:not(:nth-child(2))) {
+  display: none;
+}
+
+@media (width < 64rem) {
+  html[data-folio-preset="pastel"] article main > .folio-pastel-artwork {
+    width: 144px;
+    height: 140px;
+    margin-left: 16px;
+  }
+}
+
+@media (width < 48rem) {
+  html[data-folio-preset="pastel"] article main > .folio-pastel-artwork {
+    width: 88px;
+    height: 96px;
+    margin-left: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folio-pastel-artwork {
+    transition: none;
+  }
+}
+
+@media print {
+  .folio-pastel-artwork {
+    display: none !important;
+  }
+}

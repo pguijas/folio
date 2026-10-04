@@ -63,7 +63,7 @@ The last row is the honest one: Sphinx's extension depth is real, and if your do
     Hosted products, per-seat pricing, and they ingest prose, not source. Folio is a build tool: static output you deploy anywhere (GitHub Pages workflow included), no vendor in the serving path, and the reference is generated from code rather than scraped from markdown you maintain by hand.
   </AccordionItem>
   <AccordionItem title="I'm migrating from Sphinx. What doesn't convert?">
-    Being honest: Folio's parser is static AST analysis, and it never imports your package. Inherited members and runtime-generated APIs are not covered. Intersphinx, Sphinx cross-links, and a one-command importer from MkDocs, Mintlify, or Read the Docs with a report of what didn't convert: Not available in this release; the roadmap's 0.7 Migrations phase lists them. [Migrating from Sphinx](./migration) walks the manual move.
+    Being honest: Folio's parser is static AST analysis, and it never imports your package. Inherited members and runtime-generated APIs are not covered. Intersphinx, Sphinx cross-links, and a migration run by your agent: Not available in this release. The roadmap puts the migration in 0.4 Agent Ready: your agent moves the site with a migration skill and a few scripts. [Migrating from Sphinx](./migration) walks the manual move.
   </AccordionItem>
 </Accordion>
 
@@ -136,7 +136,7 @@ Because docs have exactly one non-negotiable property — being *true* — and t
     Folio itself is one native binary, but the output is a Next.js static site — that's where search, theming, and interactivity come from. Folio manages the frontend workspace (`.build/` is disposable) and checks your toolchain up front, but Node ≥ 20.19 and pnpm must exist on the build machine. The *deployed* site needs neither.
   </AccordionItem>
   <AccordionItem title="Other languages? Versioned docs? i18n?">
-    Python, JavaScript and Rust read today; [Languages](./languages) covers each reader. TypeScript is on the roadmap for 0.4 Every Reader, and Go, C#, and Java follow later. Versioned docs and i18n: Not available in this release; the roadmap places them in 0.4.
+    Python, JavaScript and Rust read today; [Languages](./languages) covers each reader. TypeScript is on the roadmap for 0.5 Every Language, and Go, C#, and Java follow it there. Versioned docs and i18n: Not available in this release; the roadmap places them in 0.5.
   </AccordionItem>
 </Accordion>
 

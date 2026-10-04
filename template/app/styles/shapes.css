@@ -1,0 +1,270 @@
+/* Shapes: the rails, markers and rows of Steps, Timeline and FileTree. */
+
+/* ─── Pastel shapes ─── */
+
+/* cojeev's setup steps, milestone path and tree (MIT, Copyright (c) 2026
+   Sanjay Kumar; see THIRD-PARTY-NOTICES.md), from app/docs/docs.css and
+   registry/cojeev/styles/{stepper,milestone-path,tree}.css. Pastels are fills;
+   the numbers and glyphs on them are ink. */
+
+/* Steps: the number sits on a soft shape, lavender, jade, sage and apricot in turn, and
+   a 1.5px control edge runs from one tab to the next. */
+html[data-folio-preset="pastel"] [data-slot="steps"] {
+  --folio-steps-gutter: 62px;
+  margin-left: 0;
+  padding-left: var(--folio-steps-gutter);
+}
+
+html[data-folio-preset="pastel"] [data-slot="steps-rail"] {
+  display: none;
+}
+
+html[data-folio-preset="pastel"] [data-slot="step-marker"] {
+  top: 0;
+  left: calc(-1 * var(--folio-steps-gutter));
+  align-items: flex-start;
+  width: 36px;
+  height: 42px;
+  padding-top: 10px;
+  border-radius: 38% 46% 48% 32% / 30% 37% 61% 64%;
+  background: var(--chart-4);
+  box-shadow: none;
+  color: var(--accent-foreground);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+html[data-folio-preset="pastel"] [data-slot="step-marker"]::before {
+  content: counter(step, decimal-leading-zero);
+}
+
+html[data-folio-preset="pastel"] [data-slot="step"]:nth-child(4n + 2 of [data-slot="step"]) > [data-slot="step-marker"] {
+  background: var(--chart-2);
+}
+
+html[data-folio-preset="pastel"] [data-slot="step"]:nth-child(4n + 3 of [data-slot="step"]) > [data-slot="step-marker"] {
+  background: var(--chart-3);
+}
+
+html[data-folio-preset="pastel"] [data-slot="step"]:nth-child(4n + 4 of [data-slot="step"]) > [data-slot="step-marker"] {
+  background: var(--chart-1);
+}
+
+html[data-folio-preset="pastel"] [data-slot="step"]:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 48px;
+  bottom: -34px;
+  left: calc(17.25px - var(--folio-steps-gutter));
+  width: 1.5px;
+  border-radius: 1px;
+  background: var(--input);
+  pointer-events: none;
+  transform-origin: top;
+  transition: transform var(--folio-motion-element) var(--folio-ease-enter);
+}
+
+/* A step that mounted below the fold draws its connector once it scrolls in. */
+@media screen {
+  html[data-folio-preset="pastel"] [data-slot="step"][data-state="offscreen"]::after {
+    transform: scaleY(0);
+    transition: none;
+  }
+}
+
+html[data-folio-preset="pastel"] [data-slot="step-title"] {
+  margin-bottom: 6px;
+  padding-top: 5px;
+  font-family: var(--folio-heading-font-family);
+  font-size: 1.125rem;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+/* Timeline: irregular rounded markers on an original ruled-paper line. The
+   first item keeps its halo and dot; the later items retain their check.
+   Dates, titles and badges carry the timeline's actual meaning. */
+html[data-folio-preset="pastel"] [data-slot="timeline"] {
+  --folio-timeline-gutter: 54px;
+  --folio-timeline-path: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 100' preserveAspectRatio='none'%3E%3Cpath d='M18 0V100' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  --folio-timeline-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12L10 16L18 8'/%3E%3C/svg%3E");
+  margin-left: 0;
+  padding-left: var(--folio-timeline-gutter);
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-rail"] {
+  display: none;
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-marker"] {
+  z-index: 1;
+  top: 0;
+  left: calc(-1 * var(--folio-timeline-gutter));
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 47% 53% 64% 36% / 35% 48% 52% 65%;
+  background: var(--chart-3);
+  box-shadow: none;
+  color: var(--accent-foreground);
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-marker"]::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask: var(--folio-timeline-check) center / contain no-repeat;
+  mask: var(--folio-timeline-check) center / contain no-repeat;
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-rail"] + [data-slot="timeline-item"] > [data-slot="timeline-marker"] {
+  background: var(--chart-2);
+  box-shadow: 0 0 0 5px color-mix(in oklab, var(--chart-2) 18%, transparent);
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-rail"] + [data-slot="timeline-item"] > [data-slot="timeline-marker"]::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  -webkit-mask: none;
+  mask: none;
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-item"]:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: -43px;
+  left: calc(-1 * var(--folio-timeline-gutter));
+  width: 36px;
+  background: var(--chart-3);
+  -webkit-mask: var(--folio-timeline-path) 0 0 / 100% 100% no-repeat;
+  mask: var(--folio-timeline-path) 0 0 / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-rail"] + [data-slot="timeline-item"]:not(:last-child)::after {
+  background: var(--input);
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-title"] {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-badge"] {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--folio-tone-note-fill);
+  color: var(--folio-tone-note-ink);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-badge"][data-variant="new"] {
+  background: var(--folio-tone-check-fill);
+  color: var(--folio-tone-check-ink);
+}
+
+html[data-folio-preset="pastel"] [data-slot="timeline-badge"][data-variant="breaking"] {
+  background: var(--folio-tone-danger-fill);
+  color: var(--folio-tone-danger-ink);
+}
+
+/* FileTree: rows on one paper card, each icon outlined in a 28px tile, and
+   the ASCII connectors drawn as ruled guides that bend into each child with a
+   9px elbow. A line stops at the last child instead of running past it. The
+   guides are what tie a child to its folder, so they sit 60% of the way from
+   --border to the control edge, --input, and clear 3:1 on the card. */
+html[data-folio-preset="pastel"] [data-slot="file-tree"] {
+  --folio-tree-guide: color-mix(in oklab, var(--input) 60%, var(--border));
+  --folio-tree-reach: 38px;
+  padding: 8px;
+  border-color: var(--border);
+  border-radius: var(--folio-surface-radius);
+  background: var(--card);
+  font-family: var(--folio-body-font-family);
+  font-size: 13px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-row"] {
+  min-height: 36px;
+  padding: 2px 6px 2px 2px;
+  border-radius: 10px;
+  line-height: 1.35;
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-guide"] {
+  display: flex;
+  align-self: stretch;
+  margin-block: -2px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-connector"] {
+  position: relative;
+  flex: none;
+  width: var(--folio-tree-reach);
+  font-size: 0;
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-connector"]:is([data-variant="tee"], [data-variant="last"])::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 14px;
+  inline-size: calc(var(--folio-tree-reach) - 22px);
+  block-size: calc(50% + 1px);
+  border-inline-start: 1px solid var(--folio-tree-guide);
+  border-block-end: 1px solid var(--folio-tree-guide);
+  border-end-start-radius: 9px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-connector"][data-variant="tee"]::after,
+html[data-folio-preset="pastel"] [data-slot="file-tree-connector"][data-variant="pipe"]::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 14px;
+  border-inline-start: 1px solid var(--folio-tree-guide);
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-icon"] {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  margin-inline: 0 6px;
+  padding: 4px;
+  color: var(--muted-foreground);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-row"][data-variant="folder"] [data-slot="file-tree-icon"] {
+  color: var(--foreground);
+}
+
+html[data-folio-preset="pastel"] [data-slot="file-tree-name"] {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+@media (max-width: 480px) {
+  html[data-folio-preset="pastel"] [data-slot="steps"] {
+    --folio-steps-gutter: 52px;
+  }
+
+  html[data-folio-preset="pastel"] [data-slot="timeline"] {
+    --folio-timeline-gutter: 49px;
+  }
+
+  html[data-folio-preset="pastel"] [data-slot="file-tree"] {
+    --folio-tree-reach: 34px;
+  }
+}

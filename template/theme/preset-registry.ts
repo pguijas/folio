@@ -9,6 +9,9 @@ interface PresetGroup {
 const registeredPresets = new Map<string, ThemePreset>()
 const registeredGroups = new Map<string, PresetGroup>()
 
+// Only bundled presets populate this catalog; older overlays keep all choices.
+export const builtinGalleryVariants = new Map<ThemePreset, Array<string | undefined>>()
+
 export function registerPreset(preset: ThemePreset, groupId?: string): void {
   const existing = registeredPresets.get(preset.id)
   if (existing && existing !== preset) {

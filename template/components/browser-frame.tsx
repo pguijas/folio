@@ -29,13 +29,13 @@ export function BrowserFrame({
     <figure
       data-slot="browser-frame"
       className="not-prose relative m-0 flex flex-col overflow-hidden rounded-lg border border-border bg-card">
-      <div className="flex items-center gap-3 border-b border-border bg-muted/40 px-3.5 py-2.5">
+      <div data-slot="browser-frame-bar" className="flex items-center gap-3 border-b border-border bg-muted/40 px-3.5 py-2.5">
         <span aria-hidden="true" className="flex shrink-0 gap-1.5">
           <span className="size-[9px] rounded-full bg-border" />
           <span className="size-[9px] rounded-full bg-border" />
           <span className="size-[9px] rounded-full bg-border" />
         </span>
-        <p className="m-0 min-w-0 max-w-xs flex-1 truncate rounded-md border border-border/70 bg-background px-3 py-1 font-mono text-[11px] leading-4 text-muted-foreground">
+        <p data-slot="browser-frame-url" className="m-0 min-w-0 max-w-xs flex-1 truncate rounded-md border border-border/70 bg-background px-3 py-1 font-mono text-[11px] leading-4 text-muted-foreground">
           {url}
         </p>
         {label ? (
@@ -44,9 +44,9 @@ export function BrowserFrame({
           </p>
         ) : null}
       </div>
-      <div className="min-w-0 flex-1 bg-card p-4 sm:p-5">{children}</div>
+      <div data-slot="browser-frame-body" className="min-w-0 flex-1 bg-card p-4 sm:p-5">{children}</div>
       {footer ? (
-        <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1.5 border-t border-border bg-muted/40 px-4 py-2.5 font-mono text-xs">
+        <div data-slot="browser-frame-footer" className="flex flex-wrap items-center justify-between gap-x-6 gap-y-1.5 border-t border-border bg-muted/40 px-4 py-2.5 font-mono text-xs">
           {footer}
         </div>
       ) : null}

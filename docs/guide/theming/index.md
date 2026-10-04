@@ -71,11 +71,21 @@ theming choice controls how much of the presentation layer your project owns.
 4. Move to `template.path` when the documentation frontend is a product
    workspace, not just a styled Folio docs site.
 
+## Design Credits
+
+Folio Pastel takes inspiration from [cojeev](https://000h.cojeev.com/): its organic
+shapes, typography, floating docs layout and motion. Thank you to
+[Sanjay Kumar (luv-jeri)](https://github.com/luv-jeri) for designing it and sharing
+[cojeev-ui](https://github.com/luv-jeri/cojeev-ui) as open source.
+
+The [theme picker reference](../components/theme-configurator#preset-library)
+describes the adaptations. The retained licenses and source attribution are in
+`THIRD-PARTY-NOTICES.md`.
+
 ## Related Reference
 
 - [Configuration](../configuration) documents the complete `docs.yaml` shape.
-- [ThemeConfigurator](../components/theme-configurator) documents the runtime
-  drawer, built-in preset controls, and the underlying preset TypeScript
-  contract.
+- [Theme picker](../components/theme-configurator) documents the theme picker,
+  built-in preset controls, and the underlying preset TypeScript contract.
 - [Components](../components/index) lists the MDX components that generated
   docs and custom templates may need to expose.

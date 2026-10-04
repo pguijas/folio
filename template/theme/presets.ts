@@ -5,8 +5,9 @@ import type {
   ThemeStyle,
   ThemeVars,
 } from "./preset-types"
+import { omarchyPalettes } from "./omarchy-palettes"
 import { projectThemePreset } from "./project-theme"
-import { registerPreset, registerGroup, getPresets } from "./preset-registry"
+import { registerPreset, registerGroup, getPresets, builtinGalleryVariants } from "./preset-registry"
 
 interface ThemeTokenInput {
   bg: string
@@ -683,6 +684,277 @@ function resolveDraft(options: PresetOptionValues): ResolvedPresetTheme {
   }
 }
 
+function resolveOmarchy(options: PresetOptionValues): ResolvedPresetTheme {
+  const palette =
+    omarchyPalettes.find((entry) => entry.value === options.palette) ??
+    omarchyPalettes.find((entry) => entry.value === "tokyo-night") ??
+    omarchyPalettes[0]
+  const vars = makeVars(palette.tokens)
+
+  return {
+    preview: { light: palette.tokens.primary, dark: palette.tokens.primary },
+    radius: "0",
+    scheme: palette.scheme,
+    style: makeStyle({
+      "--folio-heading-letter-spacing": "-0.02em",
+      "--folio-heading-weight": "600",
+      "--folio-body-line-height": "1.7",
+      "--folio-card-hover-shadow": "0 0 0 1px var(--primary)",
+      "--folio-code-border-radius": "0",
+      "--folio-code-border": "0 solid transparent",
+      "--folio-code-bg": palette.codeBg,
+      "--folio-code-shadow": "0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent)",
+      "--folio-h2-border": "none",
+      "--folio-h2-letter-spacing": "-0.015em",
+      "--folio-h2-weight": "600",
+    }),
+    light: vars,
+    dark: vars,
+  }
+}
+
+// Pastels are fills; text, focus rings and control edges use contrasting ink.
+const pastelPalettes = {
+  ink: {
+    light: {
+      bg: "#F7F7F2",
+      fg: "#233153",
+      card: "#FFFFFC",
+      primary: "#244CB8",
+      primaryFg: "#FFFFFF",
+      secondary: "#E5EAF4",
+      muted: "#EBEDF3",
+      mutedFg: "#55617A",
+      accent: "#BECDF3",
+      accentFg: "#233967",
+      destructive: "#A13F39",
+      border: "#C1C7D7",
+      input: "#7A839C",
+      charts: ["#B8C9EF", "#D4DEF3", "#D0D7CB", "#E4C7AC", "#233153"] as [string, string, string, string, string],
+      sidebar: "#FFFFFC",
+      sidebarAccent: "#E5EAF4",
+    },
+    dark: {
+      bg: "#182139",
+      fg: "#EEF1FB",
+      card: "#222D47",
+      primary: "#B7C8FA",
+      primaryFg: "#1B2B58",
+      secondary: "#2C3A5B",
+      muted: "#26324D",
+      mutedFg: "#BCC7E1",
+      accent: "#ACBFF5",
+      accentFg: "#20335E",
+      destructive: "#F0A99A",
+      border: "#526589",
+      input: "#8797BC",
+      charts: ["#B8C9F3", "#ACBFF5", "#C6D0BD", "#E9CCAD", "#EEF1FB"] as [string, string, string, string, string],
+      sidebar: "#222D47",
+      sidebarAccent: "#2C3A5B",
+    },
+    ring: { light: "#244CB8", dark: "#ACBFF5" },
+    warning: { light: "#845134", dark: "#EDC4AA" },
+    shadow: { light: "rgba(27, 48, 104, 0.12)", dark: "rgba(2, 8, 26, 0.5)" },
+  },
+  jade: {
+    light: {
+      bg: "#F2F5F2",
+      fg: "#243E3B",
+      card: "#FBFCF8",
+      popover: "#FBFCF8",
+      primary: "#275C56",
+      primaryFg: "#F7FBF7",
+      secondary: "#E3EBE5",
+      muted: "#EAF0EA",
+      mutedFg: "#526A63",
+      accent: "#91C5B6",
+      accentFg: "#1C3B35",
+      destructive: "#A13F39",
+      border: "#B6C8BD",
+      input: "#6C8679",
+      charts: ["#EBC0A5", "#91C5B6", "#BBC99E", "#B6ABD6", "#243E3B"] as [string, string, string, string, string],
+      sidebar: "#FBFCF8",
+      sidebarAccent: "#E3EBE5",
+    },
+    dark: {
+      bg: "#132D2B",
+      fg: "#EDF5EE",
+      card: "#1C3935",
+      popover: "#1C3935",
+      primary: "#B0DACC",
+      primaryFg: "#16352F",
+      secondary: "#284B44",
+      muted: "#213F3A",
+      mutedFg: "#B3C9BC",
+      accent: "#9ED1C1",
+      accentFg: "#173B32",
+      destructive: "#F0A99A",
+      border: "#4D7064",
+      input: "#8DAF9F",
+      charts: ["#EDC4AA", "#9ED1C1", "#C4D1AD", "#C6B9E4", "#EDF5EE"] as [string, string, string, string, string],
+      sidebar: "#1C3935",
+      sidebarAccent: "#284B44",
+    },
+    ring: { light: "#275F55", dark: "#9ED1C1" },
+    warning: { light: "#845134", dark: "#EDC4AA" },
+    shadow: { light: "rgba(24, 58, 46, 0.14)", dark: "rgba(2, 16, 14, 0.5)" },
+  },
+  lavender: {
+    light: {
+      bg: "#F6F3F8",
+      fg: "#3D324D",
+      card: "#FDFCFE",
+      primary: "#655080",
+      primaryFg: "#FAF7FD",
+      secondary: "#EAE3F0",
+      muted: "#EEE9F2",
+      mutedFg: "#6A5B79",
+      accent: "#C5B7DC",
+      accentFg: "#403151",
+      destructive: "#A13F39",
+      border: "#C9BBD7",
+      input: "#8E7C9D",
+      charts: ["#E5BECD", "#C5B7DC", "#BCD0BC", "#ADC9D5", "#3D324D"] as [string, string, string, string, string],
+      sidebar: "#FDFCFE",
+      sidebarAccent: "#EAE3F0",
+    },
+    dark: {
+      bg: "#2B2337",
+      fg: "#F2ECF7",
+      card: "#362E43",
+      primary: "#D0BFE9",
+      primaryFg: "#30223E",
+      secondary: "#493D57",
+      muted: "#3D334A",
+      mutedFg: "#C4B7D1",
+      accent: "#CBBBDF",
+      accentFg: "#382745",
+      destructive: "#F0A99A",
+      border: "#766286",
+      input: "#AB95BC",
+      charts: ["#E8C3D2", "#CBBBDF", "#C1D7BE", "#B9D1DB", "#F2ECF7"] as [string, string, string, string, string],
+      sidebar: "#362E43",
+      sidebarAccent: "#493D57",
+    },
+    ring: { light: "#655080", dark: "#CBBBDF" },
+    warning: { light: "#845134", dark: "#EDC4AA" },
+    shadow: { light: "rgba(57, 38, 73, 0.14)", dark: "rgba(15, 8, 24, 0.5)" },
+  },
+  peach: {
+    light: {
+      bg: "#FAF3EA",
+      fg: "#4E3930",
+      card: "#FFFDF8",
+      primary: "#89533D",
+      primaryFg: "#FFF9F3",
+      secondary: "#F1E4D7",
+      muted: "#F3E9DF",
+      mutedFg: "#7B6051",
+      accent: "#E6B79B",
+      accentFg: "#533827",
+      destructive: "#A13F39",
+      border: "#D4BDA8",
+      input: "#A18068",
+      charts: ["#E8C68D", "#E6B79B", "#BEC9A2", "#CBB8D2", "#4E3930"] as [string, string, string, string, string],
+      sidebar: "#FFFDF8",
+      sidebarAccent: "#F1E4D7",
+    },
+    dark: {
+      bg: "#33261F",
+      fg: "#F8EEE3",
+      card: "#403027",
+      primary: "#EFC6A8",
+      primaryFg: "#43291D",
+      secondary: "#574033",
+      muted: "#49362A",
+      mutedFg: "#D1BBA8",
+      accent: "#E8BA9E",
+      accentFg: "#4B2D20",
+      destructive: "#F0A99A",
+      border: "#896954",
+      input: "#B99A80",
+      charts: ["#ECD09D", "#E8BA9E", "#CCD4B1", "#D2C0DF", "#F8EEE3"] as [string, string, string, string, string],
+      sidebar: "#403027",
+      sidebarAccent: "#574033",
+    },
+    ring: { light: "#89533D", dark: "#E8BA9E" },
+    warning: { light: "#845134", dark: "#EDC4AA" },
+    shadow: { light: "rgba(79, 47, 28, 0.14)", dark: "rgba(23, 11, 4, 0.5)" },
+  },
+  sky: {
+    light: {
+      bg: "#F0F5F8",
+      fg: "#2D4355",
+      card: "#FAFDFE",
+      primary: "#3F657A",
+      primaryFg: "#F5FBFE",
+      secondary: "#DFEAF1",
+      muted: "#E6EEF4",
+      mutedFg: "#4D6576",
+      accent: "#A7C9DC",
+      accentFg: "#294959",
+      destructive: "#A13F39",
+      border: "#AEC4D2",
+      input: "#7290A3",
+      charts: ["#E6C9A5", "#A7C9DC", "#B1CFC1", "#C6BDDD", "#2D4355"] as [string, string, string, string, string],
+      sidebar: "#FAFDFE",
+      sidebarAccent: "#DFEAF1",
+    },
+    dark: {
+      bg: "#192B39",
+      fg: "#EBF3F8",
+      card: "#223746",
+      primary: "#B8D6E6",
+      primaryFg: "#1F3A4B",
+      secondary: "#2D485B",
+      muted: "#273E50",
+      mutedFg: "#B3C8D7",
+      accent: "#AED1E3",
+      accentFg: "#244355",
+      destructive: "#F0A99A",
+      border: "#58758A",
+      input: "#8DAABC",
+      charts: ["#EDD1AF", "#AED1E3", "#B9D9C9", "#D0C6E5", "#EBF3F8"] as [string, string, string, string, string],
+      sidebar: "#223746",
+      sidebarAccent: "#2D485B",
+    },
+    ring: { light: "#3F657A", dark: "#AED1E3" },
+    warning: { light: "#845134", dark: "#EDC4AA" },
+    shadow: { light: "rgba(27, 55, 74, 0.14)", dark: "rgba(4, 15, 24, 0.5)" },
+  },
+}
+
+function resolvePastel(options: PresetOptionValues): ResolvedPresetTheme {
+  const pastelPalette = choose(pastelPalettes, options.palette, "ink")
+  const side = (mode: "light" | "dark"): ThemeVars => ({
+    ...makeVars(pastelPalette[mode]),
+    "--ring": pastelPalette.ring[mode],
+    "--sidebar-ring": pastelPalette.ring[mode],
+    "--warning": pastelPalette.warning[mode],
+    "--folio-pastel-shadow": pastelPalette.shadow[mode],
+  })
+
+  return {
+    preview: { light: pastelPalette.light.accent, dark: pastelPalette.dark.accent },
+    radius: "0.75rem",
+    style: makeStyle({
+      "--folio-heading-letter-spacing": "-0.02em",
+      "--folio-heading-weight": "500",
+      "--folio-body-line-height": "1.62",
+      "--folio-card-shadow": "0 12px 32px -12px var(--folio-pastel-shadow)",
+      "--folio-card-hover-shadow": "0 0 0 1px var(--input)",
+      "--folio-code-border-radius": "1rem",
+      "--folio-code-border": "1px solid var(--border)",
+      "--folio-code-bg": "var(--card)",
+      "--folio-h2-border": "none",
+      "--folio-h2-letter-spacing": "-0.02em",
+      "--folio-h2-weight": "500",
+    }),
+    light: side("light"),
+    dark: side("dark"),
+  }
+}
+
 function resolveCarbon(options: PresetOptionValues): ResolvedPresetTheme {
   const contrast = choose(
     {
@@ -763,7 +1035,7 @@ function resolveCarbon(options: PresetOptionValues): ResolvedPresetTheme {
       primary: contrast.darkFg,
       primaryFg: contrast.darkBg,
       muted: "oklch(0.180 0.006 70)",
-      mutedFg: "oklch(0.560 0.006 70)",
+      mutedFg: "oklch(0.590 0.006 70)",
       accent: "oklch(0.205 0.006 70)",
       border: "oklch(0.260 0.006 70)",
       sidebar: "oklch(0.100 0.006 70)",
@@ -1298,7 +1570,7 @@ function resolveOrganicEditorial(options: PresetOptionValues): ResolvedPresetThe
 
 export const atlasPreset: ThemePreset = {
   id: "atlas",
-  name: "Atlas",
+  name: "Letterpress",
   description: "Classic reference docs with paper rhythm and sharp examples",
   scene: "A library author reviews generated API docs in daylight, moving between prose, index pages, and code examples.",
   preview: { light: "oklch(0.27 0.014 82)", dark: "oklch(0.90 0.008 82)" },
@@ -1309,6 +1581,7 @@ export const atlasPreset: ThemePreset = {
     {
       id: "paper",
       label: "Surface",
+      kind: "color",
       description: "Surface temperature and page contrast.",
       options: [
         { label: "Wove", value: "wove" },
@@ -1356,6 +1629,7 @@ export const beaconPreset: ThemePreset = {
     {
       id: "surface",
       label: "Product surface",
+      kind: "color",
       description: "Navigation, sidebar, and card contrast.",
       options: [
         { label: "Studio", value: "studio" },
@@ -1419,7 +1693,7 @@ const sourceWorkspaceControls: ThemePreset["controls"] = [
 
 export const workshopPreset: ThemePreset = {
   id: "workshop",
-  name: "Workshop",
+  name: "Notebook",
   description: "Warm generated-site workspace with botanical accents",
   scene: "A maintainer previews generated documentation beside the source tree in a bright workspace before publishing.",
   preview: { light: "oklch(0.315 0.050 145)", dark: "oklch(0.760 0.070 145)" },
@@ -1487,6 +1761,7 @@ export const proofPreset: ThemePreset = {
     {
       id: "ink",
       label: "Ink",
+      kind: "color",
       options: [
         { label: "Graphite", value: "graphite" },
         { label: "Black", value: "black" },
@@ -1506,7 +1781,7 @@ export const proofPreset: ThemePreset = {
 
 export const stacksPreset: ThemePreset = {
   id: "stacks",
-  name: "Stacks",
+  name: "Paperback",
   description: "Catalog calm, library ordering",
   scene: "A reader follows long-form guides from a quiet catalog interface with stable navigation and soft labels.",
   preview: { light: "oklch(0.370 0.055 206)", dark: "oklch(0.720 0.060 206)" },
@@ -1517,6 +1792,7 @@ export const stacksPreset: ThemePreset = {
     {
       id: "tone",
       label: "Catalog tone",
+      kind: "color",
       options: [
         { label: "Slate", value: "slate" },
         { label: "Catalog", value: "catalog" },
@@ -1548,6 +1824,7 @@ export const draftlinePreset: ThemePreset = {
     {
       id: "pencil",
       label: "Pencil",
+      kind: "color",
       options: [
         { label: "Soft", value: "soft" },
         { label: "Firm", value: "firm" },
@@ -1567,7 +1844,7 @@ export const draftlinePreset: ThemePreset = {
 
 export const aperturePreset: ThemePreset = {
   id: "aperture",
-  name: "Aperture",
+  name: "Ballpoint",
   description: "Neutral developer docs with compact spacing and rounded code panels",
   scene: "A platform engineer reads model, SDK, and API notes in a restrained developer documentation surface.",
   preview: { light: "oklch(0.180 0.006 160)", dark: "oklch(0.930 0.004 160)" },
@@ -1580,7 +1857,7 @@ export const aperturePreset: ThemePreset = {
 
 export const organicEditorialPreset: ThemePreset = {
   id: "organic-editorial",
-  name: "Organic Editorial",
+  name: "Roller",
   description: "Poster-scale typography with cobalt organic image language",
   scene: "A training or launch page opens with severe white space, oversized type, and abstract cobalt imagery before moving into structured technical content.",
   preview: { light: "oklch(0.360 0.185 264)", dark: "oklch(0.740 0.140 264)" },
@@ -1601,6 +1878,7 @@ export const organicEditorialPreset: ThemePreset = {
     {
       id: "image",
       label: "Image language",
+      kind: "color",
       description: "Accent direction for abstract editorial imagery.",
       options: [
         { label: "Cobalt", value: "cobalt" },
@@ -1623,7 +1901,7 @@ export const organicEditorialPreset: ThemePreset = {
 
 export const carbonPreset: ThemePreset = {
   id: "carbon",
-  name: "Carbon",
+  name: "Typewriter",
   description: "Monochrome, hard technical copy",
   scene: "A power user wants an austere docs surface where code blocks and headings carry nearly all hierarchy.",
   preview: { light: "oklch(0.160 0.008 70)", dark: "oklch(0.920 0.006 70)" },
@@ -1634,6 +1912,7 @@ export const carbonPreset: ThemePreset = {
     {
       id: "contrast",
       label: "Contrast",
+      kind: "color",
       options: [
         { label: "Tempered", value: "tempered" },
         { label: "Stark", value: "stark" },
@@ -1651,6 +1930,55 @@ export const carbonPreset: ThemePreset = {
   resolve: resolveCarbon,
 }
 
+export const omarchyPreset: ThemePreset = {
+  id: "omarchy",
+  name: "Omarchy",
+  description: "Terminal palettes, flat chapters, square corners",
+  scene: "A reader who lives in a terminal theme wants the docs in the same colours, with a flat list of chapters and square corners.",
+  preview: { light: "#7aa2f7", dark: "#7aa2f7" },
+  defaultOptions: { palette: "tokyo-night" },
+  defaultRadiusIndex: 0,
+  defaultCustomization: { fontId: "terminal", colorId: "ink" },
+  controls: [
+    {
+      id: "palette",
+      label: "Palette",
+      kind: "color",
+      description: "Each palette is light or dark and sets the page's scheme.",
+      options: omarchyPalettes.map((palette) => ({
+        label: palette.name,
+        value: palette.value,
+        swatch: palette.tokens.primary,
+      })),
+    },
+  ],
+  resolve: resolveOmarchy,
+}
+
+export const pastelPreset: ThemePreset = {
+  id: "pastel",
+  name: "Folio Pastel",
+  description: "Soft paper, contrasting ink and organic shapes",
+  scene: "A reader wants a floating index, soft irregular shapes and an ink, jade, lavender, peach or sky palette.",
+  preview: { light: pastelPalettes.ink.light.accent, dark: pastelPalettes.ink.dark.accent },
+  defaultOptions: { palette: "ink" },
+  defaultRadiusIndex: 3,
+  defaultCustomization: { fontId: "grotesque", colorId: "ink" },
+  controls: [
+    {
+      id: "palette",
+      label: "Palette",
+      kind: "color",
+      options: Object.entries(pastelPalettes).map(([value, palette]) => ({
+        label: value[0].toUpperCase() + value.slice(1),
+        value,
+        swatch: palette.light.accent,
+      })),
+    },
+  ],
+  resolve: resolvePastel,
+}
+
 const builtinPresets: ThemePreset[] = [
   workshopPreset,
   canopyPreset,
@@ -1663,7 +1991,28 @@ const builtinPresets: ThemePreset[] = [
   aperturePreset,
   organicEditorialPreset,
   carbonPreset,
+  omarchyPreset,
+  pastelPreset,
 ]
+
+// A small picker catalog. Keep the other recipes resolvable for saved and
+// project configurations; object keys leave registered replacements untouched.
+const galleryVariants: Array<[ThemePreset, Array<string | undefined>]> = [
+  [organicEditorialPreset, ["cobalt"]],
+  [aperturePreset, ["canvas"]],
+  [stacksPreset, ["catalog"]],
+  [atlasPreset, ["wove"]],
+  [workshopPreset, [undefined]],
+  [carbonPreset, ["tempered"]],
+  [pastelPreset, ["ink", "jade", "lavender", "peach", "sky"]],
+  [omarchyPreset, ["catppuccin-latte", "tokyo-night", "gruvbox", "hackerman"]],
+  [beaconPreset, []],
+  [ledgerPreset, []],
+  [proofPreset, []],
+  [draftlinePreset, []],
+  [canopyPreset, []],
+]
+galleryVariants.forEach(([preset, variants]) => builtinGalleryVariants.set(preset, variants))
 
 // Register builtins first and the project preset last: registerPreset is
 // last-wins, so a project preset that reuses a builtin id replaces the builtin
@@ -1682,5 +2031,7 @@ registerGroup("expressive", "Expressive", ["organic-editorial", "carbon"])
 registerGroup("workspace", "Workspace", ["workshop", "canopy"])
 registerGroup("product-docs", "Product Docs", ["beacon", "aperture", "ledger"])
 registerGroup("reference", "Reference", ["atlas", "stacks", "draftline", "proof"])
+registerGroup("pastel", "Pastel", ["pastel"])
+registerGroup("omarchy", "Omarchy", ["omarchy"])
 
 export const presets: ThemePreset[] = getPresets()

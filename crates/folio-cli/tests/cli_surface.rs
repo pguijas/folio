@@ -349,7 +349,7 @@ source:
 output: "_site"
 
 theme:
-  preset: "organic-editorial"
+  preset: "pastel"
   dark_mode: true
   # logo: "docs/logo.png"
   # favicon: "docs/favicon.ico"
@@ -418,15 +418,12 @@ fn init_with_piped_answers_uses_the_numbered_prompts() {
     ] {
         assert!(out.contains(row), "{row}");
     }
-    let prompts = "\n  Docstring style\n  1. Google\n     Google-style Args, Returns, and Raises sections.\n  2. NumPy\n     NumPy/SciPy-style parameter tables.\n  3. Auto-detect (default)\n     Let Folio choose the parser.\n  Select (3): \n  Visual preset\n  1. Organic Editorial (default)\n     Warm editorial docs with rich backgrounds.\n  2. Beacon\n     Bright product docs with clear contrast.\n  3. Atlas\n     Structured reference docs with dense navigation.\n  4. Workshop\n     Practical technical docs with compact rhythm.\n  Select (1): \n  ✔ Created a/docs.yaml\n  ✔ Created a/docs/index.md\n  ✔ Created a/.github/workflows/pages.yml\n  ✔ Created a/.github/workflows/branch-previews.yml\n  Next folio serve a\n";
+    let prompts = "\n  Docstring style\n  1. Google\n     Google-style Args, Returns, and Raises sections.\n  2. NumPy\n     NumPy/SciPy-style parameter tables.\n  3. Auto-detect (default)\n     Let Folio choose the parser.\n  Select (3): \n  Visual preset\n  1. Roller\n     Fine headings, generous spacing, and cobalt ink.\n  2. Beacon\n     Bright product docs with clear contrast.\n  3. Letterpress\n     Bold serif headings on a paper surface.\n  4. Notebook\n     Framed pages with warm surfaces and green accents.\n  5. Folio Pastel (default)\n     Pen-blue ink, soft colours, and organic shapes.\n  Select (5): \n  ✔ Created a/docs.yaml\n  ✔ Created a/docs/index.md\n  ✔ Created a/.github/workflows/pages.yml\n  ✔ Created a/.github/workflows/branch-previews.yml\n  Next folio serve a\n";
     assert!(out.ends_with(prompts), "{out}");
     assert!(!out.contains("Ready"), "compact output, no panel");
     assert!(!out.contains("🏠 Starter landing page"));
     let parsed = yaml(&cwd.join("a/docs.yaml"));
-    assert_eq!(
-        parsed["theme"]["preset"].as_str(),
-        Some("organic-editorial")
-    );
+    assert_eq!(parsed["theme"]["preset"].as_str(), Some("pastel"));
     assert!(!fs::read_to_string(cwd.join("a/docs.yaml"))
         .unwrap()
         .contains("docstring_style"));
@@ -452,7 +449,7 @@ fn init_with_piped_answers_uses_the_numbered_prompts() {
     assert_eq!(result.code, 0, "{}", result.stdout);
     assert!(result
         .stdout
-        .contains("  Select (1): Please select one of the available options\n  Select (1): "));
+        .contains("  Select (5): Please select one of the available options\n  Select (5): "));
     let parsed = yaml(&cwd.join("c/docs.yaml"));
     assert_eq!(parsed["theme"]["preset"].as_str(), Some("workshop"));
     assert!(
@@ -460,6 +457,15 @@ fn init_with_piped_answers_uses_the_numbered_prompts() {
             .unwrap()
             .contains("# python:"),
         "no sources: no docstring_style line"
+    );
+
+    // Roller remains available as an explicit choice at its original number.
+    fs::create_dir(cwd.join("roller")).unwrap();
+    let result = folio_run(cwd, &["init", "roller"], Some("\n1\n"));
+    assert_eq!(result.code, 0, "{}{}", result.stdout, result.stderr);
+    assert_eq!(
+        yaml(&cwd.join("roller/docs.yaml"))["theme"]["preset"].as_str(),
+        Some("organic-editorial")
     );
 
     // EOF on stdin cancels before anything is written.

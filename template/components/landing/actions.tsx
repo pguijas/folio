@@ -136,7 +136,7 @@ export function LandingCommand({
 
   return (
     <div
-      className={`landing-command relative flex w-full items-center justify-between gap-4 border border-border bg-card px-4 py-3 ${className}`}
+      className={`landing-command relative flex w-full items-center justify-between gap-4 border border-border px-4 py-3 ${className}`}
     >
       <div className="landing-command-scroll min-w-0 flex-1 overflow-x-auto">
         {installCommands.map((command) => (
@@ -153,7 +153,7 @@ export function LandingCommand({
           fade the clipped edge to signal there is more to scroll. */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-px right-16 w-10 bg-gradient-to-l from-card sm:hidden"
+        className="pointer-events-none absolute inset-y-px right-16 w-10 bg-gradient-to-l from-(--folio-code-bg) sm:hidden"
       />
       <CopyButton text={installCommands.join("\n")} />
     </div>

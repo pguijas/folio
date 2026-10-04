@@ -20,7 +20,7 @@ fn mdx_contract_is_versioned_and_documents_required_props() {
     assert_eq!(FOLIO_MDX_CONTRACT_VERSION, "1.1");
     assert_eq!(FOLIO_AUTHORING_CONTRACT_PATH, "_folio/contract.json");
     let contract = build_contract(&BUILTIN_COMPONENTS);
-    assert_eq!(contract.len(), 22);
+    assert_eq!(contract.len(), 25);
     let by_name = |name: &str| contract.iter().find(|c| c.name == name).unwrap();
     assert_eq!(
             by_name("ParamTable").props,
@@ -133,8 +133,8 @@ fn authoring_contract_envelope_sorts_and_deduplicates_keys_and_routes() {
         .starts_with("Ignore fields you do not recognise"));
     assert_eq!(contract.config_keys, ["project", "roadmap"]);
     assert_eq!(contract.routes, ["/docs/", "/docs/guide/"]);
-    assert_eq!(contract.components.len(), 23);
-    assert_eq!(contract.components[22].name, "GlossaryList");
+    assert_eq!(contract.components.len(), 26);
+    assert_eq!(contract.components[25].name, "GlossaryList");
     let value = serde_json::to_value(&contract).unwrap();
     let keys: Vec<&str> = value
         .as_object()
@@ -205,7 +205,7 @@ fn rendered_authoring_contract_is_json_with_a_trailing_newline_and_utf8() {
             .collect::<Vec<_>>(),
         expected
     );
-    assert_eq!(parsed["components"].as_array().unwrap().len(), 22);
+    assert_eq!(parsed["components"].as_array().unwrap().len(), 25);
 }
 
 fn validate(body: &str) -> Vec<String> {

@@ -70,11 +70,17 @@ export function TerminalSession({
   }, [command])
 
   return (
-    <figure className="my-6 overflow-hidden rounded-lg border border-border bg-card">
-      <figcaption className="flex items-center justify-between gap-3 border-b border-border bg-muted/40 px-4 py-2">
+    <figure
+      data-slot="terminal-session"
+      data-variant={status}
+      className="my-6 overflow-hidden rounded-lg border border-border bg-card"
+    >
+      <figcaption data-slot="terminal-header" className="flex items-center justify-between gap-3 border-b border-border bg-muted/40 px-4 py-2">
         <div className="flex min-w-0 items-center gap-2">
           <button
             type="button"
+            data-slot="terminal-copy"
+            data-copied={copied ? "" : undefined}
             onClick={copyCommand}
             aria-label={`Copy command: ${title}`}
             title={copied ? "Copied command" : "Copy command"}
@@ -92,31 +98,32 @@ export function TerminalSession({
             />
           </button>
           <span
+            data-slot="terminal-status"
             className={cn(
               "h-2.5 w-2.5 shrink-0 rounded-full",
               statusStyles[status]
             )}
             aria-hidden="true"
           />
-          <span className="truncate text-sm font-medium text-foreground">
+          <span data-slot="terminal-title" className="truncate text-sm font-medium text-foreground">
             {title}
           </span>
         </div>
         {cwd && (
-          <span className="truncate font-mono text-xs text-muted-foreground">
+          <span data-slot="terminal-cwd" className="truncate font-mono text-xs text-muted-foreground">
             {cwd}
           </span>
         )}
       </figcaption>
-      <pre className="m-0 overflow-x-auto !rounded-none !border-0 bg-transparent p-4 font-mono text-sm leading-6 !shadow-none">
+      <pre data-slot="terminal-body" className="m-0 overflow-x-auto !rounded-none !border-0 bg-transparent p-4 font-mono text-sm leading-6 !shadow-none">
         <code>
-          <span className="text-muted-foreground select-none">{prompt} </span>
-          <span className="text-foreground">{command}</span>
+          <span data-slot="terminal-prompt" className="text-muted-foreground select-none">{prompt} </span>
+          <span data-slot="terminal-command" className="text-foreground">{command}</span>
           {outputLines.length > 0 && (
             <>
               {"\n"}
               {outputLines.map((line, index) => (
-                <span key={index} className="block text-foreground/75">
+                <span key={index} data-slot="terminal-output" className="block text-foreground/75">
                   {line}
                 </span>
               ))}
@@ -125,7 +132,7 @@ export function TerminalSession({
         </code>
       </pre>
       {children && (
-        <div className="border-t border-border bg-muted/20 px-4 py-3 text-sm text-muted-foreground [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
+        <div data-slot="terminal-footer" className="border-t border-border bg-muted/20 px-4 py-3 text-sm text-muted-foreground [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
           {children}
         </div>
       )}

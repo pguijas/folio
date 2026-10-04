@@ -2,6 +2,7 @@
 
 import React from "react"
 import { cn } from "@/lib/utils"
+import { TabGlide } from "@/components/tabs"
 
 // The tab strip of a CodeGroup. The labels come from the server-side
 // CodeGroup, which can still read each block's language.
@@ -54,8 +55,9 @@ export function CodeGroupTabs({
   }
 
   return (
-    <div className="my-5 rounded-lg border border-border overflow-hidden bg-card">
-      <div role="tablist" className="flex border-b border-border bg-muted/40">
+    <div data-slot="code-group" className="my-5 rounded-lg border border-border overflow-hidden bg-card">
+      <div data-slot="tab-list" role="tablist" className="flex border-b border-border bg-muted/40">
+        <TabGlide />
         {blocks.map((block, i) => (
           <button
             key={i}
@@ -63,6 +65,7 @@ export function CodeGroupTabs({
               tabRefs.current[i] = node
             }}
             id={`${codeGroupId}-tab-${i}`}
+            data-slot="tab"
             type="button"
             role="tab"
             aria-selected={i === active}
@@ -79,7 +82,7 @@ export function CodeGroupTabs({
           >
             {block.label}
             {i === active && (
-              <span className="absolute inset-x-0 bottom-0 h-0.5 bg-primary rounded-full" />
+              <span data-slot="tab-indicator" className="absolute inset-x-0 bottom-0 h-0.5 bg-primary rounded-full" />
             )}
           </button>
         ))}
@@ -87,6 +90,7 @@ export function CodeGroupTabs({
       {blocks.map((block, i) => (
         <div
           key={i}
+          data-slot="tab-panel"
           role="tabpanel"
           id={`${codeGroupId}-panel-${i}`}
           aria-labelledby={`${codeGroupId}-tab-${i}`}

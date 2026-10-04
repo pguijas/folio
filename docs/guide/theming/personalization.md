@@ -13,7 +13,7 @@ but with your project's brand, typography, accent, spacing, and header defaults.
 
 ```yaml
 theme:
-  preset: "organic-editorial"
+  preset: "pastel"
   dark_mode: true
   logo: "docs/assets/logo.svg"
   favicon: "docs/assets/favicon.ico"
@@ -21,12 +21,12 @@ theme:
 
 | Field | Purpose |
 |-------|---------|
-| `preset` | Default visual preset for the generated site. |
-| `dark_mode` | `true` (the default) offers light, dark, and system modes through `next-themes`; `false` keeps the site light. |
-| `logo` | Copies a project logo into the generated site and shows it in the docs navbar beside the project name. |
+| `preset` | Default visual preset for the generated site; omitted, Folio Pastel with Ink. |
+| `dark_mode` | `true` (the default) offers light, dark, and system modes through `next-themes`; `false` keeps the site light, unless the reader applies a dark-only palette such as a dark Omarchy one. |
+| `logo` | Copies a project logo into the generated site and shows it beside the project name in the docs and landing navbars. |
 | `favicon` | Copies a project favicon into the generated site. |
 
-`preset` must be a preset the configurator shows: a
+`preset` must be a preset the theme picker shows: a
 [built-in id](../components/theme-configurator#preset-library), one a
 [theme package](./theme-packages#register-a-custom-preset) declares, or a new id
 that `theme.name`, `theme.tokens` or `theme.style` defines (see
@@ -34,38 +34,50 @@ that `theme.name`, `theme.tokens` or `theme.style` defines (see
 list of valid ids and the nearest one, so `preset: "beakon"` asks whether you
 meant `beacon`.
 
-Dark mode is enabled by default. When enabled, readers can use the theme control
-or press `d` outside form fields to switch between light and dark modes. With
+Dark mode is enabled by default. When enabled, readers can use the mode radios in
+the theme picker or press `d` outside form fields to switch between light and dark
+modes. `theme.header.theme_toggle: true` adds a one-click light/dark toggle to the
+landing and the docs navbars alike; without it neither navbar has one. With
 `dark_mode: false` the site stays light whatever the reader's system or saved
-preference: the mode controls leave the configurator, the header and landing
-theme toggles are not rendered, and `d` does nothing. `theme.header.theme_toggle:
-true` is then ignored with a warning.
+preference: the picker shows no mode control, no toggle is rendered, and `d` does
+nothing. `theme.header.theme_toggle: true` is then ignored with a warning. A
+dark-only palette the reader applies still turns the page dark while it is
+applied.
 
 The logo path is resolved from the project directory and must exist; a missing
 file stops the build. The image takes the monogram's place in the docs navbar
-and is served under `deploy.base_path` when one is set. The landing navbar and
-the previews page keep the monogram.
+and the landing navbar, and is served under `deploy.base_path` when one is set.
+The previews page keeps the monogram.
 
-## Theme Configurator
+## Theme Picker
 
-Every generated site includes the Folio `ThemeConfigurator` drawer when theme
-presets are available. The drawer exposes the configured default preset, the
-built-in preset library, and tuning controls for typography, accent, surfaces,
-content width, reading rhythm, borders, code blocks, shell spacing, and radius.
-It also offers light, dark and system mode unless `theme.dark_mode` is `false`.
+Every generated site includes the theme picker on the landing page, the docs and
+the previews. The palette button in the navbar, or the `t` key, opens it: every
+theme as a slide drawn in its own colors, the front theme's colors as swatches
+under it, and light, dark and system mode in its header unless
+`theme.dark_mode` is `false`. The carousel walks six Folio styles, five Folio Pastel palettes and
+four Omarchy palettes. Arrows, swipes and swatches apply and save each choice
+immediately. Done or Escape closes the picker and keeps the selected theme.
+
+Customize, or the `c` key, opens the picker's second step
+for the front theme: its own options, typography, reading rhythm, corners,
+borders, code block frame, page frame and background, text and accent colors.
+Each change updates the page and saves immediately.
 
 Reader preferences are persisted in a project-scoped `localStorage` key derived
-from the configured default preset. Folio also renders the default theme CSS into
+from the configured default preset. When that default changes from Roller to
+Folio Pastel, existing reader choices are reused unless the new key already
+exists. Folio also renders the default theme CSS into
 the page before hydration so the site does not flash through unconfigured
 typography or colors.
 
-See [ThemeConfigurator](../components/theme-configurator) for the built-in
-preset catalog and the TypeScript preset contract.
+See [Theme picker](../components/theme-configurator) for the picker's keys, the
+built-in preset catalog and the TypeScript preset contract.
 
 ## Tune Defaults
 
-Use `theme.tune` to set the default configurator choices without creating a new
-preset:
+Use `theme.tune` to set the defaults of the picker's Customize step without
+creating a new preset. They are defaults only and restrict nothing:
 
 ```yaml
 theme:
@@ -98,7 +110,7 @@ Each value must be one the configurator offers for that control:
 
 | Control | Values |
 |---------|--------|
-| `fontId` | `folio`, `sans`, `geist`, `serif`, `mono` |
+| `fontId` | `folio`, `sans`, `geist`, `serif`, `mono`, `terminal`, `grotesque` |
 | `colorId` | `ink`, `laurel`, `indigo`, `copper` |
 | `surfaceColorId` | `preset`, `paper`, `moss`, `mist` |
 | `shellPaddingId` | `preset`, `flush`, `frame`, `gallery` |
@@ -118,7 +130,7 @@ public `--font-sans` and `--font-mono` tokens used by Tailwind utilities.
 `theme.radius` (and its `theme.tune.radius` alias) is validated against the
 fixed radius scale: `"0"`, `"0.3rem"`, `"0.5rem"`, `"0.75rem"`, or `"1rem"`.
 The named aliases `"none"`, `"sm"`, `"md"`, `"lg"`, and `"full"` map onto the
-same scale (matching the configurator's radius labels). Any other value fails
+same scale (matching the picker's Corners labels). Any other value fails
 config validation, because the configurator maps the configured radius onto
 this fixed scale.
 
@@ -132,7 +144,7 @@ adds the project preset before the built-in preset library.
   title="docs.yaml"
   description="A project-owned theme preset generated from safe YAML data."
   fields={[
-    { name: "theme.name", type: "string", description: "Label shown in the configurator Project group." },
+    { name: "theme.name", type: "string", description: "Label shown in the theme picker's Project group." },
     { name: "theme.preview", type: "object", description: "Light and dark swatches for the preset preview." },
     { name: "theme.style", type: "object", description: "Layout and typography CSS custom properties." },
     { name: "theme.tokens", type: "object", description: "Light and dark shadcn/project CSS variable overrides." },
@@ -215,9 +227,11 @@ execute script or read local files (`javascript:`, `data:`, `vbscript:`,
 
 ## Variants
 
-Variants let a project expose its own configurator controls. Each option can set
+Variants let a project expose its own theme controls. Each option can set
 a swatch, preview colors, style overrides, and light/dark token overrides while
-inheriting the base project preset.
+inheriting the base project preset. The first control whose options set no
+`style` only recolors the preset, and the picker shows it as the Colours row
+under the preset's slide; every other control is a row of its Customize step.
 
 ```yaml
 theme:
@@ -289,6 +303,59 @@ main content area:
 | `--sidebar-primary` | Sidebar active item color. |
 | `--sidebar-accent` | Sidebar hover/focus background. |
 | `--sidebar-border` | Sidebar border color. |
+
+Motion variables time the mobile menu and the Term card on every preset, and
+the transitions the Pastel preset adds. The rest of the docs shell keeps its own fixed timings,
+Nextra's and Folio's:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-motion-micro` | `120ms` | The close button answering a hover. |
+| `--folio-motion-element` | `200ms` | The scrim fading in, and the close icon's turn. |
+| `--folio-motion-exit` | `180ms` | The scrim fading out. |
+| `--folio-motion-max` | `300ms` | The menu sliding out, and Pastel's light and dark reveal. |
+| `--folio-motion-glide` | `240ms` | Pastel's tab highlight gliding to the chosen tab, and the tab label's colour. |
+| `--folio-motion-fade` | `160ms` | Pastel's newly chosen tab panel fading in. |
+| `--folio-motion-drawer` | `560ms` | The menu springing in. |
+| `--folio-ease-enter` | `cubic-bezier(0.2, 0.8, 0.2, 1)` | The scrim fading in, the close button, and Pastel's light and dark reveal. |
+| `--folio-ease-exit` | `cubic-bezier(0.4, 0, 1, 1)` | The menu and the scrim leaving. |
+| `--folio-spring-drawer` | a spring as `linear()` | The menu springing in; a `cubic-bezier` where `linear()` is not supported. |
+
+Below Nextra's `md` breakpoint (48rem, 768 px at the default font size) the
+docs menu is a drawer, drawn from these variables:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-drawer-inset` | `12px` | Gap between the drawer and the screen edges. |
+| `--folio-drawer-width` | `21.25rem` | Drawer width, 340 px at the default font size and never wider than the screen minus both insets. |
+| `--folio-drawer-radius` | `24px` | Corner radius. |
+| `--folio-drawer-shadow` | a hairline and a soft shadow | The drawer's edge. |
+| `--folio-drawer-scrim` | `--scrim` at 30 % | The layer that dims the page behind the drawer. |
+
+A theme that wants a full-screen menu sets `--folio-drawer-inset: 0`,
+`--folio-drawer-width: 100vw`, `--folio-drawer-radius: 0` and
+`--folio-drawer-shadow: none`. Under reduced motion every transition and
+animation on a docs page finishes at once; the landing and the roadmap keep
+their own reduced-motion styles.
+
+Callouts draw their six types from tone variables, one set per type: a fill
+for the surface, an ink for the title and the text, and an accent for the icon
+and the edge. `<type>` is `note`, `info`, `tip`, `check`, `warning` or
+`danger`:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-tone-<type>-accent` | a hue mixed 75 % into `--foreground`: blue for `info`, violet for `tip`, green for `check`, `--warning` and `--destructive` for the last two; `note` takes `--muted-foreground` | The icon and the edge. Marker's `ok` and `danger` labels take the `check` and `danger` accents. |
+| `--folio-tone-<type>-fill` | the accent at 12 % over `--background`; `note` mixes `--muted-foreground` at 8 % | The callout's surface. |
+| `--folio-tone-<type>-ink` | the accent at 25 % into `--foreground`; `note` takes `--foreground` | The title and the text. |
+
+A theme sets one by name, for example `--folio-tone-tip-accent`, and the fill
+and ink mixed from it follow. The Pastel preset sets its own fills and inks
+inside the callout, so a tone set at `:root` does not reach a Pastel callout.
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-surface-radius` | `var(--radius)`; Pastel sets `20px` | The corner of a raised surface: the cards, panels, empty states, tab panels, file trees and callouts the Pastel preset draws. |
 
 ### What Plugin Surfaces Rely On
 

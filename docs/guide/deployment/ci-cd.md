@@ -209,6 +209,22 @@ each deploy. Reviewers get the latest preview link directly in the conversation
 without a new comment on every push. The workflow still writes the same links to
 the Actions summary for debugging failed runs.
 
+### Reusing a runner
+
+The generated workflows use GitHub-hosted runners. When adapting them to a
+persistent runner, keep production and PR checkouts in separate directories and
+clear each job's checkout and artifact download directories before use. Artifact
+downloads do not remove files left by an earlier run. Keep the PR build's token
+read-only and checkout credentials disabled; only the trusted deploy job should
+receive write permissions.
+
+Folio's repository workflows use its trusted NAS worker for Pages and previews,
+with fresh job directories and Rust caching that preserves installed tools.
+A persistent worker shares its user account across jobs; separate directories do
+not isolate hostile code. Use a disposable worker for untrusted contributors.
+The Pages helpers replace their own state worktree registration on refresh, so
+repeated deployments also work when its files were removed between jobs.
+
 ## Pull Request Checks
 
 Run the docs build and, for a Python project, the coverage gate on every PR. Drop

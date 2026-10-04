@@ -324,20 +324,31 @@ impl NextRuntime {
         Ok(())
     }
 
+    /// Pages carry a commit time only in a build, and generated content never
+    /// does. In dev Nextra stamps every page with the time its loader loaded,
+    /// and the theme then clones its LastUpdated element; React can still hold
+    /// that element as a lazy reference while the dev debug channel streams,
+    /// and the clone of a lazy reference has no type.
     fn patch_nextra_generated_content_timestamps(build_dir: &Path) -> std::io::Result<()> {
         let target =
             "const lastCommitTime = IS_PRODUCTION ? await getLastCommitTime(resourcePath) : NOW;";
-        let replacement = "const isGeneratedFolioContent = resourcePath.includes(`${CWD}/content/`);\n  const lastCommitTime = IS_PRODUCTION ? isGeneratedFolioContent ? void 0 : await getLastCommitTime(resourcePath) : NOW;";
+        let current = "const lastCommitTime = IS_PRODUCTION && !isGeneratedFolioContent ? await getLastCommitTime(resourcePath) : void 0;";
+        let replacement = format!(
+            "const isGeneratedFolioContent = resourcePath.includes(`${{CWD}}/content/`);\n  {current}"
+        );
+        // A loader patched by 0.3.0-a1 still stamps dev pages.
+        let earlier = "const lastCommitTime = IS_PRODUCTION ? isGeneratedFolioContent ? void 0 : await getLastCommitTime(resourcePath) : NOW;";
         for path in Self::package_files(
             &build_dir.join("node_modules"),
             "nextra",
             "dist/server/loader.js",
         ) {
             let content = std::fs::read_to_string(&path)?;
-            if content.contains("isGeneratedFolioContent") {
-                continue;
-            }
-            let patched = content.replacen(target, replacement, 1);
+            let patched = if content.contains("isGeneratedFolioContent") {
+                content.replacen(earlier, current, 1)
+            } else {
+                content.replacen(target, &replacement, 1)
+            };
             if patched != content {
                 std::fs::write(&path, patched)?;
             }

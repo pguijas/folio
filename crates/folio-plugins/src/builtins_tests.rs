@@ -1,6 +1,6 @@
 use super::*;
 
-const EXPECTED_ORDER: [&str; 40] = [
+const EXPECTED_ORDER: [&str; 43] = [
     "ParamTable",
     "ClassOverview",
     "TypeBadge",
@@ -41,6 +41,9 @@ const EXPECTED_ORDER: [&str; 40] = [
     "ComparisonMatrix",
     "UnavailableFeature",
     "BrowserFrame",
+    "Kbd",
+    "Marker",
+    "Term",
 ];
 
 const EXPECTED_REQUIRED: [&str; 8] = [
@@ -54,7 +57,7 @@ const EXPECTED_REQUIRED: [&str; 8] = [
     "Mermaid",
 ];
 
-const EXPECTED_CONTRACT: [&str; 22] = [
+const EXPECTED_CONTRACT: [&str; 25] = [
     "ParamTable",
     "ClassOverview",
     "TypeBadge",
@@ -77,6 +80,9 @@ const EXPECTED_CONTRACT: [&str; 22] = [
     "StatStrip",
     "ApiReferenceIndex",
     "BrowserFrame",
+    "Kbd",
+    "Marker",
+    "Term",
 ];
 
 #[test]

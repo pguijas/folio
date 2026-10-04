@@ -35,7 +35,7 @@ function renderBase(base: BaseEntry, index: number, total: number) {
 
 export function ClassOverview({ name, bases = [], decorators = [], description }: ClassOverviewProps) {
   return (
-    <Card className="my-4">
+    <Card data-slot="class-overview" className="my-4">
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2 flex-wrap">
           {decorators.map((dec) => (

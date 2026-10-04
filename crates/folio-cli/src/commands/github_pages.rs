@@ -397,9 +397,21 @@ fn remote_branch_exists(git_repo: &Path, state_branch: &str) -> Result<bool> {
     }
 }
 
-/// Check the remote state branch out as a detached worktree at `state_dir`;
-/// nothing happens when the branch does not exist yet.
+/// Replace the state worktree with the remote branch; leave it absent when
+/// the branch does not exist yet.
 fn fetch_state_worktree(git_repo: &Path, state_dir: &Path, state_branch: &str) -> Result<bool> {
+    // A persistent runner may retain the registration even if its files vanished.
+    // Remove only this worktree; an ordinary leftover directory has no registration.
+    let _ = git(
+        git_repo,
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            &state_dir.display().to_string(),
+        ],
+    );
+    remove_path(state_dir)?;
     if !remote_branch_exists(git_repo, state_branch)? {
         return Ok(false);
     }
@@ -429,7 +441,6 @@ pub fn preserve_branch_previews(
     let git_repo = resolve_path(git_repo);
     let state_dir = resolve_path(state_dir);
     if fetch_state {
-        remove_path(&state_dir)?;
         fetch_state_worktree(&git_repo, &state_dir, state_branch)?;
     }
     let previews = state_dir.join("previews");
@@ -458,7 +469,6 @@ pub fn prepare_pages_artifact(
     let git_repo = resolve_path(git_repo);
     let state_dir = resolve_path(state_dir);
     if fetch_state {
-        remove_path(&state_dir)?;
         fetch_state_worktree(&git_repo, &state_dir, state_branch)?;
     }
     remove_path(&artifact_dir)?;

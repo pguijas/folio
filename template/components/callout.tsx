@@ -7,55 +7,18 @@ import {
   CheckListIcon,
   AlertDiamondIcon,
 } from "@hugeicons/core-free-icons"
-import { cn } from "@/lib/utils"
 
 type CalloutType = "note" | "warning" | "info" | "tip" | "check" | "danger"
 
-const calloutConfig: Record<
-  CalloutType,
-  {
-    icon: typeof NoteIcon
-    bg: string
-    border: string
-    iconColor: string
-  }
-> = {
-  note: {
-    icon: NoteIcon,
-    bg: "bg-primary/5",
-    border: "border-primary/20",
-    iconColor: "text-primary",
-  },
-  warning: {
-    icon: AlertCircleIcon,
-    bg: "bg-warning/10",
-    border: "border-warning/30",
-    iconColor: "text-warning",
-  },
-  info: {
-    icon: InformationCircleIcon,
-    bg: "bg-muted",
-    border: "border-border",
-    iconColor: "text-muted-foreground",
-  },
-  tip: {
-    icon: BulbIcon,
-    bg: "bg-primary/5",
-    border: "border-primary/20",
-    iconColor: "text-primary",
-  },
-  check: {
-    icon: CheckListIcon,
-    bg: "bg-primary/5",
-    border: "border-primary/20",
-    iconColor: "text-primary",
-  },
-  danger: {
-    icon: AlertDiamondIcon,
-    bg: "bg-destructive/5",
-    border: "border-destructive/20",
-    iconColor: "text-destructive",
-  },
+// Each type's colours come from its --folio-tone-* tokens, applied in
+// app/styles/callout.css through data-variant.
+const calloutIcons: Record<CalloutType, typeof NoteIcon> = {
+  note: NoteIcon,
+  warning: AlertCircleIcon,
+  info: InformationCircleIcon,
+  tip: BulbIcon,
+  check: CheckListIcon,
+  danger: AlertDiamondIcon,
 }
 
 export function Callout({
@@ -67,27 +30,23 @@ export function Callout({
   title?: string
   children: React.ReactNode
 }) {
-  const config = calloutConfig[type]
   return (
     <div
-      className={cn(
-        "my-5 rounded-lg border px-4 py-3.5",
-        "transition-colors duration-150",
-        config.border,
-        config.bg
-      )}
+      data-slot="callout"
+      data-variant={type}
+      className="my-5 rounded-lg border px-4 py-3.5 transition-colors duration-150"
     >
       <div className="flex gap-3">
-        <div className={cn("mt-0.5 shrink-0", config.iconColor)}>
-          <HugeiconsIcon icon={config.icon} size={18} strokeWidth={2} />
+        <div data-slot="callout-icon" className="mt-0.5 shrink-0">
+          <HugeiconsIcon icon={calloutIcons[type]} size={18} strokeWidth={2} />
         </div>
         <div className="min-w-0 flex-1">
           {title && (
-            <p className="mb-1 text-sm font-semibold text-foreground">
+            <p data-slot="callout-title" className="mb-1 text-sm font-semibold">
               {title}
             </p>
           )}
-          <div className="text-sm text-foreground/85 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
+          <div data-slot="callout-body" className="text-sm [&>p:first-child]:mt-0 [&>p:last-child]:mb-0">
             {children}
           </div>
         </div>

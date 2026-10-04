@@ -10,6 +10,9 @@ export interface ResolvedPresetTheme {
   style: ThemeStyle
   light: ThemeVars
   dark: ThemeVars
+  // A theme that is only light or only dark fixes the page's scheme while it
+  // is applied; the reader's own light/dark choice returns when it is not.
+  scheme?: "light" | "dark"
 }
 
 export interface PresetControlOption {
@@ -23,6 +26,9 @@ export interface PresetControl {
   id: string
   label: string
   description?: string
+  // A colour control changes only colour tokens and the preview: the theme
+  // picker shows its options as the swatch row under the theme.
+  kind?: "color"
   options: PresetControlOption[]
 }
 
@@ -48,6 +54,18 @@ export interface ThemePreset {
   defaultCustomization?: ThemeDefaultCustomization
   controls: PresetControl[]
   resolve: (options: PresetOptionValues) => ResolvedPresetTheme
+}
+
+// The control whose options are a theme's colours: the first one marked as
+// a colour control.
+export function colorControl(preset: ThemePreset): PresetControl | undefined {
+  return preset.controls.find((control) => control.kind === "color")
+}
+
+// Every other control of a theme: its own options, adjusted after the colour.
+export function adjustControls(preset: ThemePreset): PresetControl[] {
+  const color = colorControl(preset)
+  return preset.controls.filter((control) => control !== color)
 }
 
 export function normalizePresetOptions(

@@ -4,8 +4,9 @@ import { getPageMap } from "nextra/page-map"
 import { GithubIcon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 // __PROJECT_REPO_IMPORTS_END__
+import { MobileNavDrawer } from "@/components/mobile-nav-drawer"
 import { SidebarIndexLinks } from "@/components/sidebar-index-links"
-import { ThemeConfigurator } from "@/components/theme-configurator"
+import { ThemeGallery } from "@/components/theme-gallery"
 import { VersionSelector } from "@/components/version-selector"
 
 export default async function PreviewsLayout({
@@ -19,7 +20,7 @@ export default async function PreviewsLayout({
         <Navbar
           logo={
             <span className="flex items-center gap-2.5">
-              <span className="flex size-7 items-center justify-center rounded-md bg-primary font-mono text-[11px] font-bold text-primary-foreground">
+              <span className="folio-monogram flex size-7 items-center justify-center rounded-md bg-primary font-mono text-[11px] font-bold text-primary-foreground">
                 __PROJECT_MONOGRAM__
               </span>
               <span className="text-sm font-semibold tracking-tight">
@@ -46,6 +47,7 @@ export default async function PreviewsLayout({
           </a>
           {/* __PROJECT_REPO_LINK_END__ */}
           <VersionSelector />
+          <ThemeGallery />
         </Navbar>
       }
       darkMode={false}
@@ -53,7 +55,7 @@ export default async function PreviewsLayout({
       footer={<Footer />}
     >
       <SidebarIndexLinks />
-      <ThemeConfigurator />
+      <MobileNavDrawer />
       <div id="main-content">{children}</div>
     </Layout>
   )

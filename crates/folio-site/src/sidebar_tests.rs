@@ -82,7 +82,7 @@ fn module_based_api_reference_meta() {
         vec![("api-reference".to_string(), "Source Code".to_string())]
     );
     let api = &files["api-reference/_meta.ts"];
-    assert_hidden(api, "index");
+    assert!(!keys(api).contains(&"index".to_string()), "{api}");
     assert_eq!(parse(api), vec![("mylib".to_string(), "Mylib".to_string())]);
     assert_eq!(
         parse(&files["api-reference/mylib/_meta.ts"]),
@@ -456,17 +456,14 @@ fn language_grouping_only_when_more_than_one_language() {
     ];
     let files = generate(&["API Reference"], &modules, &[], true);
     let api = &files["api-reference/_meta.ts"];
-    assert_hidden(api, "index");
+    assert!(!keys(api).contains(&"index".to_string()), "{api}");
     assert!(api.contains(
         "  \"---python\": {\n    \"type\": \"separator\",\n    \"title\": \"Python\",\n  },"
     ));
     assert_collapsed(api, "mylib", "Mylib");
     assert_collapsed(api, "rust", "Rust");
     assert_collapsed(api, "javascript", "JavaScript");
-    assert_eq!(
-        keys(api),
-        vec!["index", "---python", "mylib", "rust", "javascript"]
-    );
+    assert_eq!(keys(api), vec!["---python", "mylib", "rust", "javascript"]);
     assert_eq!(
         parse(&files["api-reference/mylib/_meta.ts"]),
         vec![("core".to_string(), "Core".to_string())]
@@ -483,7 +480,7 @@ fn language_grouping_only_when_more_than_one_language() {
 
     let files = generate(&[], &[module("rust/geo", "rust")], &[], false);
     let api = &files["api-reference/_meta.ts"];
-    assert_hidden(api, "index");
+    assert!(!keys(api).contains(&"index".to_string()), "{api}");
     assert!(!api.contains("separator"));
     assert_eq!(parse(api), vec![("rust".to_string(), "Rust".to_string())]);
     assert_eq!(

@@ -15,6 +15,7 @@ declare const __VERSIONS__: Array<{
 
 declare const __PROJECT_NAME_JSON__: string
 declare const __PROJECT_MONOGRAM_JSON__: string
+declare const __PROJECT_LOGO_JSON__: string | null
 declare const __PROJECT_VERSION_JSON__: string
 declare const __LANDING_TAGLINE_JSON__: string
 declare const __LANDING_NOTICE_TEXT_JSON__: string

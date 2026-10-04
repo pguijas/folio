@@ -35,6 +35,10 @@ import { ApiReferenceIndex } from "@/components/api-reference-index"
 import { ComparisonMatrix } from "@/components/comparison-matrix"
 import { UnavailableFeature } from "@/components/unavailable-feature"
 import { BrowserFrame } from "@/components/browser-frame"
+import { Kbd } from "@/components/kbd"
+import { Marker } from "@/components/marker"
+import { Term } from "@/components/term"
+import { CodeBlockPre } from "@/components/code-block"
 // __FOLIO_COMPONENT_IMPORTS__
 
 const themeComponents = getThemeComponents()
@@ -95,6 +99,7 @@ export function useMDXComponents(components?: Record<string, React.ComponentType
   return {
     ...themeComponents,
     wrapper: WrapperWithSanitizedToc,
+    pre: CodeBlockPre,
     ParamTable,
     ClassOverview,
     TypeBadge,
@@ -135,6 +140,9 @@ export function useMDXComponents(components?: Record<string, React.ComponentType
     ComparisonMatrix,
     UnavailableFeature,
     BrowserFrame,
+    Kbd,
+    Marker,
+    Term,
     // __FOLIO_COMPONENT_ENTRIES__
     ...components,
   }

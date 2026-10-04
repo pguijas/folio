@@ -1,4 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="8" fill="#111113"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" data-folio-icon="default">
+  <style>
+    [data-folio-icon="pastel"] .normal { display: none }
+    [data-folio-icon="pastel"] .pastel { display: block }
+    [data-folio-icon="pastel"] text { fill: #233153 }
+  </style>
+  <rect class="normal" width="32" height="32" rx="8" fill="#111113"/>
+  <path class="pastel" display="none" transform="scale(.32)" fill="#BECDF3" d="M25 18C44 5 65 18 72 36C79 53 96 59 80 77C64 96 41 83 31 71C22 60 7 58 11 39C13 29 17 23 25 18Z"/>
   <text x="16" y="21" text-anchor="middle" font-family="'SF Mono','Menlo','Consolas',monospace" font-size="15" font-weight="800" fill="#fafafa" letter-spacing="-0.5">__PROJECT_MONOGRAM__</text>
 </svg>

@@ -1,0 +1,206 @@
+/* Callouts: the six Callout types, drawn from the --folio-tone-* tokens. */
+
+[data-slot="callout"][data-variant="note"] {
+  --folio-callout-fill: var(--folio-tone-note-fill);
+  --folio-callout-ink: var(--folio-tone-note-ink);
+  --folio-callout-accent: var(--folio-tone-note-accent);
+}
+
+[data-slot="callout"][data-variant="info"] {
+  --folio-callout-fill: var(--folio-tone-info-fill);
+  --folio-callout-ink: var(--folio-tone-info-ink);
+  --folio-callout-accent: var(--folio-tone-info-accent);
+}
+
+[data-slot="callout"][data-variant="tip"] {
+  --folio-callout-fill: var(--folio-tone-tip-fill);
+  --folio-callout-ink: var(--folio-tone-tip-ink);
+  --folio-callout-accent: var(--folio-tone-tip-accent);
+}
+
+[data-slot="callout"][data-variant="check"] {
+  --folio-callout-fill: var(--folio-tone-check-fill);
+  --folio-callout-ink: var(--folio-tone-check-ink);
+  --folio-callout-accent: var(--folio-tone-check-accent);
+}
+
+[data-slot="callout"][data-variant="warning"] {
+  --folio-callout-fill: var(--folio-tone-warning-fill);
+  --folio-callout-ink: var(--folio-tone-warning-ink);
+  --folio-callout-accent: var(--folio-tone-warning-accent);
+}
+
+[data-slot="callout"][data-variant="danger"] {
+  --folio-callout-fill: var(--folio-tone-danger-fill);
+  --folio-callout-ink: var(--folio-tone-danger-ink);
+  --folio-callout-accent: var(--folio-tone-danger-accent);
+}
+
+[data-slot="callout"] {
+  background: var(--folio-callout-fill);
+  border-color: color-mix(in oklab, var(--folio-callout-accent) 25%, transparent);
+}
+
+[data-slot="callout-icon"] {
+  color: var(--folio-callout-accent);
+}
+
+/* The title and the body take the full ink: a body mixed 85% toward the fill
+   fell to 3.9:1 on the lighter Omarchy palettes. Inline code sits on --muted
+   and takes the ink too. */
+[data-slot="callout-title"],
+[data-slot="callout-body"],
+[data-slot="callout-body"] :not(pre) > code {
+  color: var(--folio-callout-ink);
+}
+
+/* ─── Pastel callouts ─── */
+
+/* cojeev's alert (MIT, Copyright (c) 2026 Sanjay Kumar; see
+   THIRD-PARTY-NOTICES.md), from registry/cojeev/styles/alert.css: no border,
+   a fill per tone, the icon on a 40px organic holder and one mark in the corner.
+   Pastels are fills only; the text on them is ink. The tones are scoped to
+   the callout, so other components keep the shared ones. The corner marks
+   are original irregular contours; Folio's semantic Hugeicons remain. */
+html[data-folio-preset="pastel"] [data-slot="callout"] {
+  --folio-tone-note-fill: var(--secondary);
+  --folio-tone-note-ink: var(--foreground);
+  --folio-tone-info-fill: color-mix(in oklab, var(--chart-4) 30%, var(--background));
+  --folio-tone-info-ink: var(--accent-foreground);
+  --folio-tone-tip-fill: color-mix(in oklab, var(--chart-2) 28%, var(--background));
+  --folio-tone-tip-ink: var(--accent-foreground);
+  --folio-tone-check-fill: color-mix(in oklab, var(--chart-3) 26%, var(--background));
+  --folio-tone-check-ink: var(--accent-foreground);
+  --folio-tone-warning-fill: color-mix(in oklab, var(--chart-1) 34%, var(--background));
+  --folio-tone-warning-ink: var(--accent-foreground);
+  --folio-tone-danger-fill: color-mix(in oklab, var(--destructive) 13%, var(--background));
+  --folio-tone-danger-ink: var(--foreground);
+}
+
+html.dark[data-folio-preset="pastel"] [data-slot="callout"] {
+  --folio-tone-info-fill: color-mix(in oklab, var(--chart-4) 18%, var(--background));
+  --folio-tone-info-ink: var(--foreground);
+  --folio-tone-tip-fill: color-mix(in oklab, var(--chart-2) 16%, var(--background));
+  --folio-tone-tip-ink: var(--foreground);
+  --folio-tone-check-fill: color-mix(in oklab, var(--chart-3) 18%, var(--background));
+  --folio-tone-check-ink: var(--foreground);
+  --folio-tone-warning-fill: color-mix(in oklab, var(--chart-1) 16%, var(--background));
+  --folio-tone-warning-ink: var(--foreground);
+  --folio-tone-danger-fill: color-mix(in oklab, var(--destructive) 16%, var(--background));
+  --folio-tone-danger-ink: var(--foreground);
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"] {
+  --folio-callout-disc: var(--card);
+  --folio-callout-glyph: var(--foreground);
+  --folio-callout-mark-color: var(--card);
+  --folio-callout-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M53 9C72 4 95 25 88 43C85 52 65 51 67 68C71 89 39 98 21 82C9 70 17 56 12 44C2 25 31 14 53 9Z'/%3E%3C/svg%3E");
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 16px 20px 17px 16px;
+  border: 0;
+  border-radius: var(--folio-surface-radius);
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"][data-variant="info"] {
+  --folio-callout-disc: var(--chart-4);
+  --folio-callout-glyph: var(--accent-foreground);
+  --folio-callout-mark-color: var(--chart-4);
+  --folio-callout-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M49 13C73 5 91 17 89 38C91 57 68 55 71 73C75 91 43 94 25 83C8 75 11 58 15 43C19 25 29 18 49 13Z'/%3E%3C/svg%3E");
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"][data-variant="tip"] {
+  --folio-callout-disc: var(--chart-2);
+  --folio-callout-glyph: var(--accent-foreground);
+  --folio-callout-mark-color: var(--chart-2);
+  --folio-callout-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M13 35C10 19 24 11 43 19C65 30 77 10 88 29C98 47 82 59 68 63C46 70 52 92 32 87C14 83 27 63 17 54C12 49 14 42 13 35Z'/%3E%3C/svg%3E");
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"][data-variant="check"] {
+  --folio-callout-disc: var(--chart-3);
+  --folio-callout-glyph: var(--accent-foreground);
+  --folio-callout-mark-color: var(--chart-3);
+  --folio-callout-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M15 34C13 14 32 12 47 23C62 35 79 13 89 32C95 51 75 58 64 65C50 75 48 92 31 84C16 80 24 60 15 53C8 45 15 41 15 34Z'/%3E%3C/svg%3E");
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"][data-variant="warning"] {
+  --folio-callout-disc: var(--chart-1);
+  --folio-callout-glyph: var(--accent-foreground);
+  --folio-callout-mark-color: var(--chart-1);
+  --folio-callout-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 18C44 5 65 18 72 36C79 53 96 59 80 77C64 96 41 83 31 71C22 60 7 58 11 39C13 29 17 23 25 18Z'/%3E%3C/svg%3E");
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"][data-variant="danger"] {
+  --folio-callout-disc: var(--destructive);
+  --folio-callout-glyph: var(--background);
+  --folio-callout-mark-color: var(--destructive);
+  --folio-callout-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M29 14C49 9 60 21 68 39C73 52 96 63 77 79C56 94 42 79 32 68C20 58 6 52 13 35C16 24 21 16 29 14Z'/%3E%3C/svg%3E");
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"]::after {
+  content: "";
+  position: absolute;
+  top: -24%;
+  right: -3%;
+  z-index: 0;
+  width: 26%;
+  aspect-ratio: 1;
+  background: var(--folio-callout-mark-color);
+  -webkit-mask: var(--folio-callout-mark) center / contain no-repeat;
+  mask: var(--folio-callout-mark) center / contain no-repeat;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+html.dark[data-folio-preset="pastel"] [data-slot="callout"]::after {
+  opacity: 0.15;
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout"] > div {
+  gap: 16px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout-icon"] {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  border-radius: 47% 53% 64% 36% / 35% 48% 52% 65%;
+  background: var(--folio-callout-disc);
+  color: var(--folio-callout-glyph);
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout-icon"] svg {
+  width: 20px;
+  height: 20px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout-icon"] + div {
+  position: relative;
+  z-index: 1;
+  padding-top: 9px;
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout-title"] {
+  margin-bottom: 3px;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout-body"] {
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+html[data-folio-preset="pastel"] [data-slot="callout-body"] a {
+  color: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

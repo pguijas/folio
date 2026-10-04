@@ -794,6 +794,20 @@ fn asset_collisions_stale_sweep_manifest_guards_and_previews() {
 #[ignore = "runs pnpm install and next build on the generated-site example; run locally with --ignored --nocapture"]
 fn real_export_of_the_example_site() {
     let (_dir, project) = example_project();
+    // A language group has modules but no page of its own. The overview's
+    // breadcrumb must not turn that group into a nonexistent index link.
+    let config_path = project.join("docs.yaml");
+    let config = read(&config_path).replace(
+        "source:\n",
+        "source:\n  javascript:\n    paths: [src/javascript]\n",
+    );
+    fs::write(config_path, config).unwrap();
+    fs::create_dir_all(project.join("src/javascript")).unwrap();
+    fs::write(
+        project.join("src/javascript/greet.js"),
+        "export function greet(name) { return `Hello ${name}`; }\n",
+    )
+    .unwrap();
     let started = std::time::Instant::now();
     let output = Command::new(env!("CARGO_BIN_EXE_folio"))
         .current_dir(&project)
@@ -820,4 +834,25 @@ fn real_export_of_the_example_site() {
         assert!(site.join(rel).is_file(), "missing {rel}");
     }
     assert!(project.join(".build/.folio-build.log").is_file());
+    let overview = read(&site.join("docs/api-reference/index.html"));
+    let breadcrumb =
+        regex::Regex::new(r#"(?s)<div class="nextra-breadcrumb[^"]*">(.*?)</div>"#).unwrap();
+    let captures = breadcrumb.captures(&overview).expect("API breadcrumb");
+    let href = regex::Regex::new(r#"href="([^"]+)""#).unwrap();
+    for link in href.captures_iter(&captures[1]) {
+        let path = link[1].trim_start_matches('/');
+        assert!(
+            site.join(path).join("index.html").is_file(),
+            "API breadcrumb links to a missing page: {}",
+            &link[1]
+        );
+    }
+    // The pinned Nextra still carries the line Folio patches.
+    let loader =
+        std::fs::read_to_string(project.join(".build/node_modules/nextra/dist/server/loader.js"))
+            .unwrap();
+    assert!(
+        loader.contains("IS_PRODUCTION && !isGeneratedFolioContent"),
+        "the Nextra loader is not patched"
+    );
 }

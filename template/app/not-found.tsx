@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { ThemeStyleBootstrap } from "@/components/theme-configurator"
 import { folioDocs } from "@/lib/folio-template"
 
 // Next marks a 404 noindex on its own; saying it here keeps the root
@@ -20,7 +19,6 @@ export default function NotFound() {
       id="main-content"
       className="flex min-h-[70vh] flex-col items-center justify-center gap-5 px-6 py-24 text-center"
     >
-      <ThemeStyleBootstrap />
       <p className="font-mono text-sm text-muted-foreground">404</p>
       <h1 className="text-3xl font-semibold tracking-tight text-foreground">
         Page not found
