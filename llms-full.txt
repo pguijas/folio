@@ -229,7 +229,7 @@ $ folio init
                 ╰──────────────────────────────────────────────╯
 
 ✔ Docstring style › auto
-✔ Visual preset   › organic-editorial
+✔ Visual preset   › pastel
 
   ✔ Created docs.yaml
   ✔ Created docs/index.md
@@ -237,6 +237,8 @@ $ folio init
   ✔ Created .github/workflows/branch-previews.yml
   Next folio serve
 ```
+
+The default visual preset is Folio Pastel with Ink. Roller remains an explicit choice.
 
 With `--yes` there are no questions: the created files and the next commands are listed in a `Ready` panel, which suggests `folio coverage` only when a Python source was detected.
 
@@ -671,6 +673,25 @@ Collapsible content sections for organizing information into expandable panels. 
 
     Yes. Folio includes a migration guide for moving existing pages and Sphinx conventions to Markdown.
 
+## Markdown details
+
+For a single section, a plain `<details>` element with a `<summary>` collapses too, with no import.
+
+````mdx
+<details>
+  <summary>Do I need to import anything?</summary>
+
+  No. `<details>` and `<summary>` are HTML elements, and Folio
+  renders them as a collapsible section.
+</details>
+````
+
+<details>
+  <summary>Do I need to import anything?</summary>
+
+  No. `<details>` and `<summary>` are HTML elements, and Folio renders them as a collapsible section.
+</details>
+
 ---
 
 # BeforeAfter
@@ -779,14 +800,17 @@ Highlighted message blocks for notes, warnings, tips, and other important inform
 
 | Type | Color token | Use for |
 |------|-------|---------|
-| `note` | `--primary` | General notes and remarks. |
-| `warning` | `--warning` | Important warnings the reader should not miss. |
-| `info` | `--muted` | Neutral supplementary information. |
-| `tip` | `--primary` | Helpful tips and best practices. |
-| `check` | `--primary` | Success states or confirmation of correct behavior. |
-| `danger` | `--destructive` | Critical warnings about destructive or breaking behavior. |
+| `note` | `--folio-tone-note-*` | General notes and remarks. |
+| `warning` | `--folio-tone-warning-*` | Important warnings the reader should not miss. |
+| `info` | `--folio-tone-info-*` | Neutral supplementary information. |
+| `tip` | `--folio-tone-tip-*` | Helpful tips and best practices. |
+| `check` | `--folio-tone-check-*` | Success states or confirmation of correct behavior. |
+| `danger` | `--folio-tone-danger-*` | Critical warnings about destructive or breaking behavior. |
 
-`note`, `tip` and `check` share the `--primary` color and differ by icon.
+Each type reads its tone's `-fill` for the background, `-ink` for the title and
+text, and `-accent` for the icon and border. The six tones differ on every
+preset; [CSS Variables](../theming/personalization#css-variables) lists their
+defaults.
 
 ## Example
 
@@ -1379,6 +1403,8 @@ Cards for feature overviews, landing pages, and link grids. `FeatureCard` render
 | `icon` | `string` | — | Optional named icon displayed above the title. Common tokens include `install`, `run`, `quickstart`, `workflow`, `network`, `topology`, `analytics`, `settings`, `monitor`, `api`, `code`, `server`, `warning`, and `community`. Unknown values fall back to text rendering for backwards compatibility. |
 | `href` | `string` | — | Optional URL. When set, the card becomes a clickable link with a hover effect. |
 
+Under Pastel, named icons sit centered over four original organic backgrounds, alternating with the card colors. They remain decorative: titles and links keep their meaning. Unknown values still render as text or emoji, and omitting `icon` still renders no illustration. Other presets keep their existing icon styling.
+
 ### CardGrid
 
 | Prop | Type | Default | Description |
@@ -1516,6 +1542,79 @@ Visualize an extension lifecycle with stage names, hook names, and short descrip
 URL: https://pguijas.github.io/folio/docs/components/
 
 Reusable MDX components for Folio documentation pages, including callouts, tabs, previews, diagrams, and API reference helpers.
+
+---
+
+# Kbd
+URL: https://pguijas.github.io/folio/docs/components/kbd/
+
+A key the reader presses, drawn as a small keycap inside the sentence. Use it for shortcuts and key names. A bare `<kbd>` tag written in a page draws the same way.
+
+## API
+
+### Kbd
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `ReactNode` | — | The key label, e.g. `Esc` or `⌘`. |
+
+## Example
+
+**Shortcuts**
+
+```mdx
+Press <Kbd>⌘</Kbd> <Kbd>K</Kbd> on macOS or <Kbd>Ctrl</Kbd> <Kbd>K</Kbd>
+elsewhere to jump to search. <kbd>Esc</kbd> leaves it.
+```
+
+Press ⌘ K on macOS or Ctrl K
+elsewhere to jump to search. <kbd>Esc</kbd> leaves it.
+
+## Notes
+
+- One key per `Kbd`. Write a chord as keys side by side.
+- The label scales with the text around it, so a key in a heading stays in proportion, and it never drops below 10 px in small text.
+- Server-renderable: it renders one `<kbd>` element.
+
+---
+
+# Marker
+URL: https://pguijas.github.io/folio/docs/components/marker/
+
+A labelled divider: a short line of small text between two dashed rules. Use it to break a long guide into parts ("Advanced", "Since 0.4", "Optional") without adding a heading to the table of contents.
+
+## API
+
+### Marker
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tone` | `"ok" \| "danger"` | — | Colors the label: `ok` for a supported or finished part, `danger` for a part that breaks or removes something. Without it the label is muted. |
+| `children` | `ReactNode` | — | The label. |
+
+## Example
+
+**Dividers**
+
+```mdx
+<Marker>Advanced</Marker>
+
+<Marker tone="ok">Stable since 0.3</Marker>
+
+<Marker tone="danger">Removed in 0.4</Marker>
+```
+
+Advanced
+
+Stable since 0.3
+
+Removed in 0.4
+
+## Notes
+
+- The label is plain text for screen readers; the rules are drawn with CSS and are not announced.
+- A marker is not a heading, so it never appears in the table of contents or the page outline. Use a heading when the part needs a link.
+- Server-renderable.
 
 ---
 
@@ -2022,6 +2121,51 @@ Generic tabbed content panels for organizing alternative content views. Unlike [
 
 ---
 
+# Term
+URL: https://pguijas.github.io/folio/docs/components/term/
+
+A word or API name with its definition one hover away. The term keeps its place in the sentence, marked by a dotted underline, and the definition appears in a small card above it.
+
+## API
+
+### Term
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `def` | `string` | — | The definition, one or two short sentences. |
+| `href` | `string` | — | Optional page that explains the term in full. With it the term is a link. |
+| `children` | `ReactNode` | — | The term as it reads in the sentence. |
+
+## Example
+
+**Glossary**
+
+```mdx
+Folio writes every page ahead of time, as a <Term def="Static site generation: the HTML for each page is written at build time, not per request.">static export</Term>,
+so any static host can serve it. The reference comes from your
+<Term def="Comments in the source that document a module, class or function." href="/docs/docstrings">doc comments</Term>.
+```
+
+Folio writes every page ahead of time, as a static export,
+so any static host can serve it. The reference comes from your
+doc comments.
+
+## Behavior
+
+| Input | What happens |
+|-------|--------------|
+| Pointer | The definition opens after 300 ms of hover and closes 150 ms after the pointer leaves the term and the card. |
+| Keyboard | Tab to the term opens it the same way, Enter toggles it, and Esc closes it. |
+| Touch | A tap toggles the definition, and a tap anywhere else closes it. A term with `href` follows the link instead. |
+| Screen reader | The definition is read as the term's description. |
+
+## Notes
+
+- `def` is plain text. Keep it short: the card is at most 260 px wide.
+- Use `href` when the definition needs more than the card can hold, so touch readers can reach it too.
+
+---
+
 # TerminalSession
 URL: https://pguijas.github.io/folio/docs/components/terminal-session/
 
@@ -2058,82 +2202,148 @@ The header copy button copies only the `command` value, not the prompt, output, 
 
 ---
 
-# ThemeConfigurator
+# Theme picker
 URL: https://pguijas.github.io/folio/docs/components/theme-configurator/
 
-A drawer popover widget that replaces the default light/dark control when documentation presets are available. A preset owns color tokens, document rhythm, code block treatment, borders, radius defaults, typography defaults, and its own controls.
+The theme picker lets readers choose how the site looks. A preset owns color tokens, document rhythm, code block treatment, borders, radius defaults, typography defaults, and its own controls; the picker groups related presets into families, shows complete color-and-style variants as swatches, and offers manual controls in Customize.
 
-Changes are persisted in `localStorage` under a project-scoped key derived from the configured default preset and applied immediately. The default theme CSS is also rendered into the page so the generated site does not flash or fall back to Folio's bundled typography before hydration.
+Applied choices are persisted in `localStorage` under a project-scoped key derived from the configured default preset, and the saved theme is the same on the landing page, the docs and the previews. The default theme CSS is also rendered into the page so the generated site does not flash or fall back to Folio's bundled typography before hydration. When moving from the former Roller default to Folio Pastel, saved reader choices are reused if the new storage key is absent; an existing new key takes precedence.
 
 ## API
 
-### ThemeConfigurator
+### ThemeGallery
 
-This component takes no props. It is rendered in the documentation sidebar drawer beside the existing appearance controls.
+This component takes no props. The bundled template renders it as the palette button in the landing, docs and previews navbars, and every copy opens the same dialog. The palette button, or the `t` key outside a text field, opens the picker.
 
-### Theme Flow
+`ThemeConfigurator` is still exported from `components/theme-configurator.tsx` and renders nothing, so a layout that mounts it still builds.
 
-The drawer palette uses a compact two-step flow:
+### Themes
 
-| Step | Purpose |
-|------|---------|
-| Grouped library | Choose a visual direction from Expressive, Workspace, Product Docs, or Reference, after the Project group when the project defines a preset. |
-| Customize | Tune the selected preset's controls, surface color, accent color, shell spacing, content width, reading rhythm, borders, code blocks, typography, and corner radius. |
+The first step shows each color-and-style variant as a slide drawn as a small docs page in its own colors, type, and radius: the theme in front in the middle, two neighbours on each side, one on phones. The front slide has a ring, and its family and variant name sit under it. A check marks the slide that looks as the saved theme does.
 
-The Back button returns readers from Customize to the grouped library.
+Every slide shows the same short Getting started page with real text, code and cards. It uses the theme's heading and body fonts, reading rhythm, section rules, code treatment and outer frame, so those differences remain visible while comparing colors. Customize updates this same preview.
 
-Light and dark selection lives in the same drawer palette as preset selection, while the keyboard shortcut still toggles between light and dark. With `theme.dark_mode: false` the theme provider forces the light theme: the drawer shows no mode controls and the shortcut does nothing.
+The picker has three built-in families and fifteen choices: six Folio styles, five Folio Pastel palettes and four Omarchy palettes. Each Folio style has one complete recipe; Customize covers the smaller variations. Project presets and independently registered presets remain available as separate families with all their choices.
+
+The catalog stays ordered Folio, Folio Pastel and Omarchy, with project presets first when defined. Each opening centers your saved theme and palette, including its customizations. Opening it leaves the applied theme unchanged.
+
+Each swatch applies its variant's colors and default style together. For example, Ballpoint includes its typography, code treatment and corners. A sun or moon marks a fixed light or dark scheme. The final circle, with the adjustments icon, opens Customize. The carousel follows the swatch order through each family, then enters the next family: Typewriter leads to Folio Pastel's Ink, Jade, Lavender, Peach and Sky, then Catppuccin Latte, and Hackerman wraps to Roller.
+
+| Input | Action |
+|-------|--------|
+| The left and right arrow keys, the side buttons, a swipe on the slides | Apply the previous or next variant, continuing across families and wrapping at both ends. |
+| A click on a side slide | Select that variant. |
+| Home, End | Apply the first or last variant. |
+| The up and down arrow keys, a swatch | Select a complete variant within the family. |
+| Enter, Cmd/Ctrl+Enter, a click on the front slide | Select the front theme with its color, and close. |
+| `c`, Customize | Open the Customize step for the front theme. |
+| Reset | Apply the site's own theme with its defaults. |
+| Done, `t`, Escape, the close button, a click outside the dialog | Close and keep the current theme. |
+
+Navigation, swatches, manual adjustments and mode changes apply to the page and save immediately. The picker stays open while changing themes. Done only closes it; opening and closing without making a choice leaves the applied theme unchanged.
+
+The front preview keeps its manual adjustments; each neighbouring preview shows the exact recipe it will select. Changing to another variant starts from its configured style. Selecting a swatch also clears manual adjustments. The site's preset uses `theme.tune` and `theme.radius`. A saved recipe removed from the catalog remains reachable and editable until another variant replaces its family's draft, without adding a swatch. Stored preset IDs remain compatible with earlier versions.
+
+### Customize
+
+The final circle in the variant row, or the `c` key outside a text field, opens Customize inside the same centered popup. Its size, backdrop and position stay the same. Its controls update both the preview and the page immediately. Back or Escape returns to the variants; every change is already saved.
+
+| Section | Rows |
+|---------|------|
+| The theme's name and options, such as Roller options | The theme's own controls other than its colors, such as density, code, frame, binding or rules. Omarchy has none. |
+| Type | Typography, Reading rhythm |
+| Shape | Corners, Borders, Code block frame |
+| Layout | Page frame |
+| Colors | Free background, text and accent colors, edited independently for light and dark. Fixed-scheme variants edit their own scheme. |
+
+A dot marks each row's default: the theme's own value, or on the site's own theme the value from `theme.tune` and `theme.radius`. The option that keeps the theme's own value reads Default. Reset returns every row to the theme's defaults and keeps its color. Reset also removes manual colors for both modes. Manual colors remain editable on Omarchy palettes.
+
+| Input | Action |
+|-------|--------|
+| The arrow keys | Move within the row that has focus. |
+| `c`, Escape, the back arrow | Return to the themes. |
+| Cmd/Ctrl+Enter, Done, the close button | Close and keep the current theme. |
+
+Closing the popup keeps all changes.
+
+### Mode
+
+Light, Dark and System sit in the picker's header and apply immediately to the front theme. The `d` shortcut changes the mode directly inside and outside the picker. While the front theme is light or dark only, the mode radios show its scheme, are disabled, and say why, for example "Tokyo Night is dark only"; the reader's own mode stays stored.
+
+A theme drawn for one scheme sets that scheme itself. While one is applied, such as an Omarchy palette, the light/dark toggles are hidden and `d` does nothing; another theme brings the reader's own mode back.
+
+With `theme.dark_mode: false` the theme provider forces the light theme: the picker shows no mode control and `d` does nothing. A dark-only palette the reader applies, such as a dark Omarchy one, still turns the page dark.
+
+The navbars carry no separate light/dark toggle unless `theme.header.theme_toggle` is `true` and dark mode is on; then the landing and the docs navbars both show one.
 
 ### Preset Library
 
-All built-in visual directions are presets. The drawer picker shows a current theme summary before the grouped library. Each group is rendered as a compact carousel row so the panel stays short as the preset library grows.
+Presets keep their existing IDs for `theme.preset`, stored preferences and theme packages. The picker groups them by visible family:
 
-| Group | Presets |
-|-------|---------|
-| Project | The project preset, when `docs.yaml` or a theme package defines one. |
-| Expressive | Organic Editorial, Carbon |
-| Workspace | Workshop, Canopy |
-| Product Docs | Beacon, Aperture, Ledger |
-| Reference | Atlas, Stacks, Draftline, Proof |
-| Other | Presets registered with `registerPreset` but listed in no group. |
-
-| Preset | Purpose |
+| Family | Choices |
 |--------|---------|
-| Workshop | Warm generated-site workspace based on the saved inspiration example, with light paper contrast and botanical accents. |
-| Canopy | Compact green workspace for simple examples, source snippets, and generated guides. |
-| Beacon | Main product-docs preset with endpoint cards, compact API workflows, and high-contrast examples. |
-| Atlas | Classic reference documentation with paper rhythm and sharp source examples. |
-| Ledger | Dense API tables and register pages for fast scanning. |
-| Proof | Printed-manual hierarchy with strong rules and editorial emphasis. |
-| Stacks | Calm catalog reading for long guides and stable navigation. |
-| Draftline | Working-document warmth for docs before release. |
-| Aperture | Neutral developer-docs style with compact spacing and rounded code panels. |
-| Organic Editorial | Poster-scale typography with cobalt organic image language for launches, programs, and editorial docs. |
-| Carbon | Stark monochrome technical mode. |
+| Folio | Roller, Ballpoint, Paperback, Letterpress, Notebook, Typewriter |
+| Folio Pastel | Ink, Jade, Lavender, Peach, Sky |
+| Omarchy | Catppuccin Latte, Tokyo Night, Gruvbox, Hackerman |
 
-Organic Editorial is the default preset because it makes generated sites feel distinctive on first load while still keeping docs controls, code blocks, and API reference pages available through the same preset system.
+Folio starts with Roller and moves from light typography to stronger rules and frames. Omarchy starts with its light palette, followed by the blue, warm and neon dark palettes. Keyboard navigation follows this same order.
 
-Each preset can be selected directly. Selecting a preset applies its default controls, typography, accent, radius, and layout defaults. Customize keeps the selected preset active while changing its options.
+A project preset appears first when defined. Other registered presets remain selectable independently. A project override of a built-in ID appears once, under its project name, and keeps all its variants.
 
-`theme.preset` names the preset readers see first. Its ids are the lowercase names above (`organic-editorial`, `beacon`, `draftline`, …), an id a theme package or template overlay declares, or a new id the project defines in `docs.yaml` (see [Project Theme Contract](#project-theme-contract)). Ids from earlier releases, such as `folio` or `openai`, still select their successor. Any other value stops the build with the list of valid ids and the nearest one.
+| Folio style | Preset ID | Distinguishing treatment |
+|-------------|-----------|-------------------------|
+| Roller | `organic-editorial` | Thin headings, generous spacing and a cobalt accent. |
+| Ballpoint | `aperture` | Compact sans-serif documentation with rounded code panels. |
+| Paperback | `stacks` | Serif headings and body for long-form reading. |
+| Letterpress | `atlas` | Bold serif headings, paper surface and square corners. |
+| Notebook | `workshop` | A framed workspace with warm surfaces and green accents. |
+| Typewriter | `carbon` | Monospaced headings, strong rules and square corners. |
 
-Workshop and Canopy include a Borders control for switching between fine, structured, and ruled outlines. This keeps the saved inspiration's framed workspace feel available without forcing every generated page into the same border weight.
+Folio Pastel is the default preset, with Ink selected: pen-blue ink, paper surfaces, Grotesque typography and 0.75rem corners. Roller remains available in the Folio family and as the explicit `organic-editorial` preset.
+
+Each of these styles can be selected from its family’s swatch row. A preset picked for the first time applies its default controls, typography, accent, radius, and layout defaults. Customize keeps the front preset while changing its options.
+
+`theme.preset` names the preset readers see first. Use the preset ID from the table above (for example, `organic-editorial` for Roller), an ID a theme package or template overlay declares, or a new ID the project defines in `docs.yaml` (see [Project Theme Contract](#project-theme-contract)). Ids from earlier releases, such as `folio` or `openai`, still select their successor. Any other value stops the build with the list of valid ids and the nearest one.
+
+Omarchy offers four palettes: Catppuccin Latte (cool light), Tokyo Night (blue dark), Gruvbox (warm dark), and Hackerman (neon green dark). Each fixes its light or dark scheme. The preset also gives the navbar and the chapter list flat, square rows, and defaults to the Terminal typography, a monospaced body under Geist headings, and a square radius. Its background is a field of pixels tinted by the palette. Folio shows its CLI block-letter wordmark above the landing and documentation headings; other projects keep their own name. The picker previews include the same artwork.
+
+The pixels flow continuously and brighten around the mouse. Click an empty part of the page to release a wave; holding first makes it stronger. The wordmark alternates between four reconstructions: a sweep, falling columns, scattered characters and a radial reveal. It rebuilds on entry and palette changes. Click the wordmark, or focus it and press Enter or Space, to replay it. The final text always keeps the project's name.
+
+Omarchy palette changes use a brief diagonal transition in supporting browsers. Without support, or with reduced motion enabled, the palette applies directly. Reduced motion also keeps the artwork still. Animation pauses outside the viewport and in hidden tabs; neighbouring picker previews remain static. The active preview and Customize show the same motion as the page.
+
+The Omarchy preset and the gallery are inspired by [Omarchy](https://omarchy.org): the palettes are read from the MIT-licensed [omacom/omarchy](https://github.com/omacom/omarchy) repository, and the gallery takes its idea from the theme picker in [its manual](https://omarchy.org/manual/). Thanks to David Heinemeier Hansson and the Omarchy contributors. The notice is in `THIRD-PARTY-NOTICES.md`.
+
+Notebook includes a Borders control for switching between fine, structured, and ruled outlines.
+
+Earlier saved styles and palettes still render unchanged and can be adjusted in Customize. Beacon, Ledger, Proof, Draftline, Canopy and the omitted color variants remain valid in project configurations for compatibility, but no longer add choices to the built-in picker.
+
+Folio Pastel is a separate family with preset ID `pastel` and five palettes: Ink (default), Jade, Lavender, Peach and Sky. Each supports light and dark and uses the same organic shapes, Grotesque typography and 0.75rem default radius. Choose a palette from its swatches in T. Jade keeps the original cool paper, petrol ink and pastel fills; older saved Pastel choices without a palette still resolve to Jade.
+
+Pastel’s generated logo and favicon use the same irregular silhouette as its artwork. The mark appears in the navbars, landing footer, demo, picker preview and social images. Page logos follow the reader’s selected theme; the favicon and social images use the site’s configured default. Other themes keep their normal mark. Explicit project logos and favicons retain their own artwork.
+
+On desktop the 288 px floating sidebar contains the project branding, search and theme controls. Its header stays attached when scrolling or collapsing the sidebar; the navigation list scrolls independently below the search. Collapsing leaves an 84 px rail with the logo and 44 px controls aligned vertically. The magnifier opens a search panel beside the rail, with matching input and result widths. Escape closes it and returns focus to the magnifier; clicking outside or choosing a result closes it too. Cmd+K or Ctrl+K opens the same panel. The hidden navigation leaves the keyboard tab order until expanded. The desktop table of contents floats beside the article without a background and stays in view while scrolling; long outlines scroll within it. It marks the section in view and shows reading progress where supported. Callouts keep their functional icons on soft asymmetric holders. FeatureCard keeps its named Hugeicons centered over four original organic backgrounds, alternating with the card colors; text/emoji fallback and cards without icons stay unchanged. Shell icons remain unchanged. Decorative corner marks, step tabs and timeline markers use original organic outlines. Code blocks have a file header and language pill, and TerminalSession is a petrol window with three tabs. Pill tabs glide between selections, accordions are soft cards, and light/dark changes reveal the new scheme from the control where supported. Reduced motion removes these transitions. The MDX does not change, and other presets keep their own look.
+
+The page title shares its space with three original, soft asymmetric silhouettes. The landing places the same shapes in solid, contrasting palette colors around the product demo, outside the title and text flow. The project's content and actions stay intact. Native animations gently morph and drift them, with a small response to the pointer. They remain still under reduced motion, while hidden, outside the viewport or in a neighbouring picker slide. The active gallery preview reproduces the rail, typography and artwork. The background wash uses CSS gradients.
+
+Pastel's layout, measurements, motion timings and component CSS adapt [cojeev](https://github.com/luv-jeri/cojeev-ui), used under the MIT License. Its five palettes, decorative masks and irregular silhouettes are Folio's own. The Bricolage Grotesque and DM Sans font pairing also comes from cojeev; the fonts are loaded from Google Fonts under the SIL Open Font License 1.1. Thanks to Sanjay Kumar. The retained attribution and licenses are in `THIRD-PARTY-NOTICES.md`.
 
 ### Shared Controls
 
-Every preset can expose its own controls. The global controls are always available and override the selected preset when changed:
+Every preset can expose its own controls. The shared controls are rows of every theme's Customize step, and override the front preset when changed:
 
-| Control | Purpose |
-|---------|---------|
-| Surface color | Override the page, sidebar, card, muted, and border palette. |
-| Shell spacing | Expose the outer page padding used by framed workspace themes. |
-| Content width | Adjust the prose and component measure without changing presets. |
-| Reading rhythm | Override base type size, line height, section gaps, and card padding. |
-| Borders | Tune card and shell rule strength globally. |
-| Code blocks | Switch source examples between soft, framed, plate, and terminal treatments. |
+| Row | Purpose |
+|-----|---------|
 | Typography | Switch heading, body, and code font treatment. |
-| Accent color | Override the preset's primary accent. |
-| Corner radius | Adjust shared UI and card radius. |
+| Reading rhythm | Override base type size, line height, section gaps, and card padding. |
+| Corners | Adjust shared UI and card radius. |
+| Borders | Tune card and shell rule strength globally. |
+| Code block frame | Switch source examples between soft, framed, plate, and terminal treatments. |
+| Page frame | Expose the outer page padding used by framed workspace themes. |
+| Background, Text, Accent | Pick any color for the current scheme. |
+
+Content width is not a row of the picker. `theme.tune.width` still sets it, and a stored choice stays valid.
+
+Earlier stored surface and accent options remain valid. Manual colors override the background, foreground and primary tokens after those layers, including fixed-scheme palettes. The saved colors are applied before hydration.
 
 ### Radius Options
 
@@ -2145,7 +2355,7 @@ Every preset can expose its own controls. The global controls are always availab
 | Lg | `0.75rem` |
 | Full | `1rem` |
 
-The "Reset appearance" button restores the configured default preset and tuning.
+Reset on the Themes step applies the configured default preset with its tuning. In Customize, Reset returns the front theme's rows to their defaults. Both save immediately.
 
 ### Project Theme Contract
 
@@ -2234,7 +2444,7 @@ Tune aliases map to the shared controls:
 | `borders` / `border` | `borderId` |
 | `code` / `code_blocks` | `codeTreatmentId` |
 
-`font: "geist"` selects the bundled Geist/Geist Mono pair and maps the public `--font-sans` / `--font-mono` tokens used by Tailwind utility classes. If `theme.preset` matches a built-in preset and the project only provides `tune`, Folio keeps the built-in preset and applies the configured defaults. If the project supplies `name`, `description`, `scene`, `preview`, `style`, `tokens`, or `variants`, Folio adds a Project group to the drawer and places the project preset before the built-in library.
+`font: "geist"` selects the bundled Geist/Geist Mono pair and maps the public `--font-sans` / `--font-mono` tokens used by Tailwind utility classes. If `theme.preset` matches a built-in preset and the project only provides `tune`, Folio keeps the built-in preset and applies the configured defaults. If the project supplies `name`, `description`, `scene`, `preview`, `style`, `tokens`, or `variants`, Folio places the project preset before the built-in library. A `variants` control whose options set no `style` only recolors the theme, so the picker shows the first such control as the preset's Colours row and every other control in Customize.
 
 ### Theme Packages
 
@@ -2465,18 +2675,18 @@ After ChatGPT returns a preset:
 1. Paste it into your theme package's `theme/project-theme.ts` or your overlay's `theme/presets.ts`.
 2. Register it as in [Create a Custom Preset](#create-a-custom-preset).
 3. Set `theme.preset` to its id and run `folio build`.
-4. Open the drawer palette button.
+4. Open the theme picker with the palette button or `t`.
 5. Test each generated control in light and dark mode.
 
 ## Example
 
 ```mdx
-<ThemeConfigurator />
+<ThemeGallery />
 ```
 
 **Layout Component**
 
-  ThemeConfigurator is rendered in the documentation drawer of every site built on the bundled template. A theme package or template overlay can replace it with `components/theme-configurator.tsx`.
+  ThemeGallery is rendered in the landing, docs and previews navbars of every site built on the bundled template. A theme package or template overlay can replace `components/theme-gallery.tsx`, or `components/theme-configurator.tsx` if it keeps the exports the picker imports (see [Theme Packages](../theming/theme-packages)).
 
 ---
 
@@ -2592,7 +2802,7 @@ Project metadata shown in the navbar, page titles, and generated output.
 |-------|------|---------|-------------|
 | `name` | `string` | `"Untitled"` | Project name displayed in the navbar and page titles. If missing or empty, a warning is emitted and `"Untitled"` is used. |
 | `version` | `string` | `"0.0.0"` | Version string shown in the docs header. Quote it (`version: "1.0"`): an unquoted `1.0` is a YAML number, not a string, and fails the load. |
-| `repo` | `string` | `""` | URL to the source repository (e.g. GitHub). Used for source links, the navbar repository link, the "Question? Give us feedback" link on docs pages (it opens an issue there) and project metadata. Without it, none of these links is shown. |
+| `repo` | `string` | `""` | URL to the source repository (e.g. GitHub). Used for source links, the navbar repository link, the small Feedback button at the bottom right of docs pages (it opens an issue there with the current page title) and project metadata. Without it, none of these links is shown. |
 | `repo_ref` | `string` | `"main"` | Branch, tag, or commit used for generated source links. |
 | `url` | `string` | `""` | Public site URL for sitemap, canonical metadata, and social previews. It does not control local routing or static asset paths. |
 
@@ -2770,24 +2980,24 @@ Controls the visual appearance of the generated documentation site.
 
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
-| `preset` | `string` | `"organic-editorial"` | Default visual preset for the generated site. `folio init` offers `organic-editorial`, `beacon`, `atlas`, and `workshop`; it may also be any built-in id, one a theme package or overlay declares, or a new id that `theme.name`, `theme.tokens` or `theme.style` defines. Anything else stops the build and names the nearest id. |
-| `dark_mode` | `bool` | `true` | Enable the dark mode toggle. When enabled, users can press `d` to switch between light and dark themes; `false` keeps the site light, with no mode controls, toggles or `d` shortcut, and `theme.header.theme_toggle` then warns. Must be a YAML boolean; an explicit `null` is an error. |
-| `logo` | `string` | `""` | Path to a logo image shown in the docs navbar beside the project name, under `deploy.base_path`. Resolved relative to the project directory; a missing file stops the build. |
+| `preset` | `string` | `"pastel"` | Default visual preset for the generated site (Folio Pastel with Ink). `folio init` offers `organic-editorial`, `beacon`, `atlas`, `workshop`, and `pastel`; it may also be any built-in id, one a theme package or overlay declares, or a new id that `theme.name`, `theme.tokens` or `theme.style` defines. Anything else stops the build and names the nearest id. |
+| `dark_mode` | `bool` | `true` | Enable dark mode: the theme picker's Light, Dark and System radios, the toggles `theme.header.theme_toggle` adds, and the `d` key that switches between light and dark themes; `false` keeps the site light, with no mode controls, toggles or `d` shortcut, and `theme.header.theme_toggle` then warns; a dark-only palette the reader applies, such as a dark Omarchy one, still turns the page dark. Must be a YAML boolean; an explicit `null` is an error. |
+| `logo` | `string` | `""` | Path to a logo image shown beside the project name in the docs navbar and the landing navbar, under `deploy.base_path`. Resolved relative to the project directory; a missing file stops the build. |
 | `favicon` | `string` | `""` | Path to a favicon file. Resolved relative to the project directory. |
-| `name` | `string` | `""` | Optional project preset display name. When set with project theme data, Folio adds a Project group to the configurator. |
+| `name` | `string` | `""` | Optional project preset display name. When set with project theme data, Folio adds a Project group to the theme picker. |
 | `description` | `string` | `""` | Optional project preset description. |
 | `preview` | `mapping` | `{}` | Optional `light` and `dark` swatch colors for the project preset preview. |
-| `radius` | `string` | `""` | Default radius choice for the theme configurator. Must be one of `"0"`, `"0.3rem"`, `"0.5rem"`, `"0.75rem"`, or `"1rem"`, or a named alias (`"none"`, `"sm"`, `"md"`, `"lg"`, `"full"`); any other value fails config validation. |
-| `tune` | `mapping` | `{}` | Default configurator choices such as font, accent, surface, width, rhythm, borders, code blocks, and radius. |
+| `radius` | `string` | `""` | Default radius choice for the theme picker. Must be one of `"0"`, `"0.3rem"`, `"0.5rem"`, `"0.75rem"`, or `"1rem"`, or a named alias (`"none"`, `"sm"`, `"md"`, `"lg"`, `"full"`); any other value fails config validation. |
+| `tune` | `mapping` | `{}` | Defaults of the theme picker's Customize step, such as font, accent, surface, width, rhythm, borders, code blocks, and radius. |
 | `style` | `mapping` | `{}` | Safe layout and typography CSS custom property overrides. |
 | `tokens` | `mapping` | `{}` | Safe light/dark CSS variable overrides for shadcn tokens and project tokens. |
 | `header` | `mapping` | `{}` | Docs header brand, badge, repository link, search visibility, theme toggle, and project action. |
-| `variants` | `mapping` | `{}` | Project-owned configurator controls with options, swatches, previews, style overrides, and token overrides. Capped at 256 option combinations across all controls (the product of each control's option count); larger products fail config validation. |
+| `variants` | `mapping` | `{}` | Project-owned theme picker controls with options, swatches, previews, style overrides, and token overrides. Capped at 256 option combinations across all controls (the product of each control's option count); larger products fail config validation. |
 | `package` | `string` \| `mapping` | `""` | Theme package copied over the bundled template before generated content and metadata are injected. A string is a directory in the project. A mapping (`git`, `rev`, `digest`, optional `path`) fetches a published package and verifies its tree against the digest. See [Theme Packages](./theming/theme-packages#install-a-package-someone-else-published). |
 
 ```yaml
 theme:
-  preset: "organic-editorial"
+  preset: "pastel"
   dark_mode: true
   logo: "docs/assets/logo.svg"
   favicon: "docs/assets/favicon.ico"
@@ -3305,6 +3515,22 @@ The PR comment uses a hidden marker so the workflow updates the same comment on
 each deploy. Reviewers get the latest preview link directly in the conversation
 without a new comment on every push. The workflow still writes the same links to
 the Actions summary for debugging failed runs.
+
+### Reusing a runner
+
+The generated workflows use GitHub-hosted runners. When adapting them to a
+persistent runner, keep production and PR checkouts in separate directories and
+clear each job's checkout and artifact download directories before use. Artifact
+downloads do not remove files left by an earlier run. Keep the PR build's token
+read-only and checkout credentials disabled; only the trusted deploy job should
+receive write permissions.
+
+Folio's repository workflows use its trusted NAS worker for Pages and previews,
+with fresh job directories and Rust caching that preserves installed tools.
+A persistent worker shares its user account across jobs; separate directories do
+not isolate hostile code. Use a disposable worker for untrusted contributors.
+The Pages helpers replace their own state worktree registration on refresh, so
+repeated deployments also work when its files were removed between jobs.
 
 ## Pull Request Checks
 
@@ -4703,7 +4929,7 @@ signatures, types, attributes, and doc comments.
 
 **Not available in this release**
 
-  TypeScript is a separate parser, planned for 0.4 Every Reader. `.ts`,
+  TypeScript is a separate parser, planned for 0.5 Every Language. `.ts`,
   `.tsx`, `.mts` and `.cts` files are not read; the build reports them in a
   warning instead.
 
@@ -4780,9 +5006,9 @@ URL: https://pguijas.github.io/folio/docs/migration/
 
 *Step-by-step guide to moving a Sphinx project to Folio by hand.*
 
-One-command importers, from MkDocs, Mintlify or Read the Docs: Not available in this
-release. [Why Folio](./why-folio) covers the reasons to switch; this page covers the
-move.
+A migration run by your agent, with a migration skill and a few scripts: Not available
+in this release; the roadmap puts it in 0.4 Agent Ready. [Why Folio](./why-folio) covers
+the reasons to switch; this page covers the move.
 
 ## Step-by-step migration
 
@@ -6259,11 +6485,11 @@ Folio-managed MDX component wiring.
 > Optional targets — paired blocks that are stripped when a feature is off, the
 > `mdx-components.tsx` component markers (which fall back to a `...components,`
 > spread), and markers that only live in optional files such as the landing page
-> or theme configurator — are not hard failures: when one is absent, that
-> injection does not happen and the build goes on. The safest way to author a
-> custom template is to copy the marker-bearing files **verbatim** from the
-> bundled template and edit around the markers, rather than recreating them from
-> scratch.
+> or `components/theme-configurator.tsx` — are not hard failures: when one is
+> absent, that injection does not happen and the build goes on. The safest way
+> to author a custom template is to copy the marker-bearing files **verbatim**
+> from the bundled template and edit around the markers, rather than recreating
+> them from scratch.
 
 ### Text replacements
 
@@ -6298,6 +6524,7 @@ expected.
 | `__FOLIO_DOCS_ROUTE_BASE__` | `next.config.mjs` | Configured `template.docs_route_base` (the bundled template does not use it). |
 | `__LANDING_*__`, `__LANDING_*_JSON__` | `app/page.tsx`, `components/landing-navbar.tsx` | Landing hero/CTA/feature/section data (raw and JSON-encoded forms). |
 | `__PROJECT_NAME_JSON__`, `__PROJECT_MONOGRAM_JSON__` | `app/page.tsx`, `components/landing-navbar.tsx` | JSON-encoded name/monogram for the landing page. |
+| `__PROJECT_LOGO_JSON__` | `components/landing-navbar.tsx` | JSON-encoded root-relative URL of the `theme.logo` copy (`"/logo.svg"`, percent-encoded, without `deploy.base_path`), or `null` without a logo; the bundled navbar makes it page-relative with `normalizeLandingHref`. |
 
 ### Paired block markers
 
@@ -6337,9 +6564,9 @@ table to map the symptom to its cause and fix.
 | Config error mentioning an unsafe URL scheme | A header URL uses a rejected scheme (`javascript:`, `data:`), or a repository URL uses a scheme that could execute script or read local files. | Use an `http(s)`, `mailto:`, or relative URL for header links; repository URLs may also use `ssh://`, `git://`, `git+https://`, or scp-style forms. See [header URL validation](./personalization#header-url-validation). |
 
 Optional markers (paired feature blocks, the `mdx-components.tsx` markers, and
-markers that only live in optional files such as the landing page or theme
-configurator) do **not** fail the build. When one is absent Folio skips that
-injection without a message, with one exception: `theme.dark_mode: false` warns
+markers that only live in optional files such as the landing page or
+`components/theme-configurator.tsx`) do **not** fail the build. When one is
+absent Folio skips that injection without a message, with one exception: `theme.dark_mode: false` warns
 when `components/theme-provider.tsx` lacks its marker. If a template change did
 not take effect and the build still succeeded, compare the file in `.build/`
 with the bundled template: a marker that is still there verbatim, or missing
@@ -6354,9 +6581,11 @@ be present verbatim.
 
 | Marker string | Expected file | What Folio substitutes |
 |---------------|---------------|------------------------|
-| `const configuredDefaultPresetId = "organic-editorial" // __FOLIO_THEME_PRESET__` | `components/theme-configurator.tsx` | Rewrites the line to the configured `theme.preset`. |
+| `const configuredDefaultPresetId = "pastel" // __FOLIO_THEME_PRESET__` | `components/theme-configurator.tsx` | Rewrites the line to the configured `theme.preset`. |
 | `const configuredBasePath = '' // __FOLIO_BASE_PATH__` | `next.config.mjs` | Rewrites the line to the resolved deploy base path. |
 | `const darkModeEnabled: boolean = true // __FOLIO_DARK_MODE__` | `components/theme-provider.tsx` | Rewrites the line to `false` when `theme.dark_mode` is `false`, so the provider forces the light theme. |
+
+The earlier theme marker with `"organic-editorial"` is still accepted for existing overlays.
 
 `next.config.mjs` is also edited by other substitutions: `contentDirBasePath` is
 rewritten to the docs route base, `NEXT_PUBLIC_FOLIO_DOCS_ROUTE_BASE` is appended
@@ -6505,7 +6734,7 @@ rely on these stability guarantees:
 When `template.path` is omitted, Folio uses the bundled template and applies
 Folio-owned options such as `theme.preset`, `theme.tune`, `theme.dark_mode`,
 logo, favicon, Pagefind search, and the default docs layout. A `theme.tune`
-value the configurator does not offer always stops the build and names the
+value the theme model does not offer always stops the build and names the
 nearest valid value. `theme.preset` is checked the same way against the bundled
 presets (and a theme package's) unless `template.path` is set.
 
@@ -6596,12 +6825,22 @@ theming choice controls how much of the presentation layer your project owns.
 4. Move to `template.path` when the documentation frontend is a product
    workspace, not just a styled Folio docs site.
 
+## Design Credits
+
+Folio Pastel takes inspiration from [cojeev](https://000h.cojeev.com/): its organic
+shapes, typography, floating docs layout and motion. Thank you to
+[Sanjay Kumar (luv-jeri)](https://github.com/luv-jeri) for designing it and sharing
+[cojeev-ui](https://github.com/luv-jeri/cojeev-ui) as open source.
+
+The [theme picker reference](../components/theme-configurator#preset-library)
+describes the adaptations. The retained licenses and source attribution are in
+`THIRD-PARTY-NOTICES.md`.
+
 ## Related Reference
 
 - [Configuration](../configuration) documents the complete `docs.yaml` shape.
-- [ThemeConfigurator](../components/theme-configurator) documents the runtime
-  drawer, built-in preset controls, and the underlying preset TypeScript
-  contract.
+- [Theme picker](../components/theme-configurator) documents the theme picker,
+  built-in preset controls, and the underlying preset TypeScript contract.
 - [Components](../components/index) lists the MDX components that generated
   docs and custom templates may need to expose.
 
@@ -6618,7 +6857,7 @@ but with your project's brand, typography, accent, spacing, and header defaults.
 
 ```yaml
 theme:
-  preset: "organic-editorial"
+  preset: "pastel"
   dark_mode: true
   logo: "docs/assets/logo.svg"
   favicon: "docs/assets/favicon.ico"
@@ -6626,12 +6865,12 @@ theme:
 
 | Field | Purpose |
 |-------|---------|
-| `preset` | Default visual preset for the generated site. |
-| `dark_mode` | `true` (the default) offers light, dark, and system modes through `next-themes`; `false` keeps the site light. |
-| `logo` | Copies a project logo into the generated site and shows it in the docs navbar beside the project name. |
+| `preset` | Default visual preset for the generated site; omitted, Folio Pastel with Ink. |
+| `dark_mode` | `true` (the default) offers light, dark, and system modes through `next-themes`; `false` keeps the site light, unless the reader applies a dark-only palette such as a dark Omarchy one. |
+| `logo` | Copies a project logo into the generated site and shows it beside the project name in the docs and landing navbars. |
 | `favicon` | Copies a project favicon into the generated site. |
 
-`preset` must be a preset the configurator shows: a
+`preset` must be a preset the theme picker shows: a
 [built-in id](../components/theme-configurator#preset-library), one a
 [theme package](./theme-packages#register-a-custom-preset) declares, or a new id
 that `theme.name`, `theme.tokens` or `theme.style` defines (see
@@ -6639,38 +6878,50 @@ that `theme.name`, `theme.tokens` or `theme.style` defines (see
 list of valid ids and the nearest one, so `preset: "beakon"` asks whether you
 meant `beacon`.
 
-Dark mode is enabled by default. When enabled, readers can use the theme control
-or press `d` outside form fields to switch between light and dark modes. With
+Dark mode is enabled by default. When enabled, readers can use the mode radios in
+the theme picker or press `d` outside form fields to switch between light and dark
+modes. `theme.header.theme_toggle: true` adds a one-click light/dark toggle to the
+landing and the docs navbars alike; without it neither navbar has one. With
 `dark_mode: false` the site stays light whatever the reader's system or saved
-preference: the mode controls leave the configurator, the header and landing
-theme toggles are not rendered, and `d` does nothing. `theme.header.theme_toggle:
-true` is then ignored with a warning.
+preference: the picker shows no mode control, no toggle is rendered, and `d` does
+nothing. `theme.header.theme_toggle: true` is then ignored with a warning. A
+dark-only palette the reader applies still turns the page dark while it is
+applied.
 
 The logo path is resolved from the project directory and must exist; a missing
 file stops the build. The image takes the monogram's place in the docs navbar
-and is served under `deploy.base_path` when one is set. The landing navbar and
-the previews page keep the monogram.
+and the landing navbar, and is served under `deploy.base_path` when one is set.
+The previews page keeps the monogram.
 
-## Theme Configurator
+## Theme Picker
 
-Every generated site includes the Folio `ThemeConfigurator` drawer when theme
-presets are available. The drawer exposes the configured default preset, the
-built-in preset library, and tuning controls for typography, accent, surfaces,
-content width, reading rhythm, borders, code blocks, shell spacing, and radius.
-It also offers light, dark and system mode unless `theme.dark_mode` is `false`.
+Every generated site includes the theme picker on the landing page, the docs and
+the previews. The palette button in the navbar, or the `t` key, opens it: every
+theme as a slide drawn in its own colors, the front theme's colors as swatches
+under it, and light, dark and system mode in its header unless
+`theme.dark_mode` is `false`. The carousel walks six Folio styles, five Folio Pastel palettes and
+four Omarchy palettes. Arrows, swipes and swatches apply and save each choice
+immediately. Done or Escape closes the picker and keeps the selected theme.
+
+Customize, or the `c` key, opens the picker's second step
+for the front theme: its own options, typography, reading rhythm, corners,
+borders, code block frame, page frame and background, text and accent colors.
+Each change updates the page and saves immediately.
 
 Reader preferences are persisted in a project-scoped `localStorage` key derived
-from the configured default preset. Folio also renders the default theme CSS into
+from the configured default preset. When that default changes from Roller to
+Folio Pastel, existing reader choices are reused unless the new key already
+exists. Folio also renders the default theme CSS into
 the page before hydration so the site does not flash through unconfigured
 typography or colors.
 
-See [ThemeConfigurator](../components/theme-configurator) for the built-in
-preset catalog and the TypeScript preset contract.
+See [Theme picker](../components/theme-configurator) for the picker's keys, the
+built-in preset catalog and the TypeScript preset contract.
 
 ## Tune Defaults
 
-Use `theme.tune` to set the default configurator choices without creating a new
-preset:
+Use `theme.tune` to set the defaults of the picker's Customize step without
+creating a new preset. They are defaults only and restrict nothing:
 
 ```yaml
 theme:
@@ -6703,7 +6954,7 @@ Each value must be one the configurator offers for that control:
 
 | Control | Values |
 |---------|--------|
-| `fontId` | `folio`, `sans`, `geist`, `serif`, `mono` |
+| `fontId` | `folio`, `sans`, `geist`, `serif`, `mono`, `terminal`, `grotesque` |
 | `colorId` | `ink`, `laurel`, `indigo`, `copper` |
 | `surfaceColorId` | `preset`, `paper`, `moss`, `mist` |
 | `shellPaddingId` | `preset`, `flush`, `frame`, `gallery` |
@@ -6723,7 +6974,7 @@ public `--font-sans` and `--font-mono` tokens used by Tailwind utilities.
 `theme.radius` (and its `theme.tune.radius` alias) is validated against the
 fixed radius scale: `"0"`, `"0.3rem"`, `"0.5rem"`, `"0.75rem"`, or `"1rem"`.
 The named aliases `"none"`, `"sm"`, `"md"`, `"lg"`, and `"full"` map onto the
-same scale (matching the configurator's radius labels). Any other value fails
+same scale (matching the picker's Corners labels). Any other value fails
 config validation, because the configurator maps the configured radius onto
 this fixed scale.
 
@@ -6807,9 +7058,11 @@ execute script or read local files (`javascript:`, `data:`, `vbscript:`,
 
 ## Variants
 
-Variants let a project expose its own configurator controls. Each option can set
+Variants let a project expose its own theme controls. Each option can set
 a swatch, preview colors, style overrides, and light/dark token overrides while
-inheriting the base project preset.
+inheriting the base project preset. The first control whose options set no
+`style` only recolors the preset, and the picker shows it as the Colours row
+under the preset's slide; every other control is a row of its Customize step.
 
 ```yaml
 theme:
@@ -6881,6 +7134,59 @@ main content area:
 | `--sidebar-primary` | Sidebar active item color. |
 | `--sidebar-accent` | Sidebar hover/focus background. |
 | `--sidebar-border` | Sidebar border color. |
+
+Motion variables time the mobile menu and the Term card on every preset, and
+the transitions the Pastel preset adds. The rest of the docs shell keeps its own fixed timings,
+Nextra's and Folio's:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-motion-micro` | `120ms` | The close button answering a hover. |
+| `--folio-motion-element` | `200ms` | The scrim fading in, and the close icon's turn. |
+| `--folio-motion-exit` | `180ms` | The scrim fading out. |
+| `--folio-motion-max` | `300ms` | The menu sliding out, and Pastel's light and dark reveal. |
+| `--folio-motion-glide` | `240ms` | Pastel's tab highlight gliding to the chosen tab, and the tab label's colour. |
+| `--folio-motion-fade` | `160ms` | Pastel's newly chosen tab panel fading in. |
+| `--folio-motion-drawer` | `560ms` | The menu springing in. |
+| `--folio-ease-enter` | `cubic-bezier(0.2, 0.8, 0.2, 1)` | The scrim fading in, the close button, and Pastel's light and dark reveal. |
+| `--folio-ease-exit` | `cubic-bezier(0.4, 0, 1, 1)` | The menu and the scrim leaving. |
+| `--folio-spring-drawer` | a spring as `linear()` | The menu springing in; a `cubic-bezier` where `linear()` is not supported. |
+
+Below Nextra's `md` breakpoint (48rem, 768 px at the default font size) the
+docs menu is a drawer, drawn from these variables:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-drawer-inset` | `12px` | Gap between the drawer and the screen edges. |
+| `--folio-drawer-width` | `21.25rem` | Drawer width, 340 px at the default font size and never wider than the screen minus both insets. |
+| `--folio-drawer-radius` | `24px` | Corner radius. |
+| `--folio-drawer-shadow` | a hairline and a soft shadow | The drawer's edge. |
+| `--folio-drawer-scrim` | `--scrim` at 30 % | The layer that dims the page behind the drawer. |
+
+A theme that wants a full-screen menu sets `--folio-drawer-inset: 0`,
+`--folio-drawer-width: 100vw`, `--folio-drawer-radius: 0` and
+`--folio-drawer-shadow: none`. Under reduced motion every transition and
+animation on a docs page finishes at once; the landing and the roadmap keep
+their own reduced-motion styles.
+
+Callouts draw their six types from tone variables, one set per type: a fill
+for the surface, an ink for the title and the text, and an accent for the icon
+and the edge. `<type>` is `note`, `info`, `tip`, `check`, `warning` or
+`danger`:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-tone-<type>-accent` | a hue mixed 75 % into `--foreground`: blue for `info`, violet for `tip`, green for `check`, `--warning` and `--destructive` for the last two; `note` takes `--muted-foreground` | The icon and the edge. Marker's `ok` and `danger` labels take the `check` and `danger` accents. |
+| `--folio-tone-<type>-fill` | the accent at 12 % over `--background`; `note` mixes `--muted-foreground` at 8 % | The callout's surface. |
+| `--folio-tone-<type>-ink` | the accent at 25 % into `--foreground`; `note` takes `--foreground` | The title and the text. |
+
+A theme sets one by name, for example `--folio-tone-tip-accent`, and the fill
+and ink mixed from it follow. The Pastel preset sets its own fills and inks
+inside the callout, so a tone set at `:root` does not reach a Pastel callout.
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `--folio-surface-radius` | `var(--radius)`; Pastel sets `20px` | The corner of a raised surface: the cards, panels, empty states, tab panels, file trees and callouts the Pastel preset draws. |
 
 ### What Plugin Surfaces Rely On
 
@@ -7011,7 +7317,7 @@ repository that can change under you. Fetching needs `git` on the machine.
 | Owner | Responsibilities |
 |-------|------------------|
 | Folio | Copy the bundled template, apply the theme package overlay, generate content, write metadata, inject fallback theme config, run the frontend build, and export static files. |
-| Theme package | Own selected frontend files such as layouts, global CSS, the configurator UI, project header actions, or `theme/project-theme.ts`. |
+| Theme package | Own selected frontend files such as layouts, global CSS, the theme model behind the picker, project header actions, or `theme/project-theme.ts`. |
 
 Folio still writes generated docs content and reserved build files into `.build/`.
 Do not edit `.build/` directly; change the package source instead.
@@ -7038,11 +7344,12 @@ Common override points:
 | File | Purpose |
 |------|---------|
 | `app/layout.tsx` | Own font loading, metadata shell, providers, and global layout behavior. |
-| `app/docs/layout.tsx` | Own the docs navbar, sidebar placement, search slot, and ThemeConfigurator mount. |
-| `components/theme-configurator.tsx` | Replace the bundled configurator UI with a project-specific implementation. |
+| `app/docs/layout.tsx` | Own the docs navbar, sidebar placement, search slot, and ThemeGallery mount. |
+| `components/theme-configurator.tsx` | Replace the bundled theme model, its defaults and its bootstrap with a project-specific implementation. |
 | `components/project-header-actions.tsx` | Replace the default generated header action component. |
 | `theme/project-theme.ts` | Own all presets, controls, variants, defaults, and resolved tokens in TypeScript. |
 | `app/globals.css` | Override or replace template-level CSS when a project needs exact visual parity. |
+| `app/styles/<family>.css` | Restyle one component family (`shell`, `callout`, `disclosure`, `code`, `shapes`, `surfaces` or `components`) without copying `globals.css`, which imports these files last. |
 
 A package that replaces `components/theme-provider.tsx` has to keep the
 `const darkModeEnabled: boolean = true // __FOLIO_DARK_MODE__` line for
@@ -7102,7 +7409,7 @@ export const projectThemeDefaultConfig = {
 
 The `registerPreset` function is the supported extension point. The optional
 second argument (`"project"`) adds the preset to that display group in the
-configurator UI. If a preset with the same `id` already exists, it will be
+theme picker. If a preset with the same `id` already exists, it will be
 replaced with a console warning.
 
 `theme.preset` may name a preset the package declares. Folio reads the
@@ -7112,7 +7419,20 @@ above builds. Any other id stops the build with the list of valid ids and the
 nearest one. A package that ships its own `components/theme-configurator.tsx`
 owns preset selection, and Folio does not check `theme.preset` then.
 
-See [ThemeConfigurator](../components/theme-configurator) for the full
+The theme picker and the root layout import from
+`components/theme-configurator.tsx`, so a package that replaces it keeps these
+exports: `ThemeStyleBootstrap`, `DEFAULT_CONFIG`, the `ThemeConfig` type,
+`configForPreset`, `configVars`, `getPresetDefaults`, `readThemeConfig`,
+`saveThemeConfig`, `previewThemeConfig`, and the option lists `fontOptions`,
+`colorOptions`, `surfaceColorOptions`, `shellPaddingOptions`, `rhythmOptions`,
+`borderOptions`, `codeTreatmentOptions` and `radiusOptions`. `ThemeConfigurator`
+renders nothing and stays exported for layouts that still mount it.
+
+The root layout mounts `ThemeStyleBootstrap` once for every page, so a
+package's page or layout needs no copy of its own; a copy it still carries
+re-applies the stored theme and changes nothing else.
+
+See [Theme picker](../components/theme-configurator) for the full
 `ThemePreset` contract, including `controls`, `resolve`, and all theme fields.
 
 ## What Packages Should Not Do
@@ -7316,7 +7636,7 @@ The last row is the honest one: Sphinx's extension depth is real, and if your do
 
 ### I'm migrating from Sphinx. What doesn't convert?
 
-    Being honest: Folio's parser is static AST analysis, and it never imports your package. Inherited members and runtime-generated APIs are not covered. Intersphinx, Sphinx cross-links, and a one-command importer from MkDocs, Mintlify, or Read the Docs with a report of what didn't convert: Not available in this release; the roadmap's 0.7 Migrations phase lists them. [Migrating from Sphinx](./migration) walks the manual move.
+    Being honest: Folio's parser is static AST analysis, and it never imports your package. Inherited members and runtime-generated APIs are not covered. Intersphinx, Sphinx cross-links, and a migration run by your agent: Not available in this release. The roadmap puts the migration in 0.4 Agent Ready: your agent moves the site with a migration skill and a few scripts. [Migrating from Sphinx](./migration) walks the manual move.
 
 ## Why not just have an LLM emit the HTML?
 
@@ -7366,6 +7686,6 @@ Because docs have exactly one non-negotiable property — being *true* — and t
 
 ### Other languages? Versioned docs? i18n?
 
-    Python, JavaScript and Rust read today; [Languages](./languages) covers each reader. TypeScript is on the roadmap for 0.4 Every Reader, and Go, C#, and Java follow later. Versioned docs and i18n: Not available in this release; the roadmap places them in 0.4.
+    Python, JavaScript and Rust read today; [Languages](./languages) covers each reader. TypeScript is on the roadmap for 0.5 Every Language, and Go, C#, and Java follow it there. Versioned docs and i18n: Not available in this release; the roadmap places them in 0.5.
 
 A question this page doesn't answer? [Open an issue](https://github.com/pguijas/folio/issues) — unanswered questions are documentation bugs.

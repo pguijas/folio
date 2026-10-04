@@ -96,7 +96,7 @@ repository that can change under you. Fetching needs `git` on the machine.
 | Owner | Responsibilities |
 |-------|------------------|
 | Folio | Copy the bundled template, apply the theme package overlay, generate content, write metadata, inject fallback theme config, run the frontend build, and export static files. |
-| Theme package | Own selected frontend files such as layouts, global CSS, the configurator UI, project header actions, or `theme/project-theme.ts`. |
+| Theme package | Own selected frontend files such as layouts, global CSS, the theme model behind the picker, project header actions, or `theme/project-theme.ts`. |
 
 Folio still writes generated docs content and reserved build files into `.build/`.
 Do not edit `.build/` directly; change the package source instead.
@@ -123,11 +123,12 @@ Common override points:
 | File | Purpose |
 |------|---------|
 | `app/layout.tsx` | Own font loading, metadata shell, providers, and global layout behavior. |
-| `app/docs/layout.tsx` | Own the docs navbar, sidebar placement, search slot, and ThemeConfigurator mount. |
-| `components/theme-configurator.tsx` | Replace the bundled configurator UI with a project-specific implementation. |
+| `app/docs/layout.tsx` | Own the docs navbar, sidebar placement, search slot, and ThemeGallery mount. |
+| `components/theme-configurator.tsx` | Replace the bundled theme model, its defaults and its bootstrap with a project-specific implementation. |
 | `components/project-header-actions.tsx` | Replace the default generated header action component. |
 | `theme/project-theme.ts` | Own all presets, controls, variants, defaults, and resolved tokens in TypeScript. |
 | `app/globals.css` | Override or replace template-level CSS when a project needs exact visual parity. |
+| `app/styles/<family>.css` | Restyle one component family (`shell`, `callout`, `disclosure`, `code`, `shapes`, `surfaces` or `components`) without copying `globals.css`, which imports these files last. |
 
 A package that replaces `components/theme-provider.tsx` has to keep the
 `const darkModeEnabled: boolean = true // __FOLIO_DARK_MODE__` line for
@@ -187,7 +188,7 @@ export const projectThemeDefaultConfig = {
 
 The `registerPreset` function is the supported extension point. The optional
 second argument (`"project"`) adds the preset to that display group in the
-configurator UI. If a preset with the same `id` already exists, it will be
+theme picker. If a preset with the same `id` already exists, it will be
 replaced with a console warning.
 
 `theme.preset` may name a preset the package declares. Folio reads the
@@ -197,7 +198,20 @@ above builds. Any other id stops the build with the list of valid ids and the
 nearest one. A package that ships its own `components/theme-configurator.tsx`
 owns preset selection, and Folio does not check `theme.preset` then.
 
-See [ThemeConfigurator](/docs/components/theme-configurator) for the full
+The theme picker and the root layout import from
+`components/theme-configurator.tsx`, so a package that replaces it keeps these
+exports: `ThemeStyleBootstrap`, `DEFAULT_CONFIG`, the `ThemeConfig` type,
+`configForPreset`, `configVars`, `getPresetDefaults`, `readThemeConfig`,
+`saveThemeConfig`, `previewThemeConfig`, and the option lists `fontOptions`,
+`colorOptions`, `surfaceColorOptions`, `shellPaddingOptions`, `rhythmOptions`,
+`borderOptions`, `codeTreatmentOptions` and `radiusOptions`. `ThemeConfigurator`
+renders nothing and stays exported for layouts that still mount it.
+
+The root layout mounts `ThemeStyleBootstrap` once for every page, so a
+package's page or layout needs no copy of its own; a copy it still carries
+re-applies the stored theme and changes nothing else.
+
+See [Theme picker](/docs/components/theme-configurator) for the full
 `ThemePreset` contract, including `controls`, `resolve`, and all theme fields.
 
 ## What Packages Should Not Do

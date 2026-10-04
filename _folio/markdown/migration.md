@@ -2,9 +2,9 @@
 
 *Step-by-step guide to moving a Sphinx project to Folio by hand.*
 
-One-command importers, from MkDocs, Mintlify or Read the Docs: Not available in this
-release. [Why Folio](/docs/why-folio) covers the reasons to switch; this page covers the
-move.
+A migration run by your agent, with a migration skill and a few scripts: Not available
+in this release; the roadmap puts it in 0.4 Agent Ready. [Why Folio](/docs/why-folio) covers
+the reasons to switch; this page covers the move.
 
 ## Step-by-step migration
 

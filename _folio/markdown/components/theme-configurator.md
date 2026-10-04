@@ -1,78 +1,144 @@
-# ThemeConfigurator
+# Theme picker
 
-A drawer popover widget that replaces the default light/dark control when documentation presets are available. A preset owns color tokens, document rhythm, code block treatment, borders, radius defaults, typography defaults, and its own controls.
+The theme picker lets readers choose how the site looks. A preset owns color tokens, document rhythm, code block treatment, borders, radius defaults, typography defaults, and its own controls; the picker groups related presets into families, shows complete color-and-style variants as swatches, and offers manual controls in Customize.
 
-Changes are persisted in `localStorage` under a project-scoped key derived from the configured default preset and applied immediately. The default theme CSS is also rendered into the page so the generated site does not flash or fall back to Folio's bundled typography before hydration.
+Applied choices are persisted in `localStorage` under a project-scoped key derived from the configured default preset, and the saved theme is the same on the landing page, the docs and the previews. The default theme CSS is also rendered into the page so the generated site does not flash or fall back to Folio's bundled typography before hydration. When moving from the former Roller default to Folio Pastel, saved reader choices are reused if the new storage key is absent; an existing new key takes precedence.
 
 ## API
 
-### ThemeConfigurator
+### ThemeGallery
 
-This component takes no props. It is rendered in the documentation sidebar drawer beside the existing appearance controls.
+This component takes no props. The bundled template renders it as the palette button in the landing, docs and previews navbars, and every copy opens the same dialog. The palette button, or the `t` key outside a text field, opens the picker.
 
-### Theme Flow
+`ThemeConfigurator` is still exported from `components/theme-configurator.tsx` and renders nothing, so a layout that mounts it still builds.
 
-The drawer palette uses a compact two-step flow:
+### Themes
 
-| Step | Purpose |
-|------|---------|
-| Grouped library | Choose a visual direction from Expressive, Workspace, Product Docs, or Reference, after the Project group when the project defines a preset. |
-| Customize | Tune the selected preset's controls, surface color, accent color, shell spacing, content width, reading rhythm, borders, code blocks, typography, and corner radius. |
+The first step shows each color-and-style variant as a slide drawn as a small docs page in its own colors, type, and radius: the theme in front in the middle, two neighbours on each side, one on phones. The front slide has a ring, and its family and variant name sit under it. A check marks the slide that looks as the saved theme does.
 
-The Back button returns readers from Customize to the grouped library.
+Every slide shows the same short Getting started page with real text, code and cards. It uses the theme's heading and body fonts, reading rhythm, section rules, code treatment and outer frame, so those differences remain visible while comparing colors. Customize updates this same preview.
 
-Light and dark selection lives in the same drawer palette as preset selection, while the keyboard shortcut still toggles between light and dark. With `theme.dark_mode: false` the theme provider forces the light theme: the drawer shows no mode controls and the shortcut does nothing.
+The picker has three built-in families and fifteen choices: six Folio styles, five Folio Pastel palettes and four Omarchy palettes. Each Folio style has one complete recipe; Customize covers the smaller variations. Project presets and independently registered presets remain available as separate families with all their choices.
+
+The catalog stays ordered Folio, Folio Pastel and Omarchy, with project presets first when defined. Each opening centers your saved theme and palette, including its customizations. Opening it leaves the applied theme unchanged.
+
+Each swatch applies its variant's colors and default style together. For example, Ballpoint includes its typography, code treatment and corners. A sun or moon marks a fixed light or dark scheme. The final circle, with the adjustments icon, opens Customize. The carousel follows the swatch order through each family, then enters the next family: Typewriter leads to Folio Pastel's Ink, Jade, Lavender, Peach and Sky, then Catppuccin Latte, and Hackerman wraps to Roller.
+
+| Input | Action |
+|-------|--------|
+| The left and right arrow keys, the side buttons, a swipe on the slides | Apply the previous or next variant, continuing across families and wrapping at both ends. |
+| A click on a side slide | Select that variant. |
+| Home, End | Apply the first or last variant. |
+| The up and down arrow keys, a swatch | Select a complete variant within the family. |
+| Enter, Cmd/Ctrl+Enter, a click on the front slide | Select the front theme with its color, and close. |
+| `c`, Customize | Open the Customize step for the front theme. |
+| Reset | Apply the site's own theme with its defaults. |
+| Done, `t`, Escape, the close button, a click outside the dialog | Close and keep the current theme. |
+
+Navigation, swatches, manual adjustments and mode changes apply to the page and save immediately. The picker stays open while changing themes. Done only closes it; opening and closing without making a choice leaves the applied theme unchanged.
+
+The front preview keeps its manual adjustments; each neighbouring preview shows the exact recipe it will select. Changing to another variant starts from its configured style. Selecting a swatch also clears manual adjustments. The site's preset uses `theme.tune` and `theme.radius`. A saved recipe removed from the catalog remains reachable and editable until another variant replaces its family's draft, without adding a swatch. Stored preset IDs remain compatible with earlier versions.
+
+### Customize
+
+The final circle in the variant row, or the `c` key outside a text field, opens Customize inside the same centered popup. Its size, backdrop and position stay the same. Its controls update both the preview and the page immediately. Back or Escape returns to the variants; every change is already saved.
+
+| Section | Rows |
+|---------|------|
+| The theme's name and options, such as Roller options | The theme's own controls other than its colors, such as density, code, frame, binding or rules. Omarchy has none. |
+| Type | Typography, Reading rhythm |
+| Shape | Corners, Borders, Code block frame |
+| Layout | Page frame |
+| Colors | Free background, text and accent colors, edited independently for light and dark. Fixed-scheme variants edit their own scheme. |
+
+A dot marks each row's default: the theme's own value, or on the site's own theme the value from `theme.tune` and `theme.radius`. The option that keeps the theme's own value reads Default. Reset returns every row to the theme's defaults and keeps its color. Reset also removes manual colors for both modes. Manual colors remain editable on Omarchy palettes.
+
+| Input | Action |
+|-------|--------|
+| The arrow keys | Move within the row that has focus. |
+| `c`, Escape, the back arrow | Return to the themes. |
+| Cmd/Ctrl+Enter, Done, the close button | Close and keep the current theme. |
+
+Closing the popup keeps all changes.
+
+### Mode
+
+Light, Dark and System sit in the picker's header and apply immediately to the front theme. The `d` shortcut changes the mode directly inside and outside the picker. While the front theme is light or dark only, the mode radios show its scheme, are disabled, and say why, for example "Tokyo Night is dark only"; the reader's own mode stays stored.
+
+A theme drawn for one scheme sets that scheme itself. While one is applied, such as an Omarchy palette, the light/dark toggles are hidden and `d` does nothing; another theme brings the reader's own mode back.
+
+With `theme.dark_mode: false` the theme provider forces the light theme: the picker shows no mode control and `d` does nothing. A dark-only palette the reader applies, such as a dark Omarchy one, still turns the page dark.
+
+The navbars carry no separate light/dark toggle unless `theme.header.theme_toggle` is `true` and dark mode is on; then the landing and the docs navbars both show one.
 
 ### Preset Library
 
-All built-in visual directions are presets. The drawer picker shows a current theme summary before the grouped library. Each group is rendered as a compact carousel row so the panel stays short as the preset library grows.
+Presets keep their existing IDs for `theme.preset`, stored preferences and theme packages. The picker groups them by visible family:
 
-| Group | Presets |
-|-------|---------|
-| Project | The project preset, when `docs.yaml` or a theme package defines one. |
-| Expressive | Organic Editorial, Carbon |
-| Workspace | Workshop, Canopy |
-| Product Docs | Beacon, Aperture, Ledger |
-| Reference | Atlas, Stacks, Draftline, Proof |
-| Other | Presets registered with `registerPreset` but listed in no group. |
-
-| Preset | Purpose |
+| Family | Choices |
 |--------|---------|
-| Workshop | Warm generated-site workspace based on the saved inspiration example, with light paper contrast and botanical accents. |
-| Canopy | Compact green workspace for simple examples, source snippets, and generated guides. |
-| Beacon | Main product-docs preset with endpoint cards, compact API workflows, and high-contrast examples. |
-| Atlas | Classic reference documentation with paper rhythm and sharp source examples. |
-| Ledger | Dense API tables and register pages for fast scanning. |
-| Proof | Printed-manual hierarchy with strong rules and editorial emphasis. |
-| Stacks | Calm catalog reading for long guides and stable navigation. |
-| Draftline | Working-document warmth for docs before release. |
-| Aperture | Neutral developer-docs style with compact spacing and rounded code panels. |
-| Organic Editorial | Poster-scale typography with cobalt organic image language for launches, programs, and editorial docs. |
-| Carbon | Stark monochrome technical mode. |
+| Folio | Roller, Ballpoint, Paperback, Letterpress, Notebook, Typewriter |
+| Folio Pastel | Ink, Jade, Lavender, Peach, Sky |
+| Omarchy | Catppuccin Latte, Tokyo Night, Gruvbox, Hackerman |
 
-Organic Editorial is the default preset because it makes generated sites feel distinctive on first load while still keeping docs controls, code blocks, and API reference pages available through the same preset system.
+Folio starts with Roller and moves from light typography to stronger rules and frames. Omarchy starts with its light palette, followed by the blue, warm and neon dark palettes. Keyboard navigation follows this same order.
 
-Each preset can be selected directly. Selecting a preset applies its default controls, typography, accent, radius, and layout defaults. Customize keeps the selected preset active while changing its options.
+A project preset appears first when defined. Other registered presets remain selectable independently. A project override of a built-in ID appears once, under its project name, and keeps all its variants.
 
-`theme.preset` names the preset readers see first. Its ids are the lowercase names above (`organic-editorial`, `beacon`, `draftline`, …), an id a theme package or template overlay declares, or a new id the project defines in `docs.yaml` (see [Project Theme Contract](#project-theme-contract)). Ids from earlier releases, such as `folio` or `openai`, still select their successor. Any other value stops the build with the list of valid ids and the nearest one.
+| Folio style | Preset ID | Distinguishing treatment |
+|-------------|-----------|-------------------------|
+| Roller | `organic-editorial` | Thin headings, generous spacing and a cobalt accent. |
+| Ballpoint | `aperture` | Compact sans-serif documentation with rounded code panels. |
+| Paperback | `stacks` | Serif headings and body for long-form reading. |
+| Letterpress | `atlas` | Bold serif headings, paper surface and square corners. |
+| Notebook | `workshop` | A framed workspace with warm surfaces and green accents. |
+| Typewriter | `carbon` | Monospaced headings, strong rules and square corners. |
 
-Workshop and Canopy include a Borders control for switching between fine, structured, and ruled outlines. This keeps the saved inspiration's framed workspace feel available without forcing every generated page into the same border weight.
+Folio Pastel is the default preset, with Ink selected: pen-blue ink, paper surfaces, Grotesque typography and 0.75rem corners. Roller remains available in the Folio family and as the explicit `organic-editorial` preset.
+
+Each of these styles can be selected from its family’s swatch row. A preset picked for the first time applies its default controls, typography, accent, radius, and layout defaults. Customize keeps the front preset while changing its options.
+
+`theme.preset` names the preset readers see first. Use the preset ID from the table above (for example, `organic-editorial` for Roller), an ID a theme package or template overlay declares, or a new ID the project defines in `docs.yaml` (see [Project Theme Contract](#project-theme-contract)). Ids from earlier releases, such as `folio` or `openai`, still select their successor. Any other value stops the build with the list of valid ids and the nearest one.
+
+Omarchy offers four palettes: Catppuccin Latte (cool light), Tokyo Night (blue dark), Gruvbox (warm dark), and Hackerman (neon green dark). Each fixes its light or dark scheme. The preset also gives the navbar and the chapter list flat, square rows, and defaults to the Terminal typography, a monospaced body under Geist headings, and a square radius. Its background is a field of pixels tinted by the palette. Folio shows its CLI block-letter wordmark above the landing and documentation headings; other projects keep their own name. The picker previews include the same artwork.
+
+The pixels flow continuously and brighten around the mouse. Click an empty part of the page to release a wave; holding first makes it stronger. The wordmark alternates between four reconstructions: a sweep, falling columns, scattered characters and a radial reveal. It rebuilds on entry and palette changes. Click the wordmark, or focus it and press Enter or Space, to replay it. The final text always keeps the project's name.
+
+Omarchy palette changes use a brief diagonal transition in supporting browsers. Without support, or with reduced motion enabled, the palette applies directly. Reduced motion also keeps the artwork still. Animation pauses outside the viewport and in hidden tabs; neighbouring picker previews remain static. The active preview and Customize show the same motion as the page.
+
+The Omarchy preset and the gallery are inspired by [Omarchy](https://omarchy.org): the palettes are read from the MIT-licensed [omacom/omarchy](https://github.com/omacom/omarchy) repository, and the gallery takes its idea from the theme picker in [its manual](https://omarchy.org/manual/). Thanks to David Heinemeier Hansson and the Omarchy contributors. The notice is in `THIRD-PARTY-NOTICES.md`.
+
+Notebook includes a Borders control for switching between fine, structured, and ruled outlines.
+
+Earlier saved styles and palettes still render unchanged and can be adjusted in Customize. Beacon, Ledger, Proof, Draftline, Canopy and the omitted color variants remain valid in project configurations for compatibility, but no longer add choices to the built-in picker.
+
+Folio Pastel is a separate family with preset ID `pastel` and five palettes: Ink (default), Jade, Lavender, Peach and Sky. Each supports light and dark and uses the same organic shapes, Grotesque typography and 0.75rem default radius. Choose a palette from its swatches in T. Jade keeps the original cool paper, petrol ink and pastel fills; older saved Pastel choices without a palette still resolve to Jade.
+
+Pastel’s generated logo and favicon use the same irregular silhouette as its artwork. The mark appears in the navbars, landing footer, demo, picker preview and social images. Page logos follow the reader’s selected theme; the favicon and social images use the site’s configured default. Other themes keep their normal mark. Explicit project logos and favicons retain their own artwork.
+
+On desktop the 288 px floating sidebar contains the project branding, search and theme controls. Its header stays attached when scrolling or collapsing the sidebar; the navigation list scrolls independently below the search. Collapsing leaves an 84 px rail with the logo and 44 px controls aligned vertically. The magnifier opens a search panel beside the rail, with matching input and result widths. Escape closes it and returns focus to the magnifier; clicking outside or choosing a result closes it too. Cmd+K or Ctrl+K opens the same panel. The hidden navigation leaves the keyboard tab order until expanded. The desktop table of contents floats beside the article without a background and stays in view while scrolling; long outlines scroll within it. It marks the section in view and shows reading progress where supported. Callouts keep their functional icons on soft asymmetric holders. FeatureCard keeps its named Hugeicons centered over four original organic backgrounds, alternating with the card colors; text/emoji fallback and cards without icons stay unchanged. Shell icons remain unchanged. Decorative corner marks, step tabs and timeline markers use original organic outlines. Code blocks have a file header and language pill, and TerminalSession is a petrol window with three tabs. Pill tabs glide between selections, accordions are soft cards, and light/dark changes reveal the new scheme from the control where supported. Reduced motion removes these transitions. The MDX does not change, and other presets keep their own look.
+
+The page title shares its space with three original, soft asymmetric silhouettes. The landing places the same shapes in solid, contrasting palette colors around the product demo, outside the title and text flow. The project's content and actions stay intact. Native animations gently morph and drift them, with a small response to the pointer. They remain still under reduced motion, while hidden, outside the viewport or in a neighbouring picker slide. The active gallery preview reproduces the rail, typography and artwork. The background wash uses CSS gradients.
+
+Pastel's layout, measurements, motion timings and component CSS adapt [cojeev](https://github.com/luv-jeri/cojeev-ui), used under the MIT License. Its five palettes, decorative masks and irregular silhouettes are Folio's own. The Bricolage Grotesque and DM Sans font pairing also comes from cojeev; the fonts are loaded from Google Fonts under the SIL Open Font License 1.1. Thanks to Sanjay Kumar. The retained attribution and licenses are in `THIRD-PARTY-NOTICES.md`.
 
 ### Shared Controls
 
-Every preset can expose its own controls. The global controls are always available and override the selected preset when changed:
+Every preset can expose its own controls. The shared controls are rows of every theme's Customize step, and override the front preset when changed:
 
-| Control | Purpose |
-|---------|---------|
-| Surface color | Override the page, sidebar, card, muted, and border palette. |
-| Shell spacing | Expose the outer page padding used by framed workspace themes. |
-| Content width | Adjust the prose and component measure without changing presets. |
-| Reading rhythm | Override base type size, line height, section gaps, and card padding. |
-| Borders | Tune card and shell rule strength globally. |
-| Code blocks | Switch source examples between soft, framed, plate, and terminal treatments. |
+| Row | Purpose |
+|-----|---------|
 | Typography | Switch heading, body, and code font treatment. |
-| Accent color | Override the preset's primary accent. |
-| Corner radius | Adjust shared UI and card radius. |
+| Reading rhythm | Override base type size, line height, section gaps, and card padding. |
+| Corners | Adjust shared UI and card radius. |
+| Borders | Tune card and shell rule strength globally. |
+| Code block frame | Switch source examples between soft, framed, plate, and terminal treatments. |
+| Page frame | Expose the outer page padding used by framed workspace themes. |
+| Background, Text, Accent | Pick any color for the current scheme. |
+
+Content width is not a row of the picker. `theme.tune.width` still sets it, and a stored choice stays valid.
+
+Earlier stored surface and accent options remain valid. Manual colors override the background, foreground and primary tokens after those layers, including fixed-scheme palettes. The saved colors are applied before hydration.
 
 ### Radius Options
 
@@ -84,7 +150,7 @@ Every preset can expose its own controls. The global controls are always availab
 | Lg | `0.75rem` |
 | Full | `1rem` |
 
-The "Reset appearance" button restores the configured default preset and tuning.
+Reset on the Themes step applies the configured default preset with its tuning. In Customize, Reset returns the front theme's rows to their defaults. Both save immediately.
 
 ### Project Theme Contract
 
@@ -173,7 +239,7 @@ Tune aliases map to the shared controls:
 | `borders` / `border` | `borderId` |
 | `code` / `code_blocks` | `codeTreatmentId` |
 
-`font: "geist"` selects the bundled Geist/Geist Mono pair and maps the public `--font-sans` / `--font-mono` tokens used by Tailwind utility classes. If `theme.preset` matches a built-in preset and the project only provides `tune`, Folio keeps the built-in preset and applies the configured defaults. If the project supplies `name`, `description`, `scene`, `preview`, `style`, `tokens`, or `variants`, Folio adds a Project group to the drawer and places the project preset before the built-in library.
+`font: "geist"` selects the bundled Geist/Geist Mono pair and maps the public `--font-sans` / `--font-mono` tokens used by Tailwind utility classes. If `theme.preset` matches a built-in preset and the project only provides `tune`, Folio keeps the built-in preset and applies the configured defaults. If the project supplies `name`, `description`, `scene`, `preview`, `style`, `tokens`, or `variants`, Folio places the project preset before the built-in library. A `variants` control whose options set no `style` only recolors the theme, so the picker shows the first such control as the preset's Colours row and every other control in Customize.
 
 ### Theme Packages
 
@@ -404,15 +470,15 @@ After ChatGPT returns a preset:
 1. Paste it into your theme package's `theme/project-theme.ts` or your overlay's `theme/presets.ts`.
 2. Register it as in [Create a Custom Preset](#create-a-custom-preset).
 3. Set `theme.preset` to its id and run `folio build`.
-4. Open the drawer palette button.
+4. Open the theme picker with the palette button or `t`.
 5. Test each generated control in light and dark mode.
 
 ## Example
 
 ```mdx
-<ThemeConfigurator />
+<ThemeGallery />
 ```
 
 **Layout Component**
 
-  ThemeConfigurator is rendered in the documentation drawer of every site built on the bundled template. A theme package or template overlay can replace it with `components/theme-configurator.tsx`.
+  ThemeGallery is rendered in the landing, docs and previews navbars of every site built on the bundled template. A theme package or template overlay can replace `components/theme-gallery.tsx`, or `components/theme-configurator.tsx` if it keeps the exports the picker imports (see [Theme Packages](/docs/theming/theme-packages)).

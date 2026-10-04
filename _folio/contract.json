@@ -1,7 +1,7 @@
 {
-  "folioVersion": "0.3.0-a1",
+  "folioVersion": "0.3.0",
   "mdxContractVersion": "1.1",
-  "generatedAt": "2026-09-25T16:35:11Z",
+  "generatedAt": "2026-10-04T19:42:27Z",
   "instructions": "Ignore fields you do not recognise; later Folio releases add them. mdxContractVersion versions the components list only.",
   "components": [
     {
@@ -208,6 +208,33 @@
         "footer": "React.ReactNode | undefined",
         "children": "React.ReactNode | undefined"
       }
+    },
+    {
+      "name": "Kbd",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "Marker",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "tone": "\"ok\" | \"danger\" | undefined",
+        "children": "React.ReactNode"
+      }
+    },
+    {
+      "name": "Term",
+      "required": false,
+      "source": "component-catalog",
+      "props": {
+        "def": "string",
+        "href": "string | undefined",
+        "children": "React.ReactNode"
+      }
     }
   ],
   "configKeys": [
@@ -252,6 +279,8 @@
     "/docs/components/feature-cards/",
     "/docs/components/file-tree/",
     "/docs/components/hook-map/",
+    "/docs/components/kbd/",
+    "/docs/components/marker/",
     "/docs/components/math/",
     "/docs/components/mermaid/",
     "/docs/components/method-accordion/",
@@ -262,6 +291,7 @@
     "/docs/components/steps/",
     "/docs/components/swot/",
     "/docs/components/tabs/",
+    "/docs/components/term/",
     "/docs/components/terminal-session/",
     "/docs/components/theme-configurator/",
     "/docs/components/timeline/",

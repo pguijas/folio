@@ -13,6 +13,8 @@ Cards for feature overviews, landing pages, and link grids. `FeatureCard` render
 | `icon` | `string` | — | Optional named icon displayed above the title. Common tokens include `install`, `run`, `quickstart`, `workflow`, `network`, `topology`, `analytics`, `settings`, `monitor`, `api`, `code`, `server`, `warning`, and `community`. Unknown values fall back to text rendering for backwards compatibility. |
 | `href` | `string` | — | Optional URL. When set, the card becomes a clickable link with a hover effect. |
 
+Under Pastel, named icons sit centered over four original organic backgrounds, alternating with the card colors. They remain decorative: titles and links keep their meaning. Unknown values still render as text or emoji, and omitting `icon` still renders no illustration. Other presets keep their existing icon styling.
+
 ### CardGrid
 
 | Prop | Type | Default | Description |

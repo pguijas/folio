@@ -49,3 +49,22 @@ Collapsible content sections for organizing information into expandable panels. 
 ### Can I migrate from Sphinx?
 
     Yes. Folio includes a migration guide for moving existing pages and Sphinx conventions to Markdown.
+
+## Markdown details
+
+For a single section, a plain `<details>` element with a `<summary>` collapses too, with no import.
+
+````mdx
+<details>
+  <summary>Do I need to import anything?</summary>
+
+  No. `<details>` and `<summary>` are HTML elements, and Folio
+  renders them as a collapsible section.
+</details>
+````
+
+<details>
+  <summary>Do I need to import anything?</summary>
+
+  No. `<details>` and `<summary>` are HTML elements, and Folio renders them as a collapsible section.
+</details>
