@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
 
-# llms.txt: /folio/_folio/examples/javascript/llms.txt
-# llms-full.txt: /folio/_folio/examples/javascript/llms-full.txt
+# llms.txt: /_folio/examples/javascript/llms.txt
+# llms-full.txt: /_folio/examples/javascript/llms-full.txt
