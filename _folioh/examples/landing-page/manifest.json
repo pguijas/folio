@@ -1,0 +1,15 @@
+{
+  "digest": "6a5dc8cdce3b45656da989730b211f966983482ab90eb9e90652a4a47990b86a",
+  "files": [
+    {
+      "path": "docs/index.md",
+      "url": "/_folioh/examples/landing-page/files/docs/index.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs.yaml",
+      "url": "/_folioh/examples/landing-page/files/docs.yaml",
+      "language": "yaml"
+    }
+  ]
+}

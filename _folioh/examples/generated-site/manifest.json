@@ -1,0 +1,35 @@
+{
+  "digest": "694d2414edc957853e5a6958c4a866427fe868e0bd4b0ae7b281c651919ade3f",
+  "files": [
+    {
+      "path": "docs/cli.md",
+      "url": "/_folioh/examples/generated-site/files/docs/cli.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs/components.md",
+      "url": "/_folioh/examples/generated-site/files/docs/components.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs/index.md",
+      "url": "/_folioh/examples/generated-site/files/docs/index.md",
+      "language": "markdown"
+    },
+    {
+      "path": "docs.yaml",
+      "url": "/_folioh/examples/generated-site/files/docs.yaml",
+      "language": "yaml"
+    },
+    {
+      "path": "src/example_package/__init__.py",
+      "url": "/_folioh/examples/generated-site/files/src/example_package/__init__.py",
+      "language": "python"
+    },
+    {
+      "path": "src/example_package/arithmetic.py",
+      "url": "/_folioh/examples/generated-site/files/src/example_package/arithmetic.py",
+      "language": "python"
+    }
+  ]
+}

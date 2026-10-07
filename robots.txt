@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://folioh.site/sitemap.xml
+# llms.txt: https://folioh.site/llms.txt
+# llms-full.txt: https://folioh.site/llms-full.txt

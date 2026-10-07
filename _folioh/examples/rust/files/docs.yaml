@@ -1,0 +1,7 @@
+project:
+  name: Rust Example
+
+source:
+  rust:
+    paths:
+      - .

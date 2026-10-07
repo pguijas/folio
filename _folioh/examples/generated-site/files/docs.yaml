@@ -1,0 +1,29 @@
+project:
+  name: "Example Package"
+  version: "0.1.0"
+  repo: "https://example.com/example-package"
+
+source:
+  python:
+    paths:
+      - "src/example_package"
+  docs:
+    - "docs"
+
+theme:
+  dark_mode: true
+
+nav:
+  - "Guide"
+  - "API Reference"
+
+search:
+  placeholder: "Search example docs..."
+
+landing:
+  enabled: false
+  comparison: false
+
+llm:
+  generate_llms_txt: false
+  generate_llms_full_txt: false

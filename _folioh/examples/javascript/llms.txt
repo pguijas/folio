@@ -1,0 +1,5 @@
+# JavaScript Example
+
+## API Reference
+- [greet](/docs/api-reference/javascript/greet/): Greeting utilities.
+- [math](/docs/api-reference/javascript/math/): Math utilities.

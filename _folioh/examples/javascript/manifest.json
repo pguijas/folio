@@ -1,0 +1,20 @@
+{
+  "digest": "6dd3bcdd758ea8dfd4992d617f24b2c9180b4130724b7751770ff3a6e0cab065",
+  "files": [
+    {
+      "path": "docs.yaml",
+      "url": "/_folioh/examples/javascript/files/docs.yaml",
+      "language": "yaml"
+    },
+    {
+      "path": "src/greet.js",
+      "url": "/_folioh/examples/javascript/files/src/greet.js",
+      "language": "js"
+    },
+    {
+      "path": "src/math.js",
+      "url": "/_folioh/examples/javascript/files/src/math.js",
+      "language": "js"
+    }
+  ]
+}
