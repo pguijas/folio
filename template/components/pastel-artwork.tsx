@@ -17,7 +17,7 @@ export function pastelShapes(seed: string) {
 
 // One composition shared by the landing, document and picker. Motion uses
 // the same visibility boundary as Omarchy, with a static SVG fallback.
-export function PastelArtwork({ seed = "folio" }: { seed?: string }) {
+export function PastelArtwork({ seed = "folioh" }: { seed?: string }) {
   const host = useRef<HTMLSpanElement>(null)
   const shapes = pastelShapes(seed)
 
@@ -64,7 +64,7 @@ export function PastelArtwork({ seed = "folio" }: { seed?: string }) {
   }, [seed])
 
   return (
-    <span ref={host} className="folio-pastel-artwork" aria-hidden="true" data-pagefind-ignore="all">
+    <span ref={host} className="folioh-pastel-artwork" aria-hidden="true" data-pagefind-ignore="all">
       {shapes.map((shape, i) => (
         <svg key={i} viewBox="0 0 100 100" focusable="false">
           <path d={shape.from} data-morph={shape.to} fill="currentColor" />

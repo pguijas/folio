@@ -69,19 +69,19 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build folio
+      - name: Build folioh
         run: |
-          cargo build --release --locked -p folio-cli
+          cargo build --release --locked -p folioh-cli
           echo "$PWD/target/release" >> "$GITHUB_PATH"
 
       - name: Build docs
         env:
-          FOLIO_BASE_PATH: "${{ steps.pages.outputs.base_path || '/' }}"
-        run: folio build --clean
+          FOLIOH_BASE_PATH: "${{ steps.pages.outputs.base_path || '/' }}"
+        run: folioh build --clean
 
       - name: Preserve branch previews
         shell: bash
-        run: folio github-pages preserve-previews --site-dir _site --git-repo . --state-dir _pages-state --state-branch folio-pages-state
+        run: folioh github-pages preserve-previews --site-dir _site --git-repo . --state-dir _pages-state --state-branch folioh-pages-state
 
       - name: Prune stale previews
         shell: bash
@@ -89,17 +89,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           open_prs="$(gh pr list --state open --json number,headRefName)"
-          folio github-pages prune-previews \
+          folioh github-pages prune-previews \
             --previews-dir _site/previews \
             --open-prs-json "$open_prs"
 
       - name: Write previews data
         shell: bash
-        run: folio github-pages write-previews-data --previews-dir _site/previews
+        run: folioh github-pages write-previews-data --previews-dir _site/previews
 
       - name: Save Pages state
         shell: bash
-        run: folio github-pages save-state --artifact-dir _site --git-repo . --state-dir _pages-state --state-branch folio-pages-state --commit-message "Update Pages state"
+        run: folioh github-pages save-state --artifact-dir _site --git-repo . --state-dir _pages-state --state-branch folioh-pages-state --commit-message "Update Pages state"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -117,7 +117,7 @@ jobs:
         run: |
           url="${{ steps.deployment.outputs.page_url }}"
           index_url="${url%/}/previews/"
-          folio github-pages verify-url \
+          folioh github-pages verify-url \
             --url "$url" \
             --index-url "$index_url" \
             --summary-heading "Production docs" \

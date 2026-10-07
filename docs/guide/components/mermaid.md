@@ -12,7 +12,7 @@ Renders [Mermaid](https://mermaid.js.org/) diagrams as SVG directly in the brows
 
 ### Fenced code block (recommended)
 
-You can also use standard Mermaid fenced code blocks. Folio automatically converts these into `<Mermaid>` components during the build:
+You can also use standard Mermaid fenced code blocks. Folioh automatically converts these into `<Mermaid>` components during the build:
 
 ````md
 ```mermaid

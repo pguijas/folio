@@ -2,7 +2,7 @@
 
 import type { ComponentProps } from "react"
 import { BrowserFrame } from "@/components/browser-frame"
-import { FOLIO_BANNER, ThemeWordmark } from "@/components/theme-artwork"
+import { FOLIOH_BANNER, ThemeWordmark } from "@/components/theme-artwork"
 import { PastelArtwork } from "@/components/pastel-artwork"
 import {
   GitHubMark,
@@ -185,9 +185,9 @@ export function DocsMapLandingHero({
 
 /**
  * "build-pipeline" hero: split layout with headline + CTAs on the left and a
- * live-looking docstring -> `folio build` -> rendered-reference pipeline on
+ * live-looking docstring -> `folioh build` -> rendered-reference pipeline on
  * the right. The example content is intentionally generic (a small HTTP
- * client) so any Folio project can ship this variant unmodified.
+ * client) so any Folioh project can ship this variant unmodified.
  */
 export function BuildPipelineLandingHero({
   tagline,
@@ -283,7 +283,7 @@ export function BuildPipelineLandingHero({
               className="ml-2 h-8 w-px bg-gradient-to-b from-border to-primary/70"
             />
             <span className="rounded-md border border-primary/30 bg-primary/10 px-2.5 py-1 font-mono text-[11px] text-primary">
-              folio build
+              folioh build
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
               docstrings + type hints &rarr; rendered reference
@@ -337,7 +337,7 @@ export function BuildPipelineLandingHero({
 
 /**
  * "heartbeat" hero: one window that is first a terminal and then the docs.
- * `$ folio serve` types itself, the whole build lands as one receipt stamp,
+ * `$ folioh serve` types itself, the whole build lands as one receipt stamp,
  * and the terminal surface lifts like a shutter to reveal the served docs
  * home beneath — same window, same size, new identity. The
  * animation is pure CSS on one master cycle (see `landing-hb-*` styles in
@@ -463,7 +463,7 @@ export function HeartbeatLandingHero({
             "landing-artifact landing-heartbeat min-w-0 lg:flex lg:flex-col",
             embedded && "h-full"
           )}
-          aria-label="A terminal types folio serve, stamps the build receipt, then lifts to reveal the served docs home in the same window"
+          aria-label="A terminal types folioh serve, stamps the build receipt, then lifts to reveal the served docs home in the same window"
         >
           <div className="flex flex-col overflow-hidden rounded-lg border border-border bg-card lg:flex-1">
             {/* chrome bar: the dots never leave; the terminal title and the
@@ -479,7 +479,7 @@ export function HeartbeatLandingHero({
                   className="landing-hb-titlebar col-start-1 row-start-1 min-w-0 truncate font-mono text-[11px] leading-4 text-muted-foreground"
                   aria-hidden="true"
                 >
-                  folio serve &mdash; ~/{mockSlug}
+                  folioh serve &mdash; ~/{mockSlug}
                 </span>
                 <span className="landing-hb-url col-start-1 row-start-1 truncate font-mono text-[11px] leading-4 text-muted-foreground">
                   localhost:4321
@@ -493,7 +493,7 @@ export function HeartbeatLandingHero({
                 <div className="flex shrink-0 items-center justify-between gap-4 border-b border-border px-4 py-2.5">
                   <span className="flex items-center gap-2 text-xs font-semibold text-foreground">
                     <span
-                      className="folio-monogram grid size-[18px] place-items-center rounded-[5px] bg-primary font-mono text-[8px] font-semibold text-primary-foreground"
+                      className="folioh-monogram grid size-[18px] place-items-center rounded-[5px] bg-primary font-mono text-[8px] font-semibold text-primary-foreground"
                       aria-hidden="true"
                     >
                       {mockMark}
@@ -560,7 +560,7 @@ export function HeartbeatLandingHero({
                           Quick Start &rarr;
                         </span>
                         <span className="mt-1 block text-xs leading-5 text-muted-foreground">
-                          Point Folio at your module and serve.
+                          Point Folioh at your module and serve.
                         </span>
                       </span>
                       <span className="rounded-md border border-border bg-background px-3 py-2.5">
@@ -590,7 +590,7 @@ export function HeartbeatLandingHero({
 
               {/* the terminal shutter: covers the page at the seam, types the
                   command, stamps the build receipt, then lifts up and out. The
-                  transcript reproduces folio's real CLI output for a project
+                  transcript reproduces folioh's real CLI output for a project
                   without examples (banner, 12-char label column, step order
                   and wording), minus the version the CLI prints beside the
                   banner and the elapsed time it prints on the Done line, which
@@ -602,12 +602,12 @@ export function HeartbeatLandingHero({
                 <span className="whitespace-pre">
                   <span className="text-muted-foreground">$ </span>
                   <span className="landing-hb-cmd font-semibold text-foreground">
-                    folio serve
+                    folioh serve
                   </span>
                   <span className="landing-hb-caret" />
                 </span>
                 <pre className="landing-hb-stamp m-0 mt-2 self-center text-[10px] text-primary">
-                  {FOLIO_BANNER}
+                  {FOLIOH_BANNER}
                 </pre>
                 <span className="landing-hb-line landing-hb-s1 mt-2 whitespace-pre">
                   <span className="font-semibold text-primary">&#10003;</span>

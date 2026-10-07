@@ -2,23 +2,23 @@
 
 import { useEffect } from "react"
 
-const FOLIO_BASE_PATH =
-  process.env.NEXT_PUBLIC_FOLIO_BASE_PATH?.replace(/\/+$/, "") ?? ""
+const FOLIOH_BASE_PATH =
+  process.env.NEXT_PUBLIC_FOLIOH_BASE_PATH?.replace(/\/+$/, "") ?? ""
 
 function targetButton(target: EventTarget | null) {
   if (!(target instanceof Element)) return null
   return target.closest<HTMLButtonElement>("button[data-href]")
 }
 
-function withFolioBasePath(path: string) {
+function withFoliohBasePath(path: string) {
   if (/^[a-z][a-z\d+.-]*:/i.test(path)) return path
   if (!path.startsWith("/")) return path
-  if (!FOLIO_BASE_PATH || FOLIO_BASE_PATH === "/") return path
-  if (path === FOLIO_BASE_PATH || path.startsWith(`${FOLIO_BASE_PATH}/`)) {
+  if (!FOLIOH_BASE_PATH || FOLIOH_BASE_PATH === "/") return path
+  if (path === FOLIOH_BASE_PATH || path.startsWith(`${FOLIOH_BASE_PATH}/`)) {
     return path
   }
 
-  return `${FOLIO_BASE_PATH}${path}`
+  return `${FOLIOH_BASE_PATH}${path}`
 }
 
 function withTrailingSlash(href: string) {
@@ -36,7 +36,7 @@ function withTrailingSlash(href: string) {
 function buttonHref(button: HTMLButtonElement) {
   const href = button.dataset.href
   if (!href) return null
-  return withTrailingSlash(withFolioBasePath(href))
+  return withTrailingSlash(withFoliohBasePath(href))
 }
 
 export function SidebarIndexLinks() {

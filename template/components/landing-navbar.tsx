@@ -28,7 +28,7 @@ interface LandingNavbarProps {
   pathToRoot?: string
   /** Retained for view-call compatibility; landing headers are full width. */
   workspace?: boolean
-  /** Keep only Folio identity and the theme control on product-index pages. */
+  /** Keep only Folioh identity and the theme control on product-index pages. */
   minimal?: boolean
   /** Sites that ship more than one product hang a switcher off the wordmark,
    * so a reader can cross from one product's landing to the next without
@@ -98,7 +98,7 @@ export function LandingNavbar({
                 className="h-7 w-auto"
               />
             ) : (
-              <span className="folio-monogram flex size-7 items-center justify-center bg-primary font-mono text-[11px] font-bold text-primary-foreground">
+              <span className="folioh-monogram flex size-7 items-center justify-center bg-primary font-mono text-[11px] font-bold text-primary-foreground">
                 {projectMonogram}
               </span>
             )}

@@ -28,8 +28,8 @@ A readiness list with explicit states. Use it for prerequisites, deployment chec
 <Checklist
   title="Before you build"
   items={[
-    { label: "Node.js 20.19+ and pnpm 10", description: "Required by folio build and folio serve.", state: "done" },
-    { label: "docs.yaml exists", description: "Run folio init if it is missing.", state: "todo" },
+    { label: "Node.js 20.19+ and pnpm 10", description: "Required by folioh build and folioh serve.", state: "done" },
+    { label: "docs.yaml exists", description: "Run folioh init if it is missing.", state: "todo" },
     { label: "No stale output committed", description: "Keep .build/ and _site/ out of source control unless your deployment needs them.", state: "warn" },
   ]}
 />

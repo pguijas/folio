@@ -1,4 +1,4 @@
 # One line ending in every checkout: the binary embeds workflow templates
 # and the site template at build time, so a CRLF checkout must not leak into
-# what folio writes.
+# what folioh writes.
 * text=auto eol=lf

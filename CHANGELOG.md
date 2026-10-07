@@ -1,15 +1,31 @@
 # Changelog
 
-All notable user-facing changes are recorded here. Folio follows semantic
+All notable user-facing changes are recorded here. Folioh follows semantic
 versioning while the public CLI, configuration, and plugin contracts stabilize.
+
+## 0.3.1 — 2026-10-07
+
+### Changed
+
+- The product and public repository are Folioh. The website is
+  [folioh.site](https://folioh.site).
+- The command and release binary are `folioh`. Workspace crates use the
+  `folioh-*` prefix, environment variables use `FOLIOH_*`, and generated paths
+  and template namespaces use `folioh`.
+- GitHub Pages previews use the configured Pages domain and base path.
+- To upgrade an existing Folio installation, run the installer at
+  `https://folioh.site/install.sh` and use `folioh`. Existing `folio`
+  installations are retained. Use `FOLIOH_*`
+  environment variables with the new command. Older binaries retain their
+  previous command, settings and release archive names.
 
 ## 0.3.0 — 2026-10-04
 
 ### Added
 
 - `theme.logo` shows in the landing navbar in place of the monogram.
-- The navbar theme picker offers fifteen choices in three families: six Folio
-  styles, five Folio Pastel palettes and four Omarchy palettes. Each swatch applies
+- The navbar theme picker offers fifteen choices in three families: six Folioh
+  styles, five Folioh Pastel palettes and four Omarchy palettes. Each swatch applies
   a complete color-and-style recipe. Project and registered presets keep all their
   choices; earlier saved styles and palettes continue to render unchanged.
 - Customize opens from the final circle in the swatch row, inside the same
@@ -24,7 +40,7 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
 - The Omarchy preset, inspired by [Omarchy](https://omarchy.org): one theme
   with four selected palettes, each light or dark only,
   with flat square navbar and chapter rows, a palette-tinted pixel background
-  and a block-letter Folio wordmark, also visible in picker previews.
+  and a block-letter Folioh wordmark, also visible in picker previews.
   The pixels flow, follow the mouse with a soft halo and release a wave on
   click or hold. The wordmark cycles through four reconstructions on entry,
   palette change or replay by click, Enter or Space. Omarchy palette changes
@@ -36,12 +52,12 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
   its notice.
 - The Terminal typography (`fontId: "terminal"`): a monospaced body under
   Geist headings.
-- Folio Pastel is the default for new sites and `folio init`, with Ink's
+- Folioh Pastel is the default for new sites and `folio init`, with Ink's
   pen-blue palette, Grotesque typography and 0.75rem corners. Ink, Jade,
   Lavender, Peach and Sky support light and dark with the same shapes.
   Existing reader choices survive the default change; older saved Pastel
   choices without a palette keep Jade. Project defaults still override
-  preset defaults. Its palettes and irregular silhouettes are Folio's own; layout,
+  preset defaults. Its palettes and irregular silhouettes are Folioh's own; layout,
   measurements, motion timings and component CSS adapt [cojeev](https://github.com/luv-jeri/cojeev-ui).
   `THIRD-PARTY-NOTICES.md` retains its MIT notice and the fonts' OFL notice.
 - Pastel draws the docs shell after cojeev: a 288 px floating sidebar with
@@ -87,7 +103,7 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
 
 ### Changed
 
-- Folio styles use stationery names: Letterpress, Ballpoint, Notebook,
+- Folioh styles use stationery names: Letterpress, Ballpoint, Notebook,
   Paperback, Roller and Typewriter. Existing preset IDs and saved preferences
   remain compatible; Roller remains an explicit choice.
 - Callouts draw six distinct tones, one per type, from the tone variables on
@@ -140,7 +156,7 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
 
 ### Added
 
-- Folio is one native Rust binary, `folio`, installed by `install.sh` from
+- Folioh is one native Rust binary, `folio`, installed by `install.sh` from
   GitHub Releases. It replaces the `folio-docs` Python package and needs no
   Python; `folio build` and `folio serve` still render through the bundled
   Next.js template with Node.js 20.19+ and pnpm 10.
@@ -170,7 +186,7 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
   static member that shares its name with an instance one has its own anchor.
   `node_modules` is never read and `.jsx` is skipped with a warning.
 - Rust sources: `source.rust.paths` reads crates statically, without cargo or a
-  Rust toolchain. Folio takes the crate name from `Cargo.toml`, follows the
+  Rust toolchain. Folioh takes the crate name from `Cargo.toml`, follows the
   `pub mod` declarations from `lib.rs` or `main.rs`, and publishes public
   functions, structs, enums, traits, impl blocks and type aliases with their
   signatures, attributes and `///` comments under `api-reference/rust/`.
@@ -208,7 +224,7 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
 
 ### Changed
 
-- Folio is now licensed under MIT (previously AGPL-3.0-only).
+- Folioh is now licensed under MIT (previously AGPL-3.0-only).
 - Release archives ship THIRD-PARTY-NOTICES.md next to LICENSE, with the
   licenses of the bundled shadcn/ui components and of the code adapted from
   docstring_parser (MIT) and CPython (PSF License Version 2).
@@ -216,18 +232,18 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
   opens an issue in `project.repo`. Without a `repo`, neither link is shown;
   both used to point at Nextra's own repository.
 - `folio serve` no longer builds the example projects under `docs/examples/`
-  on its own: each one is a full nested site, and a cold `serve` of Folio's own
+  on its own: each one is a full nested site, and a cold `serve` of Folioh's own
   repository spent minutes on four of them before the dev server came up. The
   `Previews` row says what was skipped, `folio serve --previews` builds them,
   a `DocPreview` whose example is not built says so in its place, and
   `folio build` still builds every example. The nested builds share the
   workspace's `node_modules` through a link instead of installing their own.
 - A full build no longer rebuilds every preview example. Each published
-  example carries the digest of its sources, the Folio version, the template
+  example carries the digest of its sources, the Folioh version, the template
   and the base path it is built for; one whose digest still matches is left
   alone, and the `Previews` row reports what was rebuilt, what was unchanged
   and what was swept. An example is a
-  whole nested build, so a warm build of Folio's own site stops paying for
+  whole nested build, so a warm build of Folioh's own site stops paying for
   four of them.
 - The `Dependencies` row names the phase it is in while it runs, rather than
   reading `checking pnpm` through a `pnpm install` that can take minutes.
@@ -328,7 +344,7 @@ versioning while the public CLI, configuration, and plugin contracts stabilize.
 
 - `folio init` quotes the project metadata it detects, from `pyproject.toml`
   and the git remote, into the generated `docs.yaml`, so a cloned repository
-  cannot close the quote and append keys to the config Folio then trusts.
+  cannot close the quote and append keys to the config Folioh then trusts.
 - `folio clean` never deletes a source root or anything that is not a
   directory, and `folio serve --kill-existing` stops only the process
   listening on the port.

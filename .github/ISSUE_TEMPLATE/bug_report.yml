@@ -31,9 +31,9 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Include Folio (`folio --version`), Node.js, pnpm, and OS versions.
+      description: Include Folioh (`folioh --version`), Node.js, pnpm, and OS versions.
       placeholder: |
-        Folio:
+        Folioh:
         Node.js:
         pnpm:
         OS:

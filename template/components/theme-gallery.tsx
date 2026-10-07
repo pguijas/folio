@@ -53,7 +53,7 @@ import {
 } from "@/theme/preset-types"
 
 // The theme picker as a gallery of slides. The idea of a gallery comes from
-// omarchy.org; the drawing and every value here are Folio's own. One slide
+// omarchy.org; the drawing and every value here are Folioh's own. One slide
 // per color-and-style recipe, grouped into families. Customize
 // is a page inside the same dialog; every choice applies immediately.
 
@@ -76,18 +76,18 @@ interface Variant {
   option: PresetControlOption
 }
 
-// Group Folio's styles without changing stored preset IDs.
+// Group Folioh's styles without changing stored preset IDs.
 // Project overrides and independently registered presets remain selectable.
 export function listThemes(): GalleryTheme[] {
   const groups = groupPresetsForDisplay(getGroups(), presets)
   const project = groups.find((group) => group.id === "project")?.presets ?? []
   const remaining = groups.flatMap((group) => group.presets).filter((preset) => !project.includes(preset))
-  const folio = remaining.filter((preset) => builtinGalleryVariants.has(preset) && preset.id !== "omarchy" && preset.id !== "pastel")
+  const folioh = remaining.filter((preset) => builtinGalleryVariants.has(preset) && preset.id !== "omarchy" && preset.id !== "pastel")
   const single = (preset: ThemePreset): GalleryTheme => ({ id: `preset:${preset.id}`, name: preset.name, presets: [preset] })
-  const standalone = remaining.filter((preset) => !folio.includes(preset))
+  const standalone = remaining.filter((preset) => !folioh.includes(preset))
   return [
     ...project.map(single),
-    ...(folio.length ? [{ id: "folio", name: "Folio", presets: folio }] : []),
+    ...(folioh.length ? [{ id: "folioh", name: "Folioh", presets: folioh }] : []),
     ...standalone.map(single),
   ]
 }
@@ -717,7 +717,7 @@ function AppliedMark({ applied }: { applied: boolean }) {
   )
 }
 
-// A small Folio page drawn in the slide's own theme: its custom properties are
+// A small Folioh page drawn in the slide's own theme: its custom properties are
 // scoped to this element, so everything inside resolves to that theme while
 // the page around it keeps the reader's.
 function ThemeGalleryPage({ config, dark }: { config: ThemeConfig; dark: boolean }) {
@@ -728,7 +728,7 @@ function ThemeGalleryPage({ config, dark }: { config: ThemeConfig; dark: boolean
       {config.presetId === "omarchy" ? <ThemePixelField /> : null}
       <span className="theme-gallery-page-bar">
         <span className="theme-gallery-page-mark" />
-        <span className="theme-gallery-page-brand">Folio</span>
+        <span className="theme-gallery-page-brand">Folioh</span>
         <span className="theme-gallery-page-icons">
           <span />
           <span />
@@ -745,15 +745,15 @@ function ThemeGalleryPage({ config, dark }: { config: ThemeConfig; dark: boolean
         </span>
         <span className="theme-gallery-page-main">
           <span className="theme-gallery-page-content">
-            {config.presetId === "omarchy" ? <ThemeWordmark name="Folio" interactive={false} /> : null}
+            {config.presetId === "omarchy" ? <ThemeWordmark name="Folioh" interactive={false} /> : null}
             {config.presetId === "pastel" ? <PastelArtwork /> : null}
             <span className="theme-gallery-page-title">Getting started</span>
             <span className="theme-gallery-page-text">
               Build clear docs from your source. Browse the <span className="theme-gallery-page-link">API reference</span>.
             </span>
             <span className="theme-gallery-page-code">
-              <span><span className="theme-gallery-page-prompt">$</span> folio build</span>
-              <span><span className="theme-gallery-page-prompt">$</span> folio serve</span>
+              <span><span className="theme-gallery-page-prompt">$</span> folioh build</span>
+              <span><span className="theme-gallery-page-prompt">$</span> folioh serve</span>
             </span>
             <span className="theme-gallery-page-heading">Explore the docs</span>
             <span className="theme-gallery-page-cards">

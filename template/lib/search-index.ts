@@ -1,7 +1,7 @@
-export interface FolioSearchDocument {
+export interface FoliohSearchDocument {
   url: string
   title: string
   content: string
 }
 
-export const folioSearchDocuments: FolioSearchDocument[] = []
+export const foliohSearchDocuments: FoliohSearchDocument[] = []

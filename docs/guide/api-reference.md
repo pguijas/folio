@@ -1,18 +1,18 @@
 ---
 title: API Reference
-description: What the generated API reference contains, and why this site ships without one for Folio's own code.
+description: What the generated API reference contains, and why this site ships without one for Folioh's own code.
 ---
 
 # API Reference
 
 <Callout type="warning" title="Not available in this release">
-  Folio reads Rust source, but this site does not publish a reference for
-  Folio's own code yet: it ships its landing and guides only.
+  Folioh reads Rust source, but this site does not publish a reference for
+  Folioh's own code yet: it ships its landing and guides only.
 </Callout>
 
 ## What the API reference is in your project
 
-The API reference is the part of the site Folio generates from source. List
+The API reference is the part of the site Folioh generates from source. List
 your source roots under `source.python.paths`, `source.javascript.paths` or
 `source.rust.paths` in `docs.yaml`; every module becomes one page, and each
 page shows:
@@ -35,7 +35,7 @@ page shows:
 [Languages](./languages) lists what each reader takes from its source and
 where it stops.
 
-Folio reads the source and never executes it. Each generated page also gets an
+Folioh reads the source and never executes it. Each generated page also gets an
 agent-readable Markdown mirror, so agents read the same reference people do.
 
 [Quick Start](./quickstart) walks the first build end to end, and

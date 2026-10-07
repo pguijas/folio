@@ -1,11 +1,11 @@
 ---
 title: GitHub Pages
-description: Deploy Folio docs to GitHub Pages, including base path inference, production deploys, and branch previews.
+description: Deploy Folioh docs to GitHub Pages, including base path inference, production deploys, and branch previews.
 ---
 
 # GitHub Pages
 
-GitHub Pages serves static files. Folio's Pages integration publishes the same
+GitHub Pages serves static files. Folioh's Pages integration publishes the same
 `_site/` artifact used by other hosts, with extra handling for project-site base
 paths and branch previews.
 
@@ -14,13 +14,20 @@ paths and branch previews.
 Set `project.url` in `docs.yaml` to the final Pages URL before deploying so
 sitemap and metadata use the public URL.
 
-For GitHub Pages builds, set `FOLIO_DEPLOY_PROVIDER=github-pages` in the build
-step or add `deploy.provider: "github-pages"` to `docs.yaml`. Folio then infers
+For GitHub Pages builds, set `FOLIOH_DEPLOY_PROVIDER=github-pages` in the build
+step or add `deploy.provider: "github-pages"` to `docs.yaml`. Folioh then infers
 `/repo-name` for project pages from `GITHUB_REPOSITORY`, while user and
 organization pages such as `owner.github.io` stay at `/`.
 
-Use `FOLIO_BASE_PATH` or `deploy.base_path` only when you need an explicit
+Use `FOLIOH_BASE_PATH` or `deploy.base_path` only when you need an explicit
 override.
+
+For a custom domain, set it in the repository's Pages settings and configure
+its DNS records with your domain provider. The workflows created by `folioh init`
+read the configured Pages URL and base path for both production and previews.
+An apex domain such as `https://example.com` uses `/`, so preview assets stay
+under `/previews/pr-<number>-<branch>/`. Set `project.url` to the custom domain
+as well so metadata and sitemap links use it.
 
 ```yaml
 deploy:
@@ -32,7 +39,7 @@ deploy:
 <Steps>
   <Step title="Build your docs">
     ```bash
-    folio build --clean
+    folioh build --clean
     ```
   </Step>
   <Step title="Publish the static site">
@@ -45,20 +52,20 @@ deploy:
 
 ## Branch Previews
 
-`folio init` creates a second GitHub Actions workflow for branch previews on the
+`folioh init` creates a second GitHub Actions workflow for branch previews on the
 same GitHub Pages site. It runs from `pull_request_target`: PR branch code is
 built in an unprivileged job, and the privileged deploy job only consumes the
 static `_site/` artifact. The preview appears under
 `/previews/pr-<number>-<branch>/`, for example
 `https://owner.github.io/project/previews/pr-17-docs-redesign/`.
 
-GitHub Pages publishes one artifact for the whole site. Folio keeps production
+GitHub Pages publishes one artifact for the whole site. Folioh keeps production
 and branch previews together in that single artifact:
 
 - A `main` deploy builds production docs at the site root.
-- It restores existing preview folders from the internal `folio-pages-state`
+- It restores existing preview folders from the internal `folioh-pages-state`
   branch.
-- A branch deploy starts from the saved `folio-pages-state` root, downloads the
+- A branch deploy starts from the saved `folioh-pages-state` root, downloads the
   static preview artifact, replaces only `/previews/pr-<number>-<branch>/`, and
   deploys the complete artifact again.
 
@@ -72,7 +79,7 @@ the Actions run to find it.
 ## State Branch
 
 The production workflow and preview workflow cooperate through an internal
-`folio-pages-state` branch. This branch stores the last complete Pages artifact
+`folioh-pages-state` branch. This branch stores the last complete Pages artifact
 so a preview deploy can replace one preview folder without dropping production
 docs or other previews.
 

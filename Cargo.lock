@@ -570,21 +570,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-cli"
-version = "0.3.0"
+name = "folioh-cli"
+version = "0.3.1"
 dependencies = [
  "anstream",
  "anstyle",
  "clap",
  "crossterm",
- "folio-config",
- "folio-docs",
- "folio-ir",
- "folio-lang-python",
- "folio-mdx",
- "folio-plugins",
- "folio-site",
- "folio-watch",
+ "folioh-config",
+ "folioh-docs",
+ "folioh-ir",
+ "folioh-lang-python",
+ "folioh-mdx",
+ "folioh-plugins",
+ "folioh-site",
+ "folioh-watch",
  "jiff",
  "regex",
  "semver",
@@ -599,8 +599,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-config"
-version = "0.3.0"
+name = "folioh-config"
+version = "0.3.1"
 dependencies = [
  "indexmap",
  "jiff",
@@ -612,15 +612,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-docs"
-version = "0.3.0"
+name = "folioh-docs"
+version = "0.3.1"
 dependencies = [
- "folio-config",
- "folio-ir",
- "folio-lang-javascript",
- "folio-lang-python",
- "folio-lang-rust",
- "folio-mdx",
+ "folioh-config",
+ "folioh-ir",
+ "folioh-lang-javascript",
+ "folioh-lang-python",
+ "folioh-lang-rust",
+ "folioh-mdx",
  "indexmap",
  "serde_json",
  "serde_yaml_ng",
@@ -629,8 +629,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-ir"
-version = "0.3.0"
+name = "folioh-ir"
+version = "0.3.1"
 dependencies = [
  "regex",
  "serde",
@@ -639,10 +639,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-lang-javascript"
-version = "0.3.0"
+name = "folioh-lang-javascript"
+version = "0.3.1"
 dependencies = [
- "folio-ir",
+ "folioh-ir",
  "serde_json",
  "tempfile",
  "thiserror",
@@ -651,11 +651,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-lang-python"
-version = "0.3.0"
+name = "folioh-lang-python"
+version = "0.3.1"
 dependencies = [
  "criterion",
- "folio-ir",
+ "folioh-ir",
  "num-bigint",
  "ruff_python_ast",
  "ruff_python_parser",
@@ -667,10 +667,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-lang-rust"
-version = "0.3.0"
+name = "folioh-lang-rust"
+version = "0.3.1"
 dependencies = [
- "folio-ir",
+ "folioh-ir",
  "proc-macro2",
  "serde_json",
  "syn 2.0.119",
@@ -680,8 +680,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-mdx"
-version = "0.3.0"
+name = "folioh-mdx"
+version = "0.3.1"
 dependencies = [
  "indexmap",
  "regex",
@@ -693,11 +693,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-plugins"
-version = "0.3.0"
+name = "folioh-plugins"
+version = "0.3.1"
 dependencies = [
- "folio-config",
- "folio-mdx",
+ "folioh-config",
+ "folioh-mdx",
  "indexmap",
  "regex",
  "serde",
@@ -708,13 +708,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-site"
-version = "0.3.0"
+name = "folioh-site"
+version = "0.3.1"
 dependencies = [
  "flate2",
- "folio-config",
- "folio-mdx",
- "folio-plugins",
+ "folioh-config",
+ "folioh-mdx",
+ "folioh-plugins",
  "indexmap",
  "regex",
  "serde",
@@ -726,10 +726,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "folio-watch"
-version = "0.3.0"
+name = "folioh-watch"
+version = "0.3.1"
 dependencies = [
- "folio-config",
+ "folioh-config",
  "notify",
  "serde_json",
  "tempfile",

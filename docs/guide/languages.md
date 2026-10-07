@@ -5,7 +5,7 @@ description: Source language support, configuration, and limits for Python, Java
 
 # Languages
 
-Folio documents **Python, JavaScript, and Rust**, reading source without
+Folioh documents **Python, JavaScript, and Rust**, reading source without
 importing your package, installing your dependencies, building your crate, or
 running your code. The native parsers extract modules, declarations,
 signatures, types, attributes, and doc comments.
@@ -73,7 +73,7 @@ the binary: configuring a language is all it takes to read it. See
 
 ## Limits
 
-Source is inspected statically. Folio does not execute imports, evaluate
+Source is inspected statically. Folioh does not execute imports, evaluate
 application code, or infer runtime behavior.
 
 | Language | Limits |

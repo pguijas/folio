@@ -18,17 +18,17 @@ Show two related code snippets side by side. It works well for migration notes, 
 
 ```mdx
 <BeforeAfter
-  before={`.. note:: Install Folio first.`}
-  after={`<Callout type="note">Install Folio first.</Callout>`}
+  before={`.. note:: Install Folioh first.`}
+  after={`<Callout type="note">Install Folioh first.</Callout>`}
   beforeLabel="RST"
   afterLabel="MDX"
 />
 ```
 
 <BeforeAfter
-  before={`.. note:: Install Folio first.`}
+  before={`.. note:: Install Folioh first.`}
   after={`<Callout type="note">
-  Install Folio first.
+  Install Folioh first.
 </Callout>`}
   beforeLabel="RST"
   afterLabel="MDX"

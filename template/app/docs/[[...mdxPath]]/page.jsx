@@ -24,8 +24,8 @@ const docsOgImageUrl = siteUrl
   ? `${siteUrl}/docs/opengraph-image`
   : "/docs/opengraph-image"
 const docsIndexCanonicalPath = "__DOCS_INDEX_CANONICAL_PATH__"
-const folioBasePath = process.env.NEXT_PUBLIC_FOLIO_BASE_PATH?.replace(/\/+$/, "") ?? ""
-const markdownMirrorDir = join(process.cwd(), "public", "_folio", "markdown")
+const foliohBasePath = process.env.NEXT_PUBLIC_FOLIOH_BASE_PATH?.replace(/\/+$/, "") ?? ""
+const markdownMirrorDir = join(process.cwd(), "public", "_folioh", "markdown")
 const contentDir = join(process.cwd(), "content")
 
 function docsRouteForMdxPath(mdxPath) {
@@ -54,7 +54,7 @@ function absoluteDocsUrl(mdxPath) {
 }
 
 // The build writes a Markdown mirror of every page into
-// public/_folio/markdown, named after the content file rather than the docs
+// public/_folioh/markdown, named after the content file rather than the docs
 // route: content/plugins/index.mdx mirrors to plugins/index.md, not
 // plugins.md. Probe both shapes on disk and link nothing when neither is
 // there, so the head never points at a file the build did not write.
@@ -62,7 +62,7 @@ function markdownMirrorPath(mdxPath) {
   const route = mdxPath.length ? mdxPath.join("/") : "index"
   for (const candidate of [`${route}.md`, `${route}/index.md`]) {
     if (existsSync(join(markdownMirrorDir, candidate))) {
-      return `/_folio/markdown/${candidate}`
+      return `/_folioh/markdown/${candidate}`
     }
   }
   return ""
@@ -76,7 +76,7 @@ function markdownMirrorUrl(mdxPath) {
   // A configured site URL already carries the deploy base path (it is what
   // canonical links are built from); without one, fall back to the base path
   // Next was configured with.
-  return siteUrl ? `${siteUrl}${mirrorPath}` : `${folioBasePath}${mirrorPath}`
+  return siteUrl ? `${siteUrl}${mirrorPath}` : `${foliohBasePath}${mirrorPath}`
 }
 
 function pageAlternates(metadata, canonical, markdownUrl) {
@@ -200,7 +200,7 @@ export default async function Page(props) {
         <PageActionsButton markdownPath={markdownMirrorPath(mdxPath)} />
       </div>
       <ThemeWordmark name={projectName} />
-      <PastelArtwork seed={mdxPath.join("/") || "folio"} />
+      <PastelArtwork seed={mdxPath.join("/") || "folioh"} />
       <MDXContent {...props} params={normalizedParams} />
     </Wrapper>
   )

@@ -153,7 +153,7 @@ export function LandingCommand({
           fade the clipped edge to signal there is more to scroll. */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-px right-16 w-10 bg-gradient-to-l from-(--folio-code-bg) sm:hidden"
+        className="pointer-events-none absolute inset-y-px right-16 w-10 bg-gradient-to-l from-(--folioh-code-bg) sm:hidden"
       />
       <CopyButton text={installCommands.join("\n")} />
     </div>

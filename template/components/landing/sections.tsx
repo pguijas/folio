@@ -39,7 +39,7 @@ type LandingSectionComponent = (props: {
 }) => ReactElement | null
 
 /** Exported so a theme page can put a configured section's heading above a
- * body it renders itself. The Folio site does that for the roadmap card, which
+ * body it renders itself. The Folioh site does that for the roadmap card, which
  * is a component rather than a `landing.sections` entry. */
 export function SectionHeading({
   eyebrow,
@@ -164,13 +164,13 @@ function FeatureVisual({ kind }: { kind?: string }) {
           <span className="mb-1 block text-[9px] font-semibold tracking-[0.14em] text-primary uppercase">
             llms.txt
           </span>
-          # <span className="font-semibold text-foreground">folio</span>
+          # <span className="font-semibold text-foreground">folioh</span>
           <br />
           &gt; API docs, straight from source
           <br />
-          - <span className="text-primary">[folio.config]</span>(/config)
+          - <span className="text-primary">[folioh.config]</span>(/config)
           <br />
-          - <span className="text-primary">[folio.build]</span>(/build)
+          - <span className="text-primary">[folioh.build]</span>(/build)
         </div>
       </div>
     )
@@ -186,7 +186,7 @@ function FeatureVisual({ kind }: { kind?: string }) {
               <span className="size-[7px] rounded-full bg-border" />
               <span className="size-[7px] rounded-full bg-border" />
             </span>
-            folio build
+            folioh build
           </div>
           <div className="px-3 py-2 font-mono text-[10px] leading-loose text-muted-foreground">
             <span className="font-semibold text-primary">&#10003;</span>{" "}
@@ -456,9 +456,9 @@ function FeaturesSection({
 
 /**
  * "comparison" section. A project supplies `tools` and `rows` and the table is
- * entirely its own; the heading defaults stay neutral and no Folio route is
+ * entirely its own; the heading defaults stay neutral and no Folioh route is
  * linked. Only the deprecated bundled matrix — the fallback when either is
- * missing — carries Folio's own framing, because it is Folio's own table.
+ * missing — carries Folioh's own framing, because it is Folioh's own table.
  */
 function ComparisonSection({ section }: { section: LandingSection }) {
   const configured = Boolean(section.tools?.length && section.rows?.length)
@@ -480,7 +480,7 @@ function ComparisonSection({ section }: { section: LandingSection }) {
                 section.description ??
                 (configured
                   ? undefined
-                  : "Folio covers the daily documentation path: pdoc-level setup, guides, static export, LLM-friendly files, extensibility, open source, and CI-ready builds. Roadmap gaps stay on the roadmap.")
+                  : "Folioh covers the daily documentation path: pdoc-level setup, guides, static export, LLM-friendly files, extensibility, open source, and CI-ready builds. Roadmap gaps stay on the roadmap.")
               }
             />
             {configured ? null : (
@@ -927,7 +927,7 @@ function CellVisual({ kind }: { kind?: string }) {
       <div className={shell} aria-hidden="true">
         <p className="m-0 font-mono text-[10px] leading-relaxed">
           <span className="text-muted-foreground">$ </span>
-          <span className="font-semibold text-foreground">folio build</span>
+          <span className="font-semibold text-foreground">folioh build</span>
         </p>
         <p className="m-0 font-mono text-[10px] leading-relaxed text-muted-foreground">
           <span className="font-semibold text-primary">&#10003;</span> pages
@@ -941,7 +941,7 @@ function CellVisual({ kind }: { kind?: string }) {
     )
   }
 
-  /* The "Who picks Folio" cells. Same vocabulary as the four above:
+  /* The "Who picks Folioh" cells. Same vocabulary as the four above:
      hairline panes, rounded bars standing in for text, one accent marking the
      thing that moved. Drawn rather than photographed because everything else
      on these pages is drawn, and a photograph next to line art is a different
@@ -1186,7 +1186,7 @@ function MechanismSection({ section }: { section: LandingSection }) {
   )
   const pills = section.pills?.length
     ? section.pills
-    : ["git push", "folio build", "deploy"]
+    : ["git push", "folioh build", "deploy"]
   const accentPill = Math.floor(pills.length / 2)
   const caption = section.caption
 
@@ -1335,8 +1335,8 @@ function FunnelMark({ icon }: { icon?: string }) {
   )
 }
 
-/* "funnel" plate defaults — folio's own build, so a bare `- type: funnel`
- * still tells folio's story. Every reader in the binary is a solid tile; a
+/* "funnel" plate defaults — folioh's own build, so a bare `- type: funnel`
+ * still tells folioh's story. Every reader in the binary is a solid tile; a
  * ghost tile is dashed, so unshipped work never renders as shipped. */
 const DEFAULT_FUNNEL_INPUTS: LandingFunnelInput[] = [
   { label: "Config file", icon: "config" },
@@ -1494,7 +1494,7 @@ function FunnelTileBlock({
 
 /**
  * "funnel" section: the build-funnel plate — source tiles converge through
- * the `folio build` node and fan out to the output tiles. Each side is a
+ * the `folioh build` node and fan out to the output tiles. Each side is a
  * two-column block of icon-and-label tiles with alternating margins; ghost
  * tiles are the roadmap, dashed. One responsive DOM: a five-column grid at
  * lg whose connector columns are stretched SVGs drawn in px (curve endpoints
@@ -1507,7 +1507,7 @@ function FunnelSection({ section }: { section: LandingSection }) {
   const inputs = configInputs.length > 0 ? configInputs : DEFAULT_FUNNEL_INPUTS
   const outputs =
     configOutputs.length > 0 ? configOutputs : DEFAULT_FUNNEL_OUTPUTS
-  const command = section.command || "folio build"
+  const command = section.command || "folioh build"
 
   const inLayout = layoutTiles(inputs)
   const outLayout = layoutTiles(outputs)

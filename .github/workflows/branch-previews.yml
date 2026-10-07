@@ -68,9 +68,9 @@ jobs:
           echo "head_sha=${HEAD_SHA}" >> "$GITHUB_OUTPUT"
           echo "head_ref=${HEAD_REF}" >> "$GITHUB_OUTPUT"
           {
-            echo "pr_title<<__FOLIO_EOF__"
+            echo "pr_title<<__FOLIOH_EOF__"
             echo "$PR_TITLE"
-            echo "__FOLIO_EOF__"
+            echo "__FOLIOH_EOF__"
           } >> "$GITHUB_OUTPUT"
 
   build-preview:
@@ -79,6 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pages: read
     steps:
       - name: Clear job workspace
         shell: bash
@@ -108,11 +109,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build folio from the preview branch
+      - name: Build folioh from the preview branch
         working-directory: preview-source
         run: |
-          cargo build --release --locked -p folio-cli
+          cargo build --release --locked -p folioh-cli
           echo "$PWD/target/release" >> "$GITHUB_PATH"
+
+      - name: Read GitHub Pages configuration
+        id: pages
+        uses: actions/configure-pages@v5
 
       - name: Compute preview path
         id: preview
@@ -120,29 +125,20 @@ jobs:
         env:
           HEAD_REF: ${{ needs.validate.outputs.head_ref }}
           PR_NUMBER: ${{ needs.validate.outputs.pr_number }}
-          GITHUB_OWNER: ${{ github.repository_owner }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          PAGES_BASE_URL: ${{ steps.pages.outputs.base_url }}
         run: |
-          repo_name="${GITHUB_REPOSITORY#*/}"
-          if [ "$repo_name" = "${GITHUB_OWNER}.github.io" ]; then
-            pages_base_path="/"
-            pages_base_url="https://${GITHUB_OWNER}.github.io"
-          else
-            pages_base_path="/${repo_name}"
-            pages_base_url="https://${GITHUB_OWNER}.github.io/${repo_name}"
-          fi
-
-          folio github-pages compute-preview-path \
+          folioh github-pages compute-preview-path \
             --head-ref "$HEAD_REF" \
             --pr-number "$PR_NUMBER" \
-            --pages-base-path "$pages_base_path" \
-            --pages-base-url "$pages_base_url"
+            --pages-base-path "$PAGES_BASE_PATH" \
+            --pages-base-url "$PAGES_BASE_URL"
 
       - name: Build preview docs
         working-directory: preview-source
         env:
-          FOLIO_BASE_PATH: ${{ steps.preview.outputs.base_path }}
-        run: folio build --clean
+          FOLIOH_BASE_PATH: ${{ steps.preview.outputs.base_path }}
+        run: folioh build --clean
 
       - name: Upload preview artifact
         uses: actions/upload-artifact@v4
@@ -245,19 +241,19 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build folio from the production branch
+      - name: Build folioh from the production branch
         if: steps.deploy-gate.outputs.enabled == 'true'
         working-directory: trusted-source
         run: |
-          cargo build --release --locked -p folio-cli
+          cargo build --release --locked -p folioh-cli
           echo "$PWD/target/release" >> "$GITHUB_PATH"
 
       - name: Build production docs
         if: steps.deploy-gate.outputs.enabled == 'true'
         working-directory: trusted-source
         env:
-          FOLIO_BASE_PATH: "${{ steps.pages.outputs.base_path || '/' }}"
-        run: folio build --clean
+          FOLIOH_BASE_PATH: "${{ steps.pages.outputs.base_path || '/' }}"
+        run: folioh build --clean
 
       - name: Compute preview path
         if: steps.deploy-gate.outputs.enabled == 'true'
@@ -269,7 +265,7 @@ jobs:
           PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           PAGES_BASE_URL: ${{ steps.pages.outputs.base_url }}
         run: |
-          folio github-pages compute-preview-path \
+          folioh github-pages compute-preview-path \
             --head-ref "$HEAD_REF" \
             --pr-number "$PR_NUMBER" \
             --pages-base-path "$PAGES_BASE_PATH" \
@@ -286,18 +282,18 @@ jobs:
         if: steps.deploy-gate.outputs.enabled == 'true'
         working-directory: trusted-source
         run: |
-          folio github-pages prepare-artifact \
+          folioh github-pages prepare-artifact \
             --production-site _site \
             --artifact-dir ../_pages-artifact \
             --git-repo . \
             --state-dir ../_pages-state \
-            --state-branch folio-pages-state
+            --state-branch folioh-pages-state
 
       - name: Copy branch preview
         if: steps.deploy-gate.outputs.enabled == 'true'
         working-directory: trusted-source
         run: |
-          folio github-pages copy-branch-preview \
+          folioh github-pages copy-branch-preview \
             --preview-site ../_preview-site \
             --artifact-dir ../_pages-artifact \
             --preview-id "${{ steps.preview.outputs.safe_branch }}"
@@ -316,7 +312,7 @@ jobs:
           AUTHOR_URL: ${{ github.event.pull_request.user.html_url }}
           AVATAR_URL: ${{ github.event.pull_request.user.avatar_url }}
         run: |
-          folio github-pages write-preview-metadata \
+          folioh github-pages write-preview-metadata \
             --artifact-dir ../_pages-artifact \
             --preview-id "${{ steps.preview.outputs.safe_branch }}" \
             --pr-number "$PR_NUMBER" \
@@ -337,24 +333,24 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           open_prs="$(gh pr list --state open --json number,headRefName)"
-          folio github-pages prune-previews \
+          folioh github-pages prune-previews \
             --previews-dir ../_pages-artifact/previews \
             --open-prs-json "$open_prs"
 
       - name: Write previews data
         if: steps.deploy-gate.outputs.enabled == 'true'
         working-directory: trusted-source
-        run: folio github-pages write-previews-data --previews-dir ../_pages-artifact/previews
+        run: folioh github-pages write-previews-data --previews-dir ../_pages-artifact/previews
 
       - name: Save Pages state
         if: steps.deploy-gate.outputs.enabled == 'true'
         working-directory: trusted-source
         run: |
-          folio github-pages save-state \
+          folioh github-pages save-state \
             --artifact-dir ../_pages-artifact \
             --git-repo . \
             --state-dir ../_pages-state \
-            --state-branch folio-pages-state \
+            --state-branch folioh-pages-state \
             --commit-message "Update preview for PR #${{ needs.validate.outputs.pr_number }}"
 
       - name: Upload Pages artifact
@@ -384,7 +380,7 @@ jobs:
           PREVIEW_URL: ${{ steps.preview.outputs.url }}
           INDEX_URL: ${{ steps.pages.outputs.base_url }}/previews/
         run: |
-          folio github-pages verify-url \
+          folioh github-pages verify-url \
             --url "$PREVIEW_URL" \
             --index-url "$INDEX_URL" \
             --summary-heading "Branch preview" \
@@ -404,7 +400,7 @@ jobs:
           PREVIEW_URL: ${{ steps.preview.outputs.url }}
           PR_NUMBER: ${{ needs.validate.outputs.pr_number }}
         run: |
-          folio github-pages comment-preview \
+          folioh github-pages comment-preview \
             --repo "${{ github.repository }}" \
             --pr-number "$PR_NUMBER" \
             --preview-url "$PREVIEW_URL" \

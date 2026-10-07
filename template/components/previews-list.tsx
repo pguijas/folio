@@ -12,8 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-const FOLIO_BASE_PATH =
-  process.env.NEXT_PUBLIC_FOLIO_BASE_PATH?.replace(/\/+$/, "") ?? ""
+const FOLIOH_BASE_PATH =
+  process.env.NEXT_PUBLIC_FOLIOH_BASE_PATH?.replace(/\/+$/, "") ?? ""
 
 interface PreviewEntry {
   name: string
@@ -151,7 +151,7 @@ export function PreviewsList() {
 
   useEffect(() => {
     let cancelled = false
-    fetch(`${FOLIO_BASE_PATH}/previews/previews.json`, { cache: "no-store" })
+    fetch(`${FOLIOH_BASE_PATH}/previews/previews.json`, { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
       .then((data: PreviewEntry[]) => {
         if (cancelled) return

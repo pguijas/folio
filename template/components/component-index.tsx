@@ -244,7 +244,7 @@ const componentGroups: ComponentGroup[] = [
   {
     title: "API Reference Components",
     summary:
-      "These appear automatically when Folio turns Python source into reference pages.",
+      "These appear automatically when Folioh turns Python source into reference pages.",
     accent: "var(--chart-3)",
     entries: [
       {
@@ -328,7 +328,7 @@ const componentCount = componentGroups.reduce(
 )
 
 function groupStyle(accent: string) {
-  return { "--folio-component-group-accent": accent } as CSSProperties
+  return { "--folioh-component-group-accent": accent } as CSSProperties
 }
 
 export function ComponentIndex() {
@@ -341,7 +341,7 @@ export function ComponentIndex() {
             Pick the right primitive before writing another docs section.
           </h2>
           <p>
-            Folio ships {componentCount} documentation components across{" "}
+            Folioh ships {componentCount} documentation components across{" "}
             {componentGroups.length} families. Use this page as a routing layer:
             find the job, open the component, then copy the pattern into a real
             guide or generated API page.

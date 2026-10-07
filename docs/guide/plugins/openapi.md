@@ -2,7 +2,7 @@
 
 *Turn an OpenAPI spec into an endpoint index page in your docs.*
 
-The OpenAPI integration is compiled into `folio`: nothing to install, nothing
+The OpenAPI integration is compiled into `folioh`: nothing to install, nothing
 to list. It stays inert until an `openapi:` section appears in `docs.yaml`.
 
 ```yaml
@@ -63,7 +63,7 @@ are dropped; a route with no segment left (`/`) takes the default. A `.` or
 - A spec that parses to something other than a mapping is skipped with a
   warning.
 
-## Editing a spec during `folio serve`
+## Editing a spec during `folioh serve`
 
-`folio serve` reads the specs when it starts. After you edit a spec, restart
-`folio serve` to see the change.
+`folioh serve` reads the specs when it starts. After you edit a spec, restart
+`folioh serve` to see the change.

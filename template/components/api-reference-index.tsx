@@ -43,7 +43,7 @@ function groupModules(modules: ApiModule[]): ApiModuleGroup[] {
 
 function groupStyle(index: number) {
   return {
-    "--folio-api-reference-index-accent": groupAccents[index % groupAccents.length],
+    "--folioh-api-reference-index-accent": groupAccents[index % groupAccents.length],
   } as CSSProperties
 }
 

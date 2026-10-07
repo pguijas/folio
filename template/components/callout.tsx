@@ -10,7 +10,7 @@ import {
 
 type CalloutType = "note" | "warning" | "info" | "tip" | "check" | "danger"
 
-// Each type's colours come from its --folio-tone-* tokens, applied in
+// Each type's colours come from its --folioh-tone-* tokens, applied in
 // app/styles/callout.css through data-variant.
 const calloutIcons: Record<CalloutType, typeof NoteIcon> = {
   note: NoteIcon,

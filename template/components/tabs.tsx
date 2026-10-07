@@ -52,7 +52,7 @@ export function TabGlide({
     mutation.observe(list, { subtree: true, attributeFilter: ["aria-selected"] })
     // A preset switch can move the tabs without resizing any of them, and
     // the move can run through a transition on the list or the tabs.
-    mutation.observe(document.documentElement, { attributeFilter: ["data-folio-preset"] })
+    mutation.observe(document.documentElement, { attributeFilter: ["data-folioh-preset"] })
     list.addEventListener("transitionend", place)
     // Radio groups report a new selection only through `change`.
     document.addEventListener("change", place)

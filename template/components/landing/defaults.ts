@@ -1,7 +1,7 @@
 import type { LandingRouteItem } from "@/components/landing/types"
 
 const docsRouteBase =
-  process.env.NEXT_PUBLIC_FOLIO_DOCS_ROUTE_BASE?.replace(/\/+$/, "") || "/docs"
+  process.env.NEXT_PUBLIC_FOLIOH_DOCS_ROUTE_BASE?.replace(/\/+$/, "") || "/docs"
 
 export const defaultRoutes: LandingRouteItem[] = [
   {

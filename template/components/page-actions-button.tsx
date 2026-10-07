@@ -69,20 +69,20 @@ const CHATGPT_ACTION = PAGE_ACTIONS.find(
     action.kind === "assistant"
 )
 
-const FOLIO_BASE_PATH = process.env.NEXT_PUBLIC_FOLIO_BASE_PATH?.replace(/\/+$/, "") ?? ""
-const FOLIO_DOCS_ROUTE_BASE =
-  process.env.NEXT_PUBLIC_FOLIO_DOCS_ROUTE_BASE?.replace(/\/+$/, "") || "/docs"
-const FOLIO_DOCS_ROUTE_SEGMENTS = FOLIO_DOCS_ROUTE_BASE.split("/").filter(Boolean)
+const FOLIOH_BASE_PATH = process.env.NEXT_PUBLIC_FOLIOH_BASE_PATH?.replace(/\/+$/, "") ?? ""
+const FOLIOH_DOCS_ROUTE_BASE =
+  process.env.NEXT_PUBLIC_FOLIOH_DOCS_ROUTE_BASE?.replace(/\/+$/, "") || "/docs"
+const FOLIOH_DOCS_ROUTE_SEGMENTS = FOLIOH_DOCS_ROUTE_BASE.split("/").filter(Boolean)
 
-function withFolioBasePath(path: string) {
+function withFoliohBasePath(path: string) {
   if (/^[a-z][a-z\d+.-]*:/i.test(path)) return path
   if (!path.startsWith("/")) return path
-  if (!FOLIO_BASE_PATH || FOLIO_BASE_PATH === "/") return path
-  if (path === FOLIO_BASE_PATH || path.startsWith(`${FOLIO_BASE_PATH}/`)) {
+  if (!FOLIOH_BASE_PATH || FOLIOH_BASE_PATH === "/") return path
+  if (path === FOLIOH_BASE_PATH || path.startsWith(`${FOLIOH_BASE_PATH}/`)) {
     return path
   }
 
-  return `${FOLIO_BASE_PATH}${path}`
+  return `${FOLIOH_BASE_PATH}${path}`
 }
 
 function getPageContext() {
@@ -107,12 +107,12 @@ function getPageContext() {
 function getDocsRoute() {
   const segments = window.location.pathname.split("/").filter(Boolean)
   let routeSegments: string[] = []
-  for (let index = 0; index <= segments.length - FOLIO_DOCS_ROUTE_SEGMENTS.length; index++) {
-    const matches = FOLIO_DOCS_ROUTE_SEGMENTS.every(
+  for (let index = 0; index <= segments.length - FOLIOH_DOCS_ROUTE_SEGMENTS.length; index++) {
+    const matches = FOLIOH_DOCS_ROUTE_SEGMENTS.every(
       (segment, offset) => segments[index + offset] === segment
     )
     if (matches) {
-      routeSegments = segments.slice(index + FOLIO_DOCS_ROUTE_SEGMENTS.length)
+      routeSegments = segments.slice(index + FOLIOH_DOCS_ROUTE_SEGMENTS.length)
       break
     }
   }
@@ -122,8 +122,8 @@ function getDocsRoute() {
 // The docs page passes the mirror path the build wrote for it; the route
 // guess is a fallback for a page rendered without one.
 function getMarkdownUrl(markdownPath?: string) {
-  const path = markdownPath || `/_folio/markdown/${getDocsRoute()}.md`
-  return new URL(withFolioBasePath(path), window.location.href).toString()
+  const path = markdownPath || `/_folioh/markdown/${getDocsRoute()}.md`
+  return new URL(withFoliohBasePath(path), window.location.href).toString()
 }
 
 function createAssistantReadPrompt(markdownPath?: string) {
@@ -134,7 +134,7 @@ function createMcpPayload() {
   const { title, url, content } = getPageContext()
   return JSON.stringify(
     {
-      type: "folio.page_context",
+      type: "folioh.page_context",
       version: 1,
       resource: {
         uri: url,
@@ -195,7 +195,7 @@ function actionIcon(action: PageAction) {
 function AssistantIcon({ action }: { action: Extract<PageAction, { kind: "assistant" }> }) {
   return (
     <Image
-      src={withFolioBasePath(action.icon)}
+      src={withFoliohBasePath(action.icon)}
       alt=""
       width={16}
       height={16}
@@ -228,7 +228,7 @@ function buildAssistantHref(
 export function PageActionsButton({
   markdownPath,
 }: {
-  /** The page's Markdown mirror, `/_folio/markdown/<file>.md`, without the base path. */
+  /** The page's Markdown mirror, `/_folioh/markdown/<file>.md`, without the base path. */
   markdownPath?: string
 } = {}) {
   const [open, setOpen] = useState(false)

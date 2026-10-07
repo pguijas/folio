@@ -1,5 +1,5 @@
 // Theme field names come from theme-contract.generated.ts, written by
-// generate_typescript_contract() in folio-site/src/theme.rs.
+// generate_typescript_contract() in folioh-site/src/theme.rs.
 import type { ThemeStyle, ThemeVars } from "./theme-contract.generated"
 export type { ThemeStyle, ThemeVars }
 export type PresetOptionValues = Record<string, string>

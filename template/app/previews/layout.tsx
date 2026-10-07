@@ -20,7 +20,7 @@ export default async function PreviewsLayout({
         <Navbar
           logo={
             <span className="flex items-center gap-2.5">
-              <span className="folio-monogram flex size-7 items-center justify-center rounded-md bg-primary font-mono text-[11px] font-bold text-primary-foreground">
+              <span className="folioh-monogram flex size-7 items-center justify-center rounded-md bg-primary font-mono text-[11px] font-bold text-primary-foreground">
                 __PROJECT_MONOGRAM__
               </span>
               <span className="text-sm font-semibold tracking-tight">

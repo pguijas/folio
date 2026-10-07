@@ -1,6 +1,6 @@
 # Code of Conduct
 
-Folio follows a simple standard for project spaces: be respectful, assume good intent, and focus disagreement on the work.
+Folioh follows a simple standard for project spaces: be respectful, assume good intent, and focus disagreement on the work.
 
 ## Expected Behavior
 

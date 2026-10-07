@@ -208,7 +208,7 @@ export function Mermaid({ chart }: MermaidProps) {
 
   if (!svg) {
     return (
-      <div className="folio-mermaid">
+      <div className="folioh-mermaid">
         <pre className="text-sm text-muted-foreground">{chart}</pre>
       </div>
     )
@@ -217,7 +217,7 @@ export function Mermaid({ chart }: MermaidProps) {
   return (
     <div
       ref={ref}
-      className="folio-mermaid"
+      className="folioh-mermaid"
       dangerouslySetInnerHTML={{ __html: svg }}
     />
   )

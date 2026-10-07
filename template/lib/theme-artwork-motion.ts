@@ -11,7 +11,7 @@ export function watchThemeArtwork(element: HTMLElement, start: () => () => void,
     pending = 0
     stop?.()
     stop = undefined
-    const preset = page?.dataset.preset ?? document.documentElement.dataset.folioPreset
+    const preset = page?.dataset.preset ?? document.documentElement.dataset.foliohPreset
     if (preset !== activePreset || reduced.matches || document.hidden || !visible) return
     if (slide && slide.dataset.offset !== "0") return
     const bounds = element.getBoundingClientRect()
@@ -25,7 +25,7 @@ export function watchThemeArtwork(element: HTMLElement, start: () => () => void,
   const theme = new MutationObserver(schedule)
   theme.observe(document.documentElement, {
     attributes: true,
-    attributeFilter: ["data-folio-preset", "data-folio-scheme"],
+    attributeFilter: ["data-folioh-preset", "data-folioh-scheme"],
   })
   if (page) theme.observe(page, { attributes: true, attributeFilter: ["style", "data-preset"] })
   if (slide) theme.observe(slide, { attributes: true, attributeFilter: ["data-offset"] })

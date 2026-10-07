@@ -1,8 +1,8 @@
 # Plugins
 
-*One extension point for everything Folio builds: components, data, pages, and views.*
+*One extension point for everything Folioh builds: components, data, pages, and views.*
 
-Folio's built-in integrations are compiled into the `folio` binary and share one set of hooks — if you want to know whether the surface can do something, the answer is usually "one of the built-ins already does it."
+Folioh's built-in integrations are compiled into the `folioh` binary and share one set of hooks — if you want to know whether the surface can do something, the answer is usually "one of the built-ins already does it."
 
 ## What ships where
 
@@ -34,13 +34,13 @@ The config key **is** the switch: add it and the integration builds its
 pages, remove it and the integration goes inert. There is no `plugins:` list.
 
 A file the site serves verbatim from its root needs no integration at all:
-list it under [`public:`](../configuration#public). Folio's own `docs.yaml`
+list it under [`public:`](../configuration#public). Folioh's own `docs.yaml`
 serves `install.sh` that way.
 
 ## Project plugins
 
 Not available in this release. Plugins loaded from your own repository return
 with the sidecar protocol: a plugin is a separate process, written in any
-language, that `folio` starts for the build and talks to over stdio. The hooks
+language, that `folioh` starts for the build and talks to over stdio. The hooks
 it will implement are documented in [Writing Plugins](./authoring), and what
 running one means for your machine in [Trust & Safety](./trust).

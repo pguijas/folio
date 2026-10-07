@@ -2,8 +2,8 @@
 
 *Configure the optional homepage that appears before the documentation app.*
 
-Folio starts as a docs-first site. The landing page is a built-in integration:
-it is compiled into `folio` and stays inert until a `landing:` section appears
+Folioh starts as a docs-first site. The landing page is a built-in integration:
+it is compiled into `folioh` and stays inert until a `landing:` section appears
 in `docs.yaml`. When you want a public entry point, add the section and keep
 the docs under `/docs/`.
 
@@ -90,7 +90,7 @@ are not shipped yet, and an optional `chip` labels them (for example
 `folder`, `search`, `agents` (the llms.txt mark), `hash`. An unknown value is dropped and
 the tile renders without a mark. Setting `description: ""` suppresses the
 heading paragraph. When `inputs` or `outputs` are omitted the template renders
-Folio's own defaults, so a bare `- type: "funnel"` works. The earlier plate's
+Folioh's own defaults, so a bare `- type: "funnel"` works. The earlier plate's
 `guarantees`, `caption` and `command_notes` keys are no longer rendered; a
 config that still carries one gets a build warning.
 
@@ -100,7 +100,7 @@ landing:
     - type: "funnel"
       stage: "The mechanism"
       title: "One build. Every output generated from it."
-      command: "folio build"            # default; the label on the node
+      command: "folioh build"            # default; the label on the node
       inputs:
         - label: "Config file"
           icon: "config"                # tile mark; unknown values drop
@@ -173,7 +173,7 @@ landing:
       commits:
         - hash: "a3f92c1"
           message: "docs: move the guide source"
-      pills: ["git push", "folio build", "deploy"]   # defaults shown
+      pills: ["git push", "folioh build", "deploy"]   # defaults shown
       caption: "Change the YAML. Commit. The site updates."
 ```
 
@@ -196,7 +196,7 @@ landing:
       accent: "your repo"
       description: "A few sentences of thesis prose, rendered at reading size."
     - type: "statement"
-      eyebrow: "Built with Folio, on Folio"
+      eyebrow: "Built with Folioh, on Folioh"
       text: "If it breaks, our own docs break first."
       accent: "our own docs"
       actions:
@@ -260,8 +260,8 @@ no `landing.sections` and its hero variant is `source-pipeline`.
 
 ### Deprecated: `comparison: true`
 
-`landing.comparison: true` renders Folio's own built-in matrix, which names the
-documentation tools Folio compares itself against. It still works and warns on
+`landing.comparison: true` renders Folioh's own built-in matrix, which names the
+documentation tools Folioh compares itself against. It still works and warns on
 every build; it will be removed. A `comparison` section with no `tools` and
 `rows` falls back to the same built-in matrix and warns the same way. Replace
 both with your own `tools`/`rows` table.

@@ -32,5 +32,5 @@ export function FloatingFeedback() {
   const href = feedbackHref(feedback, docsRepositoryBase, activeMetadata?.title)
   if (href === null) return null
 
-  return <a className="folio-feedback" href={href} target="_blank" rel="noreferrer">Feedback</a>
+  return <a className="folioh-feedback" href={href} target="_blank" rel="noreferrer">Feedback</a>
 }

@@ -38,7 +38,7 @@ export const FOCUS_RING =
  * this needs two glyphs, not a dependency.
  *
  * Keyed by the project key from docs.yaml, with a neutral dot for anything
- * unrecognised — a site whose projects are not Folio's still gets a card that
+ * unrecognised — a site whose projects are not Folioh's still gets a card that
  * lines up, just without a bespoke mark. A framework component should not know
  * these two names; when this lands in the real roadmap the glyph belongs in
  * `roadmap.projects.<key>.icon` alongside the label.

@@ -31,7 +31,7 @@ export default function OGImage() {
             letterSpacing: 0,
           }}
         >
-          {projectIconSvg && /<svg\b[^>]*\bdata-folio-icon="pastel"/.test(projectIconSvg) ? (
+          {projectIconSvg && /<svg\b[^>]*\bdata-folioh-icon="pastel"/.test(projectIconSvg) ? (
             <img width={54} height={54} alt="" src={"data:image/svg+xml," + encodeURIComponent(projectIconSvg)} />
           ) : (
             <div

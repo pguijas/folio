@@ -1,19 +1,19 @@
 ---
 title: Troubleshooting
-description: The errors and warnings a Folio build prints, what each one means, and the page that fixes it.
+description: The errors and warnings a Folioh build prints, what each one means, and the page that fixes it.
 ---
 
 # Troubleshooting
 
 *Match the message, then read the cause.*
 
-Everything below is something the `folio` binary prints. Match the message
+Everything below is something the `folioh` binary prints. Match the message
 first: the build names the step it failed on and the file it was reading, so
 the message usually is the diagnosis.
 
 ## `Environment check failed`
 
-The message names Node.js, pnpm, or both. `folio build` and `folio serve`
+The message names Node.js, pnpm, or both. `folioh build` and `folioh serve`
 render through the bundled Next.js template, so both are checked before any
 work starts and a stale toolchain fails in the first seconds instead of
 minutes in:
@@ -29,14 +29,14 @@ template.
 
 ## `Config file not found`
 
-The message ends with the path Folio looked for. The command ran outside the
+The message ends with the path Folioh looked for. The command ran outside the
 project directory, or the config has a different name. Any of these resolves
 it:
 
 ```bash
-folio init                              # write a docs.yaml here
-folio build /path/to/project            # the project directory as argument
-folio build --config my-docs.yaml       # a config under another name
+folioh init                              # write a docs.yaml here
+folioh build /path/to/project            # the project directory as argument
+folioh build --config my-docs.yaml       # a config under another name
 ```
 
 ## A module, class, or function is missing from the API reference
@@ -45,14 +45,14 @@ Run the build with `--verbose`: it prints the source roots it scanned and
 every page it wrote.
 
 ```bash
-folio build --verbose
+folioh build --verbose
 ```
 
 The usual cause is `source.<language>.paths` not covering the package, or
 `source.<language>.exclude` matching more than intended. Check both against
 [Configuration](./configuration#source), and
 [Languages](./languages) for what each reader reads. A symbol that is present
-but empty is a missing docstring, which `folio coverage --verbose` lists one
+but empty is a missing docstring, which `folioh coverage --verbose` lists one
 by one.
 
 ## `Unknown config keys in docs.yaml`
@@ -74,8 +74,8 @@ most edits invalidate what they should. Force the full rebuild when one slips
 through:
 
 ```bash
-folio build --clean
-folio serve --clean
+folioh build --clean
+folioh serve --clean
 ```
 
 ## `Port 4321 is already in use`
@@ -84,8 +84,8 @@ The message names the port and the way out. Pick another one, or stop the
 process holding it:
 
 ```bash
-folio serve --port 8080
-folio serve --kill-existing
+folioh serve --port 8080
+folioh serve --kill-existing
 ```
 
 ## Broken internal links
@@ -101,7 +101,7 @@ static export; absolute paths into the site root do not always.
 ## The static export fails at the end of a build
 
 The complete export log is printed once in the build output panel and saved
-to `.build/.folio-build.log`. Read that file before guessing: the underlying
+to `.build/.folioh-build.log`. Read that file before guessing: the underlying
 error comes from Next.js and the log has the stack it printed.
 
 ## Something else
@@ -109,5 +109,5 @@ error comes from Next.js and the log has the stack it printed.
 The [CLI Reference](./cli) is the authority on commands, flags, and exit
 codes, and [Configuration](./configuration) on what `docs.yaml` accepts. When
 neither explains it,
-[open an issue](https://github.com/pguijas/folio/issues) with the command you
+[open an issue](https://github.com/pguijas/folioh/issues) with the command you
 ran and the output.

@@ -1,6 +1,6 @@
 ---
 title: Writing Doc Comments
-description: Write Python docstrings, JSDoc comments and Rust doc comments that Folio turns into clear API reference pages.
+description: Write Python docstrings, JSDoc comments and Rust doc comments that Folioh turns into clear API reference pages.
 ---
 
 # Writing Doc Comments
@@ -10,8 +10,8 @@ description: Write Python docstrings, JSDoc comments and Rust doc comments that 
 Most of this page is about Python docstrings; [JSDoc](#jsdoc) and
 [Rust doc comments](#rust-doc-comments) close it.
 
-For Python, Folio supports **Google-style** and **NumPy-style** docstrings. By
-default, Folio auto-detects the style for each docstring, and the detection
+For Python, Folioh supports **Google-style** and **NumPy-style** docstrings. By
+default, Folioh auto-detects the style for each docstring, and the detection
 also reads reStructuredText and epydoc docstrings. You can force a parser with
 `source.python.docstring_style` in `docs.yaml`, which takes `"auto"`,
 `"google"` or `"numpy"` (see
@@ -103,7 +103,7 @@ style to the other.
 
 ## Docstring sections
 
-Folio recognizes the following sections in a docstring. A Google-style heading
+Folioh recognizes the following sections in a docstring. A Google-style heading
 is written as shown, capitalized and followed by a colon; a NumPy-style heading
 is underlined. Google-style also accepts `Arguments:`, `Parameters:` and
 `Params:` for `Args:`, `Exceptions:` and `Except:` for `Raises:`, `Example:`
@@ -194,13 +194,13 @@ roles such as `` :class:`Config` `` and `` :meth:`load` `` read as code.
 
 ## Type annotations
 
-folio extracts type information from two places, in order of priority:
+folioh extracts type information from two places, in order of priority:
 
 1. **Function signatures** (preferred) — type annotations on parameters and return types
 2. **Docstring type fields** — the `(type)` syntax in Google-style docstrings
 
 If a parameter has a type annotation in the function signature, that takes precedence.
-If there is no signature annotation, folio falls back to the type specified in the
+If there is no signature annotation, folioh falls back to the type specified in the
 docstring.
 
 ```python
@@ -228,7 +228,7 @@ Both styles produce the same output. When both are present, the signature annota
 
 ## Decorators and method kinds
 
-folio detects decorators on functions and methods and renders them differently
+folioh detects decorators on functions and methods and renders them differently
 based on their kind.
 
 ### @property
@@ -315,7 +315,7 @@ signature) are tracked as `keyword_only`.
 
 ## Controlling what gets documented with \_\_all\_\_
 
-Without `__all__`, Folio documents every top-level class, function and constant
+Without `__all__`, Folioh documents every top-level class, function and constant
 whose name does not start with an underscore. Defining `__all__` restricts the
 page to the names it lists, and a listed name is documented even with a
 leading underscore:
@@ -345,13 +345,13 @@ such as `__call__` or `__eq__`, is documented when it has a docstring. When a
 function has `@overload` stubs, only its implementation is shown.
 
 **`__all__` must be a simple list or tuple of string literals**, annotated or
-not. Folio parses it statically from the AST, so a dynamic construction like
+not. Folioh parses it statically from the AST, so a dynamic construction like
 `__all__ = get_exports()` is not read, and the module falls back to the
 underscore rule.
 
 ## Nested classes
 
-folio fully supports nested (inner) classes. They are parsed recursively and
+folioh fully supports nested (inner) classes. They are parsed recursively and
 appear as sub-sections within their parent class documentation:
 
 ```python
@@ -386,7 +386,7 @@ nested classes.
 
 ## Module-level constants
 
-folio documents module-level constants in two ways:
+folioh documents module-level constants in two ways:
 
 **With type annotations** — any top-level annotated assignment is captured:
 

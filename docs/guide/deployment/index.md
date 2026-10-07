@@ -1,11 +1,11 @@
 ---
 title: Deployment
-description: Deploy Folio's static _site artifact to static hosts, GitHub Pages, CI/CD workflows, or self-hosted infrastructure.
+description: Deploy Folioh's static _site artifact to static hosts, GitHub Pages, CI/CD workflows, or self-hosted infrastructure.
 ---
 
 # Deployment
 
-Folio builds a static site into `_site/`. Deploy that folder to any static host.
+Folioh builds a static site into `_site/`. Deploy that folder to any static host.
 The internal `.build/` workspace is only a cache and should not be committed or
 used as the public artifact.
 
@@ -37,18 +37,18 @@ Deployment has one artifact and several delivery paths:
 
 ## Build Once
 
-With Folio [installed](../installation), run the build from your project root:
+With Folioh [installed](../installation), run the build from your project root:
 
 ```bash
-folio build --clean
+folioh build --clean
 ```
 
 The `_site/` directory contains HTML, assets, Pagefind search data, `llms.txt`,
-`llms-full.txt`, and the Markdown mirrors and authoring contract under `_folio/`.
+`llms-full.txt`, and the Markdown mirrors and authoring contract under `_folioh/`.
 
 ```mermaid
 flowchart LR
-    Source["Source code and Markdown"] --> Build["folio build --clean"]
+    Source["Source code and Markdown"] --> Build["folioh build --clean"]
     Build --> Site["_site/ static artifact"]
     Site --> Host["Static host"]
     Site --> Pages["GitHub Pages"]
@@ -62,10 +62,10 @@ published under a subpath such as `/my-repo`.
 
 Base path priority is:
 
-1. `FOLIO_BASE_PATH` environment variable.
+1. `FOLIOH_BASE_PATH` environment variable.
 2. `deploy.base_path` in `docs.yaml`.
 3. GitHub Pages inference when `deploy.provider: "github-pages"` or
-   `FOLIO_DEPLOY_PROVIDER=github-pages` is active in GitHub Actions.
+   `FOLIOH_DEPLOY_PROVIDER=github-pages` is active in GitHub Actions.
 4. No base path.
 
 `project.url` is metadata only. It feeds sitemap and canonical URLs, but it does

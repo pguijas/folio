@@ -6,8 +6,8 @@ import { Search01Icon } from "@hugeicons/core-free-icons"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { NEXTRA_CLASS } from "@/lib/nextra-dom"
 import {
-  type FolioSearchDocument,
-  folioSearchDocuments,
+  type FoliohSearchDocument,
+  foliohSearchDocuments,
 } from "@/lib/search-index"
 
 interface SearchCommandProps {
@@ -61,7 +61,7 @@ interface PagefindLikeApi {
 declare global {
   interface Window {
     pagefind?: PagefindLikeApi
-    __folioStaticSearch?: PagefindLikeApi
+    __foliohStaticSearch?: PagefindLikeApi
   }
 }
 
@@ -114,7 +114,7 @@ function excerpt(content: string, terms: string[]) {
   return html
 }
 
-function createSearchApi(documents: FolioSearchDocument[]): PagefindLikeApi {
+function createSearchApi(documents: FoliohSearchDocument[]): PagefindLikeApi {
   function runSearch(term: string): SearchResult[] {
     const terms = normalize(term).split(/\s+/).filter(Boolean)
     if (!terms.length) return []
@@ -181,13 +181,13 @@ function installDevelopmentSearchIndex() {
   if (
     process.env.NODE_ENV === "production" ||
     window.pagefind ||
-    folioSearchDocuments.length === 0
+    foliohSearchDocuments.length === 0
   ) {
     return
   }
 
-  const api = createSearchApi(folioSearchDocuments)
-  window.__folioStaticSearch = api
+  const api = createSearchApi(foliohSearchDocuments)
+  window.__foliohStaticSearch = api
   window.pagefind = api
 }
 
@@ -274,8 +274,8 @@ export function SearchCommand({
   return (
     <div
       ref={searchRef}
-      data-folio-search
-      data-folio-search-open={open}
+      data-folioh-search
+      data-folioh-search-open={open}
       className="contents"
       onKeyDownCapture={(event) => {
         if (open && event.key === "Escape") {
@@ -291,7 +291,7 @@ export function SearchCommand({
       <button
         ref={triggerRef}
         type="button"
-        className="folio-search-trigger"
+        className="folioh-search-trigger"
         aria-label="Search documentation"
         title="Search documentation"
         aria-expanded={open}
@@ -300,7 +300,7 @@ export function SearchCommand({
       >
         <HugeiconsIcon icon={Search01Icon} size={18} strokeWidth={1.8} aria-hidden="true" />
       </button>
-      <div id={panelId} className="folio-search-panel" role="search">
+      <div id={panelId} className="folioh-search-panel" role="search">
         <Search
           placeholder={placeholder}
           emptyResult="No matching docs or API pages."

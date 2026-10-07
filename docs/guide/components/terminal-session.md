@@ -27,17 +27,17 @@ The header copy button copies only the `command` value, not the prompt, output, 
 ```mdx
 <TerminalSession
   title="Check version"
-  command="folio --version"
+  command="folioh --version"
   status="success"
-  output="folio X.Y.Z"
+  output="folioh X.Y.Z"
 />
 ```
 
 <TerminalSession
   title="Check version"
-  command="folio --version"
+  command="folioh --version"
   status="success"
-  output="folio X.Y.Z"
+  output="folioh X.Y.Z"
 />
 
 </PreviewCode>

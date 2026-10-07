@@ -24,31 +24,31 @@ Collapsible content sections for organizing information into expandable panels. 
 
 ````mdx
 <Accordion>
-  <AccordionItem title="What is Folio?">
-    Folio is a documentation engine with a native Rust core that
+  <AccordionItem title="What is Folioh?">
+    Folioh is a documentation engine with a native Rust core that
     uses Nextra and shadcn/ui to produce structured,
     interactive documentation sites.
   </AccordionItem>
   <AccordionItem title="How does it compare to Sphinx?">
-    Folio generates a modern React-based site with live
+    Folioh generates a modern React-based site with live
     search, dark mode, and responsive design out of the box.
   </AccordionItem>
   <AccordionItem title="Can I migrate from Sphinx?" defaultOpen>
-    Yes. Folio includes a migration guide for moving existing
+    Yes. Folioh includes a migration guide for moving existing
     pages and Sphinx conventions to Markdown.
   </AccordionItem>
 </Accordion>
 ````
 
 <Accordion>
-  <AccordionItem title="What is Folio?">
-    Folio is a documentation engine with a native Rust core that uses Nextra and shadcn/ui to produce structured, interactive documentation sites.
+  <AccordionItem title="What is Folioh?">
+    Folioh is a documentation engine with a native Rust core that uses Nextra and shadcn/ui to produce structured, interactive documentation sites.
   </AccordionItem>
   <AccordionItem title="How does it compare to Sphinx?">
-    Folio generates a modern React-based site with live search, dark mode, and responsive design out of the box. It parses the same Google/NumPy docstrings as Sphinx.
+    Folioh generates a modern React-based site with live search, dark mode, and responsive design out of the box. It parses the same Google/NumPy docstrings as Sphinx.
   </AccordionItem>
   <AccordionItem title="Can I migrate from Sphinx?" defaultOpen>
-    Yes. Folio includes a migration guide for moving existing pages and Sphinx conventions to Markdown.
+    Yes. Folioh includes a migration guide for moving existing pages and Sphinx conventions to Markdown.
   </AccordionItem>
 </Accordion>
 
@@ -64,7 +64,7 @@ For a single section, a plain `<details>` element with a `<summary>` collapses t
 <details>
   <summary>Do I need to import anything?</summary>
 
-  No. `<details>` and `<summary>` are HTML elements, and Folio
+  No. `<details>` and `<summary>` are HTML elements, and Folioh
   renders them as a collapsible section.
 </details>
 ````
@@ -72,7 +72,7 @@ For a single section, a plain `<details>` element with a `<summary>` collapses t
 <details>
   <summary>Do I need to import anything?</summary>
 
-  No. `<details>` and `<summary>` are HTML elements, and Folio renders them as a collapsible section.
+  No. `<details>` and `<summary>` are HTML elements, and Folioh renders them as a collapsible section.
 </details>
 
 </PreviewCode>

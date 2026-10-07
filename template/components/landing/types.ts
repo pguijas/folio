@@ -126,7 +126,7 @@ export type LandingSection = {
   inputs?: LandingFunnelInput[]
   outputs?: LandingFunnelOutput[]
   /* "comparison" section: the project's own table. Without both `tools` and
-   * `rows` the section falls back to Folio's deprecated bundled matrix. */
+   * `rows` the section falls back to Folioh's deprecated bundled matrix. */
   tools?: string[]
   rows?: ComparisonRow[]
   /* "statement" section */

@@ -355,7 +355,7 @@ function FontCards({ value, fallback, onChange }: RowProps) {
         face: (
           <span
             className="theme-adjust-sample"
-            style={{ fontFamily: option.style["--folio-heading-font-family"] }}
+            style={{ fontFamily: option.style["--folioh-heading-font-family"] }}
             aria-hidden="true"
           >
             {option.sample}

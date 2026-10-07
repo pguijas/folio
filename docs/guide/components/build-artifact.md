@@ -1,6 +1,6 @@
 # BuildArtifact
 
-Summarize the files, directories, and generated routes produced by a Folio command.
+Summarize the files, directories, and generated routes produced by a Folioh command.
 
 ## API
 

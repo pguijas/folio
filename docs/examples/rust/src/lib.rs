@@ -1,4 +1,4 @@
-//! Example crate for Folio's Rust documentation support.
+//! Example crate for Folioh's Rust documentation support.
 
 /// A greeting message.
 pub struct Greeting {
