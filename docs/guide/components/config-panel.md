@@ -20,7 +20,7 @@ Pair a YAML example with short field notes. Use it when a configuration snippet 
 ````mdx
 <ConfigPanel
   title="source.python"
-  description="Tell Folio where your package code lives."
+  description="Tell Folioh where your package code lives."
   fields={[
     { name: "paths", type: "list[string]", description: "Python source directories to scan." },
     { name: "docstring_style", type: "string", default: "auto", description: "Parser for Google or NumPy style docstrings." },
@@ -37,7 +37,7 @@ source:
 
 <ConfigPanel
   title="source.python"
-  description="Tell Folio where your package code lives."
+  description="Tell Folioh where your package code lives."
   fields={[
     { name: "paths", type: "list[string]", description: "Python source directories to scan." },
     { name: "docstring_style", type: "string", default: "auto", description: "Parser for Google or NumPy style docstrings." },

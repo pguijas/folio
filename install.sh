@@ -1,19 +1,19 @@
 #!/bin/sh
-# Installs the folio binary from GitHub Releases.
+# Installs the folioh binary from GitHub Releases.
 #
-#   curl -LsSf https://pguijas.github.io/folio/install.sh | sh
+#   curl -LsSf https://folioh.site/install.sh | sh
 #
 # Knobs (all optional):
-#   FOLIO_VERSION       release to install, e.g. 0.3.0-a1 (default: latest)
-#   FOLIO_INSTALL_DIR   where the binary goes (default: ~/.local/bin)
-#   FOLIO_REPO          GitHub repository to fetch from (default: pguijas/folio)
-#   FOLIO_DOWNLOAD_URL  full URL of the release archive, for mirrors and air-gapped installs
+#   FOLIOH_VERSION       release to install, e.g. 0.4.0 (default: latest)
+#   FOLIOH_INSTALL_DIR   where the binary goes (default: ~/.local/bin)
+#   FOLIOH_REPO          GitHub repository to fetch from (default: pguijas/folioh)
+#   FOLIOH_DOWNLOAD_URL  full URL of the release archive, for mirrors and air-gapped installs
 set -eu
 
-FOLIO_VERSION=${FOLIO_VERSION:-latest}
-FOLIO_INSTALL_DIR=${FOLIO_INSTALL_DIR:-$HOME/.local/bin}
-FOLIO_REPO=${FOLIO_REPO:-pguijas/folio}
-FOLIO_DOWNLOAD_URL=${FOLIO_DOWNLOAD_URL:-}
+FOLIOH_VERSION=${FOLIOH_VERSION:-latest}
+FOLIOH_INSTALL_DIR=${FOLIOH_INSTALL_DIR:-$HOME/.local/bin}
+FOLIOH_REPO=${FOLIOH_REPO:-pguijas/folioh}
+FOLIOH_DOWNLOAD_URL=${FOLIOH_DOWNLOAD_URL:-}
 
 say() { printf '%s\n' "$*"; }
 warn() { printf 'warning: %s\n' "$*" >&2; }
@@ -38,7 +38,7 @@ target() {
   case "$os" in
     Linux) say "$arch-unknown-linux-gnu" ;;
     Darwin) say "$arch-apple-darwin" ;;
-    *) die "unsupported OS: $os. On Windows, download folio-x86_64-pc-windows-msvc.zip from https://github.com/$FOLIO_REPO/releases" ;;
+    *) die "unsupported OS: $os. On Windows, download folioh-x86_64-pc-windows-msvc.zip from https://github.com/$FOLIOH_REPO/releases" ;;
   esac
 }
 
@@ -60,7 +60,7 @@ verify() {
   say "checksum verified"
 }
 
-# `folio build` and `folio serve` shell out to Node and pnpm; nothing else does.
+# `folioh build` and `folioh serve` shell out to Node and pnpm; nothing else does.
 check_node() {
   if have node; then
     node_version=$(node -v 2>/dev/null | sed 's/^v//')
@@ -70,26 +70,26 @@ check_node() {
         node_rest=${node_version#*.}
         node_minor=${node_rest%%.*}
         if [ "$node_major" -lt 20 ] || { [ "$node_major" -eq 20 ] && [ "$node_minor" -lt 19 ]; }; then
-          warn "Node.js $node_version is below the 20.19 'folio build' and 'folio serve' need"
+          warn "Node.js $node_version is below the 20.19 'folioh build' and 'folioh serve' need"
         fi
         ;;
-      *) warn "could not read a version from 'node -v'; 'folio build' and 'folio serve' need Node.js 20.19+" ;;
+      *) warn "could not read a version from 'node -v'; 'folioh build' and 'folioh serve' need Node.js 20.19+" ;;
     esac
   else
-    warn "Node.js 20.19+ is needed for 'folio build' and 'folio serve'"
+    warn "Node.js 20.19+ is needed for 'folioh build' and 'folioh serve'"
   fi
-  have pnpm || warn "pnpm 10 is needed for 'folio build' and 'folio serve'"
+  have pnpm || warn "pnpm 10 is needed for 'folioh build' and 'folioh serve'"
 }
 
 main() {
   triple=$(target)
-  asset="folio-$triple.tar.gz"
-  if [ -n "$FOLIO_DOWNLOAD_URL" ]; then
-    url=$FOLIO_DOWNLOAD_URL
-  elif [ "$FOLIO_VERSION" = latest ]; then
-    url="https://github.com/$FOLIO_REPO/releases/latest/download/$asset"
+  asset="folioh-$triple.tar.gz"
+  if [ -n "$FOLIOH_DOWNLOAD_URL" ]; then
+    url=$FOLIOH_DOWNLOAD_URL
+  elif [ "$FOLIOH_VERSION" = latest ]; then
+    url="https://github.com/$FOLIOH_REPO/releases/latest/download/$asset"
   else
-    url="https://github.com/$FOLIO_REPO/releases/download/v${FOLIO_VERSION#v}/$asset"
+    url="https://github.com/$FOLIOH_REPO/releases/download/v${FOLIOH_VERSION#v}/$asset"
   fi
 
   tmp=$(mktemp -d)
@@ -98,16 +98,16 @@ main() {
   fetch "$url" "$tmp/$asset" || die "no release archive at $url"
   verify "$tmp" "$asset" "${url%/*}/SHA256SUMS"
   tar -xzf "$tmp/$asset" -C "$tmp"
-  [ -f "$tmp/folio" ] || die "archive did not contain a folio binary"
+  [ -f "$tmp/folioh" ] || die "archive did not contain a folioh binary"
 
-  mkdir -p "$FOLIO_INSTALL_DIR"
-  install -m 755 "$tmp/folio" "$FOLIO_INSTALL_DIR/folio"
-  version=$("$FOLIO_INSTALL_DIR/folio" --version) || die "the installed binary does not run on this machine"
-  say "installed $version to $FOLIO_INSTALL_DIR/folio"
+  mkdir -p "$FOLIOH_INSTALL_DIR"
+  install -m 755 "$tmp/folioh" "$FOLIOH_INSTALL_DIR/folioh"
+  version=$("$FOLIOH_INSTALL_DIR/folioh" --version) || die "the installed binary does not run on this machine"
+  say "installed $version to $FOLIOH_INSTALL_DIR/folioh"
 
   case ":$PATH:" in
-    *":$FOLIO_INSTALL_DIR:"*) ;;
-    *) warn "$FOLIO_INSTALL_DIR is not on your PATH" ;;
+    *":$FOLIOH_INSTALL_DIR:"*) ;;
+    *) warn "$FOLIOH_INSTALL_DIR is not on your PATH" ;;
   esac
   check_node
 }

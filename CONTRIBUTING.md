@@ -1,18 +1,18 @@
-# Contributing to Folio
+# Contributing to Folioh
 
 Thanks for your interest in contributing. Every contribution matters — from bug reports to documentation fixes to new features.
 
 ## Getting Started
 
-Folio is one Rust workspace: eleven crates under `crates/` carrying the documentation engine, the CLI host and the plugin interfaces, with `folio-cli` building the `folio` binary. Install a Rust toolchain through [rustup](https://rustup.rs/) — `rust-toolchain.toml` selects the stable channel and the components the checks need, and `rust-version` in the workspace manifest records the 1.85 floor — plus Node.js 20.19+ and pnpm 10 for `folio build`, `folio serve`, and template work. The [Developer Guide](docs/guide/developing.md) covers the repository layout, the tests, and the template in depth; the short version is:
+Folioh is one Rust workspace: eleven crates under `crates/` carrying the documentation engine, the CLI host and the plugin interfaces, with `folioh-cli` building the `folioh` binary. Install a Rust toolchain through [rustup](https://rustup.rs/) — `rust-toolchain.toml` selects the stable channel and the components the checks need, and `rust-version` in the workspace manifest records the 1.85 floor — plus Node.js 20.19+ and pnpm 10 for `folioh build`, `folioh serve`, and template work. The [Developer Guide](docs/guide/developing.md) covers the repository layout, the tests, and the template in depth; the short version is:
 
 ```bash
-git clone https://github.com/pguijas/folio.git
-cd folio
+git clone https://github.com/pguijas/folioh.git
+cd folioh
 cargo fmt --all --check
 cargo clippy --workspace --all-targets -- -D warnings
 cargo test --workspace
-cargo build --release   # target/release/folio
+cargo build --release   # target/release/folioh
 ```
 
 For template/UI work:
@@ -21,7 +21,7 @@ For template/UI work:
 cd template && pnpm install && pnpm run dev
 ```
 
-Unit tests live in separate files beside the module they test, loaded with `#[cfg(test)] #[path = "sidebar_tests.rs"] mod tests;` (`src/sidebar.rs` loads `src/sidebar_tests.rs`; `mod.rs` and `lib.rs` load an adjacent `tests.rs`). Crate integration tests live under each crate's `tests/` directory. The seven docs CLI suites live in `crates/folio-cli/tests/`, the package that builds the binary, so they keep testing the real executable; the release surface checks, workspace boundaries and the shared support those suites load sit beside them. `cargo test -p folio-cli` runs all of these targets; `cargo test --workspace` runs every crate's tests.
+Unit tests live in separate files beside the module they test, loaded with `#[cfg(test)] #[path = "sidebar_tests.rs"] mod tests;` (`src/sidebar.rs` loads `src/sidebar_tests.rs`; `mod.rs` and `lib.rs` load an adjacent `tests.rs`). Crate integration tests live under each crate's `tests/` directory. The seven docs CLI suites live in `crates/folioh-cli/tests/`, the package that builds the binary, so they keep testing the real executable; the release surface checks, workspace boundaries and the shared support those suites load sit beside them. `cargo test -p folioh-cli` runs all of these targets; `cargo test --workspace` runs every crate's tests.
 
 ## Development Workflow
 
@@ -34,7 +34,7 @@ Unit tests live in separate files beside the module they test, loaded with `#[cf
 
 ## What to Work On
 
-- Check [open issues](https://github.com/pguijas/folio/issues) for bugs and feature requests
+- Check [open issues](https://github.com/pguijas/folioh/issues) for bugs and feature requests
 - Look for issues labeled `good first issue` for beginner-friendly tasks
 
 ## Code Style
@@ -56,8 +56,8 @@ covered by a focused unit test.
 During development, run the narrowest useful selection:
 
 ```bash
-cargo test -p folio-config
-cargo test -p folio-cli --test release_surface
+cargo test -p folioh-config
+cargo test -p folioh-cli --test release_surface
 ```
 
 Run `cargo test --workspace` once after the implementation is complete. This
@@ -68,11 +68,11 @@ keeps feedback fast without weakening the final regression gate.
 Open an issue with:
 - Steps to reproduce
 - Expected vs actual behavior
-- Folio version (`folio --version`), Node.js version, OS
+- Folioh version (`folioh --version`), Node.js version, OS
 
 ## Releases
 
-Folio cuts a release branch from reviewed work, updates the version in
+Folioh cuts a release branch from reviewed work, updates the version in
 `Cargo.toml` and `docs.yaml` (a test keeps the two in agreement) and the
 changelog, then runs lint, the full test suite, and a clean site build. After
 the release branch lands on `main`, an owner creates the matching `vX.Y.Z` tag;

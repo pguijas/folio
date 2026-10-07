@@ -1,6 +1,6 @@
 // JS-side mirror of the feature gates: these entries must match
-// DISABLED_DOC_ROUTES in crates/folio-docs/src/features.rs
-// (parity is enforced by folio-site's template.rs test
+// DISABLED_DOC_ROUTES in crates/folioh-docs/src/features.rs
+// (parity is enforced by folioh-site's template.rs test
 // `the_bundled_template_carries_the_injection_points`).
 const DISABLED_DOC_STATIC_PATHS = [["i18n"], ["versioning"]]
 

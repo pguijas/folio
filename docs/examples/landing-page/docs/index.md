@@ -1,3 +1,3 @@
 # Example docs
 
-This is a tiny source project used to preview the landing page that Folio generates.
+This is a tiny source project used to preview the landing page that Folioh generates.

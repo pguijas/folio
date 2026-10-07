@@ -1,12 +1,12 @@
 ---
 title: Static Hosts
-description: Deploy Folio's _site artifact to Vercel, Netlify, or self-hosted static infrastructure.
+description: Deploy Folioh's _site artifact to Vercel, Netlify, or self-hosted static infrastructure.
 ---
 
 # Static Hosts
 
 Static hosts only need the generated `_site/` directory. The host can either run
-`folio build --clean` itself or serve a prebuilt artifact uploaded by your CI
+`folioh build --clean` itself or serve a prebuilt artifact uploaded by your CI
 pipeline.
 
 ## Vercel
@@ -18,8 +18,8 @@ Use Vercel as a static-site host:
     In Vercel project settings, use:
 
     - **Framework Preset**: Other
-    - **Install Command**: `npm install -g pnpm@10 && curl -LsSf https://pguijas.github.io/folio/install.sh | sh`
-    - **Build Command**: `~/.local/bin/folio build --clean`
+    - **Install Command**: `npm install -g pnpm@10 && curl -LsSf https://folioh.site/install.sh | sh`
+    - **Build Command**: `~/.local/bin/folioh build --clean`
     - **Output Directory**: `_site`
 
     The install command runs the standalone installer from
@@ -34,8 +34,8 @@ Use Vercel as a static-site host:
 </Steps>
 
 Vercel already builds automatically on push. If you need required documentation
-checks before deploy, add a CI workflow that runs `folio build --clean` as a pull
-request check, plus `folio coverage --min 80` for Python projects (coverage reads
+checks before deploy, add a CI workflow that runs `folioh build --clean` as a pull
+request check, plus `folioh coverage --min 80` for Python projects (coverage reads
 Python only in this release; see [CI/CD](./ci-cd#coverage-gates)).
 
 ## Netlify
@@ -44,7 +44,7 @@ Create a `netlify.toml` that publishes the static artifact:
 
 ```toml filename="netlify.toml"
 [build]
-  command = "npm install -g pnpm@10 && curl -LsSf https://pguijas.github.io/folio/install.sh | sh && ~/.local/bin/folio build --clean"
+  command = "npm install -g pnpm@10 && curl -LsSf https://folioh.site/install.sh | sh && ~/.local/bin/folioh build --clean"
   publish = "_site"
 
 [build.environment]
@@ -58,7 +58,7 @@ Netlify will rebuild the docs on each deploy and serve `_site/` directly.
 Any static file server can host the generated site:
 
 ```bash
-folio build --clean
+folioh build --clean
 python3 -m http.server 8080 --directory _site
 ```
 

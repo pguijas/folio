@@ -69,7 +69,7 @@ jobs:
         with:
           cache-bin: ${{ runner.environment == 'github-hosted' }}
       # 22, not the documented 20.19 floor: the template's TypeScript helpers
-      # are driven directly by Node in folio-site's tests, and older releases
+      # are driven directly by Node in folioh-site's tests, and older releases
       # skip them instead of asserting.
       - uses: actions/setup-node@v4
         with:
@@ -86,7 +86,7 @@ jobs:
   #     - uses: dtolnay/rust-toolchain@stable
   #     - uses: Swatinem/rust-cache@v2
   #     - name: the shipped CLI surface
-  #       run: cargo test -p folio-cli --test cli_surface --locked
+  #       run: cargo test -p folioh-cli --test cli_surface --locked
 
   real-export:
     runs-on: ubuntu-latest
@@ -104,6 +104,6 @@ jobs:
       # The two suites that run real pnpm and next build; ignored by default
       # because they cost minutes and the network.
       - name: the example site exports
-        run: cargo test -p folio-site --test e2e_export --locked -- --ignored --nocapture
+        run: cargo test -p folioh-site --test e2e_export --locked -- --ignored --nocapture
       - name: the binary exports the example site
-        run: cargo test -p folio-cli --test build_pipeline --locked -- --ignored --nocapture
+        run: cargo test -p folioh-cli --test build_pipeline --locked -- --ignored --nocapture

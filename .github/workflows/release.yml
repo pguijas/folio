@@ -82,32 +82,32 @@ jobs:
             echo "CC_aarch64_unknown_linux_gnu=${{ matrix.linker }}"
           } >> "$GITHUB_ENV"
       - name: build
-        run: cargo build --release --locked -p folio-cli --target ${{ matrix.target }}
+        run: cargo build --release --locked -p folioh-cli --target ${{ matrix.target }}
       - name: package (tar.gz, binary at the root)
         if: runner.os != 'Windows'
         run: |
           set -eu
           mkdir -p dist stage
-          cp "target/${{ matrix.target }}/release/folio" LICENSE THIRD-PARTY-NOTICES.md stage/
-          tar -czf "dist/folio-${{ matrix.target }}.tar.gz" -C stage folio LICENSE THIRD-PARTY-NOTICES.md
+          cp "target/${{ matrix.target }}/release/folioh" LICENSE THIRD-PARTY-NOTICES.md stage/
+          tar -czf "dist/folioh-${{ matrix.target }}.tar.gz" -C stage folioh LICENSE THIRD-PARTY-NOTICES.md
       - name: package (zip)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force dist, stage | Out-Null
-          Copy-Item "target/${{ matrix.target }}/release/folio.exe", LICENSE, THIRD-PARTY-NOTICES.md stage/
-          Compress-Archive -Path stage/* -DestinationPath "dist/folio-${{ matrix.target }}.zip"
-          & stage/folio.exe --version
+          Copy-Item "target/${{ matrix.target }}/release/folioh.exe", LICENSE, THIRD-PARTY-NOTICES.md stage/
+          Compress-Archive -Path stage/* -DestinationPath "dist/folioh-${{ matrix.target }}.zip"
+          & stage/folioh.exe --version
       - name: install.sh installs the archive
         if: matrix.installer
         run: |
           set -eu
-          FOLIO_DOWNLOAD_URL="file://$PWD/dist/folio-${{ matrix.target }}.tar.gz" \
-            FOLIO_INSTALL_DIR="$RUNNER_TEMP/bin" sh install.sh
-          "$RUNNER_TEMP/bin/folio" --version
+          FOLIOH_DOWNLOAD_URL="file://$PWD/dist/folioh-${{ matrix.target }}.tar.gz" \
+            FOLIOH_INSTALL_DIR="$RUNNER_TEMP/bin" sh install.sh
+          "$RUNNER_TEMP/bin/folioh" --version
       - uses: actions/upload-artifact@v4
         with:
-          name: folio-${{ matrix.target }}
+          name: folioh-${{ matrix.target }}
           path: dist/*
           if-no-files-found: error
 
@@ -146,5 +146,5 @@ jobs:
             gh release upload "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" --clobber
           else
             gh release create "$GITHUB_REF_NAME" dist/* --repo "$GITHUB_REPOSITORY" \
-              --title "folio $VERSION" --notes-file notes.md --verify-tag
+              --title "folioh $VERSION" --notes-file notes.md --verify-tag
           fi

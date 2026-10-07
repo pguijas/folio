@@ -12,52 +12,52 @@
    preset, so the other presets draw these components as before. */
 
 /* Cards: a secondary surface, no ring, 24px inside. */
-html[data-folio-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"], [data-slot="command-card"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"], [data-slot="command-card"]) {
   border: 0;
-  border-radius: var(--folio-surface-radius);
+  border-radius: var(--folioh-surface-radius);
   background: var(--secondary);
   box-shadow: none;
   transition:
-    transform var(--folio-motion-micro) var(--folio-ease-enter),
-    box-shadow var(--folio-motion-micro) var(--folio-ease-enter);
+    transform var(--folioh-motion-micro) var(--folioh-ease-enter),
+    box-shadow var(--folioh-motion-micro) var(--folioh-ease-enter);
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"]):not([data-size="sm"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"]):not([data-size="sm"]) {
   padding-block: 24px;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"]):not([data-size="sm"]) > :is([data-slot="card-header"], [data-slot="card-content"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"]):not([data-size="sm"]) > :is([data-slot="card-header"], [data-slot="card-content"]) {
   padding-inline: 24px;
 }
 
-html[data-folio-preset="pastel"] [data-slot="command-card"] {
+html[data-folioh-preset="pastel"] [data-slot="command-card"] {
   padding: 20px 24px;
 }
 
 /* A linked card is a block link: no underline, the card's own ink, and a
    focus ring in --ring, which holds 3:1 where the hairline does not. */
-html[data-folio-preset="pastel"] a:has(> :is([data-slot="feature-card"], [data-slot="command-card"])) {
+html[data-folioh-preset="pastel"] a:has(> :is([data-slot="feature-card"], [data-slot="command-card"])) {
   display: block;
-  border-radius: var(--folio-surface-radius);
+  border-radius: var(--folioh-surface-radius);
   color: inherit;
   font-weight: inherit;
   text-decoration: none;
 }
 
-html[data-folio-preset="pastel"] a:has(> :is([data-slot="feature-card"], [data-slot="command-card"])):focus-visible {
+html[data-folioh-preset="pastel"] a:has(> :is([data-slot="feature-card"], [data-slot="command-card"])):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
 }
 
 /* The lift is a transform, so nothing around the card moves. */
-html[data-folio-preset="pastel"] a:is(:hover, :focus-visible) > :is([data-slot="feature-card"], [data-slot="command-card"])[data-linked] {
+html[data-folioh-preset="pastel"] a:is(:hover, :focus-visible) > :is([data-slot="feature-card"], [data-slot="command-card"])[data-linked] {
   transform: translateY(-2px);
-  box-shadow: var(--folio-card-shadow);
+  box-shadow: var(--folioh-card-shadow);
 }
 
 /* Original silhouettes sit behind the existing glyphs. Mask only the fill
    so the icon stays whole; text/emoji fallbacks keep their authored content. */
-html[data-folio-preset="pastel"] [data-slot="feature-card-icon"]:has(> svg) {
+html[data-folioh-preset="pastel"] [data-slot="feature-card-icon"]:has(> svg) {
   position: relative;
   width: 52px;
   height: 52px;
@@ -66,82 +66,82 @@ html[data-folio-preset="pastel"] [data-slot="feature-card-icon"]:has(> svg) {
   border-radius: 0;
   background: transparent;
   color: var(--accent-foreground);
-  --folio-feature-fill: var(--chart-1);
-  --folio-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M53 9C72 4 95 25 88 43C85 52 65 51 67 68C71 89 39 98 21 82C9 70 17 56 12 44C2 25 31 14 53 9Z'/%3E%3C/svg%3E");
+  --folioh-feature-fill: var(--chart-1);
+  --folioh-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M53 9C72 4 95 25 88 43C85 52 65 51 67 68C71 89 39 98 21 82C9 70 17 56 12 44C2 25 31 14 53 9Z'/%3E%3C/svg%3E");
 }
 
-html[data-folio-preset="pastel"] [data-slot="feature-card-icon"]:has(> svg)::before {
+html[data-folioh-preset="pastel"] [data-slot="feature-card-icon"]:has(> svg)::before {
   content: "";
   position: absolute;
   inset: 0;
-  -webkit-mask: var(--folio-feature-shape) center / contain no-repeat;
-  mask: var(--folio-feature-shape) center / contain no-repeat;
-  background: var(--folio-feature-fill);
+  -webkit-mask: var(--folioh-feature-shape) center / contain no-repeat;
+  mask: var(--folioh-feature-shape) center / contain no-repeat;
+  background: var(--folioh-feature-fill);
 }
 
-html[data-folio-preset="pastel"] [data-slot="feature-card-icon"] > svg {
+html[data-folioh-preset="pastel"] [data-slot="feature-card-icon"] > svg {
   position: relative;
   width: 22px;
   height: 22px;
 }
 
-html[data-folio-preset="pastel"] [data-slot="card-grid"] > :nth-child(4n + 2) [data-slot="feature-card-icon"]:has(> svg) {
-  --folio-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M13 35C10 19 24 11 43 19C65 30 77 10 88 29C98 47 82 59 68 63C46 70 52 92 32 87C14 83 27 63 17 54C12 49 14 42 13 35Z'/%3E%3C/svg%3E");
-  --folio-feature-fill: var(--chart-2);
+html[data-folioh-preset="pastel"] [data-slot="card-grid"] > :nth-child(4n + 2) [data-slot="feature-card-icon"]:has(> svg) {
+  --folioh-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M13 35C10 19 24 11 43 19C65 30 77 10 88 29C98 47 82 59 68 63C46 70 52 92 32 87C14 83 27 63 17 54C12 49 14 42 13 35Z'/%3E%3C/svg%3E");
+  --folioh-feature-fill: var(--chart-2);
 }
 
-html[data-folio-preset="pastel"] [data-slot="card-grid"] > :nth-child(4n + 3) [data-slot="feature-card-icon"]:has(> svg) {
-  --folio-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 18C44 5 65 18 72 36C79 53 96 59 80 77C64 96 41 83 31 71C22 60 7 58 11 39C13 29 17 23 25 18Z'/%3E%3C/svg%3E");
-  --folio-feature-fill: var(--chart-3);
+html[data-folioh-preset="pastel"] [data-slot="card-grid"] > :nth-child(4n + 3) [data-slot="feature-card-icon"]:has(> svg) {
+  --folioh-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M25 18C44 5 65 18 72 36C79 53 96 59 80 77C64 96 41 83 31 71C22 60 7 58 11 39C13 29 17 23 25 18Z'/%3E%3C/svg%3E");
+  --folioh-feature-fill: var(--chart-3);
 }
 
-html[data-folio-preset="pastel"] [data-slot="card-grid"] > :nth-child(4n + 4) [data-slot="feature-card-icon"]:has(> svg) {
-  --folio-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 20C34 5 52 15 65 12C86 6 94 27 82 42C72 55 91 63 82 80C73 97 50 85 38 89C20 95 7 75 16 61C26 45 4 37 20 20Z'/%3E%3C/svg%3E");
-  --folio-feature-fill: var(--chart-4);
+html[data-folioh-preset="pastel"] [data-slot="card-grid"] > :nth-child(4n + 4) [data-slot="feature-card-icon"]:has(> svg) {
+  --folioh-feature-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M20 20C34 5 52 15 65 12C86 6 94 27 82 42C72 55 91 63 82 80C73 97 50 85 38 89C20 95 7 75 16 61C26 45 4 37 20 20Z'/%3E%3C/svg%3E");
+  --folioh-feature-fill: var(--chart-4);
 }
 
 /* Panels: the same secondary surface, with hairline rows inside. */
-html[data-folio-preset="pastel"] :is([data-slot="config-panel"], [data-slot="checklist"], [data-slot="stat-strip"], [data-slot="compare-matrix"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="config-panel"], [data-slot="checklist"], [data-slot="stat-strip"], [data-slot="compare-matrix"]) {
   border: 0;
-  border-radius: var(--folio-surface-radius);
+  border-radius: var(--folioh-surface-radius);
   background: var(--secondary);
 }
 
-html[data-folio-preset="pastel"] [data-slot="config-panel-header"] {
+html[data-folioh-preset="pastel"] [data-slot="config-panel-header"] {
   padding: 16px 24px;
   background: transparent;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="config-panel-field"], [data-slot="checklist-item"]),
-html[data-folio-preset="pastel"] [data-slot="checklist"] > .border-b {
+html[data-folioh-preset="pastel"] :is([data-slot="config-panel-field"], [data-slot="checklist-item"]),
+html[data-folioh-preset="pastel"] [data-slot="checklist"] > .border-b {
   padding-inline: 24px;
 }
 
-html[data-folio-preset="pastel"] [data-slot="stat"] {
+html[data-folioh-preset="pastel"] [data-slot="stat"] {
   padding: 20px 24px;
 }
 
 /* Inside a panel the rows part on the same soft rule as a table's rows. */
-html[data-folio-preset="pastel"] :is([data-slot="config-panel"], [data-slot="checklist"]) > *,
-html[data-folio-preset="pastel"] :is([data-slot="config-panel-field"], [data-slot="checklist-item"], [data-slot="stat"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="config-panel"], [data-slot="checklist"]) > *,
+html[data-folioh-preset="pastel"] :is([data-slot="config-panel-field"], [data-slot="checklist-item"], [data-slot="stat"]) {
   border-color: color-mix(in oklab, var(--border) 70%, transparent);
 }
 
 /* A figure is a big number in the display face, in tabular digits. */
-html[data-folio-preset="pastel"] [data-slot="stat-value"] {
-  font-family: var(--folio-heading-font-family);
+html[data-folioh-preset="pastel"] [data-slot="stat-value"] {
+  font-family: var(--folioh-heading-font-family);
   font-weight: 600;
   letter-spacing: -0.03em;
   font-variant-numeric: tabular-nums lining-nums;
 }
 
 /* A panel's title sits in its own row, so the article's heading gap stays out. */
-html[data-folio-preset="pastel"] :is([data-slot="checklist-title"], [data-slot="config-panel-title"], [data-slot="command-card-title"], [data-slot="preview-title"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="checklist-title"], [data-slot="config-panel-title"], [data-slot="command-card-title"], [data-slot="preview-title"]) {
   margin: 0;
 }
 
 /* Badges: 26px pills; types and states take the 20px size. */
-html[data-folio-preset="pastel"] :is([data-slot="badge"], [data-slot="type-badge"], [data-slot="checklist-state"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="badge"], [data-slot="type-badge"], [data-slot="checklist-state"]) {
   display: inline-flex;
   align-items: center;
   height: 26px;
@@ -152,121 +152,121 @@ html[data-folio-preset="pastel"] :is([data-slot="badge"], [data-slot="type-badge
   font-weight: 500;
   letter-spacing: 0.005em;
   line-height: 1;
-  transition: background-color var(--folio-motion-micro) var(--folio-ease-enter);
+  transition: background-color var(--folioh-motion-micro) var(--folioh-ease-enter);
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="type-badge"], [data-slot="checklist-state"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="type-badge"], [data-slot="checklist-state"]) {
   height: 20px;
   padding: 0 8px;
   font-size: 11px;
   font-weight: 600;
 }
 
-html[data-folio-preset="pastel"] [data-slot="badge"][data-variant="outline"] {
+html[data-folioh-preset="pastel"] [data-slot="badge"][data-variant="outline"] {
   border-color: var(--border);
   background: var(--background);
 }
 
-html[data-folio-preset="pastel"] [data-slot="badge"][data-variant="destructive"] {
+html[data-folioh-preset="pastel"] [data-slot="badge"][data-variant="destructive"] {
   background: color-mix(in srgb, var(--destructive) 10%, var(--background));
   color: var(--destructive);
 }
 
-html.dark[data-folio-preset="pastel"] [data-slot="badge"][data-variant="destructive"] {
+html.dark[data-folioh-preset="pastel"] [data-slot="badge"][data-variant="destructive"] {
   background: color-mix(in srgb, var(--destructive) 12%, var(--background));
   color: var(--destructive);
 }
 
 /* A type is lavender at 55% on light and 20% on dark. The tint is see-through,
    so it reads the same on the page, a canvas or a secondary panel. */
-html[data-folio-preset="pastel"] [data-slot="type-badge"],
-html[data-folio-preset="pastel"] [data-slot="config-panel-type"] {
+html[data-folioh-preset="pastel"] [data-slot="type-badge"],
+html[data-folioh-preset="pastel"] [data-slot="config-panel-type"] {
   border: 0;
   background: color-mix(in oklab, var(--chart-4) 55%, transparent);
   color: var(--foreground);
 }
 
-html.dark[data-folio-preset="pastel"] [data-slot="type-badge"],
-html.dark[data-folio-preset="pastel"] [data-slot="config-panel-type"] {
+html.dark[data-folioh-preset="pastel"] [data-slot="type-badge"],
+html.dark[data-folioh-preset="pastel"] [data-slot="config-panel-type"] {
   background: color-mix(in oklab, var(--chart-4) 20%, transparent);
 }
 
-html[data-folio-preset="pastel"] a:hover > [data-slot="type-badge"] {
+html[data-folioh-preset="pastel"] a:hover > [data-slot="type-badge"] {
   background: color-mix(in oklab, var(--chart-4) 85%, transparent);
 }
 
-html.dark[data-folio-preset="pastel"] a:hover > [data-slot="type-badge"] {
+html.dark[data-folioh-preset="pastel"] a:hover > [data-slot="type-badge"] {
   background: color-mix(in oklab, var(--chart-4) 34%, transparent);
 }
 
-html[data-folio-preset="pastel"] a:has(> [data-slot="type-badge"]) {
+html[data-folioh-preset="pastel"] a:has(> [data-slot="type-badge"]) {
   border-radius: 999px;
   text-decoration: none;
 }
 
-html[data-folio-preset="pastel"] a:has(> [data-slot="type-badge"]):focus-visible {
+html[data-folioh-preset="pastel"] a:has(> [data-slot="type-badge"]):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="config-panel-type"], [data-slot="config-panel-default"], [data-slot="command-card-flag"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="config-panel-type"], [data-slot="config-panel-default"], [data-slot="command-card-flag"]) {
   border-radius: 999px;
   padding-inline: 8px;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="config-panel-default"], [data-slot="command-card-flag"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="config-panel-default"], [data-slot="command-card-flag"]) {
   border-color: transparent;
   background: var(--background);
 }
 
 /* On dark the page is the darkest surface, so a cream pill is half of it. */
-html.dark[data-folio-preset="pastel"] :is([data-slot="config-panel-default"], [data-slot="command-card-flag"], [data-slot="checklist-state"], [data-slot="badge"][data-variant="outline"]) {
+html.dark[data-folioh-preset="pastel"] :is([data-slot="config-panel-default"], [data-slot="command-card-flag"], [data-slot="checklist-state"], [data-slot="badge"][data-variant="outline"]) {
   background: color-mix(in oklab, var(--background) 55%, transparent);
 }
 
 /* Checklist states read as sage and apricot status pills. */
-html[data-folio-preset="pastel"] [data-slot="checklist-state"] {
+html[data-folioh-preset="pastel"] [data-slot="checklist-state"] {
   margin-top: 0;
   border: 0;
   background: var(--background);
   color: var(--muted-foreground);
 }
 
-html[data-folio-preset="pastel"] [data-variant="done"] > [data-slot="checklist-state"] {
+html[data-folioh-preset="pastel"] [data-variant="done"] > [data-slot="checklist-state"] {
   background: color-mix(in srgb, var(--chart-3) 18%, var(--background));
   color: var(--ring);
 }
 
-html[data-folio-preset="pastel"] [data-variant="warn"] > [data-slot="checklist-state"] {
+html[data-folioh-preset="pastel"] [data-variant="warn"] > [data-slot="checklist-state"] {
   background: color-mix(in srgb, var(--chart-1) 18%, var(--background));
   color: var(--warning);
 }
 
-html.dark[data-folio-preset="pastel"] [data-variant="done"] > [data-slot="checklist-state"] {
+html.dark[data-folioh-preset="pastel"] [data-variant="done"] > [data-slot="checklist-state"] {
   background: color-mix(in srgb, var(--chart-3) 14%, var(--background));
   color: var(--ring);
 }
 
-html.dark[data-folio-preset="pastel"] [data-variant="warn"] > [data-slot="checklist-state"] {
+html.dark[data-folioh-preset="pastel"] [data-variant="warn"] > [data-slot="checklist-state"] {
   background: color-mix(in srgb, var(--chart-1) 14%, var(--background));
   color: var(--chart-1);
 }
 
 /* Frames: paper under a soft hairline at radius 16. */
-html[data-folio-preset="pastel"] :is([data-slot="preview-code"], [data-slot="doc-preview"], [data-slot="browser-frame"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="preview-code"], [data-slot="doc-preview"], [data-slot="browser-frame"]) {
   border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
   border-radius: 16px;
   background: var(--card);
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="preview-code"], [data-slot="doc-preview"]) > [data-slot="preview-toolbar"] {
+html[data-folioh-preset="pastel"] :is([data-slot="preview-code"], [data-slot="doc-preview"]) > [data-slot="preview-toolbar"] {
   padding: 12px 16px;
   border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
   background: transparent;
 }
 
 /* The canvas centres its example over a 1px dot grid at 24px. */
-html[data-folio-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"] {
+html[data-folioh-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"] {
   position: relative;
   isolation: isolate;
   align-content: center;
@@ -275,7 +275,7 @@ html[data-folio-preset="pastel"] [data-slot="preview-code"] > [data-slot="previe
   background: color-mix(in srgb, var(--card) 96%, var(--secondary));
 }
 
-html[data-folio-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"]::before {
+html[data-folioh-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"]::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -288,49 +288,49 @@ html[data-folio-preset="pastel"] [data-slot="preview-code"] > [data-slot="previe
 }
 
 @media (max-width: 600px) {
-  html[data-folio-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"] {
+  html[data-folioh-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"] {
     min-height: 240px;
     padding: 20px 16px;
   }
 }
 
 @media (forced-colors: active) {
-  html[data-folio-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"]::before {
+  html[data-folioh-preset="pastel"] [data-slot="preview-code"] > [data-slot="preview-canvas"]::before {
     display: none;
   }
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="browser-frame-bar"], [data-slot="browser-frame-footer"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="browser-frame-bar"], [data-slot="browser-frame-footer"]) {
   border-color: color-mix(in srgb, var(--border) 60%, transparent);
   background: transparent;
 }
 
-html[data-folio-preset="pastel"] [data-slot="browser-frame-bar"] > [aria-hidden="true"] > :nth-child(1) {
+html[data-folioh-preset="pastel"] [data-slot="browser-frame-bar"] > [aria-hidden="true"] > :nth-child(1) {
   background: var(--chart-2);
 }
 
-html[data-folio-preset="pastel"] [data-slot="browser-frame-bar"] > [aria-hidden="true"] > :nth-child(2) {
+html[data-folioh-preset="pastel"] [data-slot="browser-frame-bar"] > [aria-hidden="true"] > :nth-child(2) {
   background: var(--chart-1);
 }
 
-html[data-folio-preset="pastel"] [data-slot="browser-frame-bar"] > [aria-hidden="true"] > :nth-child(3) {
+html[data-folioh-preset="pastel"] [data-slot="browser-frame-bar"] > [aria-hidden="true"] > :nth-child(3) {
   background: var(--chart-3);
 }
 
-html[data-folio-preset="pastel"] [data-slot="browser-frame-url"] {
+html[data-folioh-preset="pastel"] [data-slot="browser-frame-url"] {
   border-radius: 999px;
 }
 
 /* Empty state: no surface, a dashed edge, and the irregular pastel shape. */
-html[data-folio-preset="pastel"] [data-slot="unavailable-feature"] {
+html[data-folioh-preset="pastel"] [data-slot="unavailable-feature"] {
   align-content: center;
   min-height: 160px;
   border: 1px dashed var(--border);
-  border-radius: var(--folio-surface-radius);
+  border-radius: var(--folioh-surface-radius);
   background: transparent;
 }
 
-html[data-folio-preset="pastel"] [data-slot="unavailable-feature-mark"] {
+html[data-folioh-preset="pastel"] [data-slot="unavailable-feature-mark"] {
   width: 52px;
   height: 52px;
   border: 0;
@@ -341,25 +341,25 @@ html[data-folio-preset="pastel"] [data-slot="unavailable-feature-mark"] {
 
 /* Tables: 13px, no box, hairline rows, the outer cells flush with the
    column, figures in tabular digits, and a 120ms row hover. */
-html[data-folio-preset="pastel"] article table:not(.not-prose *) {
+html[data-folioh-preset="pastel"] article table:not(.not-prose *) {
   border: 0;
   border-radius: 0;
   font-size: 13px;
 }
 
-html[data-folio-preset="pastel"] article tr:not(.not-prose *),
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] tr {
+html[data-folioh-preset="pastel"] article tr:not(.not-prose *),
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] tr {
   border: 0;
   background: transparent;
-  transition: background-color var(--folio-motion-micro) var(--folio-ease-enter);
+  transition: background-color var(--folioh-motion-micro) var(--folioh-ease-enter);
 }
 
-html[data-folio-preset="pastel"] article tbody tr:not(.not-prose *):hover,
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] tbody tr:hover {
+html[data-folioh-preset="pastel"] article tbody tr:not(.not-prose *):hover,
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] tbody tr:hover {
   background: color-mix(in oklab, var(--foreground) 8%, transparent);
 }
 
-html[data-folio-preset="pastel"] article th:not(.not-prose *) {
+html[data-folioh-preset="pastel"] article th:not(.not-prose *) {
   height: 44px;
   padding: 0 12px;
   border: 0;
@@ -372,11 +372,11 @@ html[data-folio-preset="pastel"] article th:not(.not-prose *) {
 }
 
 /* A heading without its own alignment starts where its column's text does. */
-html[data-folio-preset="pastel"] article th:not([align], [style*="text-align"], .not-prose *) {
+html[data-folioh-preset="pastel"] article th:not([align], [style*="text-align"], .not-prose *) {
   text-align: start;
 }
 
-html[data-folio-preset="pastel"] article td:not(.not-prose *) {
+html[data-folioh-preset="pastel"] article td:not(.not-prose *) {
   padding: 14px 12px;
   border: 0;
   border-bottom: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
@@ -384,67 +384,67 @@ html[data-folio-preset="pastel"] article td:not(.not-prose *) {
   line-height: 1.5;
 }
 
-html[data-folio-preset="pastel"] article tbody tr:last-child td:not(.not-prose *) {
+html[data-folioh-preset="pastel"] article tbody tr:last-child td:not(.not-prose *) {
   border-bottom: 0;
 }
 
-html[data-folio-preset="pastel"] article :is(th, td):first-child:not(.not-prose *),
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] :is(th, td):first-child {
+html[data-folioh-preset="pastel"] article :is(th, td):first-child:not(.not-prose *),
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] :is(th, td):first-child {
   padding-left: 0;
 }
 
-html[data-folio-preset="pastel"] article :is(th, td):last-child:not(.not-prose *),
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] :is(th, td):last-child {
+html[data-folioh-preset="pastel"] article :is(th, td):last-child:not(.not-prose *),
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] :is(th, td):last-child {
   padding-right: 0;
 }
 
-html[data-folio-preset="pastel"] article :is(th, td):is([align="right"], [style*="text-align:right"], [style*="text-align: right"]),
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] td {
+html[data-folioh-preset="pastel"] article :is(th, td):is([align="right"], [style*="text-align:right"], [style*="text-align: right"]),
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] td {
   font-variant-numeric: tabular-nums;
 }
 
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] {
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] {
   padding: 4px clamp(12px, 3vw, 24px);
 }
 
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] table {
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] table {
   font-size: 13px;
 }
 
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] thead tr {
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] thead tr {
   border-bottom: 1px solid color-mix(in oklab, var(--input) 40%, transparent);
 }
 
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] tbody tr {
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] tbody tr {
   border-bottom: 1px solid color-mix(in oklab, var(--border) 70%, transparent);
 }
 
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] tbody tr:last-child {
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] tbody tr:last-child {
   border-bottom: 0;
 }
 
 /* The highlighted tool takes a jade wash, and a yes is a sage disc. */
-html[data-folio-preset="pastel"] [data-slot="compare-matrix"] [data-highlight] {
+html[data-folioh-preset="pastel"] [data-slot="compare-matrix"] [data-highlight] {
   background: color-mix(in oklab, var(--chart-2) 24%, transparent);
   color: var(--foreground);
 }
 
-html.dark[data-folio-preset="pastel"] [data-slot="compare-matrix"] [data-highlight] {
+html.dark[data-folioh-preset="pastel"] [data-slot="compare-matrix"] [data-highlight] {
   background: color-mix(in oklab, var(--chart-2) 14%, transparent);
 }
 
-html[data-folio-preset="pastel"] [data-slot="compare-cell"][data-variant="yes"] {
+html[data-folioh-preset="pastel"] [data-slot="compare-cell"][data-variant="yes"] {
   background: var(--chart-3);
   color: var(--accent-foreground);
 }
 
 /* Without motion a card does not lift and a row changes at once. */
 @media (prefers-reduced-motion: reduce) {
-  html[data-folio-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"], [data-slot="command-card"], [data-slot="badge"], [data-slot="type-badge"], [data-slot="checklist-state"], tr) {
+  html[data-folioh-preset="pastel"] :is([data-slot="card"], [data-slot="feature-card"], [data-slot="class-overview"], [data-slot="command-card"], [data-slot="badge"], [data-slot="type-badge"], [data-slot="checklist-state"], tr) {
     transition: none;
   }
 
-  html[data-folio-preset="pastel"] a:is(:hover, :focus-visible) > :is([data-slot="feature-card"], [data-slot="command-card"])[data-linked] {
+  html[data-folioh-preset="pastel"] a:is(:hover, :focus-visible) > :is([data-slot="feature-card"], [data-slot="command-card"])[data-linked] {
     transform: none;
   }
 }

@@ -12,7 +12,7 @@ import {
 import { createPortal } from "react-dom"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Cancel01Icon } from "@hugeicons/core-free-icons"
-import { folioProject } from "@/lib/folio-template"
+import { foliohProject } from "@/lib/folioh-template"
 import {
   findHamburger,
   findMobileNav,
@@ -31,14 +31,14 @@ import {
 // click or a route change, and adds what a modal needs: a title and a close
 // button, a scrim, Esc, focus kept inside while open and given back on close,
 // and the rest of the page inert. The geometry and the motion are CSS in
-// globals.css, keyed off `html[data-folio-drawer]`; without this component
+// globals.css, keyed off `html[data-folioh-drawer]`; without this component
 // mounted, the menu stays exactly as Nextra draws it.
 //
 // The drawer's look is taken from cojeev's docs drawer (MIT), itself derived
 // from ui-layouts (MIT); see THIRD-PARTY-NOTICES.md.
 
-const PANEL_ID = "folio-mobile-nav"
-const SCRIM_CLASS = "folio-drawer-scrim"
+const PANEL_ID = "folioh-mobile-nav"
+const SCRIM_CLASS = "folioh-drawer-scrim"
 
 // Body children the open drawer leaves live. Next's route announcer and any
 // live region must still speak, headless-ui's portal root holds the results
@@ -90,12 +90,12 @@ function focusDestination() {
   if (!target) return
   if (!target.hasAttribute("tabindex")) {
     target.tabIndex = -1
-    target.dataset.folioFocusTarget = ""
+    target.dataset.foliohFocusTarget = ""
     target.addEventListener(
       "blur",
       () => {
         target.removeAttribute("tabindex")
-        delete target.dataset.folioFocusTarget
+        delete target.dataset.foliohFocusTarget
       },
       { once: true }
     )
@@ -127,7 +127,7 @@ export function MobileNavDrawer() {
   const header = useMemo(() => {
     if (!panel) return null
     const slot = document.createElement("div")
-    slot.className = "folio-drawer-header"
+    slot.className = "folioh-drawer-header"
     return slot
   }, [panel])
   // Esc, the scrim and the close button give focus back to the hamburger;
@@ -167,8 +167,8 @@ export function MobileNavDrawer() {
       for (const element of inerted.current) element.inert = false
       inerted.current = []
       panel.removeAttribute("inert")
-      delete document.documentElement.dataset.folioDrawer
-      delete document.documentElement.dataset.folioDrawerMotion
+      delete document.documentElement.dataset.foliohDrawer
+      delete document.documentElement.dataset.foliohDrawerMotion
     }
   }, [panel, header, titleId])
 
@@ -180,8 +180,8 @@ export function MobileNavDrawer() {
     // Transitions start with the first open. Set any earlier, the swap from
     // Nextra's slide-down position to the drawer's would itself animate
     // across the screen on page load.
-    if (open) root.dataset.folioDrawerMotion = ""
-    root.dataset.folioDrawer = open ? "open" : "closed"
+    if (open) root.dataset.foliohDrawerMotion = ""
+    root.dataset.foliohDrawer = open ? "open" : "closed"
     // The panel is live from the opening's first frame, whose visibility flip
     // restyles it anyway. The closing leaves it inert once focus is out.
     if (open) panel.removeAttribute("inert")
@@ -299,12 +299,12 @@ export function MobileNavDrawer() {
     <>
       {createPortal(
         <>
-          <h2 id={titleId} className="folio-drawer-title">
-            {folioProject.name}
+          <h2 id={titleId} className="folioh-drawer-title">
+            {foliohProject.name}
           </h2>
           <button
             type="button"
-            className="folio-drawer-close"
+            className="folioh-drawer-close"
             aria-label="Close menu"
             onMouseDown={keepFocus}
             onClick={() => close("hamburger")}

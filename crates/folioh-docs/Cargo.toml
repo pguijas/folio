@@ -1,0 +1,22 @@
+[package]
+name = "folioh-docs"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+folioh-config = { path = "../folioh-config" }
+folioh-ir = { path = "../folioh-ir" }
+folioh-lang-python = { path = "../folioh-lang-python" }
+folioh-lang-javascript = { path = "../folioh-lang-javascript" }
+folioh-lang-rust = { path = "../folioh-lang-rust" }
+folioh-mdx = { path = "../folioh-mdx" }
+indexmap.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

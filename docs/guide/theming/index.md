@@ -1,11 +1,11 @@
 ---
 title: Theming
-description: Understand Folio's theming model, from bundled theme personalization to theme packages and full custom templates.
+description: Understand Folioh's theming model, from bundled theme personalization to theme packages and full custom templates.
 ---
 
 # Theming
 
-Folio has one theming model with three ownership levels. Start with the bundled
+Folioh has one theming model with three ownership levels. Start with the bundled
 template, move to a theme package when a project needs exact visual control, and
 use a custom template only when the documentation must live inside a fully
 project-owned frontend.
@@ -14,8 +14,8 @@ project-owned frontend.
 
 | Level | Configure with | Use when | Who owns the frontend |
 |-------|----------------|----------|------------------------|
-| Theme personalization | `theme.preset`, `theme.tune`, `theme.tokens`, `theme.header`, `theme.variants` | The bundled Folio docs shell is right, but the brand, colors, typography, spacing, or header need tuning. | Folio owns the template; your project owns safe theme data. |
-| Theme package | `theme.package` | The docs should still use Folio's bundled template as a base, but a project needs to override files such as layouts, CSS, the configurator, or project theme code. | Folio owns generated content; the package overlays selected template files. |
+| Theme personalization | `theme.preset`, `theme.tune`, `theme.tokens`, `theme.header`, `theme.variants` | The bundled Folioh docs shell is right, but the brand, colors, typography, spacing, or header need tuning. | Folioh owns the template; your project owns safe theme data. |
+| Theme package | `theme.package` | The docs should still use Folioh's bundled template as a base, but a project needs to override files such as layouts, CSS, the configurator, or project theme code. | Folioh owns generated content; the package overlays selected template files. |
 | Custom template | `template.path` | The docs must run inside a product-specific Next/Nextra frontend with its own routes, dependencies, chrome, search UI, or application layout. | The custom template owns the frontend workspace. |
 
 <CardGrid columns={3}>
@@ -26,17 +26,17 @@ project-owned frontend.
   />
   <FeatureCard
     title="Build a Theme Package"
-    description="Overlay files on the bundled template while Folio still injects generated content and metadata."
+    description="Overlay files on the bundled template while Folioh still injects generated content and metadata."
     href="theme-packages"
   />
   <FeatureCard
     title="Use a Custom Template"
-    description="Bring a full Next/Nextra frontend and consume Folio's generated MDX, metadata, and component contract."
+    description="Bring a full Next/Nextra frontend and consume Folioh's generated MDX, metadata, and component contract."
     href="custom-templates"
   />
 </CardGrid>
 
-## How Folio Applies Theme Configuration
+## How Folioh Applies Theme Configuration
 
 ```mermaid
 flowchart TD
@@ -44,7 +44,7 @@ flowchart TD
     Config --> Template["template.*"]
     Theme --> Preset["Bundled preset and safe project preset"]
     Theme --> Package{"theme.package?"}
-    Package -->|No| Bundled["Bundled Folio template"]
+    Package -->|No| Bundled["Bundled Folioh template"]
     Package -->|Yes| Overlay["Copy package over bundled template"]
     Preset --> Bundled
     Preset --> Overlay
@@ -57,7 +57,7 @@ flowchart TD
     Build --> Site["Static documentation site"]
 ```
 
-Folio always owns the generated documentation data: parsed API pages, converted
+Folioh always owns the generated documentation data: parsed API pages, converted
 Markdown, `_meta.ts`, search metadata, LLM outputs, and static export. The
 theming choice controls how much of the presentation layer your project owns.
 
@@ -67,13 +67,13 @@ theming choice controls how much of the presentation layer your project owns.
 2. Add project tokens, header configuration, and variants if the bundled shell is
    still the right product experience.
 3. Move to `theme.package` when the project needs exact control over selected
-   template files but still wants Folio's bundled template as a base.
+   template files but still wants Folioh's bundled template as a base.
 4. Move to `template.path` when the documentation frontend is a product
-   workspace, not just a styled Folio docs site.
+   workspace, not just a styled Folioh docs site.
 
 ## Design Credits
 
-Folio Pastel takes inspiration from [cojeev](https://000h.cojeev.com/): its organic
+Folioh Pastel takes inspiration from [cojeev](https://000h.cojeev.com/): its organic
 shapes, typography, floating docs layout and motion. Thank you to
 [Sanjay Kumar (luv-jeri)](https://github.com/luv-jeri) for designing it and sharing
 [cojeev-ui](https://github.com/luv-jeri/cojeev-ui) as open source.

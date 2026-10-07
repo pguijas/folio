@@ -1,8 +1,8 @@
 # Plugin Catalog
 
-*Every integration in the Folio binary, in one place.*
+*Every integration in the Folioh binary, in one place.*
 
-Every integration below is **built in**: compiled into `folio`, present in
+Every integration below is **built in**: compiled into `folioh`, present in
 every build, and inert until its section appears in `docs.yaml`. Add the
 section and the integration builds its pages. Remove it and the integration
 goes inert again. A clean build clears any route it had already written.
@@ -45,7 +45,7 @@ openapi:
 ## Static files
 
 Files the site serves from its root without a plugin, such as an installer
-script, go under the `public:` key in `docs.yaml`. Folio's own site serves
+script, go under the `public:` key in `docs.yaml`. Folioh's own site serves
 `install.sh` that way. See [public](../configuration#public).
 
 ## Project plugins

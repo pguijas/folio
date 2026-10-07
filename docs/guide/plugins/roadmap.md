@@ -2,7 +2,7 @@
 
 The built-in roadmap integration renders source-defined phases as a release timeline. The view below reads the same data as the standalone `/roadmap/` route, which is optional: `routes.public: true` turns it on.
 
-The roadmap integration is compiled into `folio`: nothing to install, nothing to list. It stays inert until a `roadmap:` section appears in `docs.yaml` — the config key is the activation switch.
+The roadmap integration is compiled into `folioh`: nothing to install, nothing to list. It stays inert until a `roadmap:` section appears in `docs.yaml` — the config key is the activation switch.
 
 Activate it in `docs.yaml`:
 
@@ -19,7 +19,7 @@ roadmap:
       status: "shipped"
       layer: "Source analysis"
       summary: "Parse Python source and docs into a static site."
-      command: "folio build"
+      command: "folioh build"
       features:
         - "Parser"
         - "Search"
@@ -27,7 +27,7 @@ roadmap:
 
 The timeline is rendered from source: change phases in `docs.yaml`, commit the file, and rebuild the site to update this view. Give phases a `project` to render independent release sequences from one roadmap.
 
-Routes are opt-out: `routes.docs` (default `true`) publishes a generated `/docs/roadmap/` page when your sources do not already contain one, and `routes.public` (default `false`) adds the standalone `/roadmap/` page. The generated page is a `# Roadmap` heading over the timeline; write your own `roadmap.md` to replace it. The `folio roadmap` CLI command prints the configured phases as a table.
+Routes are opt-out: `routes.docs` (default `true`) publishes a generated `/docs/roadmap/` page when your sources do not already contain one, and `routes.public` (default `false`) adds the standalone `/roadmap/` page. The generated page is a `# Roadmap` heading over the timeline; write your own `roadmap.md` to replace it. The `folioh roadmap` CLI command prints the configured phases as a table.
 
 `phases` must be a list of mappings. A phase takes `id`, `version`,
 `project`, `title`, `status`, `layer`, `summary`, `command` and `features`,
@@ -103,13 +103,13 @@ the served HTML whatever the page is showing, so a crawler or a reader with
 JavaScript off still sees the whole roadmap. The page's Markdown mirror and
 `llms-full.txt` do not carry the timeline yet.
 
-Internally, the integration uses the same extension primitives as the other built-in plugins: it registers a `Roadmap` component for embedding and a `RoadmapPage` component for the standalone route, writes two typed data modules (`lib/roadmap-data.ts` and `lib/roadmap-projects.ts`), and, when `routes.public` is on, creates the `/roadmap/` view with the required `folio.public` layout.
+Internally, the integration uses the same extension primitives as the other built-in plugins: it registers a `Roadmap` component for embedding and a `RoadmapPage` component for the standalone route, writes two typed data modules (`lib/roadmap-data.ts` and `lib/roadmap-projects.ts`), and, when `routes.public` is on, creates the `/roadmap/` view with the required `folioh.public` layout.
 
 ## Live demo
 
-This is Folio's own roadmap — the code tab shows the shape of the `roadmap:` section in this repository's `docs.yaml`, the preview tab is the component rendering the real data:
+This is Folioh's own roadmap — the code tab shows the shape of the `roadmap:` section in this repository's `docs.yaml`, the preview tab is the component rendering the real data:
 
-<PreviewCode title="Folio's release line" defaultMode="preview">
+<PreviewCode title="Folioh's release line" defaultMode="preview">
 
 ```yaml
 roadmap:
@@ -118,7 +118,7 @@ roadmap:
     public: false      # this site has no standalone /roadmap
   projects:
     docs:
-      label: "Folio Docs"
+      label: "Folioh Docs"
   phases:
     - id: "foundation"
       version: "0.1"

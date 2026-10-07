@@ -17,12 +17,12 @@ A word or API name with its definition one hover away. The term keeps its place 
 <PreviewCode title="Glossary" defaultMode="preview">
 
 ```mdx
-Folio writes every page ahead of time, as a <Term def="Static site generation: the HTML for each page is written at build time, not per request.">static export</Term>,
+Folioh writes every page ahead of time, as a <Term def="Static site generation: the HTML for each page is written at build time, not per request.">static export</Term>,
 so any static host can serve it. The reference comes from your
 <Term def="Comments in the source that document a module, class or function." href="/docs/docstrings">doc comments</Term>.
 ```
 
-Folio writes every page ahead of time, as a <Term def="Static site generation: the HTML for each page is written at build time, not per request.">static export</Term>,
+Folioh writes every page ahead of time, as a <Term def="Static site generation: the HTML for each page is written at build time, not per request.">static export</Term>,
 so any static host can serve it. The reference comes from your
 <Term def="Comments in the source that document a module, class or function." href="/docs/docstrings">doc comments</Term>.
 

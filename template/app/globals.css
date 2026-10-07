@@ -79,7 +79,7 @@
        splits the same way caution does. */
     --destructive: oklch(0.55 0.20 28);
     /* Warning state: the sibling of --destructive, at hue 78 — the hue
-       --folio-comparison-partial already uses, so the theme carries one
+       --folioh-comparison-partial already uses, so the theme carries one
        warm hue rather than two. Like --destructive it takes one value per
        mode: the lightest single value that clears 4.5:1 on a dark card
        measures 3.10:1 on a light one. Each value is dark/light enough that 12px
@@ -112,54 +112,54 @@
     --sidebar-ring: oklch(0.155 0.007 82);
 
     /* Typography */
-    --folio-heading-font-family: Georgia, "Times New Roman", ui-serif, serif;
-    --folio-body-font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --folio-code-font-family: var(--font-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-    --folio-heading-letter-spacing: 0;
-    --folio-heading-weight: 900;
-    --folio-body-line-height: 1.72;
-    --folio-font-size-base: 1rem;
+    --folioh-heading-font-family: Georgia, "Times New Roman", ui-serif, serif;
+    --folioh-body-font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --folioh-code-font-family: var(--font-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --folioh-heading-letter-spacing: 0;
+    --folioh-heading-weight: 900;
+    --folioh-body-line-height: 1.72;
+    --folioh-font-size-base: 1rem;
 
     /* Cards & surfaces */
-    --folio-card-shadow: none;
-    --folio-card-border-width: 1px;
-    --folio-card-padding: 1.25rem;
-    --folio-card-hover-shadow: 0 0 0 1px var(--foreground);
+    --folioh-card-shadow: none;
+    --folioh-card-border-width: 1px;
+    --folioh-card-padding: 1.25rem;
+    --folioh-card-hover-shadow: 0 0 0 1px var(--foreground);
 
     /* Code blocks */
-    --folio-code-border-radius: 0.65rem;
-    --folio-code-border: 1px solid color-mix(in oklch, var(--border) 72%, var(--background));
-    --folio-code-bg: color-mix(in oklch, var(--muted) 86%, var(--background));
-    --folio-code-foreground: var(--foreground);
-    --folio-code-shadow: 0 18px 48px -42px color-mix(in oklch, var(--foreground) 42%, transparent);
+    --folioh-code-border-radius: 0.65rem;
+    --folioh-code-border: 1px solid color-mix(in oklch, var(--border) 72%, var(--background));
+    --folioh-code-bg: color-mix(in oklch, var(--muted) 86%, var(--background));
+    --folioh-code-foreground: var(--foreground);
+    --folioh-code-shadow: 0 18px 48px -42px color-mix(in oklch, var(--foreground) 42%, transparent);
 
     /* Headings */
-    --folio-h2-border: 1px solid var(--border);
-    --folio-h2-transform: uppercase;
-    --folio-h2-letter-spacing: 0;
-    --folio-h2-weight: 900;
-    --folio-h2-padding-left: 0;
-    --folio-h2-border-left: none;
+    --folioh-h2-border: 1px solid var(--border);
+    --folioh-h2-transform: uppercase;
+    --folioh-h2-letter-spacing: 0;
+    --folioh-h2-weight: 900;
+    --folioh-h2-padding-left: 0;
+    --folioh-h2-border-left: none;
 
     /* Links */
-    --folio-link-decoration: underline;
+    --folioh-link-decoration: underline;
 
     /* Cards — glass effect */
-    --folio-card-backdrop: none;
-    --folio-card-opacity: 1;
+    --folioh-card-backdrop: none;
+    --folioh-card-opacity: 1;
 
     /* Spacing */
-    --folio-section-gap: 3rem;
-    --folio-content-max-width: 50rem;
-    --folio-workspace-shell-padding: 0px;
-    --folio-workspace-shell-border: 0 solid transparent;
-    --folio-workspace-shell-shadow: none;
-    --folio-workspace-shell-background: var(--background);
-    --folio-workspace-shell-surface: transparent;
-    --folio-workspace-shell-topbar: var(--background);
-    --folio-workspace-shell-topbar-blur: none;
-    --folio-workspace-shell-topbar-border: 1px solid var(--border);
-    --folio-nextra-bg: var(--background);
+    --folioh-section-gap: 3rem;
+    --folioh-content-max-width: 50rem;
+    --folioh-workspace-shell-padding: 0px;
+    --folioh-workspace-shell-border: 0 solid transparent;
+    --folioh-workspace-shell-shadow: none;
+    --folioh-workspace-shell-background: var(--background);
+    --folioh-workspace-shell-surface: transparent;
+    --folioh-workspace-shell-topbar: var(--background);
+    --folioh-workspace-shell-topbar-blur: none;
+    --folioh-workspace-shell-topbar-border: 1px solid var(--border);
+    --folioh-nextra-bg: var(--background);
 
     /* Motion, after cojeev's scale (MIT, see THIRD-PARTY-NOTICES.md). 120ms
        for a control answering the pointer, 200ms for something arriving,
@@ -170,32 +170,32 @@
        at 64% of its travel by 160ms, and the 560ms is the slow settle over the
        last few pixels, which is what makes it read as smooth rather than as
        late. */
-    --folio-motion-micro: 120ms;
-    --folio-motion-element: 200ms;
-    --folio-motion-exit: 180ms;
-    --folio-motion-max: 300ms;
-    --folio-motion-glide: 240ms;
-    --folio-motion-fade: 160ms;
-    --folio-motion-drawer: 560ms;
-    --folio-ease-enter: cubic-bezier(0.2, 0.8, 0.2, 1);
-    --folio-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+    --folioh-motion-micro: 120ms;
+    --folioh-motion-element: 200ms;
+    --folioh-motion-exit: 180ms;
+    --folioh-motion-max: 300ms;
+    --folioh-motion-glide: 240ms;
+    --folioh-motion-fade: 160ms;
+    --folioh-motion-drawer: 560ms;
+    --folioh-ease-enter: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --folioh-ease-exit: cubic-bezier(0.4, 0, 1, 1);
     /* A stiffness 180, damping 26, mass 1 spring. This cubic is its closest
        fit (under 2% off at any point); browsers with `linear()` get the
        sampled spring itself, in the @supports block below. */
-    --folio-spring-drawer: cubic-bezier(0.28, 0.32, 0.1, 1);
+    --folioh-spring-drawer: cubic-bezier(0.28, 0.32, 0.1, 1);
 
     /* The mobile drawer: a card floating 12px in from the edges, over a
        dimmed page. A preset that wants a full-screen sheet instead sets the
        inset and the radius to 0, the width to 100vw and the shadow to none.
        The width is 340px at the default font size and in rem, so a reader
        with a larger font gets a wider drawer, not a cramped one. */
-    --folio-drawer-inset: 12px;
-    --folio-drawer-width: 21.25rem;
-    --folio-drawer-radius: 24px;
-    --folio-drawer-shadow:
+    --folioh-drawer-inset: 12px;
+    --folioh-drawer-width: 21.25rem;
+    --folioh-drawer-radius: 24px;
+    --folioh-drawer-shadow:
       0 0 0 1px color-mix(in oklch, var(--border) 55%, transparent),
       8px 1px 21px rgb(17 17 26 / 0.1);
-    --folio-drawer-scrim: color-mix(in oklch, var(--scrim) 30%, transparent);
+    --folioh-drawer-scrim: color-mix(in oklch, var(--scrim) 30%, transparent);
 
     /* Tones for the six callout types: a fill for the surface, an ink for
        its text and an accent for its icon and edge. Each mixes one fixed hue,
@@ -204,83 +204,83 @@
        without declaring any, and a preset can still set one by name. With
        each built-in preset's defaults, every Omarchy palette included, the
        ink clears 5:1 on its fill and the accent 3:1. */
-    --folio-tone-note-accent: var(--muted-foreground);
-    --folio-tone-note-fill: color-mix(in oklab, var(--muted-foreground) 8%, var(--background));
-    --folio-tone-note-ink: var(--foreground);
-    --folio-tone-info-accent: color-mix(in oklab, oklch(0.58 0.14 250) 75%, var(--foreground));
-    --folio-tone-info-fill: color-mix(in oklab, var(--folio-tone-info-accent) 12%, var(--background));
-    --folio-tone-info-ink: color-mix(in oklab, var(--folio-tone-info-accent) 25%, var(--foreground));
-    --folio-tone-tip-accent: color-mix(in oklab, oklch(0.58 0.14 300) 75%, var(--foreground));
-    --folio-tone-tip-fill: color-mix(in oklab, var(--folio-tone-tip-accent) 12%, var(--background));
-    --folio-tone-tip-ink: color-mix(in oklab, var(--folio-tone-tip-accent) 25%, var(--foreground));
-    --folio-tone-check-accent: color-mix(in oklab, oklch(0.58 0.14 150) 75%, var(--foreground));
-    --folio-tone-check-fill: color-mix(in oklab, var(--folio-tone-check-accent) 12%, var(--background));
-    --folio-tone-check-ink: color-mix(in oklab, var(--folio-tone-check-accent) 25%, var(--foreground));
-    --folio-tone-warning-accent: color-mix(in oklab, var(--warning) 75%, var(--foreground));
-    --folio-tone-warning-fill: color-mix(in oklab, var(--folio-tone-warning-accent) 12%, var(--background));
-    --folio-tone-warning-ink: color-mix(in oklab, var(--folio-tone-warning-accent) 25%, var(--foreground));
-    --folio-tone-danger-accent: color-mix(in oklab, var(--destructive) 75%, var(--foreground));
-    --folio-tone-danger-fill: color-mix(in oklab, var(--folio-tone-danger-accent) 12%, var(--background));
-    --folio-tone-danger-ink: color-mix(in oklab, var(--folio-tone-danger-accent) 25%, var(--foreground));
+    --folioh-tone-note-accent: var(--muted-foreground);
+    --folioh-tone-note-fill: color-mix(in oklab, var(--muted-foreground) 8%, var(--background));
+    --folioh-tone-note-ink: var(--foreground);
+    --folioh-tone-info-accent: color-mix(in oklab, oklch(0.58 0.14 250) 75%, var(--foreground));
+    --folioh-tone-info-fill: color-mix(in oklab, var(--folioh-tone-info-accent) 12%, var(--background));
+    --folioh-tone-info-ink: color-mix(in oklab, var(--folioh-tone-info-accent) 25%, var(--foreground));
+    --folioh-tone-tip-accent: color-mix(in oklab, oklch(0.58 0.14 300) 75%, var(--foreground));
+    --folioh-tone-tip-fill: color-mix(in oklab, var(--folioh-tone-tip-accent) 12%, var(--background));
+    --folioh-tone-tip-ink: color-mix(in oklab, var(--folioh-tone-tip-accent) 25%, var(--foreground));
+    --folioh-tone-check-accent: color-mix(in oklab, oklch(0.58 0.14 150) 75%, var(--foreground));
+    --folioh-tone-check-fill: color-mix(in oklab, var(--folioh-tone-check-accent) 12%, var(--background));
+    --folioh-tone-check-ink: color-mix(in oklab, var(--folioh-tone-check-accent) 25%, var(--foreground));
+    --folioh-tone-warning-accent: color-mix(in oklab, var(--warning) 75%, var(--foreground));
+    --folioh-tone-warning-fill: color-mix(in oklab, var(--folioh-tone-warning-accent) 12%, var(--background));
+    --folioh-tone-warning-ink: color-mix(in oklab, var(--folioh-tone-warning-accent) 25%, var(--foreground));
+    --folioh-tone-danger-accent: color-mix(in oklab, var(--destructive) 75%, var(--foreground));
+    --folioh-tone-danger-fill: color-mix(in oklab, var(--folioh-tone-danger-accent) 12%, var(--background));
+    --folioh-tone-danger-ink: color-mix(in oklab, var(--folioh-tone-danger-accent) 25%, var(--foreground));
 
     /* The corner of a raised surface: cards, panels and preview frames. It is
        the theme radius unless a preset rounds its surfaces apart from its
        controls. */
-    --folio-surface-radius: var(--radius);
+    --folioh-surface-radius: var(--radius);
 
     /* DEPRECATED v1.x compat — remove in v2.0 */
-    /* Aliases the pre-namespace Folio CSS custom property names to their new
-       --folio-* equivalents so any missed/external consumer still resolves. */
-    --heading-font-family: var(--folio-heading-font-family);
-    --body-font-family: var(--folio-body-font-family);
-    --code-font-family: var(--folio-code-font-family);
-    --heading-letter-spacing: var(--folio-heading-letter-spacing);
-    --heading-weight: var(--folio-heading-weight);
-    --body-line-height: var(--folio-body-line-height);
-    --font-size-base: var(--folio-font-size-base);
-    --card-shadow: var(--folio-card-shadow);
-    --card-border-width: var(--folio-card-border-width);
-    --card-padding: var(--folio-card-padding);
-    --card-hover-shadow: var(--folio-card-hover-shadow);
-    --card-backdrop: var(--folio-card-backdrop);
-    --card-opacity: var(--folio-card-opacity);
-    --code-border-radius: var(--folio-code-border-radius);
-    --code-border: var(--folio-code-border);
-    --code-bg: var(--folio-code-bg);
-    --code-foreground: var(--folio-code-foreground);
-    --code-shadow: var(--folio-code-shadow);
-    --h2-border: var(--folio-h2-border);
-    --h2-transform: var(--folio-h2-transform);
-    --h2-letter-spacing: var(--folio-h2-letter-spacing);
-    --h2-weight: var(--folio-h2-weight);
-    --h2-padding-left: var(--folio-h2-padding-left);
-    --h2-border-left: var(--folio-h2-border-left);
-    --link-decoration: var(--folio-link-decoration);
-    --section-gap: var(--folio-section-gap);
-    --content-max-width: var(--folio-content-max-width);
-    --workspace-shell-padding: var(--folio-workspace-shell-padding);
-    --workspace-shell-border: var(--folio-workspace-shell-border);
-    --workspace-shell-shadow: var(--folio-workspace-shell-shadow);
-    --workspace-shell-background: var(--folio-workspace-shell-background);
-    --workspace-shell-surface: var(--folio-workspace-shell-surface);
-    --workspace-shell-topbar: var(--folio-workspace-shell-topbar);
-    --workspace-shell-topbar-blur: var(--folio-workspace-shell-topbar-blur);
-    --workspace-shell-topbar-border: var(--folio-workspace-shell-topbar-border);
-    --component-group-accent: var(--folio-component-group-accent);
-    --api-reference-index-accent: var(--folio-api-reference-index-accent);
-    --landing-ease: var(--folio-landing-ease);
-    --comparison-win: var(--folio-comparison-win);
-    --comparison-win-foreground: var(--folio-comparison-win-foreground);
-    --comparison-win-soft: var(--folio-comparison-win-soft);
-    --comparison-partial: var(--folio-comparison-partial);
-    --comparison-partial-foreground: var(--folio-comparison-partial-foreground);
-    --comparison-partial-soft: var(--folio-comparison-partial-soft);
-    --comparison-roadmap: var(--folio-comparison-roadmap);
-    --comparison-roadmap-soft: var(--folio-comparison-roadmap-soft);
-    --comparison-empty: var(--folio-comparison-empty);
-    --comparison-empty-soft: var(--folio-comparison-empty-soft);
-    --x-color-nextra-bg: var(--folio-nextra-bg);
-    --doc-preview-height: var(--folio-doc-preview-height);
+    /* Aliases the pre-namespace Folioh CSS custom property names to their new
+       --folioh-* equivalents so any missed/external consumer still resolves. */
+    --heading-font-family: var(--folioh-heading-font-family);
+    --body-font-family: var(--folioh-body-font-family);
+    --code-font-family: var(--folioh-code-font-family);
+    --heading-letter-spacing: var(--folioh-heading-letter-spacing);
+    --heading-weight: var(--folioh-heading-weight);
+    --body-line-height: var(--folioh-body-line-height);
+    --font-size-base: var(--folioh-font-size-base);
+    --card-shadow: var(--folioh-card-shadow);
+    --card-border-width: var(--folioh-card-border-width);
+    --card-padding: var(--folioh-card-padding);
+    --card-hover-shadow: var(--folioh-card-hover-shadow);
+    --card-backdrop: var(--folioh-card-backdrop);
+    --card-opacity: var(--folioh-card-opacity);
+    --code-border-radius: var(--folioh-code-border-radius);
+    --code-border: var(--folioh-code-border);
+    --code-bg: var(--folioh-code-bg);
+    --code-foreground: var(--folioh-code-foreground);
+    --code-shadow: var(--folioh-code-shadow);
+    --h2-border: var(--folioh-h2-border);
+    --h2-transform: var(--folioh-h2-transform);
+    --h2-letter-spacing: var(--folioh-h2-letter-spacing);
+    --h2-weight: var(--folioh-h2-weight);
+    --h2-padding-left: var(--folioh-h2-padding-left);
+    --h2-border-left: var(--folioh-h2-border-left);
+    --link-decoration: var(--folioh-link-decoration);
+    --section-gap: var(--folioh-section-gap);
+    --content-max-width: var(--folioh-content-max-width);
+    --workspace-shell-padding: var(--folioh-workspace-shell-padding);
+    --workspace-shell-border: var(--folioh-workspace-shell-border);
+    --workspace-shell-shadow: var(--folioh-workspace-shell-shadow);
+    --workspace-shell-background: var(--folioh-workspace-shell-background);
+    --workspace-shell-surface: var(--folioh-workspace-shell-surface);
+    --workspace-shell-topbar: var(--folioh-workspace-shell-topbar);
+    --workspace-shell-topbar-blur: var(--folioh-workspace-shell-topbar-blur);
+    --workspace-shell-topbar-border: var(--folioh-workspace-shell-topbar-border);
+    --component-group-accent: var(--folioh-component-group-accent);
+    --api-reference-index-accent: var(--folioh-api-reference-index-accent);
+    --landing-ease: var(--folioh-landing-ease);
+    --comparison-win: var(--folioh-comparison-win);
+    --comparison-win-foreground: var(--folioh-comparison-win-foreground);
+    --comparison-win-soft: var(--folioh-comparison-win-soft);
+    --comparison-partial: var(--folioh-comparison-partial);
+    --comparison-partial-foreground: var(--folioh-comparison-partial-foreground);
+    --comparison-partial-soft: var(--folioh-comparison-partial-soft);
+    --comparison-roadmap: var(--folioh-comparison-roadmap);
+    --comparison-roadmap-soft: var(--folioh-comparison-roadmap-soft);
+    --comparison-empty: var(--folioh-comparison-empty);
+    --comparison-empty-soft: var(--folioh-comparison-empty-soft);
+    --x-color-nextra-bg: var(--folioh-nextra-bg);
+    --doc-preview-height: var(--folioh-doc-preview-height);
     /* END DEPRECATED v1.x compat */
 }
 
@@ -321,11 +321,11 @@
     --sidebar-accent-foreground: oklch(0.920 0.007 82);
     --sidebar-border: oklch(0.330 0.007 82);
     --sidebar-ring: oklch(0.920 0.007 82);
-    --folio-nextra-bg: var(--background);
+    --folioh-nextra-bg: var(--background);
 }
 
 html {
-  background: var(--folio-workspace-shell-topbar);
+  background: var(--folioh-workspace-shell-topbar);
   border-radius: 0;
 }
 
@@ -336,13 +336,13 @@ html {
   body {
     @apply bg-background text-foreground antialiased;
     min-height: 100vh;
-    padding: var(--folio-workspace-shell-padding);
+    padding: var(--folioh-workspace-shell-padding);
     border-radius: 0;
-    background: var(--folio-workspace-shell-background);
-    font-family: var(--folio-body-font-family);
+    background: var(--folioh-workspace-shell-background);
+    font-family: var(--folioh-body-font-family);
   }
   code, kbd, pre {
-    font-family: var(--folio-code-font-family);
+    font-family: var(--folioh-code-font-family);
   }
 
   /* The roadmap's release panels.
@@ -364,16 +364,16 @@ html {
      The entrance starts at half opacity rather than zero: holding ArrowDown
      repeats near 30ms, and a pane scrubbed from zero reads as flicker where
      one scrubbed from half reads as dimmed and settling. */
-  .folio-roadmap-panel {
+  .folioh-roadmap-panel {
     grid-area: 1 / 1;
     opacity: 0.5;
     visibility: hidden;
     translate: 0 3px;
   }
-  .folio-roadmap-panel[hidden] {
+  .folioh-roadmap-panel[hidden] {
     display: block !important;
   }
-  .folio-roadmap-panel:not([hidden]) {
+  .folioh-roadmap-panel:not([hidden]) {
     opacity: 1;
     visibility: visible;
     translate: none;
@@ -384,62 +384,62 @@ html {
 
   /* Reduced motion keeps the state change and drops only the travel. */
   @media (prefers-reduced-motion: reduce) {
-    .folio-roadmap-panel {
+    .folioh-roadmap-panel {
       translate: none;
     }
-    .folio-roadmap-panel:not([hidden]) {
+    .folioh-roadmap-panel:not([hidden]) {
       transition: opacity 100ms linear;
     }
   }
 }
 
 body > .nextra-navbar {
-  top: var(--folio-workspace-shell-padding) !important;
+  top: var(--folioh-workspace-shell-padding) !important;
   /* Above the sidebar's 60 below, which is itself above Nextra's own `z-30`
      on this bar. Left as it was, anything the bar opens downward — a menu
      hung off the wordmark, say — paints under the sidebar it overlaps.
      Below the theme drawer's 80, which is meant to sit over everything. */
   z-index: 70 !important;
-  background: var(--folio-workspace-shell-topbar) !important;
+  background: var(--folioh-workspace-shell-topbar) !important;
 }
 
 body > .nextra-navbar .nextra-navbar-blur {
-  border: var(--folio-workspace-shell-border);
-  border-bottom: var(--folio-workspace-shell-topbar-border);
-  background: var(--folio-workspace-shell-topbar) !important;
-  -webkit-backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
-  backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+  border: var(--folioh-workspace-shell-border);
+  border-bottom: var(--folioh-workspace-shell-topbar-border);
+  background: var(--folioh-workspace-shell-topbar) !important;
+  -webkit-backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
+  backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
 }
 
 .landing-shell {
-  min-height: calc(100vh - (var(--folio-workspace-shell-padding) * 2));
+  min-height: calc(100vh - (var(--folioh-workspace-shell-padding) * 2));
   overflow: hidden;
-  border: var(--folio-workspace-shell-border);
+  border: var(--folioh-workspace-shell-border);
   border-radius: 0;
-  background: var(--folio-workspace-shell-surface);
-  box-shadow: var(--folio-workspace-shell-shadow);
+  background: var(--folioh-workspace-shell-surface);
+  box-shadow: var(--folioh-workspace-shell-shadow);
 }
 
 .landing-navbar {
-  top: var(--folio-workspace-shell-padding) !important;
-  right: var(--folio-workspace-shell-padding);
-  left: var(--folio-workspace-shell-padding);
-  width: calc(100% - (var(--folio-workspace-shell-padding) * 2)) !important;
-  border: var(--folio-workspace-shell-border);
+  top: var(--folioh-workspace-shell-padding) !important;
+  right: var(--folioh-workspace-shell-padding);
+  left: var(--folioh-workspace-shell-padding);
+  width: calc(100% - (var(--folioh-workspace-shell-padding) * 2)) !important;
+  border: var(--folioh-workspace-shell-border);
   border-radius: 0;
-  border-bottom: var(--folio-workspace-shell-topbar-border);
-  background: var(--folio-workspace-shell-topbar) !important;
-  -webkit-backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
-  backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+  border-bottom: var(--folioh-workspace-shell-topbar-border);
+  background: var(--folioh-workspace-shell-topbar) !important;
+  -webkit-backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
+  backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
 }
 
 body > div:has(> .nextra-sidebar) {
   overflow: clip;
-  border-right: var(--folio-workspace-shell-border);
-  border-bottom: var(--folio-workspace-shell-border);
-  border-left: var(--folio-workspace-shell-border);
-  background: var(--folio-workspace-shell-surface);
-  box-shadow: var(--folio-workspace-shell-shadow);
+  border-right: var(--folioh-workspace-shell-border);
+  border-bottom: var(--folioh-workspace-shell-border);
+  border-left: var(--folioh-workspace-shell-border);
+  background: var(--folioh-workspace-shell-surface);
+  box-shadow: var(--folioh-workspace-shell-shadow);
 }
 
 .nextra-mobile-nav {
@@ -448,12 +448,12 @@ body > div:has(> .nextra-sidebar) {
 }
 
 /* Search command palette */
-[data-folio-search] .nextra-search {
+[data-folioh-search] .nextra-search {
   width: min(22rem, 100%);
   color: var(--foreground) !important;
 }
 
-[data-folio-search] .nextra-search::before {
+[data-folioh-search] .nextra-search::before {
   content: "";
   position: absolute;
   z-index: 1;
@@ -467,7 +467,7 @@ body > div:has(> .nextra-sidebar) {
   transform: translateY(-58%);
 }
 
-[data-folio-search] .nextra-search::after {
+[data-folioh-search] .nextra-search::after {
   content: "";
   position: absolute;
   z-index: 1;
@@ -482,7 +482,7 @@ body > div:has(> .nextra-sidebar) {
   transform-origin: left center;
 }
 
-[data-folio-search] .nextra-search input[type="search"] {
+[data-folioh-search] .nextra-search input[type="search"] {
   height: 2.35rem;
   width: 100% !important;
   padding-inline: 2.25rem 4.65rem !important;
@@ -495,11 +495,11 @@ body > div:has(> .nextra-sidebar) {
     0 10px 30px -28px color-mix(in oklch, var(--foreground) 55%, transparent);
 }
 
-[data-folio-search] .nextra-search input[type="search"]::placeholder {
+[data-folioh-search] .nextra-search input[type="search"]::placeholder {
   color: var(--muted-foreground) !important;
 }
 
-[data-folio-search] .nextra-search:focus-within input[type="search"] {
+[data-folioh-search] .nextra-search:focus-within input[type="search"] {
   border-color: color-mix(in oklch, var(--ring) 55%, var(--border));
   background: var(--popover) !important;
   box-shadow:
@@ -507,7 +507,7 @@ body > div:has(> .nextra-sidebar) {
     0 18px 42px -34px color-mix(in oklch, var(--foreground) 60%, transparent);
 }
 
-[data-folio-search] .nextra-search kbd {
+[data-folioh-search] .nextra-search kbd {
   right: 0.45rem !important;
   height: 1.45rem !important;
   min-width: 2.35rem;
@@ -537,7 +537,7 @@ body > div:has(> .nextra-sidebar) {
   padding: 0 0 0.45rem !important;
   border-color: color-mix(in oklch, var(--border) 72%, transparent) !important;
   color: var(--muted-foreground) !important;
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   font-size: 0.68rem !important;
   font-weight: 700 !important;
   letter-spacing: 0 !important;
@@ -590,30 +590,30 @@ body > div:has(> .nextra-sidebar) {
 /* Nextra's `md`, in rem like the drawer's queries: below it the only search
    on the page is the drawer's, which fills the panel instead. */
 @media (width >= 48rem) {
-  [data-folio-search] .nextra-search {
+  [data-folioh-search] .nextra-search {
     width: clamp(16rem, 24vw, 22rem);
   }
 }
 
 .nextra-sidebar {
-  top: calc(var(--nextra-navbar-height) + var(--folio-workspace-shell-padding)) !important;
-  height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
+  top: calc(var(--nextra-navbar-height) + var(--folioh-workspace-shell-padding)) !important;
+  height: calc(100dvh - var(--nextra-navbar-height) - (var(--folioh-workspace-shell-padding) * 2)) !important;
   /* Read with the navbar's 70 above: the sidebar clears the page, the bar
      clears the sidebar. */
   z-index: 60 !important;
 }
 
 .nextra-toc > div {
-  top: calc(var(--nextra-navbar-height) + var(--folio-workspace-shell-padding)) !important;
-  max-height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
+  top: calc(var(--nextra-navbar-height) + var(--folioh-workspace-shell-padding)) !important;
+  max-height: calc(100dvh - var(--nextra-navbar-height) - (var(--folioh-workspace-shell-padding) * 2)) !important;
 }
 
 @media (max-width: 767px) {
   body > .nextra-navbar {
     top: 0 !important;
-    margin-right: calc(var(--folio-workspace-shell-padding) * -1);
-    margin-left: calc(var(--folio-workspace-shell-padding) * -1);
-    width: calc(100% + (var(--folio-workspace-shell-padding) * 2)) !important;
+    margin-right: calc(var(--folioh-workspace-shell-padding) * -1);
+    margin-left: calc(var(--folioh-workspace-shell-padding) * -1);
+    width: calc(100% + (var(--folioh-workspace-shell-padding) * 2)) !important;
   }
 
   .landing-navbar {
@@ -629,18 +629,18 @@ body > div:has(> .nextra-sidebar) {
   }
 
   .nextra-sidebar {
-    height: calc(100dvh - var(--nextra-navbar-height) - var(--folio-workspace-shell-padding)) !important;
+    height: calc(100dvh - var(--nextra-navbar-height) - var(--folioh-workspace-shell-padding)) !important;
   }
 
   .nextra-toc > div {
-    max-height: calc(100dvh - var(--nextra-navbar-height) - var(--folio-workspace-shell-padding)) !important;
+    max-height: calc(100dvh - var(--nextra-navbar-height) - var(--folioh-workspace-shell-padding)) !important;
   }
 }
 
 /* ─── Mobile drawer ─── */
 
 /* Nextra's mobile menu as a floating drawer (components/mobile-nav-drawer.tsx).
-   Every rule keys off `html[data-folio-drawer]`, which that component sets
+   Every rule keys off `html[data-folioh-drawer]`, which that component sets
    once it has taken the menu over; until then, or on a layout that does not
    mount it, the menu keeps Nextra's own look and behaviour.
 
@@ -653,7 +653,7 @@ body > div:has(> .nextra-sidebar) {
 
 /* Registered as a length so a theme may write a bare `0`: unregistered, it
    would substitute as a number and void the `calc()`s below. */
-@property --folio-drawer-inset {
+@property --folioh-drawer-inset {
   syntax: "<length>";
   inherits: true;
   initial-value: 12px;
@@ -662,12 +662,12 @@ body > div:has(> .nextra-sidebar) {
 @supports (transition-timing-function: linear(0, 1)) {
   :root {
     /* The drawer spring sampled every 35ms over its 560ms. */
-    --folio-spring-drawer: linear(0, 0.082, 0.245, 0.418, 0.571, 0.693, 0.786, 0.854, 0.902, 0.935, 0.958, 0.973, 0.983, 0.989, 0.993, 0.996, 1);
+    --folioh-spring-drawer: linear(0, 0.082, 0.245, 0.418, 0.571, 0.693, 0.786, 0.854, 0.902, 0.935, 0.958, 0.973, 0.983, 0.989, 0.993, 0.996, 1);
   }
 }
 
-.folio-drawer-header,
-.folio-drawer-scrim {
+.folioh-drawer-header,
+.folioh-drawer-scrim {
   display: none;
 }
 
@@ -675,33 +675,33 @@ body > div:has(> .nextra-sidebar) {
    the menu between 767 and 768 px, and at every width up to Nextra's `md`
    when the browser's default font is larger. */
 @media (width < 48rem) {
-  html[data-folio-drawer] .nextra-mobile-nav {
-    inset: var(--folio-drawer-inset) auto var(--folio-drawer-inset) var(--folio-drawer-inset);
+  html[data-folioh-drawer] .nextra-mobile-nav {
+    inset: var(--folioh-drawer-inset) auto var(--folioh-drawer-inset) var(--folioh-drawer-inset);
     z-index: 90;
-    width: min(var(--folio-drawer-width), calc(100% - var(--folio-drawer-inset) * 2));
+    width: min(var(--folioh-drawer-width), calc(100% - var(--folioh-drawer-inset) * 2));
     padding-top: 0;
     overflow: hidden;
-    border-radius: var(--folio-drawer-radius);
-    box-shadow: var(--folio-drawer-shadow);
+    border-radius: var(--folioh-drawer-radius);
+    box-shadow: var(--folioh-drawer-shadow);
     outline: none;
-    transform: translate3d(calc(-100% - var(--folio-drawer-inset)), 0, 0);
+    transform: translate3d(calc(-100% - var(--folioh-drawer-inset)), 0, 0);
     visibility: hidden;
   }
 
-  html[data-folio-drawer="open"] .nextra-mobile-nav {
+  html[data-folioh-drawer="open"] .nextra-mobile-nav {
     transform: translate3d(0, 0, 0);
     visibility: visible;
   }
 
-  html[data-folio-drawer-motion] .nextra-mobile-nav {
+  html[data-folioh-drawer-motion] .nextra-mobile-nav {
     transition:
-      transform var(--folio-motion-max) var(--folio-ease-exit),
-      visibility 0s linear var(--folio-motion-max);
+      transform var(--folioh-motion-max) var(--folioh-ease-exit),
+      visibility 0s linear var(--folioh-motion-max);
   }
 
-  html[data-folio-drawer-motion][data-folio-drawer="open"] .nextra-mobile-nav {
+  html[data-folioh-drawer-motion][data-folioh-drawer="open"] .nextra-mobile-nav {
     transition:
-      transform var(--folio-motion-drawer) var(--folio-spring-drawer),
+      transform var(--folioh-motion-drawer) var(--folioh-spring-drawer),
       visibility 0s;
   }
 
@@ -709,34 +709,34 @@ body > div:has(> .nextra-sidebar) {
      inline 500ms, so it would carry the panel's visibility, which its rows
      inherit, through a 500ms transition of its own on every open and close.
      Here it animates only its size and its fade. */
-  html[data-folio-drawer] .nextra-mobile-nav [class~="x:transform-gpu"] {
+  html[data-folioh-drawer] .nextra-mobile-nav [class~="x:transform-gpu"] {
     transition-property: height, width, opacity;
   }
 
-  html[data-folio-drawer] .folio-drawer-scrim {
+  html[data-folioh-drawer] .folioh-drawer-scrim {
     display: block;
     position: fixed;
     inset: 0;
     z-index: 85;
-    background: var(--folio-drawer-scrim);
+    background: var(--folioh-drawer-scrim);
     opacity: 0;
     visibility: hidden;
   }
 
-  html[data-folio-drawer="open"] .folio-drawer-scrim {
+  html[data-folioh-drawer="open"] .folioh-drawer-scrim {
     opacity: 1;
     visibility: visible;
   }
 
-  html[data-folio-drawer-motion] .folio-drawer-scrim {
+  html[data-folioh-drawer-motion] .folioh-drawer-scrim {
     transition:
-      opacity var(--folio-motion-exit) var(--folio-ease-exit),
-      visibility 0s linear var(--folio-motion-exit);
+      opacity var(--folioh-motion-exit) var(--folioh-ease-exit),
+      visibility 0s linear var(--folioh-motion-exit);
   }
 
-  html[data-folio-drawer-motion][data-folio-drawer="open"] .folio-drawer-scrim {
+  html[data-folioh-drawer-motion][data-folioh-drawer="open"] .folioh-drawer-scrim {
     transition:
-      opacity var(--folio-motion-element) var(--folio-ease-enter),
+      opacity var(--folioh-motion-element) var(--folioh-ease-enter),
       visibility 0s;
   }
 
@@ -746,12 +746,12 @@ body > div:has(> .nextra-sidebar) {
      width. Keyed on the drawer in any state, not only open: picking a result
      closes the drawer while the list is still fading out. Below `md` the
      navbar's search is hidden, so no other list is caught. */
-  html[data-folio-drawer] .nextra-search-results {
+  html[data-folioh-drawer] .nextra-search-results {
     z-index: 95;
     width: var(--input-width);
   }
 
-  html[data-folio-drawer] .folio-drawer-header {
+  html[data-folioh-drawer] .folioh-drawer-header {
     display: flex;
     flex: none;
     align-items: center;
@@ -760,7 +760,7 @@ body > div:has(> .nextra-sidebar) {
     padding: 0.75rem 0.75rem 0 1.25rem;
   }
 
-  .folio-drawer-title {
+  .folioh-drawer-title {
     min-width: 0;
     margin: 0;
     overflow: hidden;
@@ -773,7 +773,7 @@ body > div:has(> .nextra-sidebar) {
     white-space: nowrap;
   }
 
-  .folio-drawer-close {
+  .folioh-drawer-close {
     display: inline-flex;
     flex: none;
     align-items: center;
@@ -786,22 +786,22 @@ body > div:has(> .nextra-sidebar) {
     color: var(--muted-foreground);
     cursor: pointer;
     transition:
-      background-color var(--folio-motion-micro) var(--folio-ease-enter),
-      color var(--folio-motion-micro) var(--folio-ease-enter);
+      background-color var(--folioh-motion-micro) var(--folioh-ease-enter),
+      color var(--folioh-motion-micro) var(--folioh-ease-enter);
   }
 
-  .folio-drawer-close:hover {
+  .folioh-drawer-close:hover {
     background: var(--muted);
     color: var(--foreground);
   }
 
-  .folio-drawer-close:focus-visible {
+  .folioh-drawer-close:focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
 
-  .folio-drawer-close svg {
-    transition: transform var(--folio-motion-element) var(--folio-ease-enter);
+  .folioh-drawer-close svg {
+    transition: transform var(--folioh-motion-element) var(--folioh-ease-enter);
   }
 }
 
@@ -809,17 +809,17 @@ body > div:has(> .nextra-sidebar) {
    the search's shortcut hint, which Nextra already hides below `sm`, and the
    room kept for it: the placeholder fits at every drawer width. */
 @media (width < 48rem) {
-  html[data-folio-drawer] .nextra-mobile-nav .nextra-search input[type="search"] {
+  html[data-folioh-drawer] .nextra-mobile-nav .nextra-search input[type="search"] {
     padding-inline-end: 0.75rem !important;
   }
 
-  html[data-folio-drawer] .nextra-mobile-nav .nextra-search kbd {
+  html[data-folioh-drawer] .nextra-mobile-nav .nextra-search kbd {
     display: none;
   }
 }
 
 @media (width < 48rem) and (hover: hover) {
-  .folio-drawer-close:hover svg {
+  .folioh-drawer-close:hover svg {
     transform: rotate(90deg);
   }
 }
@@ -827,7 +827,7 @@ body > div:has(> .nextra-sidebar) {
 /* Where the drawer sends focus after a navigation: the page, or the section
    a hash link points at. It is a place to land, not a control, so it takes
    no ring. */
-[data-folio-focus-target]:focus {
+[data-folioh-focus-target]:focus {
   outline: none;
 }
 
@@ -838,13 +838,13 @@ body > div:has(> .nextra-sidebar) {
    Mermaid measured its labels mid-way through one and drew blank diagrams.
    Animations keep 0.01ms so their end events still fire. It is scoped to those pages, and it leaves out the landing and the
    roadmap, whose own reduced-motion blocks keep a state change visible where
-   an instant cut would hide it; `data-folio-motion="essential"` opts a
+   an instant cut would hide it; `data-folioh-motion="essential"` opts a
    component out the same way. It is unlayered and `!important` so no
    component's own timing outranks it; only a layered `!important` could. */
 @media (prefers-reduced-motion: reduce) {
-  html[data-folio-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folio-roadmap"], [class*="folio-roadmap"] *, [data-folio-motion="essential"], [data-folio-motion="essential"] *),
-  html[data-folio-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folio-roadmap"], [class*="folio-roadmap"] *, [data-folio-motion="essential"], [data-folio-motion="essential"] *)::before,
-  html[data-folio-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folio-roadmap"], [class*="folio-roadmap"] *, [data-folio-motion="essential"], [data-folio-motion="essential"] *)::after {
+  html[data-folioh-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folioh-roadmap"], [class*="folioh-roadmap"] *, [data-folioh-motion="essential"], [data-folioh-motion="essential"] *),
+  html[data-folioh-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folioh-roadmap"], [class*="folioh-roadmap"] *, [data-folioh-motion="essential"], [data-folioh-motion="essential"] *)::before,
+  html[data-folioh-drawer] *:not([class*="landing-"], [class*="landing-"] *, [class*="folioh-roadmap"], [class*="folioh-roadmap"] *, [data-folioh-motion="essential"], [data-folioh-motion="essential"] *)::after {
     animation-delay: 0s !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -865,48 +865,48 @@ body > div:has(> .nextra-sidebar) {
    `text-[11px]` on the component could win. Prose styling belongs to prose. */
 
 article h1:not(.not-prose *) {
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: 2.25rem;
-  font-weight: var(--folio-heading-weight);
-  letter-spacing: var(--folio-heading-letter-spacing);
+  font-weight: var(--folioh-heading-weight);
+  letter-spacing: var(--folioh-heading-letter-spacing);
   line-height: 1.2;
 }
 
 article h2:not(.not-prose *) {
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: 1.5rem;
-  font-weight: var(--folio-h2-weight);
-  letter-spacing: var(--folio-h2-letter-spacing);
-  margin-top: var(--folio-section-gap);
+  font-weight: var(--folioh-h2-weight);
+  letter-spacing: var(--folioh-h2-letter-spacing);
+  margin-top: var(--folioh-section-gap);
   padding-bottom: 0.5rem;
-  border-bottom: var(--folio-h2-border);
-  text-transform: var(--folio-h2-transform);
-  padding-left: var(--folio-h2-padding-left);
-  border-left: var(--folio-h2-border-left);
+  border-bottom: var(--folioh-h2-border);
+  text-transform: var(--folioh-h2-transform);
+  padding-left: var(--folioh-h2-padding-left);
+  border-left: var(--folioh-h2-border-left);
 }
 
 article hr + h2:not(.not-prose *) {
-  margin-top: min(1.5rem, var(--folio-section-gap));
+  margin-top: min(1.5rem, var(--folioh-section-gap));
 }
 
 article h3:not(.not-prose *) {
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: 1.125rem;
   font-weight: 600;
   margin-top: 2rem;
 }
 
 article p:not(.not-prose *) {
-  line-height: var(--folio-body-line-height);
+  line-height: var(--folioh-body-line-height);
 }
 
 article li:not(.not-prose *) {
-  line-height: var(--folio-body-line-height);
+  line-height: var(--folioh-body-line-height);
 }
 
 /* ─── Images in documentation pages ─── */
 
-/* Folio copies a page's local images into the content tree so MDX can
+/* Folioh copies a page's local images into the content tree so MDX can
    resolve them; this is what makes one look like it belongs to the page
    rather than dropped on top of it. A hairline and the site's own radius,
    centred, and held under the full measure — a screenshot that runs the
@@ -943,15 +943,15 @@ article [data-slot="browser-frame"] {
 /* ─── Code block styling ─── */
 
 article pre {
-  background: var(--folio-code-bg) !important;
-  border-radius: var(--folio-code-border-radius);
-  border: var(--folio-code-border);
-  box-shadow: var(--folio-code-shadow);
-  color: var(--folio-code-foreground);
+  background: var(--folioh-code-bg) !important;
+  border-radius: var(--folioh-code-border-radius);
+  border: var(--folioh-code-border);
+  box-shadow: var(--folioh-code-shadow);
+  color: var(--folioh-code-foreground);
 }
 
 article pre code {
-  color: var(--folio-code-foreground);
+  color: var(--folioh-code-foreground);
 }
 
 article pre code.nextra-code span {
@@ -1014,13 +1014,13 @@ article :not(pre) > code {
 
 .unavailable-feature-kicker {
   color: var(--muted-foreground);
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   font-size: 0.75rem;
   text-transform: uppercase;
 }
 
 .unavailable-feature h1 {
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: clamp(1.65rem, 5vw, 2.5rem);
   line-height: 1.08;
 }
@@ -1038,7 +1038,7 @@ article :not(pre) > code {
 
 /* Mermaid diagrams */
 
-.folio-mermaid {
+.folioh-mermaid {
   color: var(--foreground);
   display: grid;
   justify-items: center;
@@ -1056,28 +1056,28 @@ article :not(pre) > code {
   border-radius: var(--radius);
 }
 
-.folio-mermaid svg {
+.folioh-mermaid svg {
   width: auto;
   max-width: 100%;
   height: auto;
   min-width: min(34rem, 100%);
 }
 
-.folio-mermaid text,
-.folio-mermaid span,
-.folio-mermaid p {
-  font-family: var(--folio-body-font-family) !important;
+.folioh-mermaid text,
+.folioh-mermaid span,
+.folioh-mermaid p {
+  font-family: var(--folioh-body-font-family) !important;
 }
 
-.folio-mermaid p {
+.folioh-mermaid p {
   margin: 0;
   line-height: 1.35;
 }
 
-.folio-mermaid .node rect,
-.folio-mermaid .node polygon,
-.folio-mermaid .node circle,
-.folio-mermaid .node ellipse {
+.folioh-mermaid .node rect,
+.folioh-mermaid .node polygon,
+.folioh-mermaid .node circle,
+.folioh-mermaid .node ellipse {
   fill: var(--card) !important;
   stroke: var(--border) !important;
   stroke-width: 1px !important;
@@ -1085,37 +1085,37 @@ article :not(pre) > code {
   ry: var(--radius);
 }
 
-.folio-mermaid .nodeLabel,
-.folio-mermaid .nodeLabel p,
-.folio-mermaid .label,
-.folio-mermaid .label p {
+.folioh-mermaid .nodeLabel,
+.folioh-mermaid .nodeLabel p,
+.folioh-mermaid .label,
+.folioh-mermaid .label p {
   color: var(--foreground) !important;
 }
 
-.folio-mermaid .flowchart-link,
-.folio-mermaid .messageLine0,
-.folio-mermaid .messageLine1 {
+.folioh-mermaid .flowchart-link,
+.folioh-mermaid .messageLine0,
+.folioh-mermaid .messageLine1 {
   stroke: var(--muted-foreground) !important;
   stroke-width: 1.25px !important;
 }
 
-.folio-mermaid marker path,
-.folio-mermaid .arrowheadPath {
+.folioh-mermaid marker path,
+.folioh-mermaid .arrowheadPath {
   fill: var(--muted-foreground) !important;
   stroke: var(--muted-foreground) !important;
 }
 
-.folio-mermaid .cluster rect {
+.folioh-mermaid .cluster rect {
   fill: color-mix(in oklch, var(--muted) 42%, transparent) !important;
   stroke: var(--border) !important;
 }
 
-.folio-mermaid .edgeLabel {
+.folioh-mermaid .edgeLabel {
   color: var(--foreground);
 }
 
-.folio-mermaid .edgeLabel p,
-.folio-mermaid .labelBkg {
+.folioh-mermaid .edgeLabel p,
+.folioh-mermaid .labelBkg {
   background: var(--background);
   fill: var(--background) !important;
   border: 1px solid var(--border);
@@ -1187,7 +1187,7 @@ article :not(pre) > code {
 .component-index-kicker,
 .api-reference-index-kicker {
   color: var(--muted-foreground);
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0;
@@ -1197,7 +1197,7 @@ article :not(pre) > code {
 .api-reference-index-hero h2 {
   max-width: 19ch;
   color: var(--foreground);
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: 2rem;
   font-weight: 900;
   line-height: 1;
@@ -1230,7 +1230,7 @@ article :not(pre) > code {
   border-radius: 999px;
   background: color-mix(in oklch, var(--background) 74%, transparent);
   color: var(--foreground);
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   font-size: 0.78rem;
   font-weight: 700;
   line-height: 1;
@@ -1271,7 +1271,7 @@ article :not(pre) > code {
 .component-index-fast-paths h3,
 .component-index-group-heading h3 {
   color: var(--foreground);
-  font-family: var(--folio-body-font-family);
+  font-family: var(--folioh-body-font-family);
   font-size: 1.05rem;
   font-weight: 800;
   line-height: 1.2;
@@ -1300,7 +1300,7 @@ article :not(pre) > code {
 
 .component-index-path p {
   color: var(--muted-foreground);
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   font-size: 0.82rem;
   line-height: 1.55;
 }
@@ -1327,7 +1327,7 @@ article :not(pre) > code {
   width: 2rem;
   height: 0.35rem;
   border-radius: 999px;
-  background: var(--folio-component-group-accent);
+  background: var(--folioh-component-group-accent);
   box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent);
 }
 
@@ -1355,7 +1355,7 @@ article :not(pre) > code {
   background:
     linear-gradient(
       to bottom,
-      color-mix(in oklch, var(--folio-component-group-accent) 11%, transparent),
+      color-mix(in oklch, var(--folioh-component-group-accent) 11%, transparent),
       transparent 5rem
     ),
     color-mix(in oklch, var(--card) 86%, var(--background));
@@ -1368,7 +1368,7 @@ article :not(pre) > code {
 }
 
 .component-index-link:hover {
-  border-color: color-mix(in oklch, var(--folio-component-group-accent) 64%, var(--border));
+  border-color: color-mix(in oklch, var(--folioh-component-group-accent) 64%, var(--border));
   box-shadow: 0 16px 38px -30px color-mix(in oklch, var(--foreground) 55%, transparent);
   text-decoration: none;
   transform: translateY(-2px);
@@ -1381,11 +1381,11 @@ article :not(pre) > code {
 
 .component-index-link-meta {
   width: fit-content;
-  border: 1px solid color-mix(in oklch, var(--folio-component-group-accent) 42%, var(--border));
+  border: 1px solid color-mix(in oklch, var(--folioh-component-group-accent) 42%, var(--border));
   border-radius: 999px;
-  background: color-mix(in oklch, var(--folio-component-group-accent) 14%, var(--background));
-  color: color-mix(in oklch, var(--foreground) 74%, var(--folio-component-group-accent));
-  font-family: var(--folio-code-font-family);
+  background: color-mix(in oklch, var(--folioh-component-group-accent) 14%, var(--background));
+  color: color-mix(in oklch, var(--foreground) 74%, var(--folioh-component-group-accent));
+  font-family: var(--folioh-code-font-family);
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1;
@@ -1406,8 +1406,8 @@ article :not(pre) > code {
 
 .component-index-link em {
   align-self: end;
-  color: color-mix(in oklch, var(--foreground) 70%, var(--folio-component-group-accent));
-  font-family: var(--folio-code-font-family);
+  color: color-mix(in oklch, var(--foreground) 70%, var(--folioh-component-group-accent));
+  font-family: var(--folioh-code-font-family);
   font-size: 0.78rem;
   font-style: normal;
   font-weight: 800;
@@ -1464,7 +1464,7 @@ article :not(pre) > code {
 .api-reference-index-fast-paths h3,
 .api-reference-index-group-heading h3 {
   color: var(--foreground);
-  font-family: var(--folio-body-font-family);
+  font-family: var(--folioh-body-font-family);
   font-size: 1.05rem;
   font-weight: 800;
   line-height: 1.2;
@@ -1509,7 +1509,7 @@ article :not(pre) > code {
 
 .api-reference-index-path p {
   color: var(--muted-foreground);
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   font-size: 0.82rem;
   line-height: 1.55;
 }
@@ -1536,7 +1536,7 @@ article :not(pre) > code {
   width: 2rem;
   height: 0.35rem;
   border-radius: 999px;
-  background: var(--folio-api-reference-index-accent);
+  background: var(--folioh-api-reference-index-accent);
   box-shadow: 0 0 0 1px color-mix(in oklch, var(--foreground) 10%, transparent);
 }
 
@@ -1564,7 +1564,7 @@ article :not(pre) > code {
   background:
     linear-gradient(
       to bottom,
-      color-mix(in oklch, var(--folio-api-reference-index-accent) 11%, transparent),
+      color-mix(in oklch, var(--folioh-api-reference-index-accent) 11%, transparent),
       transparent 5rem
     ),
     color-mix(in oklch, var(--card) 86%, var(--background));
@@ -1577,7 +1577,7 @@ article :not(pre) > code {
 }
 
 .api-reference-index-link:hover {
-  border-color: color-mix(in oklch, var(--folio-api-reference-index-accent) 64%, var(--border));
+  border-color: color-mix(in oklch, var(--folioh-api-reference-index-accent) 64%, var(--border));
   box-shadow: 0 16px 38px -30px color-mix(in oklch, var(--foreground) 55%, transparent);
   text-decoration: none;
   transform: translateY(-2px);
@@ -1590,11 +1590,11 @@ article :not(pre) > code {
 
 .api-reference-index-link-meta {
   width: fit-content;
-  border: 1px solid color-mix(in oklch, var(--folio-api-reference-index-accent) 42%, var(--border));
+  border: 1px solid color-mix(in oklch, var(--folioh-api-reference-index-accent) 42%, var(--border));
   border-radius: 999px;
-  background: color-mix(in oklch, var(--folio-api-reference-index-accent) 14%, var(--background));
-  color: color-mix(in oklch, var(--foreground) 74%, var(--folio-api-reference-index-accent));
-  font-family: var(--folio-code-font-family);
+  background: color-mix(in oklch, var(--folioh-api-reference-index-accent) 14%, var(--background));
+  color: color-mix(in oklch, var(--foreground) 74%, var(--folioh-api-reference-index-accent));
+  font-family: var(--folioh-code-font-family);
   font-size: 0.72rem;
   font-weight: 700;
   line-height: 1;
@@ -1603,7 +1603,7 @@ article :not(pre) > code {
 
 .api-reference-index-link strong {
   color: var(--foreground);
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   font-size: 0.96rem;
   line-height: 1.25;
   overflow-wrap: anywhere;
@@ -1617,8 +1617,8 @@ article :not(pre) > code {
 
 .api-reference-index-link em {
   align-self: end;
-  color: color-mix(in oklch, var(--foreground) 70%, var(--folio-api-reference-index-accent));
-  font-family: var(--folio-code-font-family);
+  color: color-mix(in oklch, var(--foreground) 70%, var(--folioh-api-reference-index-accent));
+  font-family: var(--folioh-code-font-family);
   font-size: 0.78rem;
   font-style: normal;
   font-weight: 800;
@@ -1708,7 +1708,7 @@ article td:nth-child(4):not(.not-prose *) {
 
 article a:not(.not-prose *) {
   color: var(--primary);
-  text-decoration: var(--folio-link-decoration);
+  text-decoration: var(--folioh-link-decoration);
   font-weight: 500;
 }
 
@@ -1783,7 +1783,7 @@ aside li > a[href="/"] {
 .delay-500 { animation-delay: 500ms; }
 
 :root {
-  --folio-landing-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --folioh-landing-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes landing-enter {
@@ -1887,7 +1887,7 @@ aside li > a[href="/"] {
    utility win. */
 @layer base {
   .landing-shell :is(h1, h2) {
-    font-family: var(--folio-heading-font-family, var(--font-heading));
+    font-family: var(--folioh-heading-font-family, var(--font-heading));
   }
 }
 
@@ -1896,7 +1896,7 @@ aside li > a[href="/"] {
 .landing-hero-copy > p,
 .landing-command,
 .landing-section {
-  animation: landing-enter 700ms var(--folio-landing-ease) both;
+  animation: landing-enter 700ms var(--folioh-landing-ease) both;
 }
 
 .landing-kicker {
@@ -1923,7 +1923,7 @@ aside li > a[href="/"] {
   padding: 0.9rem 1rem;
   color: var(--foreground);
   text-decoration: none;
-  animation: landing-enter 680ms var(--folio-landing-ease) both;
+  animation: landing-enter 680ms var(--folioh-landing-ease) both;
   transition:
     background-color 180ms ease,
     color 180ms ease,
@@ -1945,7 +1945,7 @@ aside li > a[href="/"] {
 
 /* The install command sits on the theme's code surface, as docs code does. */
 .landing-command {
-  background: var(--folio-code-bg, var(--card));
+  background: var(--folioh-code-bg, var(--card));
   animation-delay: 430ms;
 }
 
@@ -1960,18 +1960,18 @@ aside li > a[href="/"] {
 
 .landing-artifact {
   overflow: hidden;
-  animation: landing-artifact-in 820ms var(--folio-landing-ease) 210ms both;
+  animation: landing-artifact-in 820ms var(--folioh-landing-ease) 210ms both;
 }
 
 .landing-artifact-top [aria-hidden="true"] {
-  animation: landing-pulse 2.4s var(--folio-landing-ease) infinite;
+  animation: landing-pulse 2.4s var(--folioh-landing-ease) infinite;
 }
 
 .landing-code-line {
   height: 0.5rem;
   transform-origin: left center;
   background: var(--foreground);
-  animation: landing-line 760ms var(--folio-landing-ease) both;
+  animation: landing-line 760ms var(--folioh-landing-ease) both;
 }
 
 .landing-code-line:nth-child(2) {
@@ -2005,12 +2005,12 @@ aside li > a[href="/"] {
     color-mix(in oklch, var(--primary) 38%, transparent),
     transparent
   );
-  animation: landing-scan 3.2s var(--folio-landing-ease) 1s infinite;
+  animation: landing-scan 3.2s var(--folioh-landing-ease) 1s infinite;
 }
 
 .landing-sequence li {
   opacity: 0;
-  animation: landing-enter 650ms var(--folio-landing-ease) both;
+  animation: landing-enter 650ms var(--folioh-landing-ease) both;
 }
 
 .landing-section {
@@ -2019,7 +2019,7 @@ aside li > a[href="/"] {
 
 /* -------------------------------------------------------------------------
    "heartbeat" landing hero — one window, terminal → docs, on an 11s master
-   cycle. Every narrative element animates with the same var(--folio-hb-cycle)
+   cycle. Every narrative element animates with the same var(--folioh-hb-cycle)
    duration, infinite iteration, keyframes in cycle percentages; each visible
    element's 0% state equals its 100% state so the loop never jumps. Base
    (non-animated) styles ARE the rest state — the rendered page with the
@@ -2031,17 +2031,17 @@ aside li > a[href="/"] {
    shutter returns 91-100% to the empty prompt.
    ------------------------------------------------------------------------- */
 .landing-heartbeat {
-  --folio-hb-cycle: 11s;
-  --folio-hb-snap: cubic-bezier(0.7, 0, 0.18, 1);
+  --folioh-hb-cycle: 11s;
+  --folioh-hb-snap: cubic-bezier(0.7, 0, 0.18, 1);
 }
 
 /* terminal identity of the chrome bar — on during the build, gone at rest */
 .landing-hb-titlebar {
   opacity: 0;
-  animation: folio-hb-title var(--folio-hb-cycle) var(--folio-landing-ease)
+  animation: folioh-hb-title var(--folioh-hb-cycle) var(--folioh-landing-ease)
     infinite;
 }
-@keyframes folio-hb-title {
+@keyframes folioh-hb-title {
   0%,
   32% {
     opacity: 1;
@@ -2060,10 +2060,10 @@ aside li > a[href="/"] {
 
 /* browser identity of the bar — takes over as the shutter passes */
 .landing-hb-url {
-  animation: folio-hb-url var(--folio-hb-cycle) var(--folio-landing-ease)
+  animation: folioh-hb-url var(--folioh-hb-cycle) var(--folioh-landing-ease)
     infinite;
 }
-@keyframes folio-hb-url {
+@keyframes folioh-hb-url {
   0%,
   33% {
     opacity: 0;
@@ -2087,9 +2087,9 @@ aside li > a[href="/"] {
 /* the terminal surface: the theme's code surface, as docs code is; covers
    the page at the seam, lifts up and out at the reveal */
 .landing-hb-shutter {
-  background: var(--folio-code-bg, var(--card));
+  background: var(--folioh-code-bg, var(--card));
   transform: translateY(-102%); /* rest: gone, up and out */
-  animation: folio-hb-shutter var(--folio-hb-cycle) var(--folio-hb-snap)
+  animation: folioh-hb-shutter var(--folioh-hb-cycle) var(--folioh-hb-snap)
     infinite;
   will-change: transform;
 }
@@ -2102,7 +2102,7 @@ aside li > a[href="/"] {
   height: 1px;
   background: color-mix(in oklch, var(--primary) 65%, transparent);
 }
-@keyframes folio-hb-shutter {
+@keyframes folioh-hb-shutter {
   0%,
   30% {
     transform: translateY(0);
@@ -2118,17 +2118,17 @@ aside li > a[href="/"] {
   }
 }
 
-/* "$ folio serve" types itself in chunky keystrokes */
+/* "$ folioh serve" types itself in chunky keystrokes */
 .landing-hb-cmd {
   display: inline-block;
   overflow: hidden;
   white-space: pre;
   vertical-align: bottom;
-  width: 11ch; /* "folio serve" */
-  animation: folio-hb-type var(--folio-hb-cycle) var(--folio-landing-ease)
+  width: 11ch; /* "folioh serve" */
+  animation: folioh-hb-type var(--folioh-hb-cycle) var(--folioh-landing-ease)
     infinite;
 }
-@keyframes folio-hb-type {
+@keyframes folioh-hb-type {
   0% {
     width: 0ch;
   }
@@ -2156,9 +2156,9 @@ aside li > a[href="/"] {
   height: 1.05em;
   vertical-align: text-bottom;
   background: var(--primary);
-  animation: folio-hb-blink 1.1s steps(1) infinite;
+  animation: folioh-hb-blink 1.1s steps(1) infinite;
 }
-@keyframes folio-hb-blink {
+@keyframes folioh-hb-blink {
   50% {
     opacity: 0;
   }
@@ -2176,10 +2176,10 @@ aside li > a[href="/"] {
     "Liberation Mono", monospace;
   line-height: 1.05;
   letter-spacing: 0;
-  animation: folio-hb-stamp var(--folio-hb-cycle) var(--folio-landing-ease)
+  animation: folioh-hb-stamp var(--folioh-hb-cycle) var(--folioh-landing-ease)
     infinite;
 }
-@keyframes folio-hb-stamp {
+@keyframes folioh-hb-stamp {
   0%,
   9% {
     opacity: 0;
@@ -2216,32 +2216,32 @@ aside li > a[href="/"] {
 /* the real transcript lines rat-tat-tat in, exactly as the CLI prints them */
 .landing-hb-line {
   opacity: 0; /* transient: hidden in base */
-  animation-duration: var(--folio-hb-cycle);
-  animation-timing-function: var(--folio-landing-ease);
+  animation-duration: var(--folioh-hb-cycle);
+  animation-timing-function: var(--folioh-landing-ease);
   animation-iteration-count: infinite;
 }
 .landing-hb-s1 {
-  animation-name: folio-hb-s1;
+  animation-name: folioh-hb-s1;
 }
 .landing-hb-s2 {
-  animation-name: folio-hb-s2;
+  animation-name: folioh-hb-s2;
 }
 .landing-hb-s3 {
-  animation-name: folio-hb-s3;
+  animation-name: folioh-hb-s3;
 }
 .landing-hb-s4 {
-  animation-name: folio-hb-s4;
+  animation-name: folioh-hb-s4;
 }
 .landing-hb-s5 {
-  animation-name: folio-hb-s5;
+  animation-name: folioh-hb-s5;
 }
 .landing-hb-s6 {
-  animation-name: folio-hb-s6;
+  animation-name: folioh-hb-s6;
 }
 .landing-hb-s7 {
-  animation-name: folio-hb-s7;
+  animation-name: folioh-hb-s7;
 }
-@keyframes folio-hb-s1 {
+@keyframes folioh-hb-s1 {
   0%,
   11.5% {
     opacity: 0;
@@ -2258,7 +2258,7 @@ aside li > a[href="/"] {
     transform: translateY(3px);
   }
 }
-@keyframes folio-hb-s2 {
+@keyframes folioh-hb-s2 {
   0%,
   12.2% {
     opacity: 0;
@@ -2275,7 +2275,7 @@ aside li > a[href="/"] {
     transform: translateY(3px);
   }
 }
-@keyframes folio-hb-s3 {
+@keyframes folioh-hb-s3 {
   0%,
   12.9% {
     opacity: 0;
@@ -2292,7 +2292,7 @@ aside li > a[href="/"] {
     transform: translateY(3px);
   }
 }
-@keyframes folio-hb-s4 {
+@keyframes folioh-hb-s4 {
   0%,
   13.6% {
     opacity: 0;
@@ -2309,7 +2309,7 @@ aside li > a[href="/"] {
     transform: translateY(3px);
   }
 }
-@keyframes folio-hb-s5 {
+@keyframes folioh-hb-s5 {
   0%,
   14.3% {
     opacity: 0;
@@ -2326,7 +2326,7 @@ aside li > a[href="/"] {
     transform: translateY(3px);
   }
 }
-@keyframes folio-hb-s6 {
+@keyframes folioh-hb-s6 {
   0%,
   15% {
     opacity: 0;
@@ -2343,7 +2343,7 @@ aside li > a[href="/"] {
     transform: translateY(3px);
   }
 }
-@keyframes folio-hb-s7 {
+@keyframes folioh-hb-s7 {
   0%,
   16% {
     opacity: 0;
@@ -2381,10 +2381,10 @@ aside li > a[href="/"] {
     color-mix(in oklch, var(--foreground) 9%, transparent) 50%,
     transparent
   );
-  animation: folio-hb-glint var(--folio-hb-cycle) var(--folio-landing-ease)
+  animation: folioh-hb-glint var(--folioh-hb-cycle) var(--folioh-landing-ease)
     infinite;
 }
-@keyframes folio-hb-glint {
+@keyframes folioh-hb-glint {
   0%,
   60% {
     transform: translateX(-180%) skewX(-18deg);
@@ -2415,16 +2415,16 @@ aside li > a[href="/"] {
 }
 
 .comparison-evidence {
-  --folio-comparison-win: oklch(0.405 0.105 154);
-  --folio-comparison-win-foreground: oklch(0.975 0.010 154);
-  --folio-comparison-win-soft: oklch(0.910 0.052 154);
-  --folio-comparison-partial: oklch(0.545 0.116 78);
-  --folio-comparison-partial-foreground: oklch(0.180 0.018 78);
-  --folio-comparison-partial-soft: oklch(0.918 0.050 78);
-  --folio-comparison-roadmap: oklch(0.390 0.060 250);
-  --folio-comparison-roadmap-soft: oklch(0.905 0.030 250);
-  --folio-comparison-empty: oklch(0.520 0.145 28);
-  --folio-comparison-empty-soft: oklch(0.930 0.045 28);
+  --folioh-comparison-win: oklch(0.405 0.105 154);
+  --folioh-comparison-win-foreground: oklch(0.975 0.010 154);
+  --folioh-comparison-win-soft: oklch(0.910 0.052 154);
+  --folioh-comparison-partial: oklch(0.545 0.116 78);
+  --folioh-comparison-partial-foreground: oklch(0.180 0.018 78);
+  --folioh-comparison-partial-soft: oklch(0.918 0.050 78);
+  --folioh-comparison-roadmap: oklch(0.390 0.060 250);
+  --folioh-comparison-roadmap-soft: oklch(0.905 0.030 250);
+  --folioh-comparison-empty: oklch(0.520 0.145 28);
+  --folioh-comparison-empty-soft: oklch(0.930 0.045 28);
 }
 
 .comparison-evidence-surface {
@@ -2432,16 +2432,16 @@ aside li > a[href="/"] {
 }
 
 .dark .comparison-evidence {
-  --folio-comparison-win: oklch(0.700 0.125 154);
-  --folio-comparison-win-foreground: oklch(0.120 0.018 154);
-  --folio-comparison-win-soft: oklch(0.235 0.048 154);
-  --folio-comparison-partial: oklch(0.760 0.112 78);
-  --folio-comparison-partial-foreground: oklch(0.155 0.018 78);
-  --folio-comparison-partial-soft: oklch(0.275 0.046 78);
-  --folio-comparison-roadmap: oklch(0.720 0.086 250);
-  --folio-comparison-roadmap-soft: oklch(0.225 0.036 250);
-  --folio-comparison-empty: oklch(0.720 0.125 28);
-  --folio-comparison-empty-soft: oklch(0.245 0.050 28);
+  --folioh-comparison-win: oklch(0.700 0.125 154);
+  --folioh-comparison-win-foreground: oklch(0.120 0.018 154);
+  --folioh-comparison-win-soft: oklch(0.235 0.048 154);
+  --folioh-comparison-partial: oklch(0.760 0.112 78);
+  --folioh-comparison-partial-foreground: oklch(0.155 0.018 78);
+  --folioh-comparison-partial-soft: oklch(0.275 0.046 78);
+  --folioh-comparison-roadmap: oklch(0.720 0.086 250);
+  --folioh-comparison-roadmap-soft: oklch(0.225 0.036 250);
+  --folioh-comparison-empty: oklch(0.720 0.125 28);
+  --folioh-comparison-empty-soft: oklch(0.245 0.050 28);
 }
 
 /* ─── Theme gallery ─── */
@@ -2524,7 +2524,7 @@ aside li > a[href="/"] {
 }
 
 .theme-gallery-heading h2 {
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.3;
@@ -2741,7 +2741,7 @@ aside li > a[href="/"] {
 
 .theme-gallery-caption-name {
   color: var(--foreground);
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.3;
@@ -2888,17 +2888,17 @@ aside li > a[href="/"] {
    Scale lengths together so typography, rhythm and framing stay comparable. */
 .theme-gallery-page {
   --theme-gallery-page-scale: 0.6;
-  background: var(--folio-workspace-shell-background);
+  background: var(--folioh-workspace-shell-background);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.5);
   color: var(--foreground);
   display: flex;
   flex-direction: column;
-  font-family: var(--folio-body-font-family);
+  font-family: var(--folioh-body-font-family);
   height: 100%;
   overflow: hidden;
-  padding: calc(var(--folio-workspace-shell-padding) * var(--theme-gallery-page-scale));
+  padding: calc(var(--folioh-workspace-shell-padding) * var(--theme-gallery-page-scale));
   position: relative;
   text-align: left;
   width: 100%;
@@ -2947,14 +2947,14 @@ aside li > a[href="/"] {
 }
 
 .theme-gallery-page > * {
-  font-size: calc(var(--folio-font-size-base) * var(--theme-gallery-page-scale));
+  font-size: calc(var(--folioh-font-size-base) * var(--theme-gallery-page-scale));
 }
 
 .theme-gallery-page-bar {
   align-items: center;
-  background: var(--folio-workspace-shell-topbar);
-  border: var(--folio-workspace-shell-border);
-  border-bottom: var(--folio-workspace-shell-topbar-border);
+  background: var(--folioh-workspace-shell-topbar);
+  border: var(--folioh-workspace-shell-border);
+  border-bottom: var(--folioh-workspace-shell-topbar-border);
   display: flex;
   flex: 0 0 auto;
   gap: 0.75em;
@@ -2988,10 +2988,10 @@ aside li > a[href="/"] {
 }
 
 .theme-gallery-page-body {
-  background: var(--folio-workspace-shell-surface);
-  border: var(--folio-workspace-shell-border);
+  background: var(--folioh-workspace-shell-surface);
+  border: var(--folioh-workspace-shell-border);
   border-top: 0;
-  box-shadow: var(--folio-workspace-shell-shadow);
+  box-shadow: var(--folioh-workspace-shell-shadow);
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
@@ -3031,39 +3031,39 @@ aside li > a[href="/"] {
 .theme-gallery-page-content {
   display: block;
   margin: 0 auto;
-  max-width: calc(var(--folio-content-max-width) * var(--theme-gallery-page-scale));
+  max-width: calc(var(--folioh-content-max-width) * var(--theme-gallery-page-scale));
 }
 
 .theme-gallery-page-title {
   display: block;
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: calc(2.25rem * var(--theme-gallery-page-scale));
-  font-weight: var(--folio-heading-weight);
-  letter-spacing: var(--folio-heading-letter-spacing);
+  font-weight: var(--folioh-heading-weight);
+  letter-spacing: var(--folioh-heading-letter-spacing);
   line-height: 1.2;
 }
 
 .theme-gallery-page-text {
   display: block;
-  line-height: var(--folio-body-line-height);
+  line-height: var(--folioh-body-line-height);
   margin-top: 0.75em;
 }
 
 .theme-gallery-page-link {
   color: var(--primary);
-  text-decoration: var(--folio-link-decoration);
+  text-decoration: var(--folioh-link-decoration);
   text-underline-offset: 0.15em;
 }
 
 .theme-gallery-page-code {
-  background: var(--folio-code-bg);
-  border: var(--folio-code-border);
-  border-radius: var(--folio-code-border-radius);
-  box-shadow: var(--folio-code-shadow);
-  color: var(--folio-code-foreground);
+  background: var(--folioh-code-bg);
+  border: var(--folioh-code-border);
+  border-radius: var(--folioh-code-border-radius);
+  box-shadow: var(--folioh-code-shadow);
+  color: var(--folioh-code-foreground);
   display: flex;
   flex-direction: column;
-  font-family: var(--folio-code-font-family);
+  font-family: var(--folioh-code-font-family);
   gap: 0.25em;
   line-height: 1.5;
   margin-top: 1em;
@@ -3085,30 +3085,30 @@ aside li > a[href="/"] {
 
 .theme-gallery-page-cards > span {
   background: var(--card);
-  border: var(--folio-card-border-width) solid var(--border);
+  border: var(--folioh-card-border-width) solid var(--border);
   border-radius: calc(var(--radius) * var(--theme-gallery-page-scale));
-  box-shadow: var(--folio-card-shadow);
+  box-shadow: var(--folioh-card-shadow);
   color: var(--card-foreground);
   display: flex;
   flex-direction: column;
   gap: 0.4em;
-  line-height: var(--folio-body-line-height);
-  padding: calc(var(--folio-card-padding) * var(--theme-gallery-page-scale));
+  line-height: var(--folioh-body-line-height);
+  padding: calc(var(--folioh-card-padding) * var(--theme-gallery-page-scale));
 }
 
 .theme-gallery-page-heading {
-  border-bottom: var(--folio-h2-border);
-  border-left: var(--folio-h2-border-left);
+  border-bottom: var(--folioh-h2-border);
+  border-left: var(--folioh-h2-border-left);
   display: block;
-  font-family: var(--folio-heading-font-family);
+  font-family: var(--folioh-heading-font-family);
   font-size: calc(1.5rem * var(--theme-gallery-page-scale));
-  font-weight: var(--folio-h2-weight);
-  letter-spacing: var(--folio-h2-letter-spacing);
+  font-weight: var(--folioh-h2-weight);
+  letter-spacing: var(--folioh-h2-letter-spacing);
   line-height: 1.3;
-  margin-top: calc(var(--folio-section-gap) * var(--theme-gallery-page-scale));
+  margin-top: calc(var(--folioh-section-gap) * var(--theme-gallery-page-scale));
   padding-bottom: calc(0.5rem * var(--theme-gallery-page-scale));
-  padding-left: calc(var(--folio-h2-padding-left) * var(--theme-gallery-page-scale));
-  text-transform: var(--folio-h2-transform);
+  padding-left: calc(var(--folioh-h2-padding-left) * var(--theme-gallery-page-scale));
+  text-transform: var(--folioh-h2-transform);
 }
 
 /* Omarchy's flat navigation is also applied to the miniature. */
@@ -3548,15 +3548,15 @@ aside li > a[href="/"] {
 
 /* A theme that is only light or only dark sets the scheme itself, so the
    light/dark toggles have nothing to switch while it is applied. */
-html[data-folio-scheme] [data-theme-toggle] {
+html[data-folioh-scheme] [data-theme-toggle] {
   display: none;
 }
 
 /* ─── Pastel surfaces ─── */
 
 /* Pastel rounds its cards and panels to 20px over a 12px control radius. */
-html[data-folio-preset="pastel"] {
-  --folio-surface-radius: 20px;
+html[data-folioh-preset="pastel"] {
+  --folioh-surface-radius: 20px;
 }
 
 /* ─── Omarchy artwork and menus ─── */
@@ -3566,20 +3566,20 @@ html[data-folio-preset="pastel"] {
   display: none;
 }
 
-html[data-folio-preset="omarchy"] body {
+html[data-folioh-preset="omarchy"] body {
   isolation: isolate;
 }
 
-html[data-folio-preset="omarchy"] :is(.landing-shell, .landing-surface),
-html[data-folio-preset="omarchy"] body > div:has(> .nextra-sidebar) {
+html[data-folioh-preset="omarchy"] :is(.landing-shell, .landing-surface),
+html[data-folioh-preset="omarchy"] body > div:has(> .nextra-sidebar) {
   background: transparent;
 }
 
-html[data-folio-preset="omarchy"] .landing-surface::before {
+html[data-folioh-preset="omarchy"] .landing-surface::before {
   display: none;
 }
 
-html[data-folio-preset="omarchy"] :is(.landing-hero-copy, main) > .theme-wordmark,
+html[data-folioh-preset="omarchy"] :is(.landing-hero-copy, main) > .theme-wordmark,
 .theme-gallery-page[data-preset="omarchy"] .theme-wordmark {
   background: linear-gradient(to bottom, var(--primary) 0 33%, color-mix(in oklch, var(--primary) 75%, var(--foreground)) 33% 66%, var(--foreground) 66%);
   background-clip: text;
@@ -3601,16 +3601,16 @@ html[data-folio-preset="omarchy"] :is(.landing-hero-copy, main) > .theme-wordmar
   width: fit-content;
 }
 
-html[data-folio-preset="omarchy"] :is(.landing-hero-copy, main) > .theme-wordmark[data-ascii] {
+html[data-folioh-preset="omarchy"] :is(.landing-hero-copy, main) > .theme-wordmark[data-ascii] {
   font-size: 0.625rem;
   font-weight: 400;
 }
 
-html[data-folio-preset="omarchy"] .landing-hero-copy > .theme-wordmark[data-ascii] {
+html[data-folioh-preset="omarchy"] .landing-hero-copy > .theme-wordmark[data-ascii] {
   font-size: min(1.2vw, 1rem);
 }
 
-html[data-folio-preset="omarchy"] body > .theme-pixel-field,
+html[data-folioh-preset="omarchy"] body > .theme-pixel-field,
 .theme-gallery-page[data-preset="omarchy"] > .theme-pixel-field {
   color: var(--primary);
   display: block;
@@ -3668,114 +3668,114 @@ html[data-folio-preset="omarchy"] body > .theme-pixel-field,
   outline-offset: 6px;
 }
 
-html.folio-theme-transition::view-transition-old(root),
-html.folio-theme-transition::view-transition-new(root) {
+html.folioh-theme-transition::view-transition-old(root),
+html.folioh-theme-transition::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-html.folio-theme-transition::view-transition-new(root) {
-  animation: folio-theme-wipe 280ms ease-out both;
+html.folioh-theme-transition::view-transition-new(root) {
+  animation: folioh-theme-wipe 280ms ease-out both;
 }
 
-@keyframes folio-theme-wipe {
+@keyframes folioh-theme-wipe {
   from { clip-path: polygon(0 0, 0 0, 0 0); }
   to { clip-path: polygon(0 0, 200% 0, 0 200%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.folio-theme-transition::view-transition-new(root) {
+  html.folioh-theme-transition::view-transition-new(root) {
     animation: none;
   }
 }
 
 @media (max-width: 767px) {
-  html[data-folio-preset="omarchy"] .landing-hero-copy > .theme-wordmark[data-ascii] {
+  html[data-folioh-preset="omarchy"] .landing-hero-copy > .theme-wordmark[data-ascii] {
     font-size: min(2.5vw, 0.875rem);
   }
 }
 
-/* The Omarchy preset's bars and chapter list, Folio's own drawing: a low bar
+/* The Omarchy preset's bars and chapter list, Folioh's own drawing: a low bar
    the page shows through, flat square chapter rows, and one rule between the
    list and the page. The theme marks <html> with the preset it applies; these
    rules key off that mark. The height is in px because Nextra passes it to an
    IntersectionObserver rootMargin, which rejects rem. */
-html[data-folio-preset="omarchy"] {
-  --folio-omarchy-motion: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+html[data-folioh-preset="omarchy"] {
+  --folioh-omarchy-motion: 180ms cubic-bezier(0.16, 1, 0.3, 1);
   --nextra-navbar-height: 52px;
 }
 
 /* The mobile menu stays a full-screen sheet, with no card and no scrim. */
-html[data-folio-preset="omarchy"] {
-  --folio-drawer-inset: 0;
-  --folio-drawer-width: 100vw;
-  --folio-drawer-radius: 0;
-  --folio-drawer-shadow: none;
-  --folio-drawer-scrim: transparent;
+html[data-folioh-preset="omarchy"] {
+  --folioh-drawer-inset: 0;
+  --folioh-drawer-width: 100vw;
+  --folioh-drawer-radius: 0;
+  --folioh-drawer-shadow: none;
+  --folioh-drawer-scrim: transparent;
 }
 
-html[data-folio-preset="omarchy"] body > .nextra-navbar {
+html[data-folioh-preset="omarchy"] body > .nextra-navbar {
   background: transparent !important;
 }
 
-html[data-folio-preset="omarchy"] body > .nextra-navbar .nextra-navbar-blur,
-html[data-folio-preset="omarchy"] .landing-navbar {
+html[data-folioh-preset="omarchy"] body > .nextra-navbar .nextra-navbar-blur,
+html[data-folioh-preset="omarchy"] .landing-navbar {
   -webkit-backdrop-filter: blur(10px) saturate(1.2) !important;
   backdrop-filter: blur(10px) saturate(1.2) !important;
   background: color-mix(in oklch, var(--background) 84%, transparent) !important;
 }
 
-html[data-folio-preset="omarchy"] :is(.nextra-navbar, .landing-navbar) nav :is(a, button)[title] {
+html[data-folioh-preset="omarchy"] :is(.nextra-navbar, .landing-navbar) nav :is(a, button)[title] {
   background: transparent;
   border-color: transparent;
   border-radius: 0;
   transition:
-    background-color var(--folio-omarchy-motion),
-    color var(--folio-omarchy-motion);
+    background-color var(--folioh-omarchy-motion),
+    color var(--folioh-omarchy-motion);
 }
 
-html[data-folio-preset="omarchy"] :is(.nextra-navbar, .landing-navbar) nav :is(a, button)[title]:hover {
+html[data-folioh-preset="omarchy"] :is(.nextra-navbar, .landing-navbar) nav :is(a, button)[title]:hover {
   background: var(--muted);
   color: var(--foreground);
 }
 
-html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button) {
+html[data-folioh-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button) {
   border-radius: 0;
   color: var(--foreground);
   font-size: 0.8rem;
   padding: 0.3125rem 0.625rem;
   transition:
-    background-color var(--folio-omarchy-motion),
-    color var(--folio-omarchy-motion);
+    background-color var(--folioh-omarchy-motion),
+    color var(--folioh-omarchy-motion);
 }
 
-html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button):hover {
+html[data-folioh-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > :is(a, button):hover {
   background: var(--muted);
   color: var(--accent-foreground);
 }
 
-html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > a[class~="x:text-primary-800"] {
+html[data-folioh-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) li > a[class~="x:text-primary-800"] {
   background: var(--muted);
   color: var(--foreground);
   font-weight: 500;
 }
 
-html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) ul::before {
+html[data-folioh-preset="omarchy"] :is(.nextra-sidebar, .nextra-mobile-nav) ul::before {
   display: none;
 }
 
-html[data-folio-preset="omarchy"] :is(.nextra-sidebar, .nextra-toc) {
+html[data-folioh-preset="omarchy"] :is(.nextra-sidebar, .nextra-toc) {
   background: color-mix(in oklch, var(--background) 92%, transparent);
 }
 
-html[data-folio-preset="omarchy"] .nextra-mobile-nav {
+html[data-folioh-preset="omarchy"] .nextra-mobile-nav {
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   background: color-mix(in oklch, var(--background) 92%, transparent) !important;
 }
 
 @media (min-width: 768px) {
-  html[data-folio-preset="omarchy"] .nextra-sidebar {
+  html[data-folioh-preset="omarchy"] .nextra-sidebar {
     border-inline-end: 1px solid var(--border);
   }
 }

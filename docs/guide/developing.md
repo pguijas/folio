@@ -1,13 +1,13 @@
 ---
 title: Developer Guide
-description: Build, test, and run the folio binary from a checkout of the Folio repository.
+description: Build, test, and run the folioh binary from a checkout of the Folioh repository.
 ---
 
 # Developer Guide
 
 *How to build, test, and run everything in the repository from a checkout.*
 
-Folio ships as one native Rust binary: `folio`.
+Folioh ships as one native Rust binary: `folioh`.
 The repository is one Cargo workspace plus the site template the binary renders
 through. This guide covers building the binary, running the tests, and working
 on the template.
@@ -17,23 +17,23 @@ on the template.
 | Tool | Needed for | Notes |
 |------|------------|-------|
 | Rust toolchain | The workspace | Install via [rustup](https://rustup.rs/). `rust-toolchain.toml` pins the stable channel with `clippy` and `rustfmt`; rustup picks it up automatically. |
-| Node.js 20.19+ and pnpm 10 | `folio build`, `folio serve`, and template work | The generated site renders through the bundled Nextra/Next.js template. Not needed to build the binary or run `cargo test`. Get pnpm with `corepack enable pnpm && corepack prepare pnpm@10 --activate`, or `npm install -g pnpm@10`. |
+| Node.js 20.19+ and pnpm 10 | `folioh build`, `folioh serve`, and template work | The generated site renders through the bundled Nextra/Next.js template. Not needed to build the binary or run `cargo test`. Get pnpm with `corepack enable pnpm && corepack prepare pnpm@10 --activate`, or `npm install -g pnpm@10`. |
 
 ## Get the source
 
 ```bash
-git clone https://github.com/pguijas/folio
-cd folio
+git clone https://github.com/pguijas/folioh
+cd folioh
 ```
 
 ## Repository layout
 
 The root `Cargo.toml` coordinates the packages in one virtual workspace.
 
-- `crates/*` contains the eleven engine crates: the CLI host (`folio-cli`),
+- `crates/*` contains the eleven engine crates: the CLI host (`folioh-cli`),
   configuration, parsers, page generation, plugin interfaces, site builder and
-  watcher. `folio-cli` is both the library and the package that builds the
-  released `folio` binary, from `src/bin/folio.rs`.
+  watcher. `folioh-cli` is both the library and the package that builds the
+  released `folioh` binary, from `src/bin/folioh.rs`.
 
 Beside the crates:
 
@@ -42,7 +42,7 @@ Beside the crates:
   the crate that produces it, under `crates/<crate>/tests/fixtures/`.
 - `template/` — the Nextra/Next.js site template, built with pnpm.
 - `docs/` — the guides on this site. The root `docs.yaml` is the
-  config of Folio's own site and `theme/folio-site` its theme.
+  config of Folioh's own site and `theme/folioh-site` its theme.
 - `install.sh` — the installer behind the install one-liner.
 
 ## Build and verify
@@ -63,16 +63,16 @@ cargo build --release
   target. CI treats warnings as errors with `-D warnings`; match it locally to
   avoid surprises.
 - `cargo test --workspace` runs the tests across all crates.
-- `cargo build --release` produces `target/release/folio` using the thin-LTO,
+- `cargo build --release` produces `target/release/folioh` using the thin-LTO,
   stripped release profile.
 
 ### Installing the binary you built
 
 The release build is a single self-contained executable. Copy
-`target/release/folio` to a directory on your `PATH` (for example
-`~/.local/bin/`) and run `folio --version` to confirm the shell picks up your
+`target/release/folioh` to a directory on your `PATH` (for example
+`~/.local/bin/`) and run `folioh --version` to confirm the shell picks up your
 build rather than an installed release. To run a command without installing,
-`cargo run --release -p folio-cli -- build --clean` builds and runs the same
+`cargo run --release -p folioh-cli -- build --clean` builds and runs the same
 binary.
 
 ## Tests
@@ -87,48 +87,48 @@ under `src/` only ever holds submodules. Shared test-only helpers use
 separate child modules the same way.
 
 Crate integration tests live under each crate's `tests/` directory. The CLI
-suites live in `crates/folio-cli/tests/`, including the documentation
+suites live in `crates/folioh-cli/tests/`, including the documentation
 checks in `docs_surface.rs`: that is the package that builds the binary, so
 they keep testing the actual executable.
 
 The same directory holds the release surface checks (`release_surface.rs`),
 workspace layout rules (`workspace_boundaries.rs`), and the shared support the
 CLI suites load with `mod common;` (`common/`).
-`cargo test -p folio-cli` runs all of these targets.
+`cargo test -p folioh-cli` runs all of these targets.
 
 Narrow the run while iterating:
 
 ```bash
-cargo test -p folio-config                      # one crate
-cargo test -p folio-cli --test release_surface  # one integration test file
-cargo test -p folio-cli the_one_liner           # tests whose name contains a string
+cargo test -p folioh-config                      # one crate
+cargo test -p folioh-cli --test release_surface  # one integration test file
+cargo test -p folioh-cli the_one_liner           # tests whose name contains a string
 ```
 
 A new behaviour lands with its test: a unit test when it is local to one
 function, an integration test under the crate's `tests/` when it crosses crates
 or touches the filesystem, and a black-box run of the binary when it is what a
-user sees. The CLI tests in `crates/folio-cli/tests/` run the built binary
-through `env!("CARGO_BIN_EXE_folio")` against a project from `docs/examples/`
+user sees. The CLI tests in `crates/folioh-cli/tests/` run the built binary
+through `env!("CARGO_BIN_EXE_folioh")` against a project from `docs/examples/`
 and check the result against the checked-in golden. The fixtures and the tests
 are the definition of correct output.
 
 Each crate keeps the fixtures its own tests read under
 `crates/<crate>/tests/fixtures/`: the config that must load without a warning
-(`folio-config`), the sources each reader must parse with the IR they must
-parse to (`golden_ir.json` in `folio-lang-javascript` and `folio-lang-rust`;
-`rich_package_ir.json` and `example_package_ir.json` in `folio-lang-python`,
+(`folioh-config`), the sources each reader must parse with the IR they must
+parse to (`golden_ir.json` in `folioh-lang-javascript` and `folioh-lang-rust`;
+`rich_package_ir.json` and `example_package_ir.json` in `folioh-lang-python`,
 the second for the example package under `docs/examples/generated-site/`), the
-MDX contract baseline (`folio-plugins`) and the pages, `llms.txt` and
-`llms-full.txt` a build must write (`folio-docs`, compared again through the
-CLI by `folio-cli`). `FOLIO_UPDATE_GOLDEN=1` rewrites the goldens of these
+MDX contract baseline (`folioh-plugins`) and the pages, `llms.txt` and
+`llms-full.txt` a build must write (`folioh-docs`, compared again through the
+CLI by `folioh-cli`). `FOLIOH_UPDATE_GOLDEN=1` rewrites the goldens of these
 tests:
 
 ```bash
-FOLIO_UPDATE_GOLDEN=1 cargo test -p folio-lang-python --test golden
-FOLIO_UPDATE_GOLDEN=1 cargo test -p folio-lang-javascript --test golden
-FOLIO_UPDATE_GOLDEN=1 cargo test -p folio-lang-rust --test golden
-FOLIO_UPDATE_GOLDEN=1 cargo test -p folio-docs --test example_site
-FOLIO_UPDATE_GOLDEN=1 cargo test -p folio-plugins --test template_pins
+FOLIOH_UPDATE_GOLDEN=1 cargo test -p folioh-lang-python --test golden
+FOLIOH_UPDATE_GOLDEN=1 cargo test -p folioh-lang-javascript --test golden
+FOLIOH_UPDATE_GOLDEN=1 cargo test -p folioh-lang-rust --test golden
+FOLIOH_UPDATE_GOLDEN=1 cargo test -p folioh-docs --test example_site
+FOLIOH_UPDATE_GOLDEN=1 cargo test -p folioh-plugins --test template_pins
 ```
 
 The diff is the point: a golden regenerated without reading it turns a
@@ -136,14 +136,14 @@ regression into the contract.
 
 ### Benchmarks
 
-`crates/folio-lang-python/benches/parse.rs` is a criterion
-parse-throughput benchmark over the `*.py` files under `$FOLIO_BENCH_CORPUS`.
+`crates/folioh-lang-python/benches/parse.rs` is a criterion
+parse-throughput benchmark over the `*.py` files under `$FOLIOH_BENCH_CORPUS`.
 The crate declares it as a `[[bench]]` target with `harness = false` and keeps
-`criterion` as a dev-dependency, so `cargo bench -p folio-lang-python` runs it.
+`criterion` as a dev-dependency, so `cargo bench -p folioh-lang-python` runs it.
 
 ## The template
 
-Everything `folio build` renders comes from `template/`, a
+Everything `folioh build` renders comes from `template/`, a
 Next.js/Nextra workspace. Work on it directly with pnpm:
 
 ```bash
@@ -166,11 +166,11 @@ toolchain and cache the build:
   template's `pnpm install --frozen-lockfile`, `pnpm lint` and
   `pnpm typecheck` on Node 22 and pnpm 10.
 - `test` (Linux and macOS) runs `cargo test --workspace --locked` on Node 22.
-- `windows` runs `cargo test -p folio-cli --test cli_surface --locked`.
+- `windows` runs `cargo test -p folioh-cli --test cli_surface --locked`.
 - `real-export` (Linux) runs the two suites ignored by default because they
   run a real pnpm install and Next export:
-  `cargo test -p folio-site --test e2e_export --locked -- --ignored` and
-  `cargo test -p folio-cli --test build_pipeline --locked -- --ignored`.
+  `cargo test -p folioh-site --test e2e_export --locked -- --ignored` and
+  `cargo test -p folioh-cli --test build_pipeline --locked -- --ignored`.
 
 CI does not run `cargo build --release`; the release workflow does.
 
@@ -189,7 +189,7 @@ git push origin v0.3.0-a1
 
 `.github/workflows/release.yml` fails before building if the tag does not match
 the workspace version. It then builds one archive per target on five
-targets (Linux and macOS on x86_64 and aarch64 as `.tar.gz` with the `folio`
+targets (Linux and macOS on x86_64 and aarch64 as `.tar.gz` with the `folioh`
 binary at the archive root, which `install.sh` installs, and Windows x86_64 as
 a `.zip` to download by hand), runs
 `install.sh` against the two archives the runners execute natively (x86_64
@@ -207,4 +207,4 @@ without publishing, so the release path is proven before a tag exists.
 
 - [Architecture](./architecture) — How the CLI, parser, generator, and export pipeline fit together
 - [CLI Reference](./cli) — Every command, flag, and option
-- [Writing Doc Comments](./docstrings) — How Folio reads Python docstrings, JSDoc and Rust doc comments
+- [Writing Doc Comments](./docstrings) — How Folioh reads Python docstrings, JSDoc and Rust doc comments

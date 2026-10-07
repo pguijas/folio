@@ -103,7 +103,7 @@ export default async function OGImage({
             }}
           >
             {/* Monogram box */}
-            {projectIconSvg && /<svg\b[^>]*\bdata-folio-icon="pastel"/.test(projectIconSvg) ? (
+            {projectIconSvg && /<svg\b[^>]*\bdata-folioh-icon="pastel"/.test(projectIconSvg) ? (
               <img width={40} height={40} alt="" src={"data:image/svg+xml," + encodeURIComponent(projectIconSvg)} />
             ) : (
               <div

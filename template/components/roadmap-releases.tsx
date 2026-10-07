@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils"
  * served HTML and leave the rest reachable by click alone — which is how this
  * page lost ten of its eleven releases to crawlers, to Markdown mirrors and to
  * anyone reading with JavaScript off. Hiding is a style; not rendering is a
- * deletion. `.folio-roadmap-panel` in globals.css stacks them all in one grid
+ * deletion. `.folioh-roadmap-panel` in globals.css stacks them all in one grid
  * cell so the column is as tall as the tallest release and stops resizing.
  *
  * Selection is one mark that travels. It used to be drawn per row — the picked
@@ -628,7 +628,7 @@ export function RoadmapReleases({
             /* The pane holds no focusable element of its own, so it takes a
                stop itself or its contents are unreachable by keyboard. */
             tabIndex={phase.id === selected.id ? 0 : -1}
-            className={cn("folio-roadmap-panel min-w-0", FOCUS_RING)}
+            className={cn("folioh-roadmap-panel min-w-0", FOCUS_RING)}
           >
             <ReleaseDetail phase={phase} />
           </div>

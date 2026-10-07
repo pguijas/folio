@@ -1,0 +1,38 @@
+[package]
+name = "folioh-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+folioh-config = { path = "../folioh-config" }
+folioh-mdx = { path = "../folioh-mdx" }
+folioh-plugins = { path = "../folioh-plugins" }
+folioh-site = { path = "../folioh-site" }
+folioh-watch = { path = "../folioh-watch" }
+folioh-ir = { path = "../folioh-ir" }
+folioh-lang-python = { path = "../folioh-lang-python" }
+folioh-docs = { path = "../folioh-docs" }
+clap.workspace = true
+anstyle.workspace = true
+anstream.workspace = true
+crossterm.workspace = true
+unicode-width.workspace = true
+toml.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml_ng.workspace = true
+sha2.workspace = true
+thiserror.workspace = true
+regex.workspace = true
+semver.workspace = true
+jiff.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+serde_yaml_ng.workspace = true
+toml.workspace = true

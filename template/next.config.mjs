@@ -3,11 +3,11 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const configuredBasePath = '' // __FOLIO_BASE_PATH__
+const configuredBasePath = '' // __FOLIOH_BASE_PATH__
 const isDevServer = process.env.NODE_ENV === 'development'
 const rawBasePath = isDevServer
-  ? process.env.FOLIO_BASE_PATH?.trim() ?? ''
-  : process.env.FOLIO_BASE_PATH?.trim() || configuredBasePath
+  ? process.env.FOLIOH_BASE_PATH?.trim() ?? ''
+  : process.env.FOLIOH_BASE_PATH?.trim() || configuredBasePath
 const normalizedBasePath = rawBasePath.replace(/\/+$/, '')
 const basePath = normalizedBasePath && normalizedBasePath !== '/'
   ? normalizedBasePath.startsWith('/')
@@ -28,13 +28,13 @@ const nextConfig = {
   allowedDevOrigins: ['127.0.0.1'],
   ...(basePath ? { basePath, assetPrefix: basePath } : {}),
   env: {
-    NEXT_PUBLIC_FOLIO_BASE_PATH: basePath ?? "",
+    NEXT_PUBLIC_FOLIOH_BASE_PATH: basePath ?? "",
   },
   images: { unoptimized: true },
   turbopack: {
     // A nested example build shares the parent workspace's node_modules
     // through a link, which Turbopack only follows inside its root.
-    root: process.env.FOLIO_TURBOPACK_ROOT?.trim() || __dirname,
+    root: process.env.FOLIOH_TURBOPACK_ROOT?.trim() || __dirname,
     resolveAlias: {
       'next-mdx-import-source-file': './mdx-components.tsx',
     },

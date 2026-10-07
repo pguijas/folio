@@ -22,7 +22,7 @@ Use `DocPreview` when a guide needs to show a generated documentation route or a
 
 </PreviewCode>
 
-For tutorial examples, place a complete Folio project under `docs/examples/<name>/` with its own `docs.yaml`, `docs/`, and optional `src/` files. The docs build runs Folio for that project, serves the generated static output at `/_folio/examples/<name>/`, and shows the exact source files that produced it. `folio build` always builds the examples; `folio serve` builds them only with `--previews`, because each one is a full nested site, and a `DocPreview` whose example is not built says so in its place.
+For tutorial examples, place a complete Folioh project under `docs/examples/<name>/` with its own `docs.yaml`, `docs/`, and optional `src/` files. The docs build runs Folioh for that project, serves the generated static output at `/_folioh/examples/<name>/`, and shows the exact source files that produced it. `folioh build` always builds the examples; `folioh serve` builds them only with `--previews`, because each one is a full nested site, and a `DocPreview` whose example is not built says so in its place.
 
 <PreviewCode>
 

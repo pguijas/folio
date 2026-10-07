@@ -1,6 +1,6 @@
 # Page Actions
 
-Folio renders a compact `Ask AI` page-actions button above every documentation page. It is meant for source-heavy docs: copy the current page, or send the current page context to ChatGPT without adding extra setup.
+Folioh renders a compact `Ask AI` page-actions button above every documentation page. It is meant for source-heavy docs: copy the current page, or send the current page context to ChatGPT without adding extra setup.
 
 ## PageActionsButton
 

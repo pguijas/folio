@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest a focused improvement for Folio.
+description: Suggest a focused improvement for Folioh.
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
@@ -14,7 +14,7 @@ body:
     id: proposal
     attributes:
       label: Proposed solution
-      description: What behavior would you like Folio to support?
+      description: What behavior would you like Folioh to support?
     validations:
       required: true
   - type: textarea

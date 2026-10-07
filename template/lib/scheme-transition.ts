@@ -3,7 +3,7 @@
 // of the viewport for the `d` shortcut, after cojeev's theme transition (MIT,
 // see THIRD-PARTY-NOTICES.md). This sets the circle's centre and radius on
 // <html>; the reveal itself is the `::view-transition-new(root)` animation in
-// shell.css, over --folio-motion-max. Every other preset, a browser without
+// shell.css, over --folioh-motion-max. Every other preset, a browser without
 // view transitions and a reader who asks for reduced motion switch at once.
 
 import { flushSync } from "react-dom"
@@ -21,7 +21,7 @@ export function switchScheme(
   }
   const root = document.documentElement
   if (
-    root.dataset.folioPreset !== "pastel" ||
+    root.dataset.foliohPreset !== "pastel" ||
     typeof document.startViewTransition !== "function" ||
     document.hidden ||
     matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -32,9 +32,9 @@ export function switchScheme(
   const box = from?.getBoundingClientRect()
   const x = box ? box.x + box.width / 2 : innerWidth / 2
   const y = box ? box.y + box.height / 2 : innerHeight / 2
-  root.style.setProperty("--folio-reveal-at", `${x}px ${y}px`)
+  root.style.setProperty("--folioh-reveal-at", `${x}px ${y}px`)
   root.style.setProperty(
-    "--folio-reveal-r",
+    "--folioh-reveal-r",
     `${Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y))}px`,
   )
   try {

@@ -77,37 +77,37 @@ const PREVIEW_THEME_VARIABLES = [
   "--chart-3",
   "--chart-4",
   "--chart-5",
-  "--folio-heading-font-family",
-  "--folio-body-font-family",
-  "--folio-code-font-family",
-  "--folio-heading-letter-spacing",
-  "--folio-heading-weight",
-  "--folio-body-line-height",
+  "--folioh-heading-font-family",
+  "--folioh-body-font-family",
+  "--folioh-code-font-family",
+  "--folioh-heading-letter-spacing",
+  "--folioh-heading-weight",
+  "--folioh-body-line-height",
   "--radius",
 ]
 
-const FOLIO_BASE_PATH = process.env.NEXT_PUBLIC_FOLIO_BASE_PATH?.replace(/\/+$/, "") ?? ""
-const FOLIO_DOCS_ROUTE_BASE =
-  process.env.NEXT_PUBLIC_FOLIO_DOCS_ROUTE_BASE?.replace(/\/+$/, "") || "/docs"
-const FOLIO_DOCS_ROUTE_SEGMENTS = FOLIO_DOCS_ROUTE_BASE.split("/").filter(Boolean)
+const FOLIOH_BASE_PATH = process.env.NEXT_PUBLIC_FOLIOH_BASE_PATH?.replace(/\/+$/, "") ?? ""
+const FOLIOH_DOCS_ROUTE_BASE =
+  process.env.NEXT_PUBLIC_FOLIOH_DOCS_ROUTE_BASE?.replace(/\/+$/, "") || "/docs"
+const FOLIOH_DOCS_ROUTE_SEGMENTS = FOLIOH_DOCS_ROUTE_BASE.split("/").filter(Boolean)
 
-function withFolioBasePath(path: string) {
+function withFoliohBasePath(path: string) {
   if (/^[a-z][a-z\d+.-]*:/i.test(path)) return path
   if (!path.startsWith("/")) return path
-  if (!FOLIO_BASE_PATH || FOLIO_BASE_PATH === "/") return path
-  if (path === FOLIO_BASE_PATH || path.startsWith(`${FOLIO_BASE_PATH}/`)) return path
+  if (!FOLIOH_BASE_PATH || FOLIOH_BASE_PATH === "/") return path
+  if (path === FOLIOH_BASE_PATH || path.startsWith(`${FOLIOH_BASE_PATH}/`)) return path
 
-  return `${FOLIO_BASE_PATH}${path}`
+  return `${FOLIOH_BASE_PATH}${path}`
 }
 
 function docsRouteFromPathname(pathname: string) {
   const segments = pathname.split("/").filter(Boolean)
-  for (let index = 0; index <= segments.length - FOLIO_DOCS_ROUTE_SEGMENTS.length; index++) {
-    const matches = FOLIO_DOCS_ROUTE_SEGMENTS.every(
+  for (let index = 0; index <= segments.length - FOLIOH_DOCS_ROUTE_SEGMENTS.length; index++) {
+    const matches = FOLIOH_DOCS_ROUTE_SEGMENTS.every(
       (segment, offset) => segments[index + offset] === segment
     )
     if (matches) {
-      const routeSegments = segments.slice(index + FOLIO_DOCS_ROUTE_SEGMENTS.length)
+      const routeSegments = segments.slice(index + FOLIOH_DOCS_ROUTE_SEGMENTS.length)
       return routeSegments.length ? routeSegments.join("/") : "index"
     }
   }
@@ -129,11 +129,11 @@ function examplePath(example: string) {
 }
 
 function exampleUrlForPreview(example: string) {
-  return withFolioBasePath(`/_folio/examples/${examplePath(example)}/index.html`)
+  return withFoliohBasePath(`/_folioh/examples/${examplePath(example)}/index.html`)
 }
 
 function exampleManifestUrl(example: string) {
-  return withFolioBasePath(`/_folio/examples/${examplePath(example)}/manifest.json`)
+  return withFoliohBasePath(`/_folioh/examples/${examplePath(example)}/manifest.json`)
 }
 
 function sourceFileForPreview(src?: string): SourceFile | null {
@@ -145,7 +145,7 @@ function sourceFileForPreview(src?: string): SourceFile | null {
   if (previewUrl.origin !== currentUrl.origin) return null
 
   const route = docsRouteFromPathname(previewUrl.pathname)
-  const sourcePath = withFolioBasePath("/_folio/markdown/")
+  const sourcePath = withFoliohBasePath("/_folioh/markdown/")
 
   return {
     path: `content/${route}.mdx`,
@@ -170,7 +170,7 @@ function normalizeExampleSourceFile(value: unknown): SourceFile | null {
 
   return {
     path: file.path,
-    url: withFolioBasePath(file.url),
+    url: withFoliohBasePath(file.url),
     language: typeof file.language === "string" ? file.language : "text",
     title: typeof file.title === "string" ? file.title : file.path,
   }
@@ -334,7 +334,7 @@ export function DocPreview({
   const previewId = useId()
 
   const frameStyle = {
-    "--folio-doc-preview-height": `${height}px`,
+    "--folioh-doc-preview-height": `${height}px`,
   } as CSSProperties
 
   const loadSourceCode = useCallback(
@@ -527,7 +527,7 @@ export function DocPreview({
     }
   }, [mode, previewHref, syncPreviewTheme])
 
-  // `folio serve` builds the examples only with `--previews`: an example
+  // `folioh serve` builds the examples only with `--previews`: an example
   // without a manifest is not built, and the frame would show a 404 page.
   useEffect(() => {
     if (!example) return
@@ -545,11 +545,11 @@ export function DocPreview({
   }, [example])
 
   const notBuilt = (
-    <div className="flex h-[var(--folio-doc-preview-height)] flex-col items-start justify-center gap-2 px-6 text-sm text-muted-foreground">
+    <div className="flex h-[var(--folioh-doc-preview-height)] flex-col items-start justify-center gap-2 px-6 text-sm text-muted-foreground">
       <p className="m-0 font-medium text-foreground">This example is not built.</p>
       <p className="m-0">
-        <code>folio serve --previews</code> builds the example projects under{" "}
-        <code>docs/examples</code>; <code>folio build</code> always does.
+        <code>folioh serve --previews</code> builds the example projects under{" "}
+        <code>docs/examples</code>; <code>folioh build</code> always does.
       </p>
     </div>
   )
@@ -698,7 +698,7 @@ export function DocPreview({
               loading="lazy"
               referrerPolicy="strict-origin-when-cross-origin"
               onLoad={syncPreviewTheme}
-              className="h-[var(--folio-doc-preview-height)] w-full border-0 bg-background"
+              className="h-[var(--folioh-doc-preview-height)] w-full border-0 bg-background"
             />
           )}
         </div>
@@ -707,7 +707,7 @@ export function DocPreview({
           id={sourcePanelId}
           role="tabpanel"
           data-slot="preview-source"
-          className="h-[var(--folio-doc-preview-height)] overflow-hidden bg-background"
+          className="h-[var(--folioh-doc-preview-height)] overflow-hidden bg-background"
         >
           <div className="grid h-full min-h-0 w-full min-w-0 grid-rows-[12rem_minmax(0,1fr)] overflow-hidden md:grid-cols-[16rem_minmax(0,1fr)] md:grid-rows-none">
             <aside data-slot="preview-files" className="source-file-drawer min-h-0 min-w-0 border-b border-border bg-muted/15 md:border-b-0 md:border-r">
@@ -749,7 +749,7 @@ export function DocPreview({
               {sourceStatus === "error" && (
                 <div className="flex h-[calc(100%-2.5rem)] items-center px-4 text-sm text-muted-foreground">
                   {exampleBuilt === false
-                    ? "This example is not built; folio serve --previews builds it."
+                    ? "This example is not built; folioh serve --previews builds it."
                     : "Source is not available for this preview."}
                 </div>
               )}

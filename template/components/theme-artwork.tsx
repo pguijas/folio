@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { watchThemeArtwork } from "@/lib/theme-artwork-motion"
 
-export { FOLIO_BANNER, ThemeWordmark } from "./theme-wordmark"
+export { FOLIOH_BANNER, ThemeWordmark } from "./theme-wordmark"
 
 // An original, fixed grid: three paths keep every copy small in the DOM.
 const pixelPaths = ["", "", ""]

@@ -1,12 +1,12 @@
 ---
 title: Personalization
-description: Configure Folio's bundled docs theme with presets, project tokens, variants, header branding, logo, favicon, and dark mode.
+description: Configure Folioh's bundled docs theme with presets, project tokens, variants, header branding, logo, favicon, and dark mode.
 ---
 
 # Personalization
 
-Personalization keeps the bundled Folio template and changes the theme data it
-receives. This is the right level when the docs should still feel like Folio,
+Personalization keeps the bundled Folioh template and changes the theme data it
+receives. This is the right level when the docs should still feel like Folioh,
 but with your project's brand, typography, accent, spacing, and header defaults.
 
 ## Basic Theme Options
@@ -21,7 +21,7 @@ theme:
 
 | Field | Purpose |
 |-------|---------|
-| `preset` | Default visual preset for the generated site; omitted, Folio Pastel with Ink. |
+| `preset` | Default visual preset for the generated site; omitted, Folioh Pastel with Ink. |
 | `dark_mode` | `true` (the default) offers light, dark, and system modes through `next-themes`; `false` keeps the site light, unless the reader applies a dark-only palette such as a dark Omarchy one. |
 | `logo` | Copies a project logo into the generated site and shows it beside the project name in the docs and landing navbars. |
 | `favicon` | Copies a project favicon into the generated site. |
@@ -55,7 +55,7 @@ Every generated site includes the theme picker on the landing page, the docs and
 the previews. The palette button in the navbar, or the `t` key, opens it: every
 theme as a slide drawn in its own colors, the front theme's colors as swatches
 under it, and light, dark and system mode in its header unless
-`theme.dark_mode` is `false`. The carousel walks six Folio styles, five Folio Pastel palettes and
+`theme.dark_mode` is `false`. The carousel walks six Folioh styles, five Folioh Pastel palettes and
 four Omarchy palettes. Arrows, swipes and swatches apply and save each choice
 immediately. Done or Escape closes the picker and keeps the selected theme.
 
@@ -66,8 +66,8 @@ Each change updates the page and saves immediately.
 
 Reader preferences are persisted in a project-scoped `localStorage` key derived
 from the configured default preset. When that default changes from Roller to
-Folio Pastel, existing reader choices are reused unless the new key already
-exists. Folio also renders the default theme CSS into
+Folioh Pastel, existing reader choices are reused unless the new key already
+exists. Folioh also renders the default theme CSS into
 the page before hydration so the site does not flash through unconfigured
 typography or colors.
 
@@ -110,7 +110,7 @@ Each value must be one the configurator offers for that control:
 
 | Control | Values |
 |---------|--------|
-| `fontId` | `folio`, `sans`, `geist`, `serif`, `mono`, `terminal`, `grotesque` |
+| `fontId` | `folioh`, `sans`, `geist`, `serif`, `mono`, `terminal`, `grotesque` |
 | `colorId` | `ink`, `laurel`, `indigo`, `copper` |
 | `surfaceColorId` | `preset`, `paper`, `moss`, `mist` |
 | `shellPaddingId` | `preset`, `flush`, `frame`, `gallery` |
@@ -137,7 +137,7 @@ this fixed scale.
 ## Project Presets
 
 When a project supplies `name`, `description`, `scene`, `preview`, `style`,
-`tokens`, or `variants`, Folio emits `theme/project-theme.ts` during template preparation and
+`tokens`, or `variants`, Folioh emits `theme/project-theme.ts` during template preparation and
 adds the project preset before the built-in preset library.
 
 <ConfigPanel
@@ -185,27 +185,27 @@ theme:
       --primary: "oklch(0.73 0.15 155)"
       --ring: "oklch(0.73 0.15 155)"
   style:
-    --folio-content-max-width: "82rem"
-    --folio-section-gap: "2.75rem"
-    --folio-card-padding: "1.1rem"
-    --folio-code-bg: "oklch(0.14 0.01 150)"
+    --folioh-content-max-width: "82rem"
+    --folioh-section-gap: "2.75rem"
+    --folioh-card-padding: "1.1rem"
+    --folioh-code-bg: "oklch(0.14 0.01 150)"
 ```
 </ConfigPanel>
 
 `tokens.light` and `tokens.dark` accept CSS custom properties such as shadcn
 tokens (`--background`, `--card`, `--border`, `--chart-1`) and project tokens
 (`--brand-accent`). `style` accepts layout variables such as
-`--folio-content-max-width`, `--folio-section-gap`, `--folio-card-padding`,
-`--folio-code-bg`, `--folio-workspace-shell-topbar`,
-`--folio-workspace-shell-topbar-blur`, and
-`--folio-workspace-shell-topbar-border`. The un-prefixed legacy spellings
+`--folioh-content-max-width`, `--folioh-section-gap`, `--folioh-card-padding`,
+`--folioh-code-bg`, `--folioh-workspace-shell-topbar`,
+`--folioh-workspace-shell-topbar-blur`, and
+`--folioh-workspace-shell-topbar-border`. The un-prefixed legacy spellings
 (for example `--content-max-width`) are still accepted for compatibility but
-are deprecated; new configs should use the canonical `--folio-*` names.
+are deprecated; new configs should use the canonical `--folioh-*` names.
 
 ### Header URL Validation
 
 The header can carry links: `theme.header.repo` and `theme.header.action_href`.
-Folio validates these URLs at config-load time against an allowlist of safe
+Folioh validates these URLs at config-load time against an allowlist of safe
 schemes. Permitted values are:
 
 - `http` and `https` URLs (for example `https://github.com/acme/sdk`);
@@ -257,7 +257,7 @@ theme:
               --ring: "oklch(0.74 0.15 230)"
 ```
 
-If an option has `swatch` but no full light/dark `preview`, Folio uses the
+If an option has `swatch` but no full light/dark `preview`, Folioh uses the
 swatch for both preview modes.
 
 Every option combination across all variant controls is resolved and embedded
@@ -267,7 +267,7 @@ validation; reduce the number of controls or options.
 
 ## CSS Variables
 
-Folio themes use `oklch` colors through CSS custom properties:
+Folioh themes use `oklch` colors through CSS custom properties:
 
 ```css
 :root {
@@ -306,35 +306,35 @@ main content area:
 
 Motion variables time the mobile menu and the Term card on every preset, and
 the transitions the Pastel preset adds. The rest of the docs shell keeps its own fixed timings,
-Nextra's and Folio's:
+Nextra's and Folioh's:
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `--folio-motion-micro` | `120ms` | The close button answering a hover. |
-| `--folio-motion-element` | `200ms` | The scrim fading in, and the close icon's turn. |
-| `--folio-motion-exit` | `180ms` | The scrim fading out. |
-| `--folio-motion-max` | `300ms` | The menu sliding out, and Pastel's light and dark reveal. |
-| `--folio-motion-glide` | `240ms` | Pastel's tab highlight gliding to the chosen tab, and the tab label's colour. |
-| `--folio-motion-fade` | `160ms` | Pastel's newly chosen tab panel fading in. |
-| `--folio-motion-drawer` | `560ms` | The menu springing in. |
-| `--folio-ease-enter` | `cubic-bezier(0.2, 0.8, 0.2, 1)` | The scrim fading in, the close button, and Pastel's light and dark reveal. |
-| `--folio-ease-exit` | `cubic-bezier(0.4, 0, 1, 1)` | The menu and the scrim leaving. |
-| `--folio-spring-drawer` | a spring as `linear()` | The menu springing in; a `cubic-bezier` where `linear()` is not supported. |
+| `--folioh-motion-micro` | `120ms` | The close button answering a hover. |
+| `--folioh-motion-element` | `200ms` | The scrim fading in, and the close icon's turn. |
+| `--folioh-motion-exit` | `180ms` | The scrim fading out. |
+| `--folioh-motion-max` | `300ms` | The menu sliding out, and Pastel's light and dark reveal. |
+| `--folioh-motion-glide` | `240ms` | Pastel's tab highlight gliding to the chosen tab, and the tab label's colour. |
+| `--folioh-motion-fade` | `160ms` | Pastel's newly chosen tab panel fading in. |
+| `--folioh-motion-drawer` | `560ms` | The menu springing in. |
+| `--folioh-ease-enter` | `cubic-bezier(0.2, 0.8, 0.2, 1)` | The scrim fading in, the close button, and Pastel's light and dark reveal. |
+| `--folioh-ease-exit` | `cubic-bezier(0.4, 0, 1, 1)` | The menu and the scrim leaving. |
+| `--folioh-spring-drawer` | a spring as `linear()` | The menu springing in; a `cubic-bezier` where `linear()` is not supported. |
 
 Below Nextra's `md` breakpoint (48rem, 768 px at the default font size) the
 docs menu is a drawer, drawn from these variables:
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `--folio-drawer-inset` | `12px` | Gap between the drawer and the screen edges. |
-| `--folio-drawer-width` | `21.25rem` | Drawer width, 340 px at the default font size and never wider than the screen minus both insets. |
-| `--folio-drawer-radius` | `24px` | Corner radius. |
-| `--folio-drawer-shadow` | a hairline and a soft shadow | The drawer's edge. |
-| `--folio-drawer-scrim` | `--scrim` at 30 % | The layer that dims the page behind the drawer. |
+| `--folioh-drawer-inset` | `12px` | Gap between the drawer and the screen edges. |
+| `--folioh-drawer-width` | `21.25rem` | Drawer width, 340 px at the default font size and never wider than the screen minus both insets. |
+| `--folioh-drawer-radius` | `24px` | Corner radius. |
+| `--folioh-drawer-shadow` | a hairline and a soft shadow | The drawer's edge. |
+| `--folioh-drawer-scrim` | `--scrim` at 30 % | The layer that dims the page behind the drawer. |
 
-A theme that wants a full-screen menu sets `--folio-drawer-inset: 0`,
-`--folio-drawer-width: 100vw`, `--folio-drawer-radius: 0` and
-`--folio-drawer-shadow: none`. Under reduced motion every transition and
+A theme that wants a full-screen menu sets `--folioh-drawer-inset: 0`,
+`--folioh-drawer-width: 100vw`, `--folioh-drawer-radius: 0` and
+`--folioh-drawer-shadow: none`. Under reduced motion every transition and
 animation on a docs page finishes at once; the landing and the roadmap keep
 their own reduced-motion styles.
 
@@ -345,17 +345,17 @@ and the edge. `<type>` is `note`, `info`, `tip`, `check`, `warning` or
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `--folio-tone-<type>-accent` | a hue mixed 75 % into `--foreground`: blue for `info`, violet for `tip`, green for `check`, `--warning` and `--destructive` for the last two; `note` takes `--muted-foreground` | The icon and the edge. Marker's `ok` and `danger` labels take the `check` and `danger` accents. |
-| `--folio-tone-<type>-fill` | the accent at 12 % over `--background`; `note` mixes `--muted-foreground` at 8 % | The callout's surface. |
-| `--folio-tone-<type>-ink` | the accent at 25 % into `--foreground`; `note` takes `--foreground` | The title and the text. |
+| `--folioh-tone-<type>-accent` | a hue mixed 75 % into `--foreground`: blue for `info`, violet for `tip`, green for `check`, `--warning` and `--destructive` for the last two; `note` takes `--muted-foreground` | The icon and the edge. Marker's `ok` and `danger` labels take the `check` and `danger` accents. |
+| `--folioh-tone-<type>-fill` | the accent at 12 % over `--background`; `note` mixes `--muted-foreground` at 8 % | The callout's surface. |
+| `--folioh-tone-<type>-ink` | the accent at 25 % into `--foreground`; `note` takes `--foreground` | The title and the text. |
 
-A theme sets one by name, for example `--folio-tone-tip-accent`, and the fill
+A theme sets one by name, for example `--folioh-tone-tip-accent`, and the fill
 and ink mixed from it follow. The Pastel preset sets its own fills and inks
 inside the callout, so a tone set at `:root` does not reach a Pastel callout.
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `--folio-surface-radius` | `var(--radius)`; Pastel sets `20px` | The corner of a raised surface: the cards, panels, empty states, tab panels, file trees and callouts the Pastel preset draws. |
+| `--folioh-surface-radius` | `var(--radius)`; Pastel sets `20px` | The corner of a raised surface: the cards, panels, empty states, tab panels, file trees and callouts the Pastel preset draws. |
 
 ### What Plugin Surfaces Rely On
 
@@ -369,8 +369,8 @@ restyle every page at once.
 | Surfaces and ink | `--background`, `--foreground`, `--card`, `--card-foreground`, `--popover`, `--popover-foreground`, `--muted`, `--muted-foreground`, `--accent`, `--accent-foreground`, `--secondary`, `--secondary-foreground`, `--border`, `--input`, `--ring`, `--radius` | the preset; `theme.tokens` overrides |
 | Emphasis | `--primary`, `--primary-foreground`, `--destructive`, `--warning` | the preset |
 | Data | `--chart-1` to `--chart-5`; the index pages, the preview cards and Mermaid draw from these | the preset |
-| Type | `--font-sans`, `--font-mono`, `--folio-heading-font-family`, `--folio-body-font-family` | the preset; `theme.tune` |
-| Layout | the `--folio-*` variables listed under Project Presets | the preset; `theme.style` |
+| Type | `--font-sans`, `--font-mono`, `--folioh-heading-font-family`, `--folioh-body-font-family` | the preset; `theme.tune` |
+| Layout | the `--folioh-*` variables listed under Project Presets | the preset; `theme.style` |
 
 Mermaid diagrams read the computed values of these tokens when they render and
 fall back to a neutral palette only when none resolve.
@@ -381,6 +381,6 @@ token in the same shape rather than a literal, so a theme can reach it.
 ## When Personalization Is Not Enough
 
 Use [theme packages](./theme-packages) when the project needs to override files
-inside the bundled template while keeping Folio's template as a base. Use
+inside the bundled template while keeping Folioh's template as a base. Use
 [custom templates](./custom-templates) when the project needs to own the entire
 frontend workspace.

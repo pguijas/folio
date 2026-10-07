@@ -1,8 +1,8 @@
 project:
-  name: "Folio"
-  version: "0.3.0"
-  repo: "https://github.com/pguijas/folio"
-  url: "https://pguijas.github.io/folio"
+  name: "Folioh"
+  version: "0.4.0"
+  repo: "https://github.com/pguijas/folioh"
+  url: "https://folioh.site"
 
 source:
   docs:
@@ -12,7 +12,7 @@ output: "_site"
 
 theme:
   dark_mode: true
-  package: "theme/folio-site"
+  package: "theme/folioh-site"
 
 nav:
   - "Guide"
@@ -23,7 +23,7 @@ nav:
 public:
   - "install.sh"
 
-# The landing plugin ships with Folio and is always loaded; this `landing:`
+# The landing plugin ships with Folioh and is always loaded; this `landing:`
 # section is what activates the landing page at the site root.
 landing:
   cta:
@@ -32,17 +32,17 @@ landing:
       link: "/docs/quickstart"
     secondary:
       text: "View source"
-      link: "https://github.com/pguijas/folio"
+      link: "https://github.com/pguijas/folioh"
   hero:
     variant: "heartbeat"
     # No tagline. "Open-source documentation for the agent era" sat above a
     # headline that already says what the product does, and "the agent era" is
-    # a claim about the world rather than about Folio. The one fact in it worth
+    # a claim about the world rather than about Folioh. The one fact in it worth
     # keeping, that this is open source, moved into the description.
     headline: "HTML for people, MD for agents."
-    description: "A documentation engine that ships as one native Rust binary. One config file points Folio at the source and guides already in your repo. Open source."
+    description: "A documentation engine that ships as one native Rust binary. One config file points Folioh at the source and guides already in your repo. Open source."
   install:
-    - "curl -LsSf https://pguijas.github.io/folio/install.sh | sh"
+    - "curl -LsSf https://folioh.site/install.sh | sh"
   sections:
     - type: "funnel"
       eyebrow: "From source"
@@ -106,7 +106,7 @@ landing:
           description: "Presets, tokens, variants, and a live configurator in the shipped UI; overlay individual template files when that isn't enough."
     - type: "cells"
       eyebrow: "Use cases"
-      title: "Who picks Folio"
+      title: "Who picks Folioh"
       items:
         - label: "Maintainers"
           title: "API reference straight from source"
@@ -123,7 +123,7 @@ landing:
         - label: "Migrating"
           title: "Your Markdown stays put"
           visual: "migrating"
-          description: "Point Folio at the folder you already have; Google and NumPy docstrings need no conversion."
+          description: "Point Folioh at the folder you already have; Google and NumPy docstrings need no conversion."
           href: "/docs/migration"
           link_text: "See the migration guide"
 
@@ -138,7 +138,7 @@ components:
     expose:
       mdx: true
 
-# The roadmap plugin ships with Folio and is always loaded; this `roadmap:`
+# The roadmap plugin ships with Folioh and is always loaded; this `roadmap:`
 # section is what activates it.
 roadmap:
   routes:
@@ -148,10 +148,10 @@ roadmap:
     public: false
   description: "The release line: source analysis, theming, one binary, agent readiness, every language, then the open platform at 1.0."
   # Naming the project here keeps the display name out of the component, so a
-  # site that is not Folio labels its own.
+  # site that is not Folioh labels its own.
   projects:
     docs:
-      label: "Folio Docs"
+      label: "Folioh Docs"
       description: "Source analysis, theming, one binary, agent readiness, every language, then the open platform at 1.0. Everything that turns a repository into a published site."
   phases:
     - id: "foundation"
@@ -202,15 +202,15 @@ roadmap:
       title: "Agent Ready"
       status: "next"
       layer: "Agent surfaces"
-      summary: "A documentation harness for your coding agent: it writes the docs, keeps them in step with the code, and migrates them from any documentation tool. Every piece is built around Folio, from the skill to the MCP server."
+      summary: "A documentation harness for your coding agent: it writes the docs, keeps them in step with the code, and migrates them from any documentation tool. Every piece is built around Folioh, from the skill to the MCP server."
       features:
         - "Agent discovery by the specs: .well-known and text/markdown negotiation"
-        - "folio mcp — search and read the docs from your editor, read-only"
+        - "folioh mcp — search and read the docs from your editor, read-only"
         - "Every project ships a skill that teaches agents to write and maintain its docs"
         - "The site serves that skill to agents that never cloned the repo"
         - "A typed export of the whole site for tools and agents"
         - "Per-page structured data and content signals for search engines and AI crawlers"
-        - "Your agent moves documentation from any tool to Folio with a migration skill and a few scripts"
+        - "Your agent moves documentation from any tool to Folioh with a migration skill and a few scripts"
     - id: "every-language"
       project: "docs"
       version: "0.5"
@@ -225,7 +225,7 @@ roadmap:
         - "Cross-language references"
         - "One search, one llms.txt, every language"
         - "Inline type information in examples"
-        - "Folio's own API reference, read by its Rust reader"
+        - "Folioh's own API reference, read by its Rust reader"
         - "Python read in depth: inherited members and re-exports"
     - id: "open-platform"
       project: "docs"
@@ -233,12 +233,12 @@ roadmap:
       title: "Open Platform"
       status: "later"
       layer: "Extensibility"
-      summary: "Others extend it and get seen: project plugins return, a language is something you can add, the projects built on Folio get a home, and 1.0 draws the stability lines."
+      summary: "Others extend it and get seen: project plugins return, a language is something you can add, the projects built on Folioh get a home, and 1.0 draws the stability lines."
       features:
         - "Project plugins return as sidecars over JSON-RPC"
         - "Language contract — a public way to add a language"
-        - "Other tools add their own commands to the folio CLI"
-        - "Built with Folio — a catalog of the projects and plugins built on Folio, open to outsiders"
+        - "Other tools add their own commands to the folioh CLI"
+        - "Built with Folioh — a catalog of the projects and plugins built on Folioh, open to outsiders"
         - "One site across products and repos"
         - "The OpenAPI plugin becomes a full reference: a page per endpoint, schema fields, requests you can try, and Swagger 2.0 specs"
         - "Starter templates"

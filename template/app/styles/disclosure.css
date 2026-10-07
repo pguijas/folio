@@ -16,9 +16,9 @@
    and the Preview/Code switch of PreviewCode and DocPreview. The strip is
    its own stacking context: the pill surfaces sit at -1, the glide at 0 and
    the labels above it, so the glide passes over the pills, under the text. */
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) {
-  --folio-tab-fill: var(--primary);
-  --folio-tab-ink: var(--primary-foreground);
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) {
+  --folioh-tab-fill: var(--primary);
+  --folioh-tab-ink: var(--primary-foreground);
   position: relative;
   isolation: isolate;
   display: flex;
@@ -32,14 +32,14 @@ html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-li
   background: transparent;
 }
 
-html.dark[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) {
-  --folio-tab-fill: var(--accent);
-  --folio-tab-ink: var(--accent-foreground);
+html.dark[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) {
+  --folioh-tab-fill: var(--accent);
+  --folioh-tab-ink: var(--accent-foreground);
 }
 
 /* A pill: 32px, 13px medium, ink on secondary. The secondary and its edge are drawn
    by ::before, so the glide can pass above them. */
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]) {
   position: relative;
   display: inline-flex;
   flex: none;
@@ -61,7 +61,7 @@ html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-li
   transition: none;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"])::before {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"])::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -71,11 +71,11 @@ html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-li
   box-shadow: inset 0 0 0 1px var(--input);
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]):hover::before {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]):hover::before {
   background: var(--muted);
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]):focus-visible {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
   box-shadow: none;
@@ -83,47 +83,47 @@ html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-li
 
 /* The selected pill. Before the glide is placed (or without script), the
    pill paints its own lozenge; once placed, the glide does. */
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > [aria-selected="true"],
-html[data-folio-preset="pastel"] .preview-code:has(.preview-code-radio--preview:checked) [data-slot="preview-mode-switch"] > [data-preview-code-tab="preview"],
-html[data-folio-preset="pastel"] .preview-code:has(.preview-code-radio--code:checked) [data-slot="preview-mode-switch"] > [data-preview-code-tab="code"] {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > [aria-selected="true"],
+html[data-folioh-preset="pastel"] .preview-code:has(.preview-code-radio--preview:checked) [data-slot="preview-mode-switch"] > [data-preview-code-tab="preview"],
+html[data-folioh-preset="pastel"] .preview-code:has(.preview-code-radio--code:checked) [data-slot="preview-mode-switch"] > [data-preview-code-tab="code"] {
   background: transparent;
   box-shadow: none;
-  color: var(--folio-tab-ink);
+  color: var(--folioh-tab-ink);
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]):not([data-glide]) > [aria-selected="true"]::before,
-html[data-folio-preset="pastel"] .preview-code:has(.preview-code-radio--preview:checked) [data-slot="preview-mode-switch"]:not([data-glide]) > [data-preview-code-tab="preview"]::before,
-html[data-folio-preset="pastel"] .preview-code:has(.preview-code-radio--code:checked) [data-slot="preview-mode-switch"]:not([data-glide]) > [data-preview-code-tab="code"]::before {
-  background: var(--folio-tab-fill);
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]):not([data-glide]) > [aria-selected="true"]::before,
+html[data-folioh-preset="pastel"] .preview-code:has(.preview-code-radio--preview:checked) [data-slot="preview-mode-switch"]:not([data-glide]) > [data-preview-code-tab="preview"]::before,
+html[data-folioh-preset="pastel"] .preview-code:has(.preview-code-radio--code:checked) [data-slot="preview-mode-switch"]:not([data-glide]) > [data-preview-code-tab="code"]::before {
+  background: var(--folioh-tab-fill);
   box-shadow: none;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"])[data-glide] > [aria-selected="true"]::before,
-html[data-folio-preset="pastel"] .preview-code:has(.preview-code-radio--preview:checked) [data-slot="preview-mode-switch"][data-glide] > [data-preview-code-tab="preview"]::before,
-html[data-folio-preset="pastel"] .preview-code:has(.preview-code-radio--code:checked) [data-slot="preview-mode-switch"][data-glide] > [data-preview-code-tab="code"]::before {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"])[data-glide] > [aria-selected="true"]::before,
+html[data-folioh-preset="pastel"] .preview-code:has(.preview-code-radio--preview:checked) [data-slot="preview-mode-switch"][data-glide] > [data-preview-code-tab="preview"]::before,
+html[data-folioh-preset="pastel"] .preview-code:has(.preview-code-radio--code:checked) [data-slot="preview-mode-switch"][data-glide] > [data-preview-code-tab="code"]::before {
   background: transparent;
   box-shadow: none;
 }
 
 /* The glide: TabGlide sizes and places it from the selected tab's offsets
    and marks the strip `data-glide`. */
-html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"])[data-glide] > [data-slot="tab-glide"] {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"])[data-glide] > [data-slot="tab-glide"] {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 0;
   display: block;
   border-radius: 999px;
-  background: var(--folio-tab-fill);
+  background: var(--folioh-tab-fill);
   pointer-events: none;
 }
 
-html[data-folio-preset="pastel"] [data-slot="tab-indicator"] {
+html[data-folioh-preset="pastel"] [data-slot="tab-indicator"] {
   display: none;
 }
 
 /* Tabs: the strip, then the panel as one paper page under a hairline. */
-html[data-folio-preset="pastel"] [data-slot="tabs"] {
+html[data-folioh-preset="pastel"] [data-slot="tabs"] {
   display: grid;
   gap: 12px;
   overflow: visible;
@@ -131,50 +131,50 @@ html[data-folio-preset="pastel"] [data-slot="tabs"] {
   border-radius: 0;
 }
 
-html[data-folio-preset="pastel"] [data-slot="tabs"] > [data-slot="tab-panel"] {
+html[data-folioh-preset="pastel"] [data-slot="tabs"] > [data-slot="tab-panel"] {
   padding: 24px;
   border: 1px solid var(--border);
-  border-radius: var(--folio-surface-radius);
+  border-radius: var(--folioh-surface-radius);
   background: var(--card);
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="tab-panel"], [data-slot="tabs-content"]):focus-visible {
+html[data-folioh-preset="pastel"] :is([data-slot="tab-panel"], [data-slot="tabs-content"]):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
 /* CodeGroup: one code frame; the pills ride a secondary header strip. */
-html[data-folio-preset="pastel"] [data-slot="code-group"] {
+html[data-folioh-preset="pastel"] [data-slot="code-group"] {
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--card);
 }
 
-html[data-folio-preset="pastel"] [data-slot="code-group"] > [data-slot="tab-list"] {
+html[data-folioh-preset="pastel"] [data-slot="code-group"] > [data-slot="tab-list"] {
   padding: 8px 12px;
   border-bottom: 1px solid var(--border);
   background: var(--muted);
 }
 
 /* ExampleTabs: the strip over a code sheet at the frame radius. */
-html[data-folio-preset="pastel"] [data-slot="example-tabs"] {
+html[data-folioh-preset="pastel"] [data-slot="example-tabs"] {
   gap: 12px;
 }
 
-html[data-folio-preset="pastel"] [data-slot="example-tabs"] [data-slot="example-code"] {
+html[data-folioh-preset="pastel"] [data-slot="example-tabs"] [data-slot="example-code"] {
   padding: 16px 20px;
   border-radius: 16px;
 }
 
 @media (max-width: 640px) {
-  html[data-folio-preset="pastel"] [data-slot="tabs"] > [data-slot="tab-panel"] {
+  html[data-folioh-preset="pastel"] [data-slot="tabs"] > [data-slot="tab-panel"] {
     padding: 20px;
   }
 }
 
 /* Accordion (Accordion and MethodAccordion): separate secondary cards 8px
    apart, radius 18; an open card turns canvas inside a hairline. */
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -183,7 +183,7 @@ html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method
   border-radius: 0;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"] {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"] {
   overflow: hidden;
   border: 0;
   border-radius: 18px;
@@ -191,18 +191,18 @@ html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method
   box-shadow: inset 0 0 0 1px transparent;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"][data-state="open"] {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"][data-state="open"] {
   background: var(--background);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--input) 70%, var(--border));
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"] > h3 {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"] > h3 {
   margin: 0;
   font: inherit;
 }
 
 /* The trigger: at least 60px, 15px semibold, the chevron at the end. */
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"] {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"] {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -223,15 +223,15 @@ html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method
   transition: none;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"]:not([aria-expanded="true"]):hover {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"]:not([aria-expanded="true"]):hover {
   background: color-mix(in oklab, var(--secondary) 90%, var(--foreground));
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"][aria-expanded="true"]:hover {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"][aria-expanded="true"]:hover {
   background: color-mix(in oklab, var(--background) 94%, var(--foreground));
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"]:focus-visible {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"]:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: -3px;
   box-shadow: none;
@@ -239,7 +239,7 @@ html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method
 
 /* One chevron that turns: Accordion's own, and MethodAccordion's down
    arrow, whose up twin is not drawn. */
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-chevron"], [data-slot="accordion-trigger-icon"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-chevron"], [data-slot="accordion-trigger-icon"]) {
   display: block;
   flex: none;
   width: 18px;
@@ -249,18 +249,18 @@ html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method
   transition: none;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger-icon"] ~ [data-slot="accordion-trigger-icon"] {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger-icon"] ~ [data-slot="accordion-trigger-icon"] {
   display: none;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [aria-expanded="true"] > :is([data-slot="accordion-chevron"], [data-slot="accordion-trigger-icon"]) {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [aria-expanded="true"] > :is([data-slot="accordion-chevron"], [data-slot="accordion-trigger-icon"]) {
   rotate: 180deg;
   color: var(--foreground);
 }
 
 /* The body: 15px secondary ink held to 60ch. Its bottom space is a block
    inside it, not padding, so a collapsed row clips it to nothing. */
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-body"], [data-slot="accordion-content"] > div) {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-body"], [data-slot="accordion-content"] > div) {
   max-width: 60ch;
   padding: 0 16px;
   color: var(--muted-foreground);
@@ -268,11 +268,11 @@ html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method
   line-height: 1.45;
 }
 
-html[data-folio-preset="pastel"] [data-slot="method-accordion"] [data-slot="accordion-content"] > div > p {
+html[data-folioh-preset="pastel"] [data-slot="method-accordion"] [data-slot="accordion-content"] > div > p {
   font-size: inherit;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-body"], [data-slot="accordion-content"] > div)::after {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-body"], [data-slot="accordion-content"] > div)::after {
   content: "";
   display: block;
   height: 18px;
@@ -282,38 +282,38 @@ html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method
    `inert` and `visibility` keep the closed content out of reach and out of
    the accessibility tree. The height runs 0fr to 1fr on a grid row, or 0 to
    auto where `interpolate-size` exists. */
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] {
   display: grid;
   grid-template-rows: 0fr;
   visibility: hidden;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"][data-state="open"] {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"][data-state="open"] {
   grid-template-rows: 1fr;
   visibility: visible;
 }
 
-html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] > [data-slot="accordion-body"] {
+html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] > [data-slot="accordion-body"] {
   min-height: 0;
   overflow: hidden;
 }
 
 @supports (interpolate-size: allow-keywords) {
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] {
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] {
     interpolate-size: allow-keywords;
     display: block;
     height: 0;
     overflow: hidden;
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"][data-state="open"] {
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"][data-state="open"] {
     height: auto;
   }
 }
 
 /* Markdown <details> (Nextra's Details and Summary, matched by their own
    class): the same card as an accordion item. */
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] {
   padding: 0;
   border: 0;
   border-radius: 18px;
@@ -321,16 +321,16 @@ html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] {
   box-shadow: inset 0 0 0 1px transparent;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] + details[class~="x:not-first:mt-4"] {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] + details[class~="x:not-first:mt-4"] {
   margin-top: 8px;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] {
   background: var(--background);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--input) 70%, var(--border));
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary {
   gap: 14px;
   min-height: 60px;
   padding: 12px 16px;
@@ -343,21 +343,21 @@ html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary {
   transition: none;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"]:not([data-expanded]) > summary:hover {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"]:not([data-expanded]) > summary:hover {
   background: color-mix(in oklab, var(--secondary) 90%, var(--foreground));
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] > summary:hover {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] > summary:hover {
   background: color-mix(in oklab, var(--background) 94%, var(--foreground));
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary:focus-visible {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: -3px;
   box-shadow: none;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > h3 {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > h3 {
   margin: 0;
   padding: 0;
   font: inherit;
@@ -365,7 +365,7 @@ html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > 
 
 /* Nextra's leading arrow moves to the end and points down, so it turns
    like the accordion's chevron. */
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > svg:first-child {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > svg:first-child {
   order: 1;
   width: 18px;
   height: 18px;
@@ -376,126 +376,126 @@ html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > 
   transition: none;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] > summary > svg:first-child {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] > summary > svg:first-child {
   color: var(--foreground);
   rotate: 270deg;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary + div > * {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary + div > * {
   padding: 0 16px 18px;
   color: var(--muted-foreground);
   font-size: 15px;
   line-height: 1.45;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary + div > * > :first-child {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary + div > * > :first-child {
   margin-top: 0;
 }
 
-html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary + div > * > :last-child {
+html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary + div > * > :last-child {
   margin-bottom: 0;
 }
 
 /* Motion. Open runs 300ms on the enter curve, close 180ms on the exit
-   curve; the glide takes cojeev's 240ms (--folio-motion-glide), and a new
-   panel fades in over 160ms (--folio-motion-fade). Nextra's Collapse
+   curve; the glide takes cojeev's 240ms (--folioh-motion-glide), and a new
+   panel fades in over 160ms (--folioh-motion-fade). Nextra's Collapse
    writes its own 500ms and 300ms inline, so its duration is the one
    `!important` here, and it stays inside this block. */
 @media (prefers-reduced-motion: no-preference) {
-  html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"])[data-glide] > [data-slot="tab-glide"] {
+  html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"])[data-glide] > [data-slot="tab-glide"] {
     transition:
-      translate var(--folio-motion-glide) var(--folio-ease-enter),
-      width var(--folio-motion-glide) var(--folio-ease-enter),
-      height var(--folio-motion-glide) var(--folio-ease-enter);
+      translate var(--folioh-motion-glide) var(--folioh-ease-enter),
+      width var(--folioh-motion-glide) var(--folioh-ease-enter),
+      height var(--folioh-motion-glide) var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]) {
-    transition: color var(--folio-motion-glide) var(--folio-ease-enter);
+  html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"]) {
+    transition: color var(--folioh-motion-glide) var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"])::before {
+  html[data-folioh-preset="pastel"] :is([data-slot="tab-list"], [data-slot="tabs-list"], [data-slot="preview-mode-switch"]) > :is([data-slot="tab"], [data-slot="tabs-trigger"], [data-slot="preview-mode"])::before {
     transition:
-      background-color var(--folio-motion-micro) var(--folio-ease-enter),
-      box-shadow var(--folio-motion-micro) var(--folio-ease-enter);
+      background-color var(--folioh-motion-micro) var(--folioh-ease-enter),
+      box-shadow var(--folioh-motion-micro) var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] [data-slot="tab-list"][data-glide] ~ [data-slot="tab-panel"],
-  html[data-folio-preset="pastel"] [data-slot="tabs-list"][data-glide] ~ [data-slot="tabs-content"],
-  html[data-folio-preset="pastel"] .preview-code:has([data-slot="preview-mode-switch"][data-glide]) > [data-preview-code-panel] {
-    transition: opacity var(--folio-motion-fade) var(--folio-ease-enter);
+  html[data-folioh-preset="pastel"] [data-slot="tab-list"][data-glide] ~ [data-slot="tab-panel"],
+  html[data-folioh-preset="pastel"] [data-slot="tabs-list"][data-glide] ~ [data-slot="tabs-content"],
+  html[data-folioh-preset="pastel"] .preview-code:has([data-slot="preview-mode-switch"][data-glide]) > [data-preview-code-panel] {
+    transition: opacity var(--folioh-motion-fade) var(--folioh-ease-enter);
   }
 
   @starting-style {
-    html[data-folio-preset="pastel"] [data-slot="tab-list"][data-glide] ~ [data-slot="tab-panel"],
-    html[data-folio-preset="pastel"] [data-slot="tabs-list"][data-glide] ~ [data-slot="tabs-content"],
-    html[data-folio-preset="pastel"] .preview-code:has([data-slot="preview-mode-switch"][data-glide]) > [data-preview-code-panel] {
+    html[data-folioh-preset="pastel"] [data-slot="tab-list"][data-glide] ~ [data-slot="tab-panel"],
+    html[data-folioh-preset="pastel"] [data-slot="tabs-list"][data-glide] ~ [data-slot="tabs-content"],
+    html[data-folioh-preset="pastel"] .preview-code:has([data-slot="preview-mode-switch"][data-glide]) > [data-preview-code-panel] {
       opacity: 0;
     }
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"],
-  html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] {
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"],
+  html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] {
     transition:
-      background-color var(--folio-motion-exit) var(--folio-ease-exit),
-      box-shadow var(--folio-motion-exit) var(--folio-ease-exit);
+      background-color var(--folioh-motion-exit) var(--folioh-ease-exit),
+      box-shadow var(--folioh-motion-exit) var(--folioh-ease-exit);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"][data-state="open"],
-  html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] {
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) > [data-slot="accordion-item"][data-state="open"],
+  html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] {
     transition:
-      background-color var(--folio-motion-element) var(--folio-ease-enter),
-      box-shadow var(--folio-motion-element) var(--folio-ease-enter);
+      background-color var(--folioh-motion-element) var(--folioh-ease-enter),
+      box-shadow var(--folioh-motion-element) var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"],
-  html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary {
-    transition: background-color var(--folio-motion-micro) var(--folio-ease-enter);
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-trigger"],
+  html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary {
+    transition: background-color var(--folioh-motion-micro) var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-chevron"], [data-slot="accordion-trigger-icon"]),
-  html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > svg:first-child {
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) :is([data-slot="accordion-chevron"], [data-slot="accordion-trigger-icon"]),
+  html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"] > summary > svg:first-child {
     transition:
-      rotate var(--folio-motion-element) var(--folio-ease-enter),
-      color var(--folio-motion-micro) var(--folio-ease-enter);
+      rotate var(--folioh-motion-element) var(--folioh-ease-enter),
+      color var(--folioh-motion-micro) var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] {
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"] {
     transition:
-      grid-template-rows var(--folio-motion-exit) var(--folio-ease-exit),
-      height var(--folio-motion-exit) var(--folio-ease-exit),
-      visibility var(--folio-motion-exit) var(--folio-ease-exit);
+      grid-template-rows var(--folioh-motion-exit) var(--folioh-ease-exit),
+      height var(--folioh-motion-exit) var(--folioh-ease-exit),
+      visibility var(--folioh-motion-exit) var(--folioh-ease-exit);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"][data-state="open"] {
-    transition-duration: var(--folio-motion-max);
-    transition-timing-function: var(--folio-ease-enter);
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-panel"][data-state="open"] {
+    transition-duration: var(--folioh-motion-max);
+    transition-timing-function: var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-content"][data-state="open"] {
-    animation-duration: var(--folio-motion-max);
-    animation-timing-function: var(--folio-ease-enter);
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-content"][data-state="open"] {
+    animation-duration: var(--folioh-motion-max);
+    animation-timing-function: var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-content"][data-state="closed"] {
-    animation-duration: var(--folio-motion-exit);
-    animation-timing-function: var(--folio-ease-exit);
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-content"][data-state="closed"] {
+    animation-duration: var(--folioh-motion-exit);
+    animation-timing-function: var(--folioh-ease-exit);
   }
 
-  html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] > summary + div {
+  html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"][data-expanded] > summary + div {
     transition-property: height, opacity;
-    transition-duration: var(--folio-motion-max) !important;
-    transition-timing-function: var(--folio-ease-enter);
+    transition-duration: var(--folioh-motion-max) !important;
+    transition-timing-function: var(--folioh-ease-enter);
   }
 
-  html[data-folio-preset="pastel"] details[class~="x:not-first:mt-4"]:not([data-expanded]) > summary + div {
+  html[data-folioh-preset="pastel"] details[class~="x:not-first:mt-4"]:not([data-expanded]) > summary + div {
     transition-property: height, opacity;
-    transition-duration: var(--folio-motion-exit) !important;
-    transition-timing-function: var(--folio-ease-exit);
+    transition-duration: var(--folioh-motion-exit) !important;
+    transition-timing-function: var(--folioh-ease-exit);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-folio-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-content"] {
+  html[data-folioh-preset="pastel"] :is([data-slot="accordion"], [data-slot="method-accordion"]) [data-slot="accordion-content"] {
     animation-name: none;
   }
 }

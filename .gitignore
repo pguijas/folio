@@ -47,7 +47,7 @@ next-env.d.ts
 __pycache__/
 *.py[cod]
 
-# Build output: cargo, and the site a folio build writes
+# Build output: cargo, and the site a folioh build writes
 target/
 _site/
 .build/

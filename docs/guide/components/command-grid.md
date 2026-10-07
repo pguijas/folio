@@ -26,14 +26,14 @@ A compact command overview for CLI-heavy pages. Use `CommandGrid` with one or mo
 
 ```mdx
 <CommandGrid>
-  <CommandCard command="folio init" title="Initialize" description="Create docs.yaml." />
-  <CommandCard command="folio build" title="Build" description="Generate the static site." flags={["--clean", "--verbose"]} />
+  <CommandCard command="folioh init" title="Initialize" description="Create docs.yaml." />
+  <CommandCard command="folioh build" title="Build" description="Generate the static site." flags={["--clean", "--verbose"]} />
 </CommandGrid>
 ```
 
 <CommandGrid>
-  <CommandCard command="folio init" title="Initialize" description="Create docs.yaml from project metadata." />
-  <CommandCard command="folio build" title="Build" description="Generate MDX, search, and static output." flags={["--clean", "--verbose"]} />
+  <CommandCard command="folioh init" title="Initialize" description="Create docs.yaml from project metadata." />
+  <CommandCard command="folioh build" title="Build" description="Generate MDX, search, and static output." flags={["--clean", "--verbose"]} />
 </CommandGrid>
 
 </PreviewCode>

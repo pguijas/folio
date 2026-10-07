@@ -2,7 +2,7 @@
 
 The theme picker lets readers choose how the site looks. A preset owns color tokens, document rhythm, code block treatment, borders, radius defaults, typography defaults, and its own controls; the picker groups related presets into families, shows complete color-and-style variants as swatches, and offers manual controls in Customize.
 
-Applied choices are persisted in `localStorage` under a project-scoped key derived from the configured default preset, and the saved theme is the same on the landing page, the docs and the previews. The default theme CSS is also rendered into the page so the generated site does not flash or fall back to Folio's bundled typography before hydration. When moving from the former Roller default to Folio Pastel, saved reader choices are reused if the new storage key is absent; an existing new key takes precedence.
+Applied choices are persisted in `localStorage` under a project-scoped key derived from the configured default preset, and the saved theme is the same on the landing page, the docs and the previews. The default theme CSS is also rendered into the page so the generated site does not flash or fall back to Folioh's bundled typography before hydration. When moving from the former Roller default to Folioh Pastel, saved reader choices are reused if the new storage key is absent; an existing new key takes precedence.
 
 ## API
 
@@ -18,11 +18,11 @@ The first step shows each color-and-style variant as a slide drawn as a small do
 
 Every slide shows the same short Getting started page with real text, code and cards. It uses the theme's heading and body fonts, reading rhythm, section rules, code treatment and outer frame, so those differences remain visible while comparing colors. Customize updates this same preview.
 
-The picker has three built-in families and fifteen choices: six Folio styles, five Folio Pastel palettes and four Omarchy palettes. Each Folio style has one complete recipe; Customize covers the smaller variations. Project presets and independently registered presets remain available as separate families with all their choices.
+The picker has three built-in families and fifteen choices: six Folioh styles, five Folioh Pastel palettes and four Omarchy palettes. Each Folioh style has one complete recipe; Customize covers the smaller variations. Project presets and independently registered presets remain available as separate families with all their choices.
 
-The catalog stays ordered Folio, Folio Pastel and Omarchy, with project presets first when defined. Each opening centers your saved theme and palette, including its customizations. Opening it leaves the applied theme unchanged.
+The catalog stays ordered Folioh, Folioh Pastel and Omarchy, with project presets first when defined. Each opening centers your saved theme and palette, including its customizations. Opening it leaves the applied theme unchanged.
 
-Each swatch applies its variant's colors and default style together. For example, Ballpoint includes its typography, code treatment and corners. A sun or moon marks a fixed light or dark scheme. The final circle, with the adjustments icon, opens Customize. The carousel follows the swatch order through each family, then enters the next family: Typewriter leads to Folio Pastel's Ink, Jade, Lavender, Peach and Sky, then Catppuccin Latte, and Hackerman wraps to Roller.
+Each swatch applies its variant's colors and default style together. For example, Ballpoint includes its typography, code treatment and corners. A sun or moon marks a fixed light or dark scheme. The final circle, with the adjustments icon, opens Customize. The carousel follows the swatch order through each family, then enters the next family: Typewriter leads to Folioh Pastel's Ink, Jade, Lavender, Peach and Sky, then Catppuccin Latte, and Hackerman wraps to Roller.
 
 | Input | Action |
 |-------|--------|
@@ -77,15 +77,15 @@ Presets keep their existing IDs for `theme.preset`, stored preferences and theme
 
 | Family | Choices |
 |--------|---------|
-| Folio | Roller, Ballpoint, Paperback, Letterpress, Notebook, Typewriter |
-| Folio Pastel | Ink, Jade, Lavender, Peach, Sky |
+| Folioh | Roller, Ballpoint, Paperback, Letterpress, Notebook, Typewriter |
+| Folioh Pastel | Ink, Jade, Lavender, Peach, Sky |
 | Omarchy | Catppuccin Latte, Tokyo Night, Gruvbox, Hackerman |
 
-Folio starts with Roller and moves from light typography to stronger rules and frames. Omarchy starts with its light palette, followed by the blue, warm and neon dark palettes. Keyboard navigation follows this same order.
+Folioh starts with Roller and moves from light typography to stronger rules and frames. Omarchy starts with its light palette, followed by the blue, warm and neon dark palettes. Keyboard navigation follows this same order.
 
 A project preset appears first when defined. Other registered presets remain selectable independently. A project override of a built-in ID appears once, under its project name, and keeps all its variants.
 
-| Folio style | Preset ID | Distinguishing treatment |
+| Folioh style | Preset ID | Distinguishing treatment |
 |-------------|-----------|-------------------------|
 | Roller | `organic-editorial` | Thin headings, generous spacing and a cobalt accent. |
 | Ballpoint | `aperture` | Compact sans-serif documentation with rounded code panels. |
@@ -94,13 +94,13 @@ A project preset appears first when defined. Other registered presets remain sel
 | Notebook | `workshop` | A framed workspace with warm surfaces and green accents. |
 | Typewriter | `carbon` | Monospaced headings, strong rules and square corners. |
 
-Folio Pastel is the default preset, with Ink selected: pen-blue ink, paper surfaces, Grotesque typography and 0.75rem corners. Roller remains available in the Folio family and as the explicit `organic-editorial` preset.
+Folioh Pastel is the default preset, with Ink selected: pen-blue ink, paper surfaces, Grotesque typography and 0.75rem corners. Roller remains available in the Folioh family and as the explicit `organic-editorial` preset.
 
 Each of these styles can be selected from its family’s swatch row. A preset picked for the first time applies its default controls, typography, accent, radius, and layout defaults. Customize keeps the front preset while changing its options.
 
-`theme.preset` names the preset readers see first. Use the preset ID from the table above (for example, `organic-editorial` for Roller), an ID a theme package or template overlay declares, or a new ID the project defines in `docs.yaml` (see [Project Theme Contract](#project-theme-contract)). Ids from earlier releases, such as `folio` or `openai`, still select their successor. Any other value stops the build with the list of valid ids and the nearest one.
+`theme.preset` names the preset readers see first. Use the preset ID from the table above (for example, `organic-editorial` for Roller), an ID a theme package or template overlay declares, or a new ID the project defines in `docs.yaml` (see [Project Theme Contract](#project-theme-contract)). Preset aliases, such as `folioh` or `openai`, select their corresponding current preset. Any other value stops the build with the list of valid ids and the nearest one.
 
-Omarchy offers four palettes: Catppuccin Latte (cool light), Tokyo Night (blue dark), Gruvbox (warm dark), and Hackerman (neon green dark). Each fixes its light or dark scheme. The preset also gives the navbar and the chapter list flat, square rows, and defaults to the Terminal typography, a monospaced body under Geist headings, and a square radius. Its background is a field of pixels tinted by the palette. Folio shows its CLI block-letter wordmark above the landing and documentation headings; other projects keep their own name. The picker previews include the same artwork.
+Omarchy offers four palettes: Catppuccin Latte (cool light), Tokyo Night (blue dark), Gruvbox (warm dark), and Hackerman (neon green dark). Each fixes its light or dark scheme. The preset also gives the navbar and the chapter list flat, square rows, and defaults to the Terminal typography, a monospaced body under Geist headings, and a square radius. Its background is a field of pixels tinted by the palette. Folioh shows its CLI block-letter wordmark above the landing and documentation headings; other projects keep their own name. The picker previews include the same artwork.
 
 The pixels flow continuously and brighten around the mouse. Click an empty part of the page to release a wave; holding first makes it stronger. The wordmark alternates between four reconstructions: a sweep, falling columns, scattered characters and a radial reveal. It rebuilds on entry and palette changes. Click the wordmark, or focus it and press Enter or Space, to replay it. The final text always keeps the project's name.
 
@@ -112,7 +112,7 @@ Notebook includes a Borders control for switching between fine, structured, and 
 
 Earlier saved styles and palettes still render unchanged and can be adjusted in Customize. Beacon, Ledger, Proof, Draftline, Canopy and the omitted color variants remain valid in project configurations for compatibility, but no longer add choices to the built-in picker.
 
-Folio Pastel is a separate family with preset ID `pastel` and five palettes: Ink (default), Jade, Lavender, Peach and Sky. Each supports light and dark and uses the same organic shapes, Grotesque typography and 0.75rem default radius. Choose a palette from its swatches in T. Jade keeps the original cool paper, petrol ink and pastel fills; older saved Pastel choices without a palette still resolve to Jade.
+Folioh Pastel is a separate family with preset ID `pastel` and five palettes: Ink (default), Jade, Lavender, Peach and Sky. Each supports light and dark and uses the same organic shapes, Grotesque typography and 0.75rem default radius. Choose a palette from its swatches in T. Jade keeps the original cool paper, petrol ink and pastel fills; older saved Pastel choices without a palette still resolve to Jade.
 
 Pastel’s generated logo and favicon use the same irregular silhouette as its artwork. The mark appears in the navbars, landing footer, demo, picker preview and social images. Page logos follow the reader’s selected theme; the favicon and social images use the site’s configured default. Other themes keep their normal mark. Explicit project logos and favicons retain their own artwork.
 
@@ -120,7 +120,7 @@ On desktop the 288 px floating sidebar contains the project branding, search and
 
 The page title shares its space with three original, soft asymmetric silhouettes. The landing places the same shapes in solid, contrasting palette colors around the product demo, outside the title and text flow. The project's content and actions stay intact. Native animations gently morph and drift them, with a small response to the pointer. They remain still under reduced motion, while hidden, outside the viewport or in a neighbouring picker slide. The active gallery preview reproduces the rail, typography and artwork. The background wash uses CSS gradients.
 
-Pastel's layout, measurements, motion timings and component CSS adapt [cojeev](https://github.com/luv-jeri/cojeev-ui), used under the MIT License. Its five palettes, decorative masks and irregular silhouettes are Folio's own. The Bricolage Grotesque and DM Sans font pairing also comes from cojeev; the fonts are loaded from Google Fonts under the SIL Open Font License 1.1. Thanks to Sanjay Kumar. The retained attribution and licenses are in `THIRD-PARTY-NOTICES.md`.
+Pastel's layout, measurements, motion timings and component CSS adapt [cojeev](https://github.com/luv-jeri/cojeev-ui), used under the MIT License. Its five palettes, decorative masks and irregular silhouettes are Folioh's own. The Bricolage Grotesque and DM Sans font pairing also comes from cojeev; the fonts are loaded from Google Fonts under the SIL Open Font License 1.1. Thanks to Sanjay Kumar. The retained attribution and licenses are in `THIRD-PARTY-NOTICES.md`.
 
 ### Shared Controls
 
@@ -154,7 +154,7 @@ Reset on the Themes step applies the configured default preset with its tuning. 
 
 ### Project Theme Contract
 
-Projects can define their own ThemeConfigurator preset in `docs.yaml` without forking the bundled template. During template preparation, Folio writes `theme/project-theme.ts` with a typed `ThemePreset` that merges Folio's base docs tokens with the project's overrides.
+Projects can define their own ThemeConfigurator preset in `docs.yaml` without forking the bundled template. During template preparation, Folioh writes `theme/project-theme.ts` with a typed `ThemePreset` that merges Folioh's base docs tokens with the project's overrides.
 
 ```yaml
 theme:
@@ -184,11 +184,11 @@ theme:
     borders: "fine"
     code: "terminal"
   style:
-    "--folio-content-max-width": "74rem"
-    "--folio-body-line-height": "1.58"
-    "--folio-workspace-shell-topbar": "color-mix(in oklch, var(--background) 80%, transparent)"
-    "--folio-workspace-shell-topbar-blur": "blur(12px)"
-    "--folio-workspace-shell-topbar-border": "1px solid color-mix(in oklch, var(--border) 50%, transparent)"
+    "--folioh-content-max-width": "74rem"
+    "--folioh-body-line-height": "1.58"
+    "--folioh-workspace-shell-topbar": "color-mix(in oklch, var(--background) 80%, transparent)"
+    "--folioh-workspace-shell-topbar-blur": "blur(12px)"
+    "--folioh-workspace-shell-topbar-border": "1px solid color-mix(in oklch, var(--border) 50%, transparent)"
   tokens:
     light:
       "--background": "oklch(0.985 0.008 80)"
@@ -218,9 +218,9 @@ theme:
               "--primary": "oklch(0.680 0.180 200)"
 ```
 
-`tokens.light` and `tokens.dark` accept CSS custom properties such as shadcn tokens (`--background`, `--card`, `--border`, `--chart-1`) and project tokens (`--brand-accent`). `style` accepts ThemeConfigurator layout variables such as `--folio-content-max-width`, `--folio-section-gap`, `--folio-card-padding`, `--folio-code-bg`, `--folio-workspace-shell-topbar`, `--folio-workspace-shell-topbar-blur`, and `--folio-workspace-shell-topbar-border`. Un-prefixed legacy names such as `--content-max-width` are still accepted for compatibility but are deprecated; use the `--folio-*` names.
+`tokens.light` and `tokens.dark` accept CSS custom properties such as shadcn tokens (`--background`, `--card`, `--border`, `--chart-1`) and project tokens (`--brand-accent`). `style` accepts ThemeConfigurator layout variables such as `--folioh-content-max-width`, `--folioh-section-gap`, `--folioh-card-padding`, `--folioh-code-bg`, `--folioh-workspace-shell-topbar`, `--folioh-workspace-shell-topbar-blur`, and `--folioh-workspace-shell-topbar-border`. Un-prefixed legacy names such as `--content-max-width` are still accepted for compatibility but are deprecated; use the `--folioh-*` names.
 
-`header.brand` and `header.badge` replace the default docs navbar wordmark. `header.repo`, `header.theme_toggle`, `header.action_label`, and `header.action_href` replace the default docs navbar actions with project-owned actions; `header.search: false` hides the navbar search field while leaving the generated search index controlled by `search.enabled`. `variants` defines project-owned preset controls; each option can set a `swatch` for the control UI, override `preview`, `style`, and light/dark tokens while inheriting the base project theme. If an option has `swatch` but no full light/dark `preview`, Folio uses the swatch for both preview modes.
+`header.brand` and `header.badge` replace the default docs navbar wordmark. `header.repo`, `header.theme_toggle`, `header.action_label`, and `header.action_href` replace the default docs navbar actions with project-owned actions; `header.search: false` hides the navbar search field while leaving the generated search index controlled by `search.enabled`. `variants` defines project-owned preset controls; each option can set a `swatch` for the control UI, override `preview`, `style`, and light/dark tokens while inheriting the base project theme. If an option has `swatch` but no full light/dark `preview`, Folioh uses the swatch for both preview modes.
 
 For safety, token and style keys must be CSS custom properties beginning with `--`, values must be strings without CSS statement or block delimiters, and header and variant labels cannot include markup. Unknown `tune` keys are ignored with a warning that names the key they most likely meant, and a `tune` value the control does not offer stops the build; [Tune Defaults](../theming/personalization#tune-defaults) lists the values.
 
@@ -239,25 +239,25 @@ Tune aliases map to the shared controls:
 | `borders` / `border` | `borderId` |
 | `code` / `code_blocks` | `codeTreatmentId` |
 
-`font: "geist"` selects the bundled Geist/Geist Mono pair and maps the public `--font-sans` / `--font-mono` tokens used by Tailwind utility classes. If `theme.preset` matches a built-in preset and the project only provides `tune`, Folio keeps the built-in preset and applies the configured defaults. If the project supplies `name`, `description`, `scene`, `preview`, `style`, `tokens`, or `variants`, Folio places the project preset before the built-in library. A `variants` control whose options set no `style` only recolors the theme, so the picker shows the first such control as the preset's Colours row and every other control in Customize.
+`font: "geist"` selects the bundled Geist/Geist Mono pair and maps the public `--font-sans` / `--font-mono` tokens used by Tailwind utility classes. If `theme.preset` matches a built-in preset and the project only provides `tune`, Folioh keeps the built-in preset and applies the configured defaults. If the project supplies `name`, `description`, `scene`, `preview`, `style`, `tokens`, or `variants`, Folioh places the project preset before the built-in library. A `variants` control whose options set no `style` only recolors the theme, so the picker shows the first such control as the preset's Colours row and every other control in Customize.
 
 ### Theme Packages
 
 Theme packages can replace the bundled configurator, project header actions, or
-`theme/project-theme.ts` while Folio still supplies generated content and
+`theme/project-theme.ts` while Folioh still supplies generated content and
 metadata. See [Theme Packages](../theming/theme-packages) for the ownership
 model, file overlay rules, and validation checklist.
 
 ### Create a Custom Preset
 
-The bundled presets live in the template's `theme/presets.ts` and use the interfaces from `theme/preset-types.ts`. A project adds one without forking the template: a [theme package](../theming/theme-packages#register-a-custom-preset) calls `registerPreset` from its `theme/project-theme.ts`, or a [template overlay](../theming/custom-templates#overlay-partial-override) ships its own copy of `theme/presets.ts`. Folio reads the `id` from either, so `theme.preset` can select it.
+The bundled presets live in the template's `theme/presets.ts` and use the interfaces from `theme/preset-types.ts`. A project adds one without forking the template: a [theme package](../theming/theme-packages#register-a-custom-preset) calls `registerPreset` from its `theme/project-theme.ts`, or a [template overlay](../theming/custom-templates#overlay-partial-override) ships its own copy of `theme/presets.ts`. Folioh reads the `id` from either, so `theme.preset` can select it.
 
 1. Create a new object that satisfies `ThemePreset`.
 2. Give it stable `defaultOptions`, optional `defaultRadiusIndex`, optional `defaultCustomization`, and matching `controls`.
 3. Implement `resolve(options)` so every option combination returns `light`, `dark`, `style`, `radius`, and `preview`.
 4. Register it: call `registerPreset(preset, groupId)` from a theme package, or, in an overlay copy of `presets.ts`, add it to `builtinPresets` and list its id in a `registerGroup` call. A preset in no group shows under Other.
 
-The `style` object must use the namespaced `--folio-*` keys defined by `ThemeStyle` in `template/theme/theme-contract.generated.ts` (its header line names the generator, `crates/folio-site/src/theme.rs`). Un-prefixed keys such as `--card-shadow` fail the TypeScript check against `ThemeStyle` and are not read by the generated CSS.
+The `style` object must use the namespaced `--folioh-*` keys defined by `ThemeStyle` in `template/theme/theme-contract.generated.ts` (its header line names the generator, `crates/folioh-site/src/theme.rs`). Un-prefixed keys such as `--card-shadow` fail the TypeScript check against `ThemeStyle` and are not read by the generated CSS.
 
 Example:
 
@@ -311,41 +311,41 @@ export const notebookPreset: ThemePreset = {
       },
       radius: "0.25rem",
       style: {
-        "--folio-heading-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
-        "--folio-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, sans-serif",
-        "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
-        "--folio-heading-letter-spacing": "0",
-        "--folio-heading-weight": "780",
-        "--folio-body-line-height": ruled ? "1.78" : "1.70",
-        "--folio-font-size-base": "1rem",
-        "--folio-card-shadow": "none",
-        "--folio-card-border-width": "1px",
-        "--folio-card-padding": "1.25rem",
-        "--folio-card-hover-shadow": "0 0 0 1px var(--foreground)",
-        "--folio-card-backdrop": "none",
-        "--folio-card-opacity": "1",
-        "--folio-code-border-radius": blockCode ? "0.2rem" : "0",
-        "--folio-code-border": blockCode ? "1px solid var(--border)" : "1px solid var(--foreground)",
-        "--folio-code-bg": blockCode ? "var(--muted)" : "var(--background)",
-        "--folio-code-foreground": "inherit",
-        "--folio-code-shadow": "none",
-        "--folio-h2-border": ruled ? "1px solid var(--border)" : "none",
-        "--folio-h2-transform": "none",
-        "--folio-h2-letter-spacing": "0",
-        "--folio-h2-weight": "760",
-        "--folio-h2-padding-left": "0",
-        "--folio-h2-border-left": "none",
-        "--folio-link-decoration": "underline",
-        "--folio-section-gap": ruled ? "2.5rem" : "2.75rem",
-        "--folio-content-max-width": "48rem",
-        "--folio-workspace-shell-padding": "0px",
-        "--folio-workspace-shell-border": "0 solid transparent",
-        "--folio-workspace-shell-shadow": "none",
-        "--folio-workspace-shell-background": "var(--background)",
-        "--folio-workspace-shell-surface": "transparent",
-        "--folio-workspace-shell-topbar": "var(--background)",
-        "--folio-workspace-shell-topbar-blur": "none",
-        "--folio-workspace-shell-topbar-border": "1px solid var(--border)",
+        "--folioh-heading-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
+        "--folioh-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, sans-serif",
+        "--folioh-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+        "--folioh-heading-letter-spacing": "0",
+        "--folioh-heading-weight": "780",
+        "--folioh-body-line-height": ruled ? "1.78" : "1.70",
+        "--folioh-font-size-base": "1rem",
+        "--folioh-card-shadow": "none",
+        "--folioh-card-border-width": "1px",
+        "--folioh-card-padding": "1.25rem",
+        "--folioh-card-hover-shadow": "0 0 0 1px var(--foreground)",
+        "--folioh-card-backdrop": "none",
+        "--folioh-card-opacity": "1",
+        "--folioh-code-border-radius": blockCode ? "0.2rem" : "0",
+        "--folioh-code-border": blockCode ? "1px solid var(--border)" : "1px solid var(--foreground)",
+        "--folioh-code-bg": blockCode ? "var(--muted)" : "var(--background)",
+        "--folioh-code-foreground": "inherit",
+        "--folioh-code-shadow": "none",
+        "--folioh-h2-border": ruled ? "1px solid var(--border)" : "none",
+        "--folioh-h2-transform": "none",
+        "--folioh-h2-letter-spacing": "0",
+        "--folioh-h2-weight": "760",
+        "--folioh-h2-padding-left": "0",
+        "--folioh-h2-border-left": "none",
+        "--folioh-link-decoration": "underline",
+        "--folioh-section-gap": ruled ? "2.5rem" : "2.75rem",
+        "--folioh-content-max-width": "48rem",
+        "--folioh-workspace-shell-padding": "0px",
+        "--folioh-workspace-shell-border": "0 solid transparent",
+        "--folioh-workspace-shell-shadow": "none",
+        "--folioh-workspace-shell-background": "var(--background)",
+        "--folioh-workspace-shell-surface": "transparent",
+        "--folioh-workspace-shell-topbar": "var(--background)",
+        "--folioh-workspace-shell-topbar-blur": "none",
+        "--folioh-workspace-shell-topbar-border": "1px solid var(--border)",
       },
       light: {
         "--background": "oklch(0.976 0.006 236)",
@@ -469,7 +469,7 @@ After ChatGPT returns a preset:
 
 1. Paste it into your theme package's `theme/project-theme.ts` or your overlay's `theme/presets.ts`.
 2. Register it as in [Create a Custom Preset](#create-a-custom-preset).
-3. Set `theme.preset` to its id and run `folio build`.
+3. Set `theme.preset` to its id and run `folioh build`.
 4. Open the theme picker with the palette button or `t`.
 5. Test each generated control in light and dark mode.
 

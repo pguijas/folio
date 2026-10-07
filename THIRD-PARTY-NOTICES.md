@@ -1,7 +1,7 @@
 # Third-Party Notices
 
-Folio is licensed under the MIT License (see [LICENSE](LICENSE)). The following
-third-party materials are bundled with Folio or adapted into its source, and
+Folioh is licensed under the MIT License (see [LICENSE](LICENSE)). The following
+third-party materials are bundled with Folioh or adapted into its source, and
 remain governed by their own licenses and terms. Dependencies fetched by Cargo
 or pnpm carry their own licenses and are not listed here.
 
@@ -38,7 +38,7 @@ SOFTWARE.
 ## docstring_parser
 
 The Google, NumPy, ReST and epydoc docstring parsers in
-`crates/folio-ir/src/docstring/` (`google.rs`, `numpy.rs`, `rest.rs` and
+`crates/folioh-ir/src/docstring/` (`google.rs`, `numpy.rs`, `rest.rs` and
 `epydoc.rs`) are Rust ports of the matching modules of
 [docstring_parser](https://github.com/rr-/docstring_parser) and are used under
 the MIT License:
@@ -72,9 +72,9 @@ SOFTWARE.
 Two files are derived from [CPython](https://github.com/python/cpython) 3.12
 and are used under the Python Software Foundation License Version 2:
 
-- `crates/folio-lang-python/src/unparse.rs`, from the `ast._Unparser` class in
+- `crates/folioh-lang-python/src/unparse.rs`, from the `ast._Unparser` class in
   `Lib/ast.py`;
-- `crates/folio-ir/src/docstring/cleandoc.rs`, from `inspect.cleandoc` in
+- `crates/folioh-ir/src/docstring/cleandoc.rs`, from `inspect.cleandoc` in
   `Lib/inspect.py`.
 
 Changes made: both are translated to Rust. `unparse.rs` covers expressions
@@ -144,9 +144,9 @@ any work or product a name refers to.
 
 The theme picker in `template/components/theme-gallery.tsx` takes the idea of
 a gallery of theme slides from [omarchy.org](https://omarchy.org/manual/). Its
-code, shapes, sizes, colours and motion are Folio's own, as are the Omarchy
+code, shapes, sizes, colours and motion are Folioh's own, as are the Omarchy
 preset's navbar, chapter-list styles and pixel-field background. Its decorative
-wordmark reuses Folio's CLI banner. No code, artwork, fonts or style values from
+wordmark reuses Folioh's CLI banner. No code, artwork, fonts or style values from
 the omarchy.org site are included.
 
 ```
@@ -179,35 +179,35 @@ styles, and the Kbd, Marker and Term components adapt code and values from
 [cojeev](https://github.com/luv-jeri/cojeev-ui), used under the MIT License.
 cojeev's drawer is adapted from the
 [ui-layouts](https://www.ui-layouts.com/components/motion-drawer) motion
-drawer, also MIT. Folio Pastel's five palettes, decorative masks, navigation
-marker and irregular artwork are Folio's own. Pastel FeatureCard keeps
+drawer, also MIT. Folioh Pastel's five palettes, decorative masks, navigation
+marker and irregular artwork are Folioh's own. Pastel FeatureCard keeps
 named Hugeicons over four original organic backgrounds. Component icons
-retain Folio's existing icon system. The following layout,
+retain Folioh's existing icon system. The following layout,
 measurements, timings and CSS adaptations retain their upstream attribution:
 
-| Folio | Source | Taken as |
+| Folioh | Source | Taken as |
 | --- | --- | --- |
-| `--folio-motion-micro`, `-element`, `-max` in `template/app/globals.css` | cojeev `registry/cojeev/styles/tokens.css` | values: 120, 200 and 300 ms |
-| `--folio-motion-exit`, `--folio-ease-enter`, `--folio-ease-exit` | cojeev `registry/cojeev/motion/choreography.ts` | values: the 180 ms exit and the enter and exit curves |
-| `--folio-spring-drawer`, `--folio-motion-drawer` | cojeev `registry/cojeev/ui/motion-drawer.tsx`, from ui-layouts | values: the 180/26/1 spring, sampled as a CSS `linear()` over 560 ms |
-| `--folio-drawer-inset`, `-width`, `-radius` | cojeev `app/docs/docs.css` and `components/docs-shell.tsx` | values: 12 px inset, 340 px width (written 21.25rem), radius 24 |
-| `--folio-drawer-shadow` | cojeev `registry/cojeev/styles/motion-drawer.css`, from ui-layouts | value: the panel shadow |
-| `--folio-drawer-scrim` | cojeev `registry/cojeev/styles/motion-drawer.css` | value: a 30 % scrim |
-| `.folio-drawer-title` and `.folio-drawer-close` in `template/app/globals.css` | cojeev `registry/cojeev/styles/motion-drawer.css` | values: the 600 20px/1.3 title at -0.02em, the 44 px round transparent button, its icon's 90° turn on hover, the 2 px focus outline at a 2 px offset |
-| the title, close button and scrim in `template/components/mobile-nav-drawer.tsx` | cojeev `registry/cojeev/ui/motion-drawer.tsx` | the idea, re-expressed in Folio's code |
+| `--folioh-motion-micro`, `-element`, `-max` in `template/app/globals.css` | cojeev `registry/cojeev/styles/tokens.css` | values: 120, 200 and 300 ms |
+| `--folioh-motion-exit`, `--folioh-ease-enter`, `--folioh-ease-exit` | cojeev `registry/cojeev/motion/choreography.ts` | values: the 180 ms exit and the enter and exit curves |
+| `--folioh-spring-drawer`, `--folioh-motion-drawer` | cojeev `registry/cojeev/ui/motion-drawer.tsx`, from ui-layouts | values: the 180/26/1 spring, sampled as a CSS `linear()` over 560 ms |
+| `--folioh-drawer-inset`, `-width`, `-radius` | cojeev `app/docs/docs.css` and `components/docs-shell.tsx` | values: 12 px inset, 340 px width (written 21.25rem), radius 24 |
+| `--folioh-drawer-shadow` | cojeev `registry/cojeev/styles/motion-drawer.css`, from ui-layouts | value: the panel shadow |
+| `--folioh-drawer-scrim` | cojeev `registry/cojeev/styles/motion-drawer.css` | value: a 30 % scrim |
+| `.folioh-drawer-title` and `.folioh-drawer-close` in `template/app/globals.css` | cojeev `registry/cojeev/styles/motion-drawer.css` | values: the 600 20px/1.3 title at -0.02em, the 44 px round transparent button, its icon's 90° turn on hover, the 2 px focus outline at a 2 px offset |
+| the title, close button and scrim in `template/components/mobile-nav-drawer.tsx` | cojeev `registry/cojeev/ui/motion-drawer.tsx` | the idea, re-expressed in Folioh's code |
 | the Grotesque typography in `template/components/theme-configurator.tsx` and `template/app/layout.tsx` | cojeev `registry/cojeev/styles/theme.css` | the pairing of Bricolage Grotesque for display and DM Sans for text; the fonts come from Google Fonts under the SIL Open Font License, not from cojeev |
 | the Pastel sidebar rail and drawer rows in `template/app/styles/shell.css` | cojeev `app/docs/docs.css` | values: the 288 px floating rail, 12 px inset, radius 24, integrated branding and search, 40 px rows and 44 px rows in the drawer |
-| the Pastel reading trail in `template/app/styles/shell.css` | cojeev `registry/cojeev/styles/reading-trail.css` and `ui/reading-trail.tsx` | the spine and progress-pill layout; the marker, its anchor positioning and the scroll-driven fill are Folio's own |
-| the title-artwork composition in `template/components/pastel-artwork.tsx` and `template/app/styles/pastel-artwork.css` | cojeev `registry/cojeev/ui/shape-artwork.tsx` and `components/docs-atmosphere.tsx` | the arrangement beside the title and the drift and pointer-follow behaviour; the irregular paths and native animation code are Folio's own |
+| the Pastel reading trail in `template/app/styles/shell.css` | cojeev `registry/cojeev/styles/reading-trail.css` and `ui/reading-trail.tsx` | the spine and progress-pill layout; the marker, its anchor positioning and the scroll-driven fill are Folioh's own |
+| the title-artwork composition in `template/components/pastel-artwork.tsx` and `template/app/styles/pastel-artwork.css` | cojeev `registry/cojeev/ui/shape-artwork.tsx` and `components/docs-atmosphere.tsx` | the arrangement beside the title and the drift and pointer-follow behaviour; the irregular paths and native animation code are Folioh's own |
 | the Pastel pigment wash in `template/app/styles/shell.css` | cojeev `registry/cojeev/styles/pigment-field.css` | values: the three radial gradients, their positions and strengths |
 | `template/app/styles/callout.css` | cojeev `registry/cojeev/styles/alert.css`, `ui/alert.tsx` and `styles/tokens.css` | values: the fill strengths, radius, padding and type, the 40 px icon holder and the corner mark's placement |
-| `template/app/styles/disclosure.css` | cojeev `registry/cojeev/styles/tabs.css`, `accordion.css` and `flow-press.css` | values: the 32 px pills, the travelling selected surface, the radius-18 accordion cards 8 px apart with a 60 px trigger; `TabGlide` in `template/components/tabs.tsx` is Folio's own code |
-| `template/app/styles/code.css` | cojeev `registry/cojeev/styles/code-block.css` and `styles/tokens.css` | values: the paper-sheet and header layout, language pill, 13 px code at 1.8, five syntax roles in each scheme, and terminal-window layout; the three stationery tabs and `template/components/code-block.tsx` on Nextra's `Pre` are Folio's own |
-| `template/app/styles/shapes.css` | cojeev `app/docs/docs.css`, `registry/cojeev/styles/stepper.css`, `milestone-path.css` and `styles/tree.css` | values: the 36 by 42 step tabs and their connector, timeline-marker dimensions and halo, and the file tree's 28 px tiles and ruled elbows; the organic outlines, markup and hooks in `steps.tsx` and `file-tree.tsx` are Folio's own |
+| `template/app/styles/disclosure.css` | cojeev `registry/cojeev/styles/tabs.css`, `accordion.css` and `flow-press.css` | values: the 32 px pills, the travelling selected surface, the radius-18 accordion cards 8 px apart with a 60 px trigger; `TabGlide` in `template/components/tabs.tsx` is Folioh's own code |
+| `template/app/styles/code.css` | cojeev `registry/cojeev/styles/code-block.css` and `styles/tokens.css` | values: the paper-sheet and header layout, language pill, 13 px code at 1.8, five syntax roles in each scheme, and terminal-window layout; the three stationery tabs and `template/components/code-block.tsx` on Nextra's `Pre` are Folioh's own |
+| `template/app/styles/shapes.css` | cojeev `app/docs/docs.css`, `registry/cojeev/styles/stepper.css`, `milestone-path.css` and `styles/tree.css` | values: the 36 by 42 step tabs and their connector, timeline-marker dimensions and halo, and the file tree's 28 px tiles and ruled elbows; the organic outlines, markup and hooks in `steps.tsx` and `file-tree.tsx` are Folioh's own |
 | `template/app/styles/surfaces.css` | cojeev `registry/cojeev/styles/card.css`, `badge.css`, `preview.css`, `pattern-background.css`, `empty.css`, `table.css`, `ui/badge.tsx` and `ui/table.tsx` | values: the cards, badges, preview frames and their dot grid, empty states and tables |
 | the Pastel block in `template/app/styles/components.css` | cojeev `registry/cojeev/ui/kbd.tsx`, `ui/marker.tsx`, `ui/tooltip.tsx` and `styles/tokens.css` | values: the keycap, dashed divider and definition-card layout with its 120 ms fade |
-| the light and dark reveal in `template/lib/scheme-transition.ts` and `template/app/styles/shell.css` | cojeev `registry/cojeev/motion/theme-transition.ts` and `styles/theme-toggle.css` | the idea, a view transition that reveals the new scheme from the control, re-expressed as a plain circle in Folio's code |
-| the open and close delays in `template/components/term.tsx` | cojeev `registry/cojeev/ui/hover-card.tsx` | values: 300 and 150 ms; the component is Folio's own, on Radix HoverCard |
+| the light and dark reveal in `template/lib/scheme-transition.ts` and `template/app/styles/shell.css` | cojeev `registry/cojeev/motion/theme-transition.ts` and `styles/theme-toggle.css` | the idea, a view transition that reveals the new scheme from the control, re-expressed as a plain circle in Folioh's code |
+| the open and close delays in `template/components/term.tsx` | cojeev `registry/cojeev/ui/hover-card.tsx` | values: 300 and 150 ms; the component is Folioh's own, on Radix HoverCard |
 
 ```
 MIT License
@@ -366,7 +366,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 These marks are trademarks of their respective owners. They are used
 referentially, to identify the linked service or the language a page
-documents, and are **excluded from Folio's MIT license grant**. Remove or
+documents, and are **excluded from Folioh's MIT license grant**. Remove or
 replace them if your use does not follow the respective owner's brand
 guidelines.
 

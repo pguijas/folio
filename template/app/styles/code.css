@@ -9,41 +9,41 @@
 /* ─── Pastel code ─── */
 
 /* Layout adapted from cojeev's code block (MIT, Copyright (c) 2026 Sanjay
-   Kumar; THIRD-PARTY-NOTICES.md). Folio's paper, jade selection and syntax
+   Kumar; THIRD-PARTY-NOTICES.md). Folioh's paper, jade selection and syntax
    inks follow its own stationery palette. */
-html[data-folio-preset="pastel"] {
-  --folio-code-strip: 48px;
-  --folio-code-pill-fill: var(--secondary);
-  --folio-code-pill-ink: var(--foreground);
-  --folio-code-sel-bg: color-mix(in srgb, var(--accent) 24%, var(--card));
-  --folio-code-sel-ink: var(--foreground);
-  --folio-code-sel-edge: var(--ring);
-  --folio-syntax-comment: #526A63;
-  --folio-syntax-keyword: #705486;
-  --folio-syntax-string: #2D6656;
-  --folio-syntax-function: #3B627A;
-  --folio-syntax-number: #895337;
+html[data-folioh-preset="pastel"] {
+  --folioh-code-strip: 48px;
+  --folioh-code-pill-fill: var(--secondary);
+  --folioh-code-pill-ink: var(--foreground);
+  --folioh-code-sel-bg: color-mix(in srgb, var(--accent) 24%, var(--card));
+  --folioh-code-sel-ink: var(--foreground);
+  --folioh-code-sel-edge: var(--ring);
+  --folioh-syntax-comment: #526A63;
+  --folioh-syntax-keyword: #705486;
+  --folioh-syntax-string: #2D6656;
+  --folioh-syntax-function: #3B627A;
+  --folioh-syntax-number: #895337;
 }
 
-html.dark[data-folio-preset="pastel"] {
-  --folio-syntax-comment: #A9C0B2;
-  --folio-syntax-keyword: #CFBCE7;
-  --folio-syntax-string: #AED1A9;
-  --folio-syntax-function: #A9CDD6;
-  --folio-syntax-number: #EDC4AA;
+html.dark[data-folioh-preset="pastel"] {
+  --folioh-syntax-comment: #A9C0B2;
+  --folioh-syntax-keyword: #CFBCE7;
+  --folioh-syntax-string: #AED1A9;
+  --folioh-syntax-function: #A9CDD6;
+  --folioh-syntax-number: #EDC4AA;
 }
 
 /* The block wrapper is the sheet; the <pre> inside it is flat, so the header
    strip and the code share one frame. */
-html[data-folio-preset="pastel"] article div.nextra-code {
+html[data-folioh-preset="pastel"] article div.nextra-code {
   overflow: clip;
-  border: var(--folio-code-border);
-  border-radius: var(--folio-code-border-radius);
-  background: var(--folio-code-bg);
-  box-shadow: var(--folio-code-shadow);
+  border: var(--folioh-code-border);
+  border-radius: var(--folioh-code-border-radius);
+  background: var(--folioh-code-bg);
+  box-shadow: var(--folioh-code-shadow);
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre {
+html[data-folioh-preset="pastel"] article div.nextra-code > pre {
   margin: 0;
   padding: 16px 0 24px;
   border: 0;
@@ -55,29 +55,29 @@ html[data-folio-preset="pastel"] article div.nextra-code > pre {
   tab-size: 2;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre > code {
+html[data-folioh-preset="pastel"] article div.nextra-code > pre > code {
   font-size: inherit;
   line-height: inherit;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre > code > span {
+html[data-folioh-preset="pastel"] article div.nextra-code > pre > code > span {
   padding-inline: 20px 32px;
 }
 
 /* Keyboard focus rings the whole sheet, strip included. */
-html[data-folio-preset="pastel"] article div.nextra-code > pre:focus-visible {
+html[data-folioh-preset="pastel"] article div.nextra-code > pre:focus-visible {
   outline: none;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code:has(> pre:focus-visible) {
+html[data-folioh-preset="pastel"] article div.nextra-code:has(> pre:focus-visible) {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
 }
 
 /* The header of a named block: file name, then the language pill, then copy. */
-html[data-folio-preset="pastel"] article div.nextra-code > div:first-child {
+html[data-folioh-preset="pastel"] article div.nextra-code > div:first-child {
   box-sizing: border-box;
-  height: var(--folio-code-strip);
+  height: var(--folioh-code-strip);
   gap: 8px;
   padding: 0 10px 0 20px;
   border: 0;
@@ -85,34 +85,34 @@ html[data-folio-preset="pastel"] article div.nextra-code > div:first-child {
   border-radius: 0;
   background: var(--muted);
   color: var(--foreground);
-  font-family: var(--folio-body-font-family);
+  font-family: var(--folioh-body-font-family);
   font-size: 13px;
   font-weight: 600;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > div:first-child > svg {
+html[data-folioh-preset="pastel"] article div.nextra-code > div:first-child > svg {
   display: none;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > div:first-child > [data-slot="code-block-language"] {
+html[data-folioh-preset="pastel"] article div.nextra-code > div:first-child > [data-slot="code-block-language"] {
   display: inline-block;
   flex: none;
   order: 1;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > div:first-child > button {
+html[data-folioh-preset="pastel"] article div.nextra-code > div:first-child > button {
   order: 2;
 }
 
 /* The pill, as a span in a named block's header and drawn from data-lang on
    every other block. */
-html[data-folio-preset="pastel"] article div.nextra-code > div:first-child > [data-slot="code-block-language"],
-html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"])::after {
+html[data-folioh-preset="pastel"] article div.nextra-code > div:first-child > [data-slot="code-block-language"],
+html[data-folioh-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"])::after {
   padding: 2px 8px;
   border-radius: 999px;
-  background: var(--folio-code-pill-fill);
-  color: var(--folio-code-pill-ink);
-  font-family: var(--folio-code-font-family);
+  background: var(--folioh-code-pill-fill);
+  color: var(--folioh-code-pill-ink);
+  font-family: var(--folioh-code-font-family);
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;
@@ -120,22 +120,22 @@ html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-
 
 /* A block without a file name still gets the strip, drawn behind its copy
    button, with the pill in it. Plain text gets neither. */
-html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"]) {
-  padding-top: calc(var(--folio-code-strip) + 16px);
+html[data-folioh-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"]) {
+  padding-top: calc(var(--folioh-code-strip) + 16px);
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"])::before {
+html[data-folioh-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"])::before {
   content: "";
   position: absolute;
   inset: 0 0 auto;
   box-sizing: border-box;
-  height: var(--folio-code-strip);
+  height: var(--folioh-code-strip);
   border-bottom: 1px solid var(--border);
   background: var(--muted);
   pointer-events: none;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"])::after {
+html[data-folioh-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"])::after {
   content: attr(data-lang);
   content: attr(data-lang) / "";
   position: absolute;
@@ -144,14 +144,14 @@ html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-
   pointer-events: none;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"]) > div:first-child {
+html[data-folioh-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child:not([data-lang="plaintext"], [data-lang="text"], [data-lang="txt"]) > div:first-child {
   inset-block-start: 10px;
   inset-inline-end: 10px;
 }
 
 /* Copy and word wrap: quiet round buttons that keep Nextra's states — shown on
    hover or focus inside the block, a check once copied. */
-html[data-folio-preset="pastel"] article div.nextra-code button {
+html[data-folioh-preset="pastel"] article div.nextra-code button {
   width: 28px;
   height: 28px;
   padding: 0;
@@ -161,52 +161,52 @@ html[data-folio-preset="pastel"] article div.nextra-code button {
   color: var(--muted-foreground);
   font-size: 14px;
   transition:
-    background-color var(--folio-motion-micro) var(--folio-ease-enter),
-    color var(--folio-motion-micro) var(--folio-ease-enter);
+    background-color var(--folioh-motion-micro) var(--folioh-ease-enter),
+    color var(--folioh-motion-micro) var(--folioh-ease-enter);
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code button > svg {
+html[data-folioh-preset="pastel"] article div.nextra-code button > svg {
   display: block;
   margin-inline: auto;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code button:hover {
+html[data-folioh-preset="pastel"] article div.nextra-code button:hover {
   background: var(--secondary);
   color: var(--foreground);
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code button:focus-visible {
+html[data-folioh-preset="pastel"] article div.nextra-code button:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 1px;
   box-shadow: none;
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre > div:first-child {
-  transition: opacity var(--folio-motion-micro) var(--folio-ease-enter);
+html[data-folioh-preset="pastel"] article div.nextra-code > pre > div:first-child {
+  transition: opacity var(--folioh-motion-micro) var(--folioh-ease-enter);
 }
 
 /* Inside a frame that already has a header — a preview's source, a code group
    or a config panel — the block is the frame's body: no border, no strip. */
-html[data-folio-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code {
+html[data-folioh-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code {
   border: 0;
   border-radius: 0;
   box-shadow: none;
 }
 
-html[data-folio-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code:has(> pre:focus-visible) {
+html[data-folioh-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code:has(> pre:focus-visible) {
   outline-offset: -2px;
 }
 
-html[data-folio-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child {
+html[data-folioh-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child {
   padding-top: 16px;
 }
 
-html[data-folio-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child::before,
-html[data-folio-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child::after {
+html[data-folioh-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child::before,
+html[data-folioh-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child::after {
   content: none;
 }
 
-html[data-folio-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child > div:first-child {
+html[data-folioh-preset="pastel"] article :is([data-slot="preview-source"], [data-slot="code-group"] [data-slot="tab-panel"], [data-slot="config-panel-code"]) div.nextra-code > pre[data-lang]:first-child > div:first-child {
   inset-block-start: 8px;
   inset-inline-end: 16px;
 }
@@ -215,58 +215,58 @@ html[data-folio-preset="pastel"] article :is([data-slot="preview-source"], [data
    map onto five syntax roles. The light colour names the role in both
    appearances; the role's value follows the appearance. YAML keys stay ink,
    so a config file reads key then value. */
-html[data-folio-preset="pastel"] .nextra-code span[style*="--shiki-light:#24292E" i] {
+html[data-folioh-preset="pastel"] .nextra-code span[style*="--shiki-light:#24292E" i] {
   color: var(--foreground);
 }
 
-html[data-folio-preset="pastel"] .nextra-code span[style*="--shiki-light:#6A737D" i] {
-  color: var(--folio-syntax-comment);
+html[data-folioh-preset="pastel"] .nextra-code span[style*="--shiki-light:#6A737D" i] {
+  color: var(--folioh-syntax-comment);
   font-style: italic;
 }
 
-html[data-folio-preset="pastel"] .nextra-code span:is([style*="--shiki-light:#D73A49" i], [style*="--shiki-light:#22863A" i]) {
-  color: var(--folio-syntax-keyword);
+html[data-folioh-preset="pastel"] .nextra-code span:is([style*="--shiki-light:#D73A49" i], [style*="--shiki-light:#22863A" i]) {
+  color: var(--folioh-syntax-keyword);
 }
 
-html[data-folio-preset="pastel"] .nextra-code span[style*="--shiki-light:#032F62" i] {
-  color: var(--folio-syntax-string);
+html[data-folioh-preset="pastel"] .nextra-code span[style*="--shiki-light:#032F62" i] {
+  color: var(--folioh-syntax-string);
 }
 
-html[data-folio-preset="pastel"] .nextra-code span[style*="--shiki-light:#6F42C1" i] {
-  color: var(--folio-syntax-function);
+html[data-folioh-preset="pastel"] .nextra-code span[style*="--shiki-light:#6F42C1" i] {
+  color: var(--folioh-syntax-function);
 }
 
-html[data-folio-preset="pastel"] .nextra-code span:is([style*="--shiki-light:#005CC5" i], [style*="--shiki-light:#E36209" i]) {
-  color: var(--folio-syntax-number);
+html[data-folioh-preset="pastel"] .nextra-code span:is([style*="--shiki-light:#005CC5" i], [style*="--shiki-light:#E36209" i]) {
+  color: var(--folioh-syntax-number);
 }
 
-html[data-folio-preset="pastel"] pre[data-lang="yaml"] .nextra-code span[style*="--shiki-light:#22863A" i] {
+html[data-folioh-preset="pastel"] pre[data-lang="yaml"] .nextra-code span[style*="--shiki-light:#22863A" i] {
   color: var(--foreground);
 }
 
 /* Jade highlights with the focus ink at the edge; quiet line numbers. */
-html[data-folio-preset="pastel"] article pre code.nextra-code > span[data-highlighted-line] {
-  background: var(--folio-code-sel-bg) !important;
-  box-shadow: inset 2px 0 0 var(--folio-code-sel-edge);
+html[data-folioh-preset="pastel"] article pre code.nextra-code > span[data-highlighted-line] {
+  background: var(--folioh-code-sel-bg) !important;
+  box-shadow: inset 2px 0 0 var(--folioh-code-sel-edge);
 }
 
-html[data-folio-preset="pastel"] article pre code.nextra-code [data-highlighted-chars] {
+html[data-folioh-preset="pastel"] article pre code.nextra-code [data-highlighted-chars] {
   border-radius: 4px;
-  background: var(--folio-code-sel-bg) !important;
-  box-shadow: 0 0 0 1px var(--folio-code-sel-edge);
+  background: var(--folioh-code-sel-bg) !important;
+  box-shadow: 0 0 0 1px var(--folioh-code-sel-edge);
 }
 
-html[data-folio-preset="pastel"] article pre code.nextra-code[data-line-numbers] > span::before {
+html[data-folioh-preset="pastel"] article pre code.nextra-code[data-line-numbers] > span::before {
   color: var(--muted-foreground);
 }
 
-html[data-folio-preset="pastel"] article div.nextra-code > pre ::selection {
-  background: var(--folio-code-sel-bg);
-  color: var(--folio-code-sel-ink);
+html[data-folioh-preset="pastel"] article div.nextra-code > pre ::selection {
+  background: var(--folioh-code-sel-bg);
+  color: var(--folioh-code-sel-ink);
 }
 
 /* Inline code from Markdown uses the secondary paper surface. */
-html[data-folio-preset="pastel"] article :not(pre) > code.nextra-code {
+html[data-folioh-preset="pastel"] article :not(pre) > code.nextra-code {
   padding: 1px 6px;
   border: 0;
   border-radius: 4px;
@@ -277,32 +277,32 @@ html[data-folio-preset="pastel"] article :not(pre) > code.nextra-code {
 /* ─── Pastel TerminalSession ─── */
 
 /* A petrol ink surface in either appearance, with three stationery tabs. */
-html[data-folio-preset="pastel"] [data-slot="terminal-session"] {
-  --folio-terminal-surface: #132D2B;
-  --folio-terminal-quiet: #1C3935;
-  --folio-terminal-line: #4D7064;
-  --folio-terminal-ink: #EDF5EE;
-  --folio-terminal-text: #B3C9BC;
-  --folio-terminal-edge: #8DAF9F;
-  --folio-terminal-ring: var(--accent);
-  --folio-terminal-prompt: #C4D1AD;
-  --folio-terminal-error: #F0A99A;
-  border-color: var(--folio-terminal-line);
+html[data-folioh-preset="pastel"] [data-slot="terminal-session"] {
+  --folioh-terminal-surface: #132D2B;
+  --folioh-terminal-quiet: #1C3935;
+  --folioh-terminal-line: #4D7064;
+  --folioh-terminal-ink: #EDF5EE;
+  --folioh-terminal-text: #B3C9BC;
+  --folioh-terminal-edge: #8DAF9F;
+  --folioh-terminal-ring: var(--accent);
+  --folioh-terminal-prompt: #C4D1AD;
+  --folioh-terminal-error: #F0A99A;
+  border-color: var(--folioh-terminal-line);
   border-radius: 16px;
-  background: var(--folio-terminal-surface);
-  color: var(--folio-terminal-ink);
+  background: var(--folioh-terminal-surface);
+  color: var(--folioh-terminal-ink);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-header"] {
+html[data-folioh-preset="pastel"] [data-slot="terminal-header"] {
   justify-content: flex-start;
   gap: 8px;
-  min-height: var(--folio-code-strip);
+  min-height: var(--folioh-code-strip);
   padding: 10px 10px 10px 16px;
-  border-bottom-color: var(--folio-terminal-line);
-  background: var(--folio-terminal-quiet);
+  border-bottom-color: var(--folioh-terminal-line);
+  background: var(--folioh-terminal-quiet);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-header"]::before {
+html[data-folioh-preset="pastel"] [data-slot="terminal-header"]::before {
   content: "";
   flex: none;
   width: 6px;
@@ -313,102 +313,102 @@ html[data-folio-preset="pastel"] [data-slot="terminal-header"]::before {
   box-shadow: 10px 0 var(--chart-1), 20px 0 var(--chart-2);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-header"] > div {
+html[data-folioh-preset="pastel"] [data-slot="terminal-header"] > div {
   display: contents;
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-title"] {
+html[data-folioh-preset="pastel"] [data-slot="terminal-title"] {
   order: 1;
   min-width: 0;
-  color: var(--folio-terminal-text);
+  color: var(--folioh-terminal-text);
   font-size: 13px;
   font-weight: 600;
   line-height: 20px;
 }
 
 /* The status marker follows the title and pushes the rest to the end. */
-html[data-folio-preset="pastel"] [data-slot="terminal-status"] {
+html[data-folioh-preset="pastel"] [data-slot="terminal-status"] {
   order: 2;
   width: 8px;
   height: 8px;
   margin-inline-end: auto;
-  background: var(--folio-terminal-edge);
+  background: var(--folioh-terminal-edge);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-session"][data-variant="success"] [data-slot="terminal-status"] {
-  background: var(--folio-terminal-prompt);
+html[data-folioh-preset="pastel"] [data-slot="terminal-session"][data-variant="success"] [data-slot="terminal-status"] {
+  background: var(--folioh-terminal-prompt);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-session"][data-variant="error"] [data-slot="terminal-status"] {
-  background: var(--folio-terminal-error);
+html[data-folioh-preset="pastel"] [data-slot="terminal-session"][data-variant="error"] [data-slot="terminal-status"] {
+  background: var(--folioh-terminal-error);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-cwd"] {
+html[data-folioh-preset="pastel"] [data-slot="terminal-cwd"] {
   order: 3;
   min-width: 0;
-  color: var(--folio-terminal-text);
+  color: var(--folioh-terminal-text);
   font-size: 12px;
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-copy"] {
+html[data-folioh-preset="pastel"] [data-slot="terminal-copy"] {
   order: 4;
   border-color: transparent;
   border-radius: 999px;
   background: transparent;
-  color: var(--folio-terminal-text);
+  color: var(--folioh-terminal-text);
   transition:
-    background-color var(--folio-motion-micro) var(--folio-ease-enter),
-    color var(--folio-motion-micro) var(--folio-ease-enter);
+    background-color var(--folioh-motion-micro) var(--folioh-ease-enter),
+    color var(--folioh-motion-micro) var(--folioh-ease-enter);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-copy"]:hover {
-  background: var(--folio-terminal-surface);
-  color: var(--folio-terminal-ink);
+html[data-folioh-preset="pastel"] [data-slot="terminal-copy"]:hover {
+  background: var(--folioh-terminal-surface);
+  color: var(--folioh-terminal-ink);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-copy"][data-copied] {
-  color: var(--folio-terminal-prompt);
+html[data-folioh-preset="pastel"] [data-slot="terminal-copy"][data-copied] {
+  color: var(--folioh-terminal-prompt);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-copy"]:focus-visible {
-  outline: 2px solid var(--folio-terminal-ring);
+html[data-folioh-preset="pastel"] [data-slot="terminal-copy"]:focus-visible {
+  outline: 2px solid var(--folioh-terminal-ring);
   outline-offset: 1px;
   box-shadow: none;
 }
 
-html[data-folio-preset="pastel"] article [data-slot="terminal-body"] {
+html[data-folioh-preset="pastel"] article [data-slot="terminal-body"] {
   padding: 24px 32px 24px 20px;
   background: transparent !important;
-  color: var(--folio-terminal-text);
+  color: var(--folioh-terminal-text);
   font-size: 13px;
   line-height: 1.8;
   color-scheme: dark;
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-body"] > code {
+html[data-folioh-preset="pastel"] [data-slot="terminal-body"] > code {
   color: inherit;
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-prompt"] {
-  color: var(--folio-terminal-prompt);
+html[data-folioh-preset="pastel"] [data-slot="terminal-prompt"] {
+  color: var(--folioh-terminal-prompt);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-command"] {
-  color: var(--folio-terminal-ink);
+html[data-folioh-preset="pastel"] [data-slot="terminal-command"] {
+  color: var(--folioh-terminal-ink);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-output"] {
-  color: var(--folio-terminal-text);
+html[data-folioh-preset="pastel"] [data-slot="terminal-output"] {
+  color: var(--folioh-terminal-text);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-body"] ::selection {
-  background: var(--folio-terminal-ring);
-  color: var(--folio-terminal-surface);
+html[data-folioh-preset="pastel"] [data-slot="terminal-body"] ::selection {
+  background: var(--folioh-terminal-ring);
+  color: var(--folioh-terminal-surface);
 }
 
-html[data-folio-preset="pastel"] [data-slot="terminal-footer"] {
+html[data-folioh-preset="pastel"] [data-slot="terminal-footer"] {
   padding: 12px 20px;
-  border-top-color: var(--folio-terminal-line);
+  border-top-color: var(--folioh-terminal-line);
   background: var(--card);
   color: var(--muted-foreground);
 }
@@ -418,18 +418,18 @@ html[data-folio-preset="pastel"] [data-slot="terminal-footer"] {
 /* One sheet at the code radius; each pane has a muted label strip with a tone
    mark, in the keyword role for before and the string role for after, over
    flat 13px code. */
-html[data-folio-preset="pastel"] [data-slot="before-after"] {
-  border: var(--folio-code-border);
-  border-radius: var(--folio-code-border-radius);
-  background: var(--folio-code-bg);
-  box-shadow: var(--folio-code-shadow);
+html[data-folioh-preset="pastel"] [data-slot="before-after"] {
+  border: var(--folioh-code-border);
+  border-radius: var(--folioh-code-border-radius);
+  background: var(--folioh-code-bg);
+  box-shadow: var(--folioh-code-shadow);
 }
 
-html[data-folio-preset="pastel"] [data-slot="before-after-label"] {
+html[data-folioh-preset="pastel"] [data-slot="before-after-label"] {
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: var(--folio-code-strip);
+  min-height: var(--folioh-code-strip);
   padding: 12px 20px;
   background: var(--muted);
   color: var(--foreground);
@@ -437,20 +437,20 @@ html[data-folio-preset="pastel"] [data-slot="before-after-label"] {
   font-weight: 600;
 }
 
-html[data-folio-preset="pastel"] [data-slot="before-after-label"]::before {
+html[data-folioh-preset="pastel"] [data-slot="before-after-label"]::before {
   content: "";
   flex: none;
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: var(--folio-syntax-keyword);
+  background: var(--folioh-syntax-keyword);
 }
 
-html[data-folio-preset="pastel"] [data-slot="before-after-pane"][data-variant="after"] [data-slot="before-after-label"]::before {
-  background: var(--folio-syntax-string);
+html[data-folioh-preset="pastel"] [data-slot="before-after-pane"][data-variant="after"] [data-slot="before-after-label"]::before {
+  background: var(--folioh-syntax-string);
 }
 
-html[data-folio-preset="pastel"] article [data-slot="before-after-code"] {
+html[data-folioh-preset="pastel"] article [data-slot="before-after-code"] {
   padding: 16px 32px 24px 20px;
   border: 0;
   border-radius: 0;
@@ -460,22 +460,22 @@ html[data-folio-preset="pastel"] article [data-slot="before-after-code"] {
   line-height: 1.8;
 }
 
-html[data-folio-preset="pastel"] [data-slot="before-after-code"] ::selection {
-  background: var(--folio-code-sel-bg);
-  color: var(--folio-code-sel-ink);
+html[data-folioh-preset="pastel"] [data-slot="before-after-code"] ::selection {
+  background: var(--folioh-code-sel-bg);
+  color: var(--folioh-code-sel-ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html[data-folio-preset="pastel"] article div.nextra-code button,
-  html[data-folio-preset="pastel"] article div.nextra-code > pre > div:first-child,
-  html[data-folio-preset="pastel"] [data-slot="terminal-copy"] {
+  html[data-folioh-preset="pastel"] article div.nextra-code button,
+  html[data-folioh-preset="pastel"] article div.nextra-code > pre > div:first-child,
+  html[data-folioh-preset="pastel"] [data-slot="terminal-copy"] {
     transition: none;
   }
 }
 
 @media (forced-colors: active) {
-  html[data-folio-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child::before,
-  html[data-folio-preset="pastel"] article div.nextra-code > div:first-child {
+  html[data-folioh-preset="pastel"] article div.nextra-code > pre[data-lang]:first-child::before,
+  html[data-folioh-preset="pastel"] article div.nextra-code > div:first-child {
     border-bottom-color: CanvasText;
   }
 }

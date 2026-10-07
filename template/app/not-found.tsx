@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { folioDocs } from "@/lib/folio-template"
+import { foliohDocs } from "@/lib/folioh-template"
 
 // Next marks a 404 noindex on its own; saying it here keeps the root
 // layout's "index, follow" from contradicting it.
@@ -12,7 +12,7 @@ export const metadata = {
 }
 
 export default function NotFound() {
-  const docsHref = `${folioDocs.routeBase.replace(/\/+$/, "")}/`
+  const docsHref = `${foliohDocs.routeBase.replace(/\/+$/, "")}/`
 
   return (
     <main

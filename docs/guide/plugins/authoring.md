@@ -7,8 +7,8 @@ title: Writing Plugins
 *Extend the build pipeline with custom components, data, views, and hooks.*
 
 <Callout type="warning" title="Not available in this release">
-  Project plugins are not in Folio 0.3. They return with the sidecar protocol:
-  a plugin is a separate process, written in any language, that `folio` starts
+  Project plugins are not in Folioh 0.3. They return with the sidecar protocol:
+  a plugin is a separate process, written in any language, that `folioh` starts
   for the build and talks to over NDJSON JSON-RPC on stdio. This page documents
   the hooks and primitives that surface ships with; the built-in integrations
   already run on them.
@@ -20,18 +20,18 @@ The plugin system is built on three concepts:
 
 1. **Hook specifications** define the extension points (what plugins can do).
 2. **Hook implementations** are the handlers a plugin provides for the hooks it needs.
-3. **The plugin host** inside `folio` calls those implementations at the right time during the build.
+3. **The plugin host** inside `folioh` calls those implementations at the right time during the build.
 
-During `folio build`, the host calls `config_keys`, `configure`, `register_extensions`, `collect_docs`, `emit_assets`, and `post_build`, in that order. During `folio serve` it also watches the directories a plugin names in `watch_paths` and calls `on_watched_change` for a change under one of them.
+During `folioh build`, the host calls `config_keys`, `configure`, `register_extensions`, `collect_docs`, `emit_assets`, and `post_build`, in that order. During `folioh serve` it also watches the directories a plugin names in `watch_paths` and calls `on_watched_change` for a change under one of them.
 
 <HookMap
   hooks={[
     { stage: "Config keys", hook: "config_keys", description: "Declare plugin-owned top-level docs.yaml keys before validation." },
     { stage: "Configure", hook: "configure", description: "Normalize raw plugin config and store data on config.extra." },
     { stage: "Register UI", hook: "register_extensions", description: "Register components, typed data modules, layouts, and generated views." },
-    { stage: "Collect docs", hook: "collect_docs", description: "Add Markdown sources to Folio's normal page pipeline." },
+    { stage: "Collect docs", hook: "collect_docs", description: "Add Markdown sources to Folioh's normal page pipeline." },
     { stage: "Emit assets", hook: "emit_assets", description: "Write generated files into the prepared site before the frontend build." },
-    { stage: "Watch", hook: "watch_paths / on_watched_change", description: "Name extra directories for folio serve to watch, and react to a change under them." },
+    { stage: "Watch", hook: "watch_paths / on_watched_change", description: "Name extra directories for folioh serve to watch, and react to a change under them." },
     { stage: "Post-build", hook: "post_build", description: "Run after the static output directory is written." },
   ]}
 />
@@ -47,18 +47,18 @@ An error from `configure`, `register_extensions`, or `collect_docs` stops the bu
 
 ## Extension Model
 
-Folio keeps customization simple by using four primitives:
+Folioh keeps customization simple by using four primitives:
 
 - **Component** — a named React export that can be exposed to MDX pages or plugin views.
 - **Data** — JSON-serializable values emitted as typed frontend modules.
 - **Layout** — a route shell with named slots. Views must choose a layout.
 - **View** — a route composed from a layout, slot blocks, components, and data.
 
-Plugins should prefer the extension registry over writing arbitrary files. Folio owns import generation, route placement, and build safety.
+Plugins should prefer the extension registry over writing arbitrary files. Folioh owns import generation, route placement, and build safety.
 
 ### `config_keys`
 
-Build-wired. Declare top-level `docs.yaml` keys that belong to your plugin. Folio uses this before validation so plugin-owned configuration does not produce unknown-key warnings.
+Build-wired. Declare top-level `docs.yaml` keys that belong to your plugin. Folioh uses this before validation so plugin-owned configuration does not produce unknown-key warnings.
 Return the key names as a list; a plugin that owns no key returns an empty one.
 
 ### `configure`
@@ -71,15 +71,15 @@ Build-wired. Register components, layouts, data modules, and views. This is the 
 
 ### `collect_docs`
 
-Build-wired. Return Markdown or MDX files that should become ordinary Folio documentation pages. Each document carries a source path and a clean relative route, for example `reports/quality.md` under the project directory published at `reports/quality`.
+Build-wired. Return Markdown or MDX files that should become ordinary Folioh documentation pages. Each document carries a source path and a clean relative route, for example `reports/quality.md` under the project directory published at `reports/quality`.
 
-Folio parses the source and puts it through the same page generation, sidebar, local-image copying, link validation, search, sitemap, Markdown mirror, `llms.txt`, and incremental manifest as files under `source.docs`. A route collision with a project document or another plugin fails before either page is written. Use `emit_assets` instead for files that should be served verbatim.
+Folioh parses the source and puts it through the same page generation, sidebar, local-image copying, link validation, search, sitemap, Markdown mirror, `llms.txt`, and incremental manifest as files under `source.docs`. A route collision with a project document or another plugin fails before either page is written. Use `emit_assets` instead for files that should be served verbatim.
 
 An `unlisted` document keeps every surface except the sidebar: the page still compiles at its route and enters search, the sitemap, the Markdown mirror, and `llms.txt`, but never appears in the docs navigation — a folder holding only unlisted pages is hidden with it. Use it for plugin output that answers to a URL without belonging to the documentation's table of contents.
 
 ### `watch_paths` and `on_watched_change`
 
-Serve-wired. `watch_paths` returns directories `folio serve` should watch besides the sources; a path that is not an existing directory is ignored. `on_watched_change` receives the asset builder, the changed path, and whether it was added, modified, or deleted, and returns `true` when it handled the change. The plugin registry is built once when `folio serve` starts, so this hook can rewrite pages and assets, but data modules written by `register_extensions` refresh only on the next start.
+Serve-wired. `watch_paths` returns directories `folioh serve` should watch besides the sources; a path that is not an existing directory is ignored. `on_watched_change` receives the asset builder, the changed path, and whether it was added, modified, or deleted, and returns `true` when it handled the change. The plugin registry is built once when `folioh serve` starts, so this hook can rewrite pages and assets, but data modules written by `register_extensions` refresh only on the next start.
 
 ### `post_build`
 
@@ -106,15 +106,15 @@ The hook receives the asset builder, which offers these operations:
 
 Three hooks split a plugin's output surface, and a plugin may use more than one:
 
-- **`register_extensions` owns everything typed and registry-managed:** components, typed data modules, layouts, and views. Folio generates the imports, the TypeScript modules, and the view routes for you, and validates names and references at registration time.
-- **`collect_docs` owns Markdown and MDX source files:** Folio turns them into normal documentation pages and includes every standard generated surface.
+- **`register_extensions` owns everything typed and registry-managed:** components, typed data modules, layouts, and views. Folioh generates the imports, the TypeScript modules, and the view routes for you, and validates names and references at registration time.
+- **`collect_docs` owns Markdown and MDX source files:** Folioh turns them into normal documentation pages and includes every standard generated surface.
 - **`emit_assets` owns raw or programmatically generated files in the prepared site:** verbatim public assets and pages that do not exist as Markdown source files.
 
 A typical shape: `register_extensions` registers a component and writes the typed data it renders; `collect_docs` contributes authored Markdown that uses it; `emit_assets` publishes any raw bundle the page links to. The roadmap integration pairs the first with a layout-backed view; the OpenAPI example below pairs it with programmatically generated pages.
 
 ## Official Example: Roadmap
 
-The built-in roadmap integration shows the intended shape for plugin-owned data and generated routes. It is compiled into `folio`, and the `roadmap:` config key is what activates it — without the key the integration emits nothing:
+The built-in roadmap integration shows the intended shape for plugin-owned data and generated routes. It is compiled into `folioh`, and the `roadmap:` config key is what activates it — without the key the integration emits nothing:
 
 ```yaml
 roadmap:
@@ -128,7 +128,7 @@ roadmap:
       status: "shipped"
       layer: "Source analysis"
       summary: "Parse source files into documentation."
-      command: "folio build"
+      command: "folioh build"
       features:
         - "Parser"
         - "Search"
@@ -136,14 +136,14 @@ roadmap:
 
 The integration declares `roadmap` as a config key, stores normalized data under `extra["roadmap"]`, emits `lib/roadmap-data.ts` and `lib/roadmap-projects.ts`, and can generate a standalone `/roadmap/` route. The docs route (`/docs/roadmap/`) is for explanation; the public route (`/roadmap/`) is for displaying the same real data outside the docs shell.
 
-The implementation follows the four-primitives model: it registers the `Roadmap` component, writes typed roadmap data, and declares `/roadmap/` as a `folio.public` layout-backed view.
+The implementation follows the four-primitives model: it registers the `Roadmap` component, writes typed roadmap data, and declares `/roadmap/` as a `folioh.public` layout-backed view.
 
 ### The dedicated-page contract
 
 Plugins that need a standalone page should follow the grammar the roadmap
 view uses, so every plugin page feels like one product:
 
-- Declare the view on the `folio.public` layout. Its band renders the Home
+- Declare the view on the `folioh.public` layout. Its band renders the Home
   link, optional sibling cross-links (a `links` prop), the title, and an
   optional `description` — and a `narrow` prop switches the page from full
   width to a centered document column.
@@ -156,7 +156,7 @@ view uses, so every plugin page feels like one product:
 
 ## Official Example: OpenAPI
 
-The [OpenAPI integration](./openapi) is the reference for the `register_extensions` / `emit_assets` division of labor. It is compiled into `folio`; its `openapi:` section activates it:
+The [OpenAPI integration](./openapi) is the reference for the `register_extensions` / `emit_assets` division of labor. It is compiled into `folioh`; its `openapi:` section activates it:
 
 ```yaml
 openapi:
@@ -178,14 +178,14 @@ Walking through its hooks in build order:
 For a single component file (or a directory of them), the [`components:` key in `docs.yaml`](../configuration#components) is how a site adds its own React components — a plugin is for a component that needs data modules, layouts, views, or other hooks alongside it. A plugin registers a component from `register_extensions` with:
 
 - `name` -- the JSX name pages use. Must be a valid JavaScript identifier.
-- `import_path` -- the module path the generated import uses (for example `@/components/__folio_components/interactive-demo`).
+- `import_path` -- the module path the generated import uses (for example `@/components/__folioh_components/interactive-demo`).
 - `export_name` -- the export to import when it differs from `name`.
 - `expose_mdx` -- expose the component to MDX pages without imports (on by default).
 - `source_path` -- a component source file copied into the build. Relative paths are resolved against the project directory, not the process working directory.
 - `props` -- a mapping of prop names to TypeScript type strings. This is documentation metadata; it does not by itself validate props or publish the component anywhere.
 - `required` -- mark the component as part of the template contract: custom templates must wire it in their `mdx-components.tsx`, and template validation fails when it is missing.
 - `category` -- a free-form taxonomy label. It plays no role in the MDX component contract.
-- `contract` / `source_label` -- mark the component as part of the published MDX component contract (`folioMdxComponents`); `source_label` carries the contract `source` string. Contract membership is explicit: declaring `props` alone does not add a component to the contract. A flagged plugin or config component joins the builtins in both places the contract is published: the `lib/folio-mdx-contract.ts` module written for the template, and the [`/_folio/contract.json`](#the-published-authoring-contract) file in the exported site.
+- `contract` / `source_label` -- mark the component as part of the published MDX component contract (`foliohMdxComponents`); `source_label` carries the contract `source` string. Contract membership is explicit: declaring `props` alone does not add a component to the contract. A flagged plugin or config component joins the builtins in both places the contract is published: the `lib/folioh-mdx-contract.ts` module written for the template, and the [`/_folioh/contract.json`](#the-published-authoring-contract) file in the exported site.
 
 After registering, a component is available in any MDX page without import statements:
 
@@ -197,13 +197,13 @@ After registering, a component is available in any MDX page without import state
 
 ### Name collisions and shadowing builtins
 
-Registering a component whose name matches a Folio builtin (for example `Callout` or `Timeline`) is allowed: the config or plugin component shadows the builtin and the build emits a warning noting the override. Registering the same name twice from config or plugins is an error that names both origins.
+Registering a component whose name matches a Folioh builtin (for example `Callout` or `Timeline`) is allowed: the config or plugin component shadows the builtin and the build emits a warning noting the override. Registering the same name twice from config or plugins is an error that names both origins.
 
 ## The published authoring contract
 
-Every build writes `/_folio/contract.json` into the exported site. It answers, for this project, the three questions an agent otherwise has to guess at: which components a page may use, which top-level `docs.yaml` keys the project accepts, and which docs pages the build emitted.
+Every build writes `/_folioh/contract.json` into the exported site. It answers, for this project, the three questions an agent otherwise has to guess at: which components a page may use, which top-level `docs.yaml` keys the project accepts, and which docs pages the build emitted.
 
-Source batches refresh this contract during `folio serve`. An unchanged payload
+Source batches refresh this contract during `folioh serve`. An unchanged payload
 keeps its file bytes and modification time; `generatedAt` records the last
 semantic contract change, rather than every save or build invocation.
 
@@ -211,10 +211,10 @@ Abridged — a real build lists every component, every accepted key, and every r
 
 ```json
 {
-  "folioVersion": "0.3.0-a1",
+  "foliohVersion": "0.3.0-a1",
   "mdxContractVersion": "1.1",
   "generatedAt": "2026-07-28T09:12:04Z",
-  "instructions": "Ignore fields you do not recognise; later Folio releases add them. mdxContractVersion versions the components list only.",
+  "instructions": "Ignore fields you do not recognise; later Folioh releases add them. mdxContractVersion versions the components list only.",
   "components": [
     {
       "name": "ParamTable",
@@ -230,19 +230,19 @@ Abridged — a real build lists every component, every accepted key, and every r
 }
 ```
 
-- `components` -- the MDX component contract for this build: the Folio builtins plus every config or plugin component flagged as `contract`. The same set Folio writes into `lib/folio-mdx-contract.ts` for the template.
-- `configKeys` -- the core Folio keys unioned with the keys the active integrations claim through their `config_keys` hook. Any other top-level key warns when `docs.yaml` is read: `plugins`, `i18n` and `versions` as ignored in this release, anything else as an unknown key.
+- `components` -- the MDX component contract for this build: the Folioh builtins plus every config or plugin component flagged as `contract`. The same set Folioh writes into `lib/folioh-mdx-contract.ts` for the template.
+- `configKeys` -- the core Folioh keys unioned with the keys the active integrations claim through their `config_keys` hook. Any other top-level key warns when `docs.yaml` is read: `plugins`, `i18n` and `versions` as ignored in this release, anything else as an unknown key.
 - `routes` -- the docs URLs this build emitted, integration-owned pages included.
-- `instructions` -- one line, addressed to the reader: tolerate fields you do not know. Later Folio releases add fields, and a reader that rejects unknown ones breaks on the next upgrade.
+- `instructions` -- one line, addressed to the reader: tolerate fields you do not know. Later Folioh releases add fields, and a reader that rejects unknown ones breaks on the next upgrade.
 
-Read the payload defensively. `mdxContractVersion` versions the components list, and `folioVersion` moves with every release, so neither signals a change to the envelope itself. Treat unknown fields as additions rather than errors.
+Read the payload defensively. `mdxContractVersion` versions the components list, and `foliohVersion` moves with every release, so neither signals a change to the envelope itself. Treat unknown fields as additions rather than errors.
 
 The file is written during the build, from that build's configuration and active integrations, and it describes the site published next to it. Read it as a snapshot of that build, not as a view of the repository as it stands now.
 
-Folio publishes it through the workspace `public/` directory, which the Next static export carries through unchanged, so the path is the same on every deployment: `https://<site>/_folio/contract.json`. A plugin can publish a file the same way from `emit_assets` with `copy_static_asset`.
+Folioh publishes it through the workspace `public/` directory, which the Next static export carries through unchanged, so the path is the same on every deployment: `https://<site>/_folioh/contract.json`. A plugin can publish a file the same way from `emit_assets` with `copy_static_asset`.
 
 ## Publishing a plugin
 
-Add the topic `folio-plugin` to the public repository. A plugin catalog is on the roadmap, and that topic is the only signal it will use: no listing request, no review queue, no account. Nothing indexes the topic today, so adding it now costs one click and is the whole publishing step when the catalog arrives.
+Add the topic `folioh-plugin` to the public repository. A plugin catalog is on the roadmap, and that topic is the only signal it will use: no listing request, no review queue, no account. Nothing indexes the topic today, so adding it now costs one click and is the whole publishing step when the catalog arrives.
 
 Before you publish, read [Trust & Safety](./trust). A plugin runs inside its users' builds, and this publishing convention carries no vetting by design.

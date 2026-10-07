@@ -35,12 +35,12 @@ function docsRouteForContentFile(filePath: string) {
 }
 
 // Every page the build writes also gets a Markdown mirror under
-// public/_folio/markdown, named after the content file (content/plugins/index.mdx
+// public/_folioh/markdown, named after the content file (content/plugins/index.mdx
 // mirrors to plugins/index.md). Listing the mirrors gives them a pointer that
 // does not depend on running the site's JavaScript.
 function markdownMirrorPath(filePath: string) {
   const relativePath = relative(CONTENT_DIR, filePath).replace(/\\/g, "/")
-  return `/_folio/markdown/${relativePath.replace(/\.mdx$/, ".md")}`
+  return `/_folioh/markdown/${relativePath.replace(/\.mdx$/, ".md")}`
 }
 
 function collectMarkdownMirrorPaths() {

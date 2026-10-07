@@ -16,12 +16,12 @@ Highlighted message blocks for notes, warnings, tips, and other important inform
 
 | Type | Color token | Use for |
 |------|-------|---------|
-| `note` | `--folio-tone-note-*` | General notes and remarks. |
-| `warning` | `--folio-tone-warning-*` | Important warnings the reader should not miss. |
-| `info` | `--folio-tone-info-*` | Neutral supplementary information. |
-| `tip` | `--folio-tone-tip-*` | Helpful tips and best practices. |
-| `check` | `--folio-tone-check-*` | Success states or confirmation of correct behavior. |
-| `danger` | `--folio-tone-danger-*` | Critical warnings about destructive or breaking behavior. |
+| `note` | `--folioh-tone-note-*` | General notes and remarks. |
+| `warning` | `--folioh-tone-warning-*` | Important warnings the reader should not miss. |
+| `info` | `--folioh-tone-info-*` | Neutral supplementary information. |
+| `tip` | `--folioh-tone-tip-*` | Helpful tips and best practices. |
+| `check` | `--folioh-tone-check-*` | Success states or confirmation of correct behavior. |
+| `danger` | `--folioh-tone-danger-*` | Critical warnings about destructive or breaking behavior. |
 
 Each type reads its tone's `-fill` for the background, `-ink` for the title and
 text, and `-accent` for the icon and border. The six tones differ on every

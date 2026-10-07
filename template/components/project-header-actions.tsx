@@ -42,7 +42,7 @@ export function ProjectHeaderActions({
   const isDark = resolvedTheme === "dark"
 
   return (
-    <div className="folio-header-actions flex items-center gap-3">
+    <div className="folioh-header-actions flex items-center gap-3">
       {repoHref ? (
         <a
           href={repoHref}

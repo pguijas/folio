@@ -3,19 +3,19 @@
 import { useEffect, useRef } from "react"
 import { watchThemeArtwork } from "@/lib/theme-artwork-motion"
 
-/* folio's real CLI banner (FOLIO_ASCII_ART in folio-cli/src/ui/banner.rs). The CLI also
+/* folioh's real CLI banner (FOLIOH_ASCII_ART in folioh-cli/src/ui/banner.rs). The CLI also
    stamps its own release on the last line (`banner()` in the same file passes the crate
    version). Nothing injects that release into the template,
    and the site's `projectVersion` is a different number, so the mock renders
-   the art alone: a literal here would go stale on the next folio release and
-   would misstate folio's version on every other project's landing page. */
-export const FOLIO_BANNER = [
-  " ████████╗ ██████╗ ██╗     ██╗ ██████╗ ",
-  " ██╔═════╝██╔═══██╗██║     ██║██╔═══██╗",
-  " █████╗   ██║   ██║██║     ██║██║   ██║",
-  " ██╔══╝   ██║   ██║██║     ██║██║   ██║",
-  " ██║      ╚██████╔╝███████╗██║╚██████╔╝",
-  " ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝ ",
+   the art alone: a literal here would go stale on the next folioh release and
+   would misstate folioh's version on every other project's landing page. */
+export const FOLIOH_BANNER = [
+  " ████████╗ ██████╗ ██╗     ██╗ ██████╗  ██╗  ██╗",
+  " ██╔═════╝██╔═══██╗██║     ██║██╔═══██╗ ██║  ██║",
+  " █████╗   ██║   ██║██║     ██║██║   ██║ ███████║",
+  " ██╔══╝   ██║   ██║██║     ██║██║   ██║ ██╔══██║",
+  " ██║      ╚██████╔╝███████╗██║╚██████╔╝ ██║  ██║",
+  " ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝  ╚═╝  ╚═╝",
 ].join("\n")
 
 // Original text effects: sweep, falling columns, scattered decode, then radial.
@@ -44,8 +44,8 @@ export function wordmarkFrame(text: string, effect: number, progress: number): s
 export function ThemeWordmark({ name, interactive = true }: { name: string; interactive?: boolean }) {
   const elementRef = useRef<HTMLElement | null>(null)
   const nextEffect = useRef(0)
-  const ascii = name.toLowerCase() === "folio"
-  const text = ascii ? FOLIO_BANNER : name
+  const ascii = name.toLowerCase() === "folioh"
+  const text = ascii ? FOLIOH_BANNER : name
 
   useEffect(() => {
     const element = elementRef.current

@@ -3,36 +3,36 @@ title: Overview
 description: The documentation engine that turns source and Markdown into a static site.
 ---
 
-# Folio Docs
+# Folioh Docs
 
-Folio Docs is one native Rust binary that turns source code and Markdown guides
+Folioh Docs is one native Rust binary that turns source code and Markdown guides
 into a searchable static site, API reference, and agent-readable Markdown
 mirrors. It reads your source without running it, and never imports the package
 it documents. Python, JavaScript, and Rust read today; see
 [Languages](./languages) for what each reader covers and what arrives
 next.
 
-[Install Folio](./installation), then run, from your project root:
+[Install Folioh](./installation), then run, from your project root:
 
 ```bash
-folio init
-folio serve
+folioh init
+folioh serve
 ```
 
-`folio build` and `folio serve` are the commands you run most; the
+`folioh build` and `folioh serve` are the commands you run most; the
 [CLI Reference](./cli) covers the rest.
 
 ---
 
 ## Get started
 
-Folio reads your project metadata, scans your source code, and generates a full documentation site with source pages, search, and dark mode. [Quick Start](./quickstart) walks the first build end to end; [Installation](./installation) covers the prerequisites and the standalone installer.
+Folioh reads your project metadata, scans your source code, and generates a full documentation site with source pages, search, and dark mode. [Quick Start](./quickstart) walks the first build end to end; [Installation](./installation) covers the prerequisites and the standalone installer.
 
 ---
 
 ## How it works
 
-Folio follows a four-stage pipeline:
+Folioh follows a four-stage pipeline:
 
 ```mermaid
 flowchart LR
@@ -54,7 +54,7 @@ flowchart LR
 
 ## Inside the binary
 
-The `folio` binary carries the whole pipeline:
+The `folioh` binary carries the whole pipeline:
 
 - The site builder owns the generated content workspace and search index.
 - The MDX writer, sidebar, template workspace, theme support, and Next runtime
@@ -78,7 +78,7 @@ the LLM indexes, and the published authoring contract, from the same pass.
 <CardGrid columns={2}>
   <FeatureCard
     title="Automatic API reference"
-    description="Point Folio at your source directories and get complete API docs — modules, classes, functions, parameters, and return types, all extracted and rendered automatically."
+    description="Point Folioh at your source directories and get complete API docs — modules, classes, functions, parameters, and return types, all extracted and rendered automatically."
     icon="api"
     href="/docs/docstrings"
   />
@@ -120,7 +120,7 @@ the LLM indexes, and the published authoring contract, from the same pass.
   />
   <FeatureCard
     title="Migrating from Sphinx"
-    description="Move a Sphinx project's guides and API documentation to Folio, configure sources, and verify the generated site."
+    description="Move a Sphinx project's guides and API documentation to Folioh, configure sources, and verify the generated site."
     icon="git"
     href="/docs/migration"
   />
@@ -130,7 +130,7 @@ the LLM indexes, and the published authoring contract, from the same pass.
 
 ## Project status
 
-Folio is under active development. The [roadmap](./plugins/roadmap) is
+Folioh is under active development. The [roadmap](./plugins/roadmap) is
 rendered from this repository's `docs.yaml` and shows what has shipped and what
 is in progress.
 
@@ -138,19 +138,19 @@ is in progress.
 
 ## Next steps
 
-- [**Why Folio**](./why-folio) — The comparison, the honest SWOT, and the LLM-era questions
+- [**Why Folioh**](./why-folioh) — The comparison, the honest SWOT, and the LLM-era questions
 - [**Installation**](./installation) — Prerequisites and setup
 - [**Quick Start**](./quickstart) — Build your first docs site step by step
 - [**Architecture**](./architecture) — How the CLI, parser, generator, template, and export pipeline fit together
 - [**Developer Guide**](./developing) — Build and test the Rust workspace from a checkout
 - [**Configuration**](./configuration) — Full `docs.yaml` reference
 - [**CLI Reference**](./cli) — Every command, flag, and option
-- [**Languages**](./languages) — The source languages Folio reads, and the ones that arrive next
-- [**Writing Doc Comments**](./docstrings) — How Folio reads Python docstrings, JSDoc and Rust doc comments
-- [**API Reference**](./api-reference) — What the generated reference contains, and why this site ships without one for Folio's own code
+- [**Languages**](./languages) — The source languages Folioh reads, and the ones that arrive next
+- [**Writing Doc Comments**](./docstrings) — How Folioh reads Python docstrings, JSDoc and Rust doc comments
+- [**API Reference**](./api-reference) — What the generated reference contains, and why this site ships without one for Folioh's own code
 - [**Components**](./components/index) — UI components available in your docs
 - [**Theming**](./theming/index) — Customize presets, theme packages, and custom templates from one theming model
 - [**Deployment**](./deployment/index) — Static hosts, GitHub Pages, CI/CD, and branch previews
 - [**Plugins**](./plugins/index) — The built-in integrations and how each one activates
-- [**Roadmap**](./plugins/roadmap) — Where Folio is headed, rendered live from `docs.yaml` by its own plugin
-- [**Migrating from Sphinx**](./migration) — Move a Sphinx project to Folio
+- [**Roadmap**](./plugins/roadmap) — Where Folioh is headed, rendered live from `docs.yaml` by its own plugin
+- [**Migrating from Sphinx**](./migration) — Move a Sphinx project to Folioh

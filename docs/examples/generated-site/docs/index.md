@@ -1,6 +1,6 @@
 # Example docs
 
-This sample project shows the kind of static documentation site Folio generates from a small Python package.
+This sample project shows the kind of static documentation site Folioh generates from a small Python package.
 
 ## What gets built
 

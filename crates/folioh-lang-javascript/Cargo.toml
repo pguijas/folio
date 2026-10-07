@@ -1,0 +1,17 @@
+[package]
+name = "folioh-lang-javascript"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+folioh-ir = { path = "../folioh-ir" }
+thiserror.workspace = true
+tree-sitter.workspace = true
+tree-sitter-javascript.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true
+tempfile.workspace = true

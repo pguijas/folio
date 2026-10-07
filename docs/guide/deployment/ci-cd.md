@@ -1,6 +1,6 @@
 ---
 title: CI/CD
-description: Automate Folio documentation deployment, pull request checks, branch previews, and coverage gates.
+description: Automate Folioh documentation deployment, pull request checks, branch previews, and coverage gates.
 ---
 
 # CI/CD
@@ -8,12 +8,12 @@ description: Automate Folio documentation deployment, pull request checks, branc
 CI/CD is a deployment strategy: the pipeline builds `_site/`, checks it, and
 publishes the same static artifact that local builds produce.
 
-This page focuses on GitHub Actions because `folio init` can generate ready-to-use
+This page focuses on GitHub Actions because `folioh init` can generate ready-to-use
 Pages workflows.
 
 ## GitHub Actions Deployment
 
-`folio init` creates a GitHub Pages workflow at `.github/workflows/pages.yml`.
+`folioh init` creates a GitHub Pages workflow at `.github/workflows/pages.yml`.
 It builds docs on every push to `main`, uploads `_site/`, and deploys with
 GitHub Pages:
 
@@ -59,19 +59,19 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Folio
+      - name: Install Folioh
         run: |
-          curl -LsSf https://pguijas.github.io/folio/install.sh | sh
+          curl -LsSf https://folioh.site/install.sh | sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Build docs
         env:
-          FOLIO_BASE_PATH: "${{ steps.pages.outputs.base_path || '/' }}"
-        run: folio build --clean
+          FOLIOH_BASE_PATH: "${{ steps.pages.outputs.base_path || '/' }}"
+        run: folioh build --clean
 
       - name: Preserve branch previews
         shell: bash
-        run: folio github-pages preserve-previews --site-dir _site --git-repo . --state-dir _pages-state --state-branch folio-pages-state
+        run: folioh github-pages preserve-previews --site-dir _site --git-repo . --state-dir _pages-state --state-branch folioh-pages-state
 
       - name: Prune stale previews
         shell: bash
@@ -79,17 +79,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           open_prs="$(gh pr list --state open --json number,headRefName)"
-          folio github-pages prune-previews \
+          folioh github-pages prune-previews \
             --previews-dir _site/previews \
             --open-prs-json "$open_prs"
 
       - name: Write previews data
         shell: bash
-        run: folio github-pages write-previews-data --previews-dir _site/previews
+        run: folioh github-pages write-previews-data --previews-dir _site/previews
 
       - name: Save Pages state
         shell: bash
-        run: folio github-pages save-state --artifact-dir _site --git-repo . --state-dir _pages-state --state-branch folio-pages-state --commit-message "Update Pages state"
+        run: folioh github-pages save-state --artifact-dir _site --git-repo . --state-dir _pages-state --state-branch folioh-pages-state --commit-message "Update Pages state"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -106,9 +106,9 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - name: Install Folio
+      - name: Install Folioh
         run: |
-          curl -LsSf https://pguijas.github.io/folio/install.sh | sh
+          curl -LsSf https://folioh.site/install.sh | sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Deploy to GitHub Pages
@@ -120,7 +120,7 @@ jobs:
         run: |
           url="${{ steps.deployment.outputs.page_url }}"
           index_url="${url%/}/previews/"
-          folio github-pages verify-url \
+          folioh github-pages verify-url \
             --url "$url" \
             --index-url "$index_url" \
             --summary-heading "Production docs" \
@@ -133,8 +133,8 @@ jobs:
 If your docs build needs local project dependencies, edit the build steps in this
 same file.
 
-The `folio github-pages` commands are internal deployment helpers shipped in
-the `folio` binary. They keep the generated workflow readable while still
+The `folioh github-pages` commands are internal deployment helpers shipped in
+the `folioh` binary. They keep the generated workflow readable while still
 preserving branch previews, pruning the previews whose pull request has closed,
 updating the preview index, saving Pages state, and verifying the deployed
 URLs. Pruning is why the build job asks for `pull-requests: read`: without it
@@ -142,12 +142,12 @@ the previews of closed pull requests are published forever.
 
 ## Branch Preview Deploys
 
-`folio init` also creates `.github/workflows/branch-previews.yml` for GitHub
+`folioh init` also creates `.github/workflows/branch-previews.yml` for GitHub
 Pages branch previews. It runs from `pull_request_target` so the workflow
 definition and deploy steps come from the trusted base branch, while PR branch
 code is built in a separate unprivileged job.
 
-GitHub Pages serves one artifact per site, so Folio does not deploy each branch
+GitHub Pages serves one artifact per site, so Folioh does not deploy each branch
 as an independent Pages site. Instead, every deploy publishes a complete static
 artifact with this layout:
 
@@ -162,12 +162,12 @@ artifact with this layout:
 ```
 
 The production workflow and preview workflow cooperate through an internal
-`folio-pages-state` branch:
+`folioh-pages-state` branch:
 
 1. A `main` deploy builds production docs into `_site/`.
-2. It copies any existing `_site/previews/` folders from `folio-pages-state`.
+2. It copies any existing `_site/previews/` folders from `folioh-pages-state`.
 3. It regenerates `/previews/index.html`.
-4. It saves the complete artifact back to `folio-pages-state`.
+4. It saves the complete artifact back to `folioh-pages-state`.
 5. It deploys the combined artifact to GitHub Pages.
 
 A branch preview deploy follows the same rule: publish the complete site, not
@@ -176,12 +176,12 @@ just the branch folder.
 1. The preview workflow resolves the open same-repository PR for the branch.
 2. An unprivileged build job checks out the PR head with persisted credentials
    disabled and builds docs with
-   `FOLIO_BASE_PATH=/repo/previews/pr-<number>-<branch>/`.
+   `FOLIOH_BASE_PATH=/repo/previews/pr-<number>-<branch>/`.
 3. That build job uploads only the static `_site/` preview artifact.
 4. A privileged deploy job revalidates that the PR head is still current before
    doing any write-capable work.
 5. The deploy job checks out the trusted base branch, starts the Pages artifact
-   from the saved `folio-pages-state` root, and uses a trusted production build
+   from the saved `folioh-pages-state` root, and uses a trusted production build
    only as the first-deploy fallback.
 6. It downloads the static preview artifact and replaces only
    `/previews/pr-<number>-<branch>/`.
@@ -218,7 +218,7 @@ downloads do not remove files left by an earlier run. Keep the PR build's token
 read-only and checkout credentials disabled; only the trusted deploy job should
 receive write permissions.
 
-Folio's repository workflows use its trusted NAS worker for Pages and previews,
+Folioh's repository workflows use its trusted NAS worker for Pages and previews,
 with fresh job directories and Rust caching that preserves installed tools.
 A persistent worker shares its user account across jobs; separate directories do
 not isolate hostile code. Use a disposable worker for untrusted contributors.
@@ -228,7 +228,7 @@ repeated deployments also work when its files were removed between jobs.
 ## Pull Request Checks
 
 Run the docs build and, for a Python project, the coverage gate on every PR. Drop
-the coverage step for a JavaScript or Rust project: `folio coverage` reads Python
+the coverage step for a JavaScript or Rust project: `folioh coverage` reads Python
 only in this release.
 
 ```yaml filename=".github/workflows/docs-check.yml"
@@ -244,9 +244,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Folio
+      - name: Install Folioh
         run: |
-          curl -LsSf https://pguijas.github.io/folio/install.sh | sh
+          curl -LsSf https://folioh.site/install.sh | sh
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Install pnpm
@@ -260,19 +260,19 @@ jobs:
           node-version: 20
 
       - name: Check docstring coverage
-        run: folio coverage --min 80
+        run: folioh coverage --min 80
 
       - name: Build docs
-        run: folio build --clean
+        run: folioh build --clean
 ```
 
 ## Coverage Gates
 
-Use `folio coverage` to enforce minimum docstring coverage in CI. It reads Python
+Use `folioh coverage` to enforce minimum docstring coverage in CI. It reads Python
 only in this release.
 
 ```bash
-folio coverage --min 80
+folioh coverage --min 80
 ```
 
 The gate applies to the total, not to each module: when the total falls below the
@@ -306,9 +306,9 @@ In a Python project, run a quick coverage check before every commit:
 repos:
   - repo: local
     hooks:
-      - id: folio-coverage
+      - id: folioh-coverage
         name: Docstring coverage
-        entry: folio coverage --min 80
+        entry: folioh coverage --min 80
         language: system
         pass_filenames: false
         always_run: true

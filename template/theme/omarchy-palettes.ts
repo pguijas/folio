@@ -1,6 +1,6 @@
 // The 22 palettes Omarchy ships, read from themes/<name>/colors.toml in
 // omacom/omarchy (MIT, Copyright (c) David Heinemeier Hansson; see
-// THIRD-PARTY-NOTICES.md). Each colors.toml maps onto Folio's tokens:
+// THIRD-PARTY-NOTICES.md). Each colors.toml maps onto Folioh's tokens:
 // - page from background, ink from foreground, primary from accent;
 // - fills from lighter_background on dark palettes and dark_background on
 //   light ones, rules from lighter_background or darker_background; where

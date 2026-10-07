@@ -1,17 +1,17 @@
-# Folio Docs: the documentation engine, the CLI host and the plugin
+# Folioh Docs: the documentation engine, the CLI host and the plugin
 # interfaces extensions are written against. One product, one workspace;
-# folio-cli builds the `folio` binary.
+# folioh-cli builds the `folioh` binary.
 [workspace]
 resolver = "2"
 members = ["crates/*"]
 
 [workspace.package]
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 rust-version = "1.85"
 license = "MIT"
-repository = "https://github.com/pguijas/folio"
-# Folio ships as the `folio` binary from GitHub Releases, never on crates.io.
+repository = "https://github.com/pguijas/folioh"
+# Folioh ships as the `folioh` binary from GitHub Releases, never on crates.io.
 publish = false
 
 [workspace.dependencies]

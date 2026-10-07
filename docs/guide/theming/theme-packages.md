@@ -1,13 +1,13 @@
 ---
 title: Theme Packages
-description: Use theme.package to overlay project-owned theme files on top of Folio's bundled template.
+description: Use theme.package to overlay project-owned theme files on top of Folioh's bundled template.
 ---
 
 # Theme Packages
 
 > [!WARNING] Security
 > A theme package is **executed as trusted code** during every build. The
-> package files are overlaid onto the template that Folio then builds with
+> package files are overlaid onto the template that Folioh then builds with
 > `pnpm install --frozen-lockfile` (which executes dependency lifecycle scripts)
 > and `next build` (which runs `next.config.mjs` in Node), so pointing
 > `theme.package` at a directory is equivalent to running that code on your
@@ -18,11 +18,11 @@ description: Use theme.package to overlay project-owned theme files on top of Fo
 > theme code or `docs.yaml`: static docs are published.
 
 Theme packages are the middle ownership level. They let a project ship a theme
-overlay, local or fetched from git, that is copied over the bundled Folio
+overlay, local or fetched from git, that is copied over the bundled Folioh
 template before generated content and metadata are injected.
 
 Use a theme package when YAML personalization is too limited, but a full custom
-template would duplicate too much of Folio's default docs runtime.
+template would duplicate too much of Folioh's default docs runtime.
 
 ## Configure a Package
 
@@ -34,7 +34,7 @@ theme:
 
 `theme.package` is resolved relative to the project directory. The directory is
 trusted frontend code: it can override template files, import dependencies
-already available to the template, and replace Folio's default theme modules.
+already available to the template, and replace Folioh's default theme modules.
 
 ## Install a Package Someone Else Published
 
@@ -44,7 +44,7 @@ reaches your project without copying a directory into it:
 ```yaml
 theme:
   package:
-    git: "https://github.com/acme/folio-theme"
+    git: "https://github.com/acme/folioh-theme"
     rev: "v1.2.0"
     digest: "sha256:9f2c…"
 ```
@@ -56,9 +56,9 @@ theme:
 | `digest` | yes | `sha256:` and 64 hex characters: the digest of the package tree. |
 | `path` | no | Subdirectory of the repository that holds the package; the root by default. |
 
-Folio fetches the revision into the theme cache, one directory per digest under
-`<cache>/folio/themes/`, hashes the tree it got, and refuses to use it unless
-the hash is the one you pinned. `FOLIO_THEME_CACHE_DIR` points that cache
+Folioh fetches the revision into the theme cache, one directory per digest under
+`<cache>/folioh/themes/`, hashes the tree it got, and refuses to use it unless
+the hash is the one you pinned. `FOLIOH_THEME_CACHE_DIR` points that cache
 somewhere else, which is how a CI job pre-seeds it and how an air-gapped
 machine fills it by hand. The build
 then overlays it exactly as it overlays a local package. The second build reads
@@ -72,14 +72,14 @@ produce the same theme on every machine and in CI. When the hash does not
 match, the build fails and names both:
 
 ```text
-theme.package https://github.com/acme/folio-theme at v1.2.0 does not match its digest.
+theme.package https://github.com/acme/folioh-theme at v1.2.0 does not match its digest.
   expected sha256:9f2c…
   found    sha256:41ab…
 Update theme.package.digest if the change is one you reviewed.
 ```
 
 Take a new digest by reviewing the change and reading the value out of that
-message. Folio never updates the pin for you. Pinning a package for the first
+message. Folioh never updates the pin for you. Pinning a package for the first
 time works the same way: put any 64 hex characters in `digest`, run the build,
 and copy the `found` value once you have read what you are installing.
 
@@ -88,7 +88,7 @@ and copy the `found` value once you have read what you are installing.
 A theme package is executed as trusted code, and a fetched one was written by
 someone else. Two rules follow. Every package, local or fetched, is refused if
 it ships `package.json`, `pnpm-lock.yaml` or `pnpm-workspace.yaml`, because the
-frontend build installs against Folio's own pinned lockfile. A fetched package
+frontend build installs against Folioh's own pinned lockfile. A fetched package
 is refused if it ships `next.config.mjs`: owning the Next config is the
 shortest path from a one-line change in `docs.yaml` to arbitrary code in your
 build, and it stays a decision a project makes about itself.
@@ -100,10 +100,10 @@ repository that can change under you. Fetching needs `git` on the machine.
 
 | Owner | Responsibilities |
 |-------|------------------|
-| Folio | Copy the bundled template, apply the theme package overlay, generate content, write metadata, inject fallback theme config, run the frontend build, and export static files. |
+| Folioh | Copy the bundled template, apply the theme package overlay, generate content, write metadata, inject fallback theme config, run the frontend build, and export static files. |
 | Theme package | Own selected frontend files such as layouts, global CSS, the theme model behind the picker, project header actions, or `theme/project-theme.ts`. |
 
-Folio still writes generated docs content and reserved build files into `.build/`.
+Folioh still writes generated docs content and reserved build files into `.build/`.
 Do not edit `.build/` directly; change the package source instead.
 
 ## Package Anatomy
@@ -136,16 +136,16 @@ Common override points:
 | `app/styles/<family>.css` | Restyle one component family (`shell`, `callout`, `disclosure`, `code`, `shapes`, `surfaces` or `components`) without copying `globals.css`, which imports these files last. |
 
 A package that replaces `components/theme-provider.tsx` has to keep the
-`const darkModeEnabled: boolean = true // __FOLIO_DARK_MODE__` line for
+`const darkModeEnabled: boolean = true // __FOLIOH_DARK_MODE__` line for
 `theme.dark_mode: false` to take effect. Without it the build warns and dark
 mode stays available.
 
 ## YAML and TypeScript Together
 
-If the package supplies `theme/project-theme.ts`, Folio does not overwrite it
+If the package supplies `theme/project-theme.ts`, Folioh does not overwrite it
 with a YAML-generated module. The package owns the preset implementation.
 
-If the package omits `theme/project-theme.ts`, Folio still emits the safe
+If the package omits `theme/project-theme.ts`, Folioh still emits the safe
 `docs.yaml`-driven project preset described in
 [Personalization](./personalization). This lets a project start with YAML and
 graduate individual surfaces to TypeScript only when needed.
@@ -196,12 +196,12 @@ second argument (`"project"`) adds the preset to that display group in the
 theme picker. If a preset with the same `id` already exists, it will be
 replaced with a console warning.
 
-`theme.preset` may name a preset the package declares. Folio reads the
+`theme.preset` may name a preset the package declares. Folioh reads the
 `id: "…"` values in the `.ts` and `.tsx` files under the package's `theme/`
 directory and accepts those ids next to the bundled ones, so `preset: "acme"`
 above builds. Any other id stops the build with the list of valid ids and the
 nearest one. A package that ships its own `components/theme-configurator.tsx`
-owns preset selection, and Folio does not check `theme.preset` then.
+owns preset selection, and Folioh does not check `theme.preset` then.
 
 The theme picker and the root layout import from
 `components/theme-configurator.tsx`, so a package that replaces it keeps these
@@ -229,22 +229,22 @@ See [Theme picker](../components/theme-configurator) for the full
 
 ## Validation Checklist
 
-Folio validates theme packages at build time before any overlay. If validation
+Folioh validates theme packages at build time before any overlay. If validation
 fails, the build halts with one error listing all violations.
 
 ### Reserved Paths
 
-A theme package must NOT contain any of these paths. Folio generates them at
+A theme package must NOT contain any of these paths. Folioh generates them at
 build time, and including them will cause a validation error:
 
 - `content/` — Generated docs pages and metadata live here
-- `lib/folio-template.ts` — Folio internal contract file
-- `lib/folio-mdx-contract.ts` — Folio internal contract file
-- `theme/theme-contract.generated.ts` — Folio internal contract file
+- `lib/folioh-template.ts` — Folioh internal contract file
+- `lib/folioh-mdx-contract.ts` — Folioh internal contract file
+- `theme/theme-contract.generated.ts` — Folioh internal contract file
 - `.next/` — Next.js build cache
 - `node_modules/` — Dependency install directory
-- `package.json` — The frontend installs against Folio's own manifest
-- `pnpm-lock.yaml` — The install is `--frozen-lockfile` against Folio's lockfile
+- `package.json` — The frontend installs against Folioh's own manifest
+- `pnpm-lock.yaml` — The install is `--frozen-lockfile` against Folioh's lockfile
 - `pnpm-workspace.yaml` — Same reason
 - `next.config.mjs` — Fetched packages only; a local package may own it
 
@@ -256,14 +256,14 @@ If a theme package includes `theme/project-theme.ts`, that file MUST export both
 - `projectThemePreset` — The preset definition (colors, spacing, variants)
 - `projectThemeDefaultConfig` — The default configuration object
 
-Folio checks for `export const <name>` or `export { <name> }` forms. Missing
+Folioh checks for `export const <name>` or `export { <name> }` forms. Missing
 exports fail validation.
 
 ### Example Validation Error
 
 ```
 Theme package validation failed:
-  - Theme package must not contain reserved path 'content/'. Folio generates this at build time.
+  - Theme package must not contain reserved path 'content/'. Folioh generates this at build time.
   - theme/project-theme.ts must export 'projectThemePreset'. Expected: export const projectThemePreset = ...
 ```
 

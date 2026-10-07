@@ -39,7 +39,7 @@ import { Kbd } from "@/components/kbd"
 import { Marker } from "@/components/marker"
 import { Term } from "@/components/term"
 import { CodeBlockPre } from "@/components/code-block"
-// __FOLIO_COMPONENT_IMPORTS__
+// __FOLIOH_COMPONENT_IMPORTS__
 
 const themeComponents = getThemeComponents()
 
@@ -143,7 +143,7 @@ export function useMDXComponents(components?: Record<string, React.ComponentType
     Kbd,
     Marker,
     Term,
-    // __FOLIO_COMPONENT_ENTRIES__
+    // __FOLIOH_COMPONENT_ENTRIES__
     ...components,
   }
 }

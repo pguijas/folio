@@ -26,14 +26,14 @@ export const radiusOptions: Array<{ label: string; value: string }> = themeRadiu
 
 export const fontOptions = [
   {
-    id: "folio",
+    id: "folioh",
     label: "Editorial",
     description: "Serif headings, steady sans body",
     sample: "Aa",
     style: {
-      "--folio-heading-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
-      "--folio-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-heading-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
+      "--folioh-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
   {
@@ -42,9 +42,9 @@ export const fontOptions = [
     description: "Clean UI typography",
     sample: "Ag",
     style: {
-      "--folio-heading-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-heading-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
   {
@@ -53,9 +53,9 @@ export const fontOptions = [
     description: "p2pfl web services typography",
     sample: "Gg",
     style: {
-      "--folio-heading-font-family": "var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-body-font-family": "var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-code-font-family": "var(--font-geist-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-heading-font-family": "var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-body-font-family": "var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-code-font-family": "var(--font-geist-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
   {
@@ -64,9 +64,9 @@ export const fontOptions = [
     description: "Bookish long-form reading",
     sample: "St",
     style: {
-      "--folio-heading-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
-      "--folio-body-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
-      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-heading-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
+      "--folioh-body-font-family": "Georgia, \"Times New Roman\", ui-serif, serif",
+      "--folioh-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
   {
@@ -75,9 +75,9 @@ export const fontOptions = [
     description: "Monospaced API scanning",
     sample: "01",
     style: {
-      "--folio-heading-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
-      "--folio-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-heading-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-body-font-family": "var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
   {
@@ -86,9 +86,9 @@ export const fontOptions = [
     description: "Monospaced body, Geist headings",
     sample: ">_",
     style: {
-      "--folio-heading-font-family": "var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-body-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
-      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-heading-font-family": "var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-body-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
   {
@@ -97,9 +97,9 @@ export const fontOptions = [
     description: "Bricolage Grotesque headings, DM Sans body",
     sample: "Gq",
     style: {
-      "--folio-heading-font-family": "var(--font-bricolage), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-body-font-family": "var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
-      "--folio-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
+      "--folioh-heading-font-family": "var(--font-bricolage), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-body-font-family": "var(--font-dm-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+      "--folioh-code-font-family": "var(--font-mono), ui-monospace, SFMono-Regular, \"SF Mono\", Menlo, Consolas, monospace",
     },
   },
 ] satisfies Array<{
@@ -107,7 +107,7 @@ export const fontOptions = [
   label: string
   description: string
   sample: string
-  style: Pick<ResolvedPresetTheme["style"], "--folio-heading-font-family" | "--folio-body-font-family" | "--folio-code-font-family">
+  style: Pick<ResolvedPresetTheme["style"], "--folioh-heading-font-family" | "--folioh-body-font-family" | "--folioh-code-font-family">
 }>
 
 export const colorOptions = [
@@ -319,16 +319,16 @@ export const surfaceColorOptions = [
 
 export const shellPaddingOptions = [
   { id: "preset", label: "Preset", style: {} },
-  { id: "flush", label: "Flush", style: { "--folio-workspace-shell-padding": "0px" } },
-  { id: "frame", label: "Frame", style: { "--folio-workspace-shell-padding": "18px" } },
-  { id: "gallery", label: "Gallery", style: { "--folio-workspace-shell-padding": "28px" } },
+  { id: "flush", label: "Flush", style: { "--folioh-workspace-shell-padding": "0px" } },
+  { id: "frame", label: "Frame", style: { "--folioh-workspace-shell-padding": "18px" } },
+  { id: "gallery", label: "Gallery", style: { "--folioh-workspace-shell-padding": "28px" } },
 ] satisfies StyleOption[]
 
 const contentWidthOptions = [
   { id: "preset", label: "Preset", style: {} },
-  { id: "focus", label: "Focus", style: { "--folio-content-max-width": "54rem" } },
-  { id: "docs", label: "Docs", style: { "--folio-content-max-width": "62rem" } },
-  { id: "wide", label: "Wide", style: { "--folio-content-max-width": "74rem" } },
+  { id: "focus", label: "Focus", style: { "--folioh-content-max-width": "54rem" } },
+  { id: "docs", label: "Docs", style: { "--folioh-content-max-width": "62rem" } },
+  { id: "wide", label: "Wide", style: { "--folioh-content-max-width": "74rem" } },
 ] satisfies StyleOption[]
 
 export const rhythmOptions = [
@@ -337,30 +337,30 @@ export const rhythmOptions = [
     id: "compact",
     label: "Compact",
     style: {
-      "--folio-font-size-base": "0.95rem",
-      "--folio-body-line-height": "1.54",
-      "--folio-section-gap": "2.4rem",
-      "--folio-card-padding": "0.95rem",
+      "--folioh-font-size-base": "0.95rem",
+      "--folioh-body-line-height": "1.54",
+      "--folioh-section-gap": "2.4rem",
+      "--folioh-card-padding": "0.95rem",
     },
   },
   {
     id: "balanced",
     label: "Balanced",
     style: {
-      "--folio-font-size-base": "1rem",
-      "--folio-body-line-height": "1.62",
-      "--folio-section-gap": "3.2rem",
-      "--folio-card-padding": "1.2rem",
+      "--folioh-font-size-base": "1rem",
+      "--folioh-body-line-height": "1.62",
+      "--folioh-section-gap": "3.2rem",
+      "--folioh-card-padding": "1.2rem",
     },
   },
   {
     id: "roomy",
     label: "Roomy",
     style: {
-      "--folio-font-size-base": "1.03rem",
-      "--folio-body-line-height": "1.72",
-      "--folio-section-gap": "4.1rem",
-      "--folio-card-padding": "1.45rem",
+      "--folioh-font-size-base": "1.03rem",
+      "--folioh-body-line-height": "1.72",
+      "--folioh-section-gap": "4.1rem",
+      "--folioh-card-padding": "1.45rem",
     },
   },
 ] satisfies StyleOption[]
@@ -371,33 +371,33 @@ export const borderOptions = [
     id: "fine",
     label: "Fine",
     style: {
-      "--folio-card-border-width": "1px",
-      "--folio-card-shadow": "none",
-      "--folio-card-hover-shadow": "0 0 0 1px color-mix(in oklch, var(--border) 64%, var(--background))",
-      "--folio-workspace-shell-border": "1px solid color-mix(in oklch, var(--border) 70%, var(--background))",
-      "--folio-workspace-shell-shadow": "none",
+      "--folioh-card-border-width": "1px",
+      "--folioh-card-shadow": "none",
+      "--folioh-card-hover-shadow": "0 0 0 1px color-mix(in oklch, var(--border) 64%, var(--background))",
+      "--folioh-workspace-shell-border": "1px solid color-mix(in oklch, var(--border) 70%, var(--background))",
+      "--folioh-workspace-shell-shadow": "none",
     },
   },
   {
     id: "structured",
     label: "Structured",
     style: {
-      "--folio-card-border-width": "1px",
-      "--folio-card-shadow": "0 18px 54px -48px var(--foreground)",
-      "--folio-card-hover-shadow": "0 16px 42px -34px var(--foreground)",
-      "--folio-workspace-shell-border": "1px solid var(--border)",
-      "--folio-workspace-shell-shadow": "0 22px 70px -58px var(--foreground)",
+      "--folioh-card-border-width": "1px",
+      "--folioh-card-shadow": "0 18px 54px -48px var(--foreground)",
+      "--folioh-card-hover-shadow": "0 16px 42px -34px var(--foreground)",
+      "--folioh-workspace-shell-border": "1px solid var(--border)",
+      "--folioh-workspace-shell-shadow": "0 22px 70px -58px var(--foreground)",
     },
   },
   {
     id: "ruled",
     label: "Ruled",
     style: {
-      "--folio-card-border-width": "1.5px",
-      "--folio-card-shadow": "0 0 0 1px var(--border)",
-      "--folio-card-hover-shadow": "0 0 0 1.5px var(--border), 0 18px 48px -38px var(--foreground)",
-      "--folio-workspace-shell-border": "1.5px solid var(--border)",
-      "--folio-workspace-shell-shadow": "0 0 0 1px var(--border)",
+      "--folioh-card-border-width": "1.5px",
+      "--folioh-card-shadow": "0 0 0 1px var(--border)",
+      "--folioh-card-hover-shadow": "0 0 0 1.5px var(--border), 0 18px 48px -38px var(--foreground)",
+      "--folioh-workspace-shell-border": "1.5px solid var(--border)",
+      "--folioh-workspace-shell-shadow": "0 0 0 1px var(--border)",
     },
   },
 ] satisfies StyleOption[]
@@ -408,44 +408,44 @@ export const codeTreatmentOptions = [
     id: "soft",
     label: "Soft",
     style: {
-      "--folio-code-bg": "color-mix(in oklch, var(--muted) 86%, var(--background))",
-      "--folio-code-foreground": "inherit",
-      "--folio-code-border": "1px solid color-mix(in oklch, var(--border) 72%, var(--background))",
-      "--folio-code-border-radius": "0.5rem",
-      "--folio-code-shadow": "none",
+      "--folioh-code-bg": "color-mix(in oklch, var(--muted) 86%, var(--background))",
+      "--folioh-code-foreground": "inherit",
+      "--folioh-code-border": "1px solid color-mix(in oklch, var(--border) 72%, var(--background))",
+      "--folioh-code-border-radius": "0.5rem",
+      "--folioh-code-shadow": "none",
     },
   },
   {
     id: "framed",
     label: "Framed",
     style: {
-      "--folio-code-bg": "var(--background)",
-      "--folio-code-foreground": "inherit",
-      "--folio-code-border": "1px solid var(--border)",
-      "--folio-code-border-radius": "0.35rem",
-      "--folio-code-shadow": "0 16px 48px -42px var(--foreground)",
+      "--folioh-code-bg": "var(--background)",
+      "--folioh-code-foreground": "inherit",
+      "--folioh-code-border": "1px solid var(--border)",
+      "--folioh-code-border-radius": "0.35rem",
+      "--folioh-code-shadow": "0 16px 48px -42px var(--foreground)",
     },
   },
   {
     id: "plate",
     label: "Plate",
     style: {
-      "--folio-code-bg": "color-mix(in oklch, var(--card) 72%, var(--muted))",
-      "--folio-code-foreground": "inherit",
-      "--folio-code-border": "1.5px solid var(--border)",
-      "--folio-code-border-radius": "0.15rem",
-      "--folio-code-shadow": "none",
+      "--folioh-code-bg": "color-mix(in oklch, var(--card) 72%, var(--muted))",
+      "--folioh-code-foreground": "inherit",
+      "--folioh-code-border": "1.5px solid var(--border)",
+      "--folioh-code-border-radius": "0.15rem",
+      "--folioh-code-shadow": "none",
     },
   },
   {
     id: "terminal",
     label: "Terminal",
     style: {
-      "--folio-code-bg": "color-mix(in oklch, var(--card) 84%, var(--background))",
-      "--folio-code-foreground": "inherit",
-      "--folio-code-border": "1px solid var(--border)",
-      "--folio-code-border-radius": "0.5rem",
-      "--folio-code-shadow": "var(--shadow-sm, none)",
+      "--folioh-code-bg": "color-mix(in oklch, var(--card) 84%, var(--background))",
+      "--folioh-code-foreground": "inherit",
+      "--folioh-code-border": "1px solid var(--border)",
+      "--folioh-code-border-radius": "0.5rem",
+      "--folioh-code-shadow": "var(--shadow-sm, none)",
     },
   },
 ] satisfies StyleOption[]
@@ -488,7 +488,7 @@ const packageDefaults: {
   optionsByPreset?: Record<string, PresetOptionValues>
   customization?: Partial<ThemeCustomization>
 } = projectThemeDefaultConfig
-const configuredDefaultPresetId = "pastel" // __FOLIO_THEME_PRESET__
+const configuredDefaultPresetId = "pastel" // __FOLIOH_THEME_PRESET__
 const DEFAULT_PRESET = presets.find((preset) => preset.id === (packageDefaults.presetId ?? configuredDefaultPresetId)) ?? presets[0]!
 const DEFAULT_CUSTOMIZATION: ThemeCustomization = {
   fontId: "sans",
@@ -511,81 +511,81 @@ export const DEFAULT_CONFIG: ThemeConfig = {
   },
   customization: DEFAULT_CUSTOMIZATION,
 }
-const STORAGE_KEY = `folio-theme:${DEFAULT_CONFIG.presetId}`
-// Readers of sites that used Folio's former default keep their selection.
-const PREVIOUS_STORAGE_KEY = DEFAULT_CONFIG.presetId === "pastel" ? "folio-theme:organic-editorial" : undefined
+const STORAGE_KEY = `folioh-theme:${DEFAULT_CONFIG.presetId}`
+// Readers of sites that used Folioh's former default keep their selection.
+const PREVIOUS_STORAGE_KEY = DEFAULT_CONFIG.presetId === "pastel" ? "folioh-theme:organic-editorial" : undefined
 // Pre-namespacing storage key; migrated to STORAGE_KEY on first read.
-const LEGACY_STORAGE_KEY = "folio-theme"
+const LEGACY_STORAGE_KEY = "folioh-theme"
 const SHELL_THEME_CSS = `
 html {
-  background: var(--folio-workspace-shell-topbar);
+  background: var(--folioh-workspace-shell-topbar);
 }
 
 body {
   min-height: 100vh;
-  padding: var(--folio-workspace-shell-padding);
-  background: var(--folio-workspace-shell-background);
+  padding: var(--folioh-workspace-shell-padding);
+  background: var(--folioh-workspace-shell-background);
 }
 
 body > .nextra-navbar {
-  top: var(--folio-workspace-shell-padding) !important;
-  background: var(--folio-workspace-shell-topbar) !important;
+  top: var(--folioh-workspace-shell-padding) !important;
+  background: var(--folioh-workspace-shell-topbar) !important;
 }
 
 body > .nextra-navbar .nextra-navbar-blur {
-  border: var(--folio-workspace-shell-border);
-  border-bottom: var(--folio-workspace-shell-topbar-border);
-  background: var(--folio-workspace-shell-topbar) !important;
-  -webkit-backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
-  backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+  border: var(--folioh-workspace-shell-border);
+  border-bottom: var(--folioh-workspace-shell-topbar-border);
+  background: var(--folioh-workspace-shell-topbar) !important;
+  -webkit-backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
+  backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
 }
 
 .landing-shell {
-  min-height: calc(100vh - (var(--folio-workspace-shell-padding) * 2));
+  min-height: calc(100vh - (var(--folioh-workspace-shell-padding) * 2));
   overflow: hidden;
-  border: var(--folio-workspace-shell-border);
-  background: var(--folio-workspace-shell-surface);
-  box-shadow: var(--folio-workspace-shell-shadow);
+  border: var(--folioh-workspace-shell-border);
+  background: var(--folioh-workspace-shell-surface);
+  box-shadow: var(--folioh-workspace-shell-shadow);
 }
 
 .landing-navbar {
-  top: var(--folio-workspace-shell-padding) !important;
-  right: var(--folio-workspace-shell-padding);
-  left: var(--folio-workspace-shell-padding);
-  width: calc(100% - (var(--folio-workspace-shell-padding) * 2)) !important;
-  border: var(--folio-workspace-shell-border);
-  border-bottom: var(--folio-workspace-shell-topbar-border);
-  background: var(--folio-workspace-shell-topbar) !important;
-  -webkit-backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
-  backdrop-filter: var(--folio-workspace-shell-topbar-blur) !important;
+  top: var(--folioh-workspace-shell-padding) !important;
+  right: var(--folioh-workspace-shell-padding);
+  left: var(--folioh-workspace-shell-padding);
+  width: calc(100% - (var(--folioh-workspace-shell-padding) * 2)) !important;
+  border: var(--folioh-workspace-shell-border);
+  border-bottom: var(--folioh-workspace-shell-topbar-border);
+  background: var(--folioh-workspace-shell-topbar) !important;
+  -webkit-backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
+  backdrop-filter: var(--folioh-workspace-shell-topbar-blur) !important;
 }
 
 body > div:has(> .nextra-sidebar) {
   overflow: clip;
-  border-right: var(--folio-workspace-shell-border);
-  border-bottom: var(--folio-workspace-shell-border);
-  border-left: var(--folio-workspace-shell-border);
-  background: var(--folio-workspace-shell-surface);
-  box-shadow: var(--folio-workspace-shell-shadow);
+  border-right: var(--folioh-workspace-shell-border);
+  border-bottom: var(--folioh-workspace-shell-border);
+  border-left: var(--folioh-workspace-shell-border);
+  background: var(--folioh-workspace-shell-surface);
+  box-shadow: var(--folioh-workspace-shell-shadow);
 }
 
 .nextra-sidebar {
-  top: calc(var(--nextra-navbar-height) + var(--folio-workspace-shell-padding)) !important;
-  height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
+  top: calc(var(--nextra-navbar-height) + var(--folioh-workspace-shell-padding)) !important;
+  height: calc(100dvh - var(--nextra-navbar-height) - (var(--folioh-workspace-shell-padding) * 2)) !important;
   z-index: 60 !important;
 }
 
 .nextra-toc > div {
-  top: calc(var(--nextra-navbar-height) + var(--folio-workspace-shell-padding)) !important;
-  max-height: calc(100dvh - var(--nextra-navbar-height) - (var(--folio-workspace-shell-padding) * 2)) !important;
+  top: calc(var(--nextra-navbar-height) + var(--folioh-workspace-shell-padding)) !important;
+  max-height: calc(100dvh - var(--nextra-navbar-height) - (var(--folioh-workspace-shell-padding) * 2)) !important;
 }
 
 @media (max-width: 767px) {
   body > .nextra-navbar {
     top: 0 !important;
-    margin-right: calc(var(--folio-workspace-shell-padding) * -1);
-    margin-left: calc(var(--folio-workspace-shell-padding) * -1);
-    width: calc(100% + (var(--folio-workspace-shell-padding) * 2)) !important;
+    margin-right: calc(var(--folioh-workspace-shell-padding) * -1);
+    margin-left: calc(var(--folioh-workspace-shell-padding) * -1);
+    width: calc(100% + (var(--folioh-workspace-shell-padding) * 2)) !important;
   }
 
   .landing-navbar {
@@ -601,11 +601,11 @@ body > div:has(> .nextra-sidebar) {
   }
 
   .nextra-sidebar {
-    height: calc(100dvh - var(--nextra-navbar-height) - var(--folio-workspace-shell-padding)) !important;
+    height: calc(100dvh - var(--nextra-navbar-height) - var(--folioh-workspace-shell-padding)) !important;
   }
 
   .nextra-toc > div {
-    max-height: calc(100dvh - var(--nextra-navbar-height) - var(--folio-workspace-shell-padding)) !important;
+    max-height: calc(100dvh - var(--nextra-navbar-height) - var(--folioh-workspace-shell-padding)) !important;
   }
 }
 `
@@ -615,7 +615,7 @@ const LEGACY_PRESET_IDS: Record<string, string> = {
   "signal": "ledger",
   "depth": "stacks",
   "flora": "draftline",
-  "folio": "atlas",
+  "folioh": "atlas",
   "reference": "atlas",
   "promptix": "beacon",
   "openai": "aperture",
@@ -874,14 +874,14 @@ const DEFAULT_THEME_CSS = configToCss(DEFAULT_CONFIG)
 // bootstrap script carries a copy of this.
 function markScheme(presetId: string, scheme: ResolvedPresetTheme["scheme"]) {
   const root = document.documentElement
-  root.dataset.folioPreset = presetId
+  root.dataset.foliohPreset = presetId
   if (scheme) {
-    root.dataset.folioScheme = scheme
+    root.dataset.foliohScheme = scheme
     root.classList.remove("light", "dark")
     root.classList.add(scheme)
     root.style.colorScheme = scheme
   } else {
-    delete root.dataset.folioScheme
+    delete root.dataset.foliohScheme
   }
   window.dispatchEvent(new Event(THEME_SCHEME_EVENT))
 }
@@ -909,7 +909,7 @@ function applyConfig(config: ThemeConfig) {
 
 // The gallery (theme-gallery.tsx) saves the theme a reader applies and fires
 // THEME_CONFIG_EVENT, so every mounted reader of the config stays in step.
-export const THEME_CONFIG_EVENT = "folio:theme-config"
+export const THEME_CONFIG_EVENT = "folioh:theme-config"
 
 export type { ThemeConfig }
 
@@ -925,7 +925,7 @@ export function saveThemeConfig(config: ThemeConfig) {
   const next = normalizeConfig(config)
   const update = ++themeUpdate
   themeTransition?.skipTransition()
-  document.documentElement.classList.remove("folio-theme-transition")
+  document.documentElement.classList.remove("folioh-theme-transition")
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next))
   } catch {}
@@ -938,7 +938,7 @@ export function saveThemeConfig(config: ThemeConfig) {
     previous.presetId !== "omarchy" || previous.optionsByPreset.omarchy?.palette !== next.optionsByPreset.omarchy?.palette
   )
   if (changingPalette && document.startViewTransition && !document.hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    document.documentElement.classList.add("folio-theme-transition")
+    document.documentElement.classList.add("folioh-theme-transition")
     try {
       const transition = document.startViewTransition(apply)
       themeTransition = transition
@@ -946,11 +946,11 @@ export function saveThemeConfig(config: ThemeConfig) {
       void transition.finished.finally(() => {
         if (themeTransition === transition) {
           themeTransition = undefined
-          document.documentElement.classList.remove("folio-theme-transition")
+          document.documentElement.classList.remove("folioh-theme-transition")
         }
       }).catch(() => {})
     } catch {
-      document.documentElement.classList.remove("folio-theme-transition")
+      document.documentElement.classList.remove("folioh-theme-transition")
       apply()
     }
   } else {
@@ -963,7 +963,7 @@ export function saveThemeConfig(config: ThemeConfig) {
 export function previewThemeConfig(config: ThemeConfig) {
   ++themeUpdate
   themeTransition?.skipTransition()
-  document.documentElement.classList.remove("folio-theme-transition")
+  document.documentElement.classList.remove("folioh-theme-transition")
   applyConfig(config)
 }
 
@@ -1227,14 +1227,14 @@ const THEME_BOOTSTRAP_SCRIPT = `
     const getTheme = (preset, options) => preset.themes[getOptionKey(options)] || preset.themes[preset.defaultKey];
     const markScheme = (presetId, scheme) => {
       const root = document.documentElement;
-      root.dataset.folioPreset = presetId;
+      root.dataset.foliohPreset = presetId;
       if (scheme) {
-        root.dataset.folioScheme = scheme;
+        root.dataset.foliohScheme = scheme;
         root.classList.remove("light", "dark");
         root.classList.add(scheme);
         root.style.colorScheme = scheme;
       } else {
-        delete root.dataset.folioScheme;
+        delete root.dataset.foliohScheme;
       }
       window.dispatchEvent(new Event("${THEME_SCHEME_EVENT}"));
     };

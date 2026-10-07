@@ -8,18 +8,18 @@ import { switchScheme } from "@/lib/scheme-transition"
 // `theme.dark_mode: false` in docs.yaml sets this to false: the site stays
 // light unless the reader applies a dark-only palette, and the mode controls,
 // the toggles and the `d` shortcut go away.
-export const darkModeEnabled: boolean = true // __FOLIO_DARK_MODE__
+export const darkModeEnabled: boolean = true // __FOLIOH_DARK_MODE__
 
 // A theme that is only light or only dark (each Omarchy palette) marks <html>
-// with data-folio-scheme when it is applied, and fires this event whenever the
+// with data-folioh-scheme when it is applied, and fires this event whenever the
 // applied theme changes. The provider forces the marked scheme on next-themes,
 // which hands the reader's own light/dark choice back once the mark is gone.
-export const THEME_SCHEME_EVENT = "folio:theme-scheme"
+export const THEME_SCHEME_EVENT = "folioh:theme-scheme"
 
 type FixedScheme = "light" | "dark" | undefined
 
 function readFixedScheme(): FixedScheme {
-  const scheme = document.documentElement.dataset.folioScheme
+  const scheme = document.documentElement.dataset.foliohScheme
   return scheme === "light" || scheme === "dark" ? scheme : undefined
 }
 
@@ -63,7 +63,7 @@ function ThemeProvider({
         defaultTheme="light"
         enableSystem={false}
         themes={["light", "dark"]}
-        storageKey="folio-theme-light"
+        storageKey="folioh-theme-light"
       >
         {children}
       </NextThemesProvider>

@@ -133,14 +133,14 @@ export default function Home() {
         <div className="mx-auto flex max-w-site flex-col items-start justify-between gap-8 px-6 py-10 sm:flex-row sm:items-center">
           <div className="flex items-center gap-3">
             <span
-              className="folio-monogram grid size-9 place-items-center rounded-lg border border-border bg-card font-mono text-[11px] font-bold text-primary"
+              className="folioh-monogram grid size-9 place-items-center rounded-lg border border-border bg-card font-mono text-[11px] font-bold text-primary"
               aria-hidden="true"
             >
               {projectMonogram}
             </span>
             <p className="leading-none">
               <span className="block text-sm font-semibold text-foreground">
-                Made with Folio
+                Made with Folioh
               </span>
               <span className="mt-1.5 block font-mono text-[10px] text-muted-foreground uppercase">
                 docs from source

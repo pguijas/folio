@@ -80,7 +80,7 @@ Two-column grid without icons:
 <CardGrid columns={2}>
   <FeatureCard
     title="Getting Started"
-    description="Install Folio and build your first documentation site."
+    description="Install Folioh and build your first documentation site."
     href="/docs/quickstart"
   />
   <FeatureCard
@@ -94,7 +94,7 @@ Two-column grid without icons:
 <CardGrid columns={2}>
   <FeatureCard
     title="Getting Started"
-    description="Install Folio and build your first documentation site."
+    description="Install Folioh and build your first documentation site."
     href="/docs/quickstart"
   />
   <FeatureCard
