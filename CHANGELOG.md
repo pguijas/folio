@@ -3,6 +3,17 @@
 All notable user-facing changes are recorded here. Folioh follows semantic
 versioning while the public CLI, configuration, and plugin contracts stabilize.
 
+## 0.3.2 — 2026-10-09
+
+### Changed
+
+- The terminal and web ASCII wordmark now reads FOLIOH!, with six rows of
+  51 columns. The terminal banner remains centered.
+
+### Fixed
+
+- Removed the extra separator between O and H in the ASCII wordmark.
+
 ## 0.3.1 — 2026-10-07
 
 ### Changed

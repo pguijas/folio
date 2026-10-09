@@ -1,11 +1,11 @@
 use super::*;
 
 #[test]
-fn the_art_is_six_lines_of_48_cells() {
+fn the_art_is_six_lines_of_51_cells() {
     let lines: Vec<&str> = FOLIOH_ASCII_ART.lines().collect();
     assert_eq!(lines.len(), 6);
     for line in lines {
-        assert_eq!(cell_len(line), 48, "{line:?}");
+        assert_eq!(cell_len(line), 51, "{line:?}");
     }
 }
 
@@ -13,12 +13,15 @@ fn the_art_is_six_lines_of_48_cells() {
 fn banner_centres_the_art_and_appends_the_version() {
     let lines = banner("v0.3.0-a1", Some(80), None, Colors::Off);
     assert_eq!(lines.len(), 6);
-    assert!(lines.iter().all(|l| l.starts_with(&" ".repeat(16))));
-    assert!(lines[0].ends_with("██╗  ██╗"));
+    assert!(lines.iter().all(|l| l.starts_with(&" ".repeat(14))));
+    assert!(lines[0].ends_with("██╗  ██╗ ██╗"));
     assert!(lines[5].ends_with("╚═╝ v0.3.0-a1"));
 
     let plain = banner("", None, None, Colors::Off);
-    assert_eq!(plain[0], " ████████╗ ██████╗ ██╗     ██╗ ██████╗  ██╗  ██╗");
+    assert_eq!(
+        plain[0],
+        " ████████╗ ██████╗ ██╗     ██╗ ██████╗ ██╗  ██╗ ██╗"
+    );
 }
 
 #[test]

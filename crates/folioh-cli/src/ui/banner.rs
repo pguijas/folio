@@ -27,14 +27,14 @@ pub const FOLIOH_NEWS_ITEMS: [&str; 12] = [
     "Social cards generate OpenGraph previews automatically",
 ];
 
-/// Six lines, 48 cells each, leading and trailing space included.
+/// Six lines, 51 cells each, leading and trailing space included.
 pub const FOLIOH_ASCII_ART: &str = concat!(
-    " ████████╗ ██████╗ ██╗     ██╗ ██████╗  ██╗  ██╗\n",
-    " ██╔═════╝██╔═══██╗██║     ██║██╔═══██╗ ██║  ██║\n",
-    " █████╗   ██║   ██║██║     ██║██║   ██║ ███████║\n",
-    " ██╔══╝   ██║   ██║██║     ██║██║   ██║ ██╔══██║\n",
-    " ██║      ╚██████╔╝███████╗██║╚██████╔╝ ██║  ██║\n",
-    " ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝  ╚═╝  ╚═╝"
+    " ████████╗ ██████╗ ██╗     ██╗ ██████╗ ██╗  ██╗ ██╗\n",
+    " ██╔═════╝██╔═══██╗██║     ██║██╔═══██╗██║  ██║ ██║\n",
+    " █████╗   ██║   ██║██║     ██║██║   ██║███████║ ██║\n",
+    " ██╔══╝   ██║   ██║██║     ██║██║   ██║██╔══██║ ╚═╝\n",
+    " ██║      ╚██████╔╝███████╗██║╚██████╔╝██║  ██║ ██╗\n",
+    " ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═╝"
 );
 
 /// The news item shown after `elapsed_secs`, one per `interval` seconds.

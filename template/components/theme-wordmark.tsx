@@ -10,12 +10,12 @@ import { watchThemeArtwork } from "@/lib/theme-artwork-motion"
    the art alone: a literal here would go stale on the next folioh release and
    would misstate folioh's version on every other project's landing page. */
 export const FOLIOH_BANNER = [
-  " ████████╗ ██████╗ ██╗     ██╗ ██████╗  ██╗  ██╗",
-  " ██╔═════╝██╔═══██╗██║     ██║██╔═══██╗ ██║  ██║",
-  " █████╗   ██║   ██║██║     ██║██║   ██║ ███████║",
-  " ██╔══╝   ██║   ██║██║     ██║██║   ██║ ██╔══██║",
-  " ██║      ╚██████╔╝███████╗██║╚██████╔╝ ██║  ██║",
-  " ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝  ╚═╝  ╚═╝",
+  " ████████╗ ██████╗ ██╗     ██╗ ██████╗ ██╗  ██╗ ██╗",
+  " ██╔═════╝██╔═══██╗██║     ██║██╔═══██╗██║  ██║ ██║",
+  " █████╗   ██║   ██║██║     ██║██║   ██║███████║ ██║",
+  " ██╔══╝   ██║   ██║██║     ██║██║   ██║██╔══██║ ╚═╝",
+  " ██║      ╚██████╔╝███████╗██║╚██████╔╝██║  ██║ ██╗",
+  " ╚═╝       ╚═════╝ ╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝ ╚═╝",
 ].join("\n")
 
 // Original text effects: sweep, falling columns, scattered decode, then radial.

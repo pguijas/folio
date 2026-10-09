@@ -269,7 +269,7 @@ fn init_yes_scaffolds_an_empty_directory_and_prints_the_ready_panel() {
     let lines: Vec<&str> = out.lines().collect();
     assert_eq!(lines[0], "");
     assert!(
-        lines[1].starts_with(&format!("{} {BANNER_LINE}", " ".repeat(16))),
+        lines[1].starts_with(&format!("{} {BANNER_LINE}", " ".repeat(14))),
         "{:?}",
         lines[1]
     );
