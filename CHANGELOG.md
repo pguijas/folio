@@ -3,6 +3,13 @@
 All notable user-facing changes are recorded here. Folioh follows semantic
 versioning while the public CLI, configuration, and plugin contracts stabilize.
 
+## 0.3.3 — 2026-10-09
+
+### Fixed
+
+- The README wordmark uses the original Pastel silhouette beside Folioh in
+  light and dark mode.
+
 ## 0.3.2 — 2026-10-09
 
 ### Changed

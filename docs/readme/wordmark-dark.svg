@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="160" viewBox="0 0 760 160" role="img" aria-label="Folioh">
-  <text x="142" y="158" fill="#BECDF3" font-family="Arial,Helvetica,sans-serif" font-size="218" font-weight="700">F</text>
+  <path transform="translate(142 0) scale(1.6)" fill="#BECDF3" d="M25 18C44 5 65 18 72 36C79 53 96 59 80 77C64 96 41 83 31 71C22 60 7 58 11 39C13 29 17 23 25 18Z"/>
   <text x="310" y="116" fill="#eef1fb" font-family="Arial,Helvetica,sans-serif" font-size="102" font-weight="400" letter-spacing="-5">Folioh</text>
 </svg>
